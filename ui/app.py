@@ -47,6 +47,13 @@ def main(page: ft.Page) -> None:
         results_column.controls.clear()
 
         for i, t in enumerate(templates, 1):
+            template_text = t.text
+
+            def make_copy_handler(text: str):
+                def on_copy(e: ft.ControlEvent) -> None:
+                    page.set_clipboard(text)
+                return on_copy
+
             results_column.controls.append(
                 ft.Card(
                     content=ft.Container(
@@ -57,7 +64,8 @@ def main(page: ft.Page) -> None:
                                 ft.Text(f"{i}. {t.title}", weight=ft.FontWeight.BOLD, size=14),
                                 ft.Text(t.section, color=ft.Colors.GREY_600, size=12),
                                 ft.Divider(height=1),
-                                ft.Text(t.text, size=13, selectable=True),
+                                ft.Text(template_text, size=13, selectable=True),
+                                ft.ElevatedButton("Kopieren", on_click=make_copy_handler(template_text)),
                             ],
                         ),
                     )
