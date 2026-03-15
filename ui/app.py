@@ -11,6 +11,20 @@ import flet as ft
 from core.template_repository import TemplateRepository
 from core.embedding_index import EmbeddingIndex
 from core.template_matcher import TemplateMatcher
+from core.symptom_composer import compose_symptom_text
+
+
+SYMPTOM_GROUPS = [
+    "EINLEITUNG",
+    "LWS-Syndrom",
+    "HWS-Syndrom",
+    "Fibromyalgie / Ganzkörperschmerzen",
+    "Kopfschmerzen",
+    "Migräne",
+    "Reizdarm / funktionelle Verdauungsbeschwerden",
+    "CED / IBD",
+    "Tinnitus aurium",
+]
 
 
 def build_pipeline() -> TemplateMatcher:
@@ -28,33 +42,55 @@ def main(page: ft.Page) -> None:
 
     matcher = build_pipeline()
 
-    query_field = ft.TextField(
-        label="Symptom-Beschreibung",
-        multiline=True,
-        min_lines=2,
-        max_lines=5,
+    # --- Form fields ---
+    symptom_group = ft.Dropdown(
+        label="Symptomgruppe",
+        options=[ft.dropdown.Option(g) for g in SYMPTOM_GROUPS],
         expand=True,
     )
+    duration       = ft.TextField(label="Dauer", hint_text="z.B. seit 5 Jahren")
+    character      = ft.TextField(label="Charakter", hint_text="z.B. stechend, dumpf")
+    radiation      = ft.TextField(label="Ausstrahlung", hint_text="z.B. ins linke Bein")
+    side           = ft.TextField(label="Seite / Betonung", hint_text="z.B. linksbetont")
+    aggravating    = ft.TextField(label="Verschlechterung", hint_text="z.B. bei Belastung")
+    relieving      = ft.TextField(label="Linderung", hint_text="z.B. Wärme, Ruhe")
+    associated     = ft.TextField(label="Begleitsymptome", hint_text="z.B. Übelkeit, Kribbeln")
+    progression    = ft.TextField(label="Verlauf", hint_text="z.B. progredient, fluktuierend")
 
-    results_column = ft.Column(spacing=16)
+    result_column = ft.Column(spacing=16)
 
-    def on_search(e: ft.ControlEvent) -> None:
-        query = query_field.value.strip()
-        if not query:
-            return
+    def on_generate(e: ft.ControlEvent) -> None:
+        group = symptom_group.value or ""
+        form_data = {
+            "dauer":            duration.value.strip(),
+            "verlauf":          progression.value.strip(),
+            "charakter":        character.value.strip(),
+            "seite":            side.value.strip(),
+            "ausstrahlung":     radiation.value.strip(),
+            "verschlechterung": aggravating.value.strip(),
+            "linderung":        relieving.value.strip(),
+            "begleitsymptome":  associated.value.strip(),
+        }
+
+        query = " ".join(filter(None, [
+            group,
+            form_data["dauer"],
+            form_data["charakter"],
+            form_data["verlauf"],
+        ]))
 
         templates = matcher.find_best_templates(query, top_k=3)
-        results_column.controls.clear()
+        result_column.controls.clear()
 
         for i, t in enumerate(templates, 1):
-            template_text = t.text
+            filled_text = compose_symptom_text(t.text, form_data, group)
 
             def make_copy_handler(text: str):
                 def on_copy(e: ft.ControlEvent) -> None:
                     page.set_clipboard(text)
                 return on_copy
 
-            results_column.controls.append(
+            result_column.controls.append(
                 ft.Card(
                     content=ft.Container(
                         padding=16,
@@ -64,8 +100,8 @@ def main(page: ft.Page) -> None:
                                 ft.Text(f"{i}. {t.title}", weight=ft.FontWeight.BOLD, size=14),
                                 ft.Text(t.section, color=ft.Colors.GREY_600, size=12),
                                 ft.Divider(height=1),
-                                ft.Text(template_text, size=13, selectable=True),
-                                ft.ElevatedButton("Kopieren", on_click=make_copy_handler(template_text)),
+                                ft.Text(filled_text, size=13, selectable=True),
+                                ft.ElevatedButton("Kopieren", on_click=make_copy_handler(filled_text)),
                             ],
                         ),
                     )
@@ -75,17 +111,18 @@ def main(page: ft.Page) -> None:
         page.update()
 
     page.add(
-        ft.Text("Template-Finder", size=22, weight=ft.FontWeight.BOLD),
+        ft.Text("AUFNAHME TCM KLINIK", size=22, weight=ft.FontWeight.BOLD),
+        ft.Container(height=12),
+        symptom_group,
         ft.Container(height=8),
-        ft.Row(
-            controls=[
-                query_field,
-                ft.ElevatedButton("Template finden", on_click=on_search),
-            ],
-            vertical_alignment=ft.CrossAxisAlignment.START,
-        ),
+        ft.Row(controls=[duration, character], spacing=12),
+        ft.Row(controls=[progression, side], spacing=12),
+        ft.Row(controls=[radiation, aggravating], spacing=12),
+        ft.Row(controls=[relieving, associated], spacing=12),
+        ft.Container(height=12),
+        ft.ElevatedButton("Text generieren", on_click=on_generate),
         ft.Container(height=16),
-        results_column,
+        result_column,
     )
 
 
