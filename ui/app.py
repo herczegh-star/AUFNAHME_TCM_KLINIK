@@ -12,6 +12,7 @@ from core.template_repository import TemplateRepository
 from core.embedding_index import EmbeddingIndex
 from core.template_matcher import TemplateMatcher
 from core.symptom_composer import compose_symptom_text
+from core.language_refiner import refine_clinical_german, OpenAIRefinerClient
 
 
 SYMPTOM_GROUPS = [
@@ -27,12 +28,16 @@ SYMPTOM_GROUPS = [
 ]
 
 
-def build_pipeline() -> TemplateMatcher:
+def build_pipeline() -> tuple[TemplateMatcher, OpenAIRefinerClient | None]:
     repo = TemplateRepository()
     repo.load_templates()
     index = EmbeddingIndex()
     index.build_index(repo.get_all_templates())
-    return TemplateMatcher(repo, index)
+    try:
+        llm = OpenAIRefinerClient()
+    except Exception:
+        llm = None
+    return TemplateMatcher(repo, index), llm
 
 
 def main(page: ft.Page) -> None:
@@ -40,7 +45,7 @@ def main(page: ft.Page) -> None:
     page.padding = 24
     page.scroll = ft.ScrollMode.AUTO
 
-    matcher = build_pipeline()
+    matcher, llm = build_pipeline()
 
     # --- Form fields ---
     symptom_group = ft.Dropdown(
@@ -83,7 +88,8 @@ def main(page: ft.Page) -> None:
         result_column.controls.clear()
 
         for i, t in enumerate(templates, 1):
-            filled_text = compose_symptom_text(t.text, form_data, group)
+            composed = compose_symptom_text(t.text, form_data, group)
+            filled_text = refine_clinical_german(composed, llm_client=llm)
 
             def make_copy_handler(text: str):
                 def on_copy(e: ft.ControlEvent) -> None:
