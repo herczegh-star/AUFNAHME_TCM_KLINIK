@@ -68,7 +68,7 @@ def main(page: ft.Page) -> None:
 
     page.add(
         ft.Text("Template-Finder", size=22, weight=ft.FontWeight.BOLD),
-        ft.SizedBox(height=8),
+        ft.Container(height=8),
         ft.Row(
             controls=[
                 query_field,
@@ -76,7 +76,7 @@ def main(page: ft.Page) -> None:
             ],
             vertical_alignment=ft.CrossAxisAlignment.START,
         ),
-        ft.SizedBox(height=16),
+        ft.Container(height=16),
         results_column,
     )
 
