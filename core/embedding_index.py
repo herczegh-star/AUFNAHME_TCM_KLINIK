@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from core.template_repository import Template
 
-MODEL_NAME = "all-MiniLM-L6-v2"
+MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
 
 
 class EmbeddingIndex:
@@ -15,9 +15,13 @@ class EmbeddingIndex:
         self._templates: list[Template] = []
         self._embeddings: np.ndarray | None = None
 
+    @staticmethod
+    def _template_to_text(t: Template) -> str:
+        return f"{t.section} {t.title} {t.text}"
+
     def build_index(self, templates: list[Template]) -> None:
         self._templates = templates
-        texts = [t.text for t in templates]
+        texts = [self._template_to_text(t) for t in templates]
         self._embeddings = self._model.encode(texts, convert_to_numpy=True)
 
     def find_best_match(self, query: str, top_k: int = 3) -> list[Template]:
