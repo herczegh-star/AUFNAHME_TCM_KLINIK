@@ -46,7 +46,6 @@ kivy-deps.angle==0.4.0
 kivy-deps.glew==0.3.1
 Kivy-Garden==0.1.5
 kivy_deps.sdl2==0.8.0
-kivymd @ https://github.com/kivymd/KivyMD/archive/master.zip#sha256=033613238896799a6f7bb3fc451d2d8191515b3b8a0ea1e04682599b19dcf83e
 kiwisolver==1.4.9
 -e git+https://github.com/herczegh-star/LEDGER_APP.git@1a0924dc873e7ae812ac469eba04332196f83c98#egg=ledger_app
 logistro==2.0.1
