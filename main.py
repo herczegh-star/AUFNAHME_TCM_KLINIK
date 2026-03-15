@@ -17,12 +17,15 @@ def main() -> None:
     print("\nTemplate selection ready.\n")
 
     query = input("User input:\n> ").strip()
-    result = matcher.find_best_template(query)
+    results = matcher.find_best_templates(query, top_k=3)
 
-    print("\nBest template:")
-    print(f"Section: {result.section}")
-    print(f"Title:   {result.title}")
-    print(f"Text:\n{result.text}")
+    print("\nTop matches:\n")
+    for i, t in enumerate(results, 1):
+        print(f"{i}.")
+        print(f"Section: {t.section}")
+        print(f"Title:   {t.title}")
+        print(f"Text:\n{t.text}")
+        print()
 
 
 if __name__ == "__main__":
