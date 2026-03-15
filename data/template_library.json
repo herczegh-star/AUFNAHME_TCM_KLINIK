@@ -1,0 +1,397 @@
+[
+  {
+    "section": "EINLEITUNG",
+    "title": "1. Standardní začátek (nejčastější)",
+    "text": "Bei Aufnahmegespräch berichtet die Patientin, seit mehreren Jahren unter einer ausgeprägten Müdigkeitssymptomatik zu leiden.\nBei Aufnahmegespräch berichtet der Patient, seit über zwei Jahren unter zunehmender Müdigkeitssymptomatik zu leiden.\nBei Aufnahme berichtet die Patientin, seit etwa fünf Jahren unter einer chronischen Müdigkeitssymptomatik zu leiden.\nIm Aufnahmegespräch berichtet die Patientin, seit mehreren Jahren unter zunehmenden Schmerzen im Bereich der Lendenwirbelsäule zu leiden."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "2. Pokud byl pacient už u vás",
+    "text": "Die Patientin ist im Hause bekannt, zuletzt befand sie sich im Jahr 2023 in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte.\nDer Patient ist im Hause bekannt, zuletzt befand er sich im Jahr 2022 in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen.\nKurz gefasst berichtet die Patientin, seit mehreren Jahren unter einer zunehmenden Müdigkeitssymptomatik zu leiden.\nKurz gefasst leidet der Patient seit vielen Jahren unter chronischen Schmerzen im Bereich der Wirbelsäule."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "3. Komplexní psychosomatický pacient",
+    "text": "Die Patientin wird mit einem komplexen psychosomatischen Beschwerdebild zur stationären Aufnahme vorgestellt.\nIm Vordergrund stehen ein chronisches Müdigkeitssyndrom sowie eine chronische Schmerzproblematik.\nDie Patientin kommt zur stationären Aufnahme mit einem komplexen psychosomatischen Krankheitsbild.\nIm Vordergrund stehen eine ausgeprägte Müdigkeitssymptomatik sowie chronische Schmerzen unterschiedlicher Lokalisation."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "4. Když chceš rovnou říct hlavní problém",
+    "text": "Im Vordergrund der aktuellen Beschwerden steht eine seit Jahren bestehende ausgeprägte Müdigkeitssymptomatik.\nIm Vordergrund der Symptomatik stehen chronische Schmerzen im Bereich der Wirbelsäule.\nIm Vordergrund stehen chronische Gelenkbeschwerden mit progredientem Verlauf."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "5. Když už je známá diagnóza",
+    "text": "Bei der Patientin ist seit dem Jahr 2007 eine Colitis ulcerosa bekannt.\nBei dem Patienten ist seit mehreren Jahren eine Polyneuropathie unklarer Genese bekannt.\nBei der Patientin ist seit vielen Jahren eine Fibromyalgie diagnostiziert."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "6. Když potíže vznikly po události",
+    "text": "Bei Aufnahme berichtet die Patientin, vor dem Hintergrund einer durchgemachten COVID-19-Infektion unter einer anhaltenden Müdigkeitssymptomatik zu leiden.\nNach einer durchgemachten Corona-Infektion entwickelte sich eine ausgeprägte psychophysische Erschöpfung.\nIm Anschluss an eine Operation kam es zu einer deutlichen Verschlechterung der Schmerzsymptomatik."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "7. Neurologické / neuropatické potíže",
+    "text": "Bei der Aufnahme gibt die Patientin an, seit etwa sieben Jahren unter Beschwerden im Rahmen einer Polyneuropathie zu leiden.\nDie Beschwerden begannen zunächst im Bereich der Zehen und breiteten sich im Verlauf auf beide Unterschenkel aus.\nDie Patientin berichtet über brennende Schmerzen sowie Kribbeln im Bereich der Füße."
+  },
+  {
+    "section": "LWS-Syndrom",
+    "title": "Template 1 – chronisches LWS-Syndrom",
+    "text": "Die Patientin berichtet seit vielen Jahren über intermittierend auftretende Schmerzen im LWS-Bereich. Die Schmerzen werden überwiegend als ziehend beschrieben. Eine Schmerzverstärkung bestehe insbesondere bei längerem Sitzen oder Stehen. Linderung erfahre sie durch Wärme sowie manuelle Therapie."
+  },
+  {
+    "section": "LWS-Syndrom",
+    "title": "Template 2 – LWS-Syndrom mit Ausstrahlung",
+    "text": "Die Patientin berichtet seit mehreren Jahren über Schmerzen im LWS-Bereich mit Ausstrahlung in das rechte Bein bzw. Gesäß. Die Schmerzen werden als ziehend beschrieben. Eine Schmerzverstärkung trete vor allem bei längerem Sitzen oder körperlicher Belastung auf. Wärme sowie manuelle Therapie führen zu einer vorübergehenden Linderung."
+  },
+  {
+    "section": "LWS-Syndrom",
+    "title": "Template 3 – progredientes LWS-Syndrom",
+    "text": "Der Patient berichtet seit vielen Jahren über chronische Schmerzen im LWS-Bereich. In den letzten Jahren habe sich die Symptomatik deutlich verschlechtert. Die Schmerzen werden überwiegend als stechend beschrieben und verstärken sich insbesondere bei längerem Sitzen oder Stehen. Wärme sowie physiotherapeutische Maßnahmen führen zu einer vorübergehenden Linderung."
+  },
+  {
+    "section": "HWS-Syndrom",
+    "title": "HWS-Syndrom – Template 1",
+    "text": "Der Patient berichtet seit mehreren Jahren über Schmerzen im Bereich der Halswirbelsäule mit Ausstrahlung in den Nacken-Schulter-Bereich.\nDie Schmerzen werden überwiegend als ziehend beschrieben und gehen mit ausgeprägten muskulären Verspannungen einher.\nEine Schmerzverstärkung trete vor allem bei längerem Sitzen, Fehlhaltung oder Stress auf.\nWärme sowie manuelle Therapie führen zu einer vorübergehenden Linderung."
+  },
+  {
+    "section": "HWS-Syndrom",
+    "title": "HWS-Syndrom – Template 2",
+    "text": "Die Patientin berichtet seit vielen Jahren über intermittierend auftretende Beschwerden im Bereich der Halswirbelsäule.\nDie Schmerzen werden als ziehend oder drückend beschrieben und gehen mit muskulären Verspannungen im Nacken-Schulter-Bereich einher.\nEine Verschlechterung trete insbesondere bei Belastung oder längerem Sitzen auf.\nLinderung erfahre sie durch Wärme sowie physiotherapeutische Maßnahmen."
+  },
+  {
+    "section": "HWS-Syndrom",
+    "title": "HWS-Syndrom – Template 3",
+    "text": "Der Patient berichtet seit mehreren Jahren über Zervikobrachialgien mit Ausstrahlung in Schulter und Arm.\nDie Schmerzen werden überwiegend als ziehend oder stechend beschrieben und sind von Nacken-Schulter-Verspannungen begleitet.\nEine Schmerzverstärkung bestehe vor allem bei körperlicher Belastung oder Stress.\nWärme sowie manuelle Therapie führen zu einer vorübergehenden Linderung."
+  },
+  {
+    "section": "HWS-Syndrom",
+    "title": "HWS-Syndrom – Template 4",
+    "text": "Die Patientin berichtet seit längerer Zeit über chronische Schmerzen im Bereich der Halswirbelsäule.\nDie Schmerzen werden als ziehend beschrieben und gehen mit muskulären Verspannungen im Nacken-Schulter-Bereich einher.\nEine Verschlechterung trete insbesondere bei längerem Sitzen oder bei Kälte auf.\nWärme sowie physiotherapeutische Maßnahmen führen zu einer vorübergehenden Linderung."
+  },
+  {
+    "section": "Kopfschmerzen",
+    "title": "Spannungskopfschmerz – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über wiederkehrende Kopfschmerzen vom Spannungstyp.\nDie Schmerzen werden überwiegend als drückend bis ziehend beschrieben und sind meist im Bereich von Stirn, Hinterkopf oder holozephal lokalisiert.\nEine Verschlechterung trete insbesondere bei Stress sowie muskulären Verspannungen im Nacken-Schulter-Bereich auf.\nLinderung erfahre sie durch Ruhe, Wärme sowie manuelle Therapie."
+  },
+  {
+    "section": "Kopfschmerzen",
+    "title": "Spannungskopfschmerz – Template 2",
+    "text": "Der Patient berichtet seit längerer Zeit über regelmäßig auftretende Kopfschmerzen vom Spannungstyp.\nDie Schmerzen werden überwiegend als dumpf bis drückend beschrieben und treten mehrmals wöchentlich auf.\nEine Schmerzverstärkung bestehe vor allem bei psychischer Belastung oder längerer geistiger Anspannung.\nRuhe sowie Wärme führen zu einer vorübergehenden Linderung."
+  },
+  {
+    "section": "Migräne",
+    "title": "Migräne – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über rezidivierende Migräneattacken.\nDie Schmerzen werden überwiegend als pochend beschrieben, meist einseitig lokalisiert und dauern in der Regel ein bis drei Tage an.\nBegleitend bestünden Übelkeit, Licht- und Geräuschempfindlichkeit, teilweise auch Erbrechen.\nLinderung erfahre sie durch Ruhe, Dunkelheit und Rückzug in eine reizabschirmende Umgebung."
+  },
+  {
+    "section": "Migräne",
+    "title": "Migräne – Template 2",
+    "text": "Der Patient berichtet seit Jahren über anfallsartig auftretende Migräne.\nDie Schmerzen beginnen meist einseitig und breiten sich im Verlauf aus; sie werden als pochend beschrieben.\nBegleitend bestünden vegetative Symptome sowie Licht- und Geräuschempfindlichkeit, teilweise auch eine Aura.\nRuhe, Dunkelheit sowie körperliche Schonung führen zu einer Besserung."
+  },
+  {
+    "section": "Kopfschmerzen",
+    "title": "Cervikogener Kopfschmerz – Template 1",
+    "text": "Die Patientin berichtet seit mehreren Jahren über wiederkehrende Kopfschmerzen im Zusammenhang mit Beschwerden im Bereich der Halswirbelsäule.\nDie Schmerzen sind überwiegend im Hinterkopf- oder Stirnbereich lokalisiert und werden als dumpf, ziehend oder drückend beschrieben.\nBegleitend bestünden muskuläre Verspannungen im Nacken-Schulter-Bereich; eine Verschlechterung trete insbesondere bei Stress, längerer PC-Arbeit oder statischer Haltung auf.\nLinderung erfahre sie durch Wärme, Massagen sowie manuelle Therapie."
+  },
+  {
+    "section": "Kopfschmerzen",
+    "title": "Chronische Kopfschmerzen – Template 1",
+    "text": "Der Patient berichtet seit vielen Jahren über chronische Kopfschmerzen.\nDie Schmerzen werden überwiegend als dumpf bis drückend beschrieben und treten regelmäßig beziehungsweise nahezu täglich auf.\nEine Verschlechterung bestehe insbesondere bei Stress oder geistiger Belastung.\nRuhe und Wärme führen zu einer vorübergehenden Linderung."
+  },
+  {
+    "section": "Migräne",
+    "title": "Migräne – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über rezidivierende Migräneattacken.\nDie Anfälle treten mehrmals monatlich auf, dauern in der Regel ein bis drei Tage und gehen mit pochenden Kopfschmerzen einher.\nBegleitend bestünden Übelkeit sowie Licht- und Geräuschempfindlichkeit, teilweise auch Erbrechen.\nLinderung erfahre sie durch Ruhe, Dunkelheit und Rückzug in eine reizabschirmende Umgebung."
+  },
+  {
+    "section": "Migräne",
+    "title": "Migräne – Template 2",
+    "text": "Der Patient berichtet seit der Jugend über anfallsartig auftretende Migräne.\nDie Schmerzen sind überwiegend im Stirn-, Schläfen- oder Augenbereich lokalisiert, meist pochenden Charakters und halten in der Regel ein bis drei Tage an.\nBegleitend bestünden vegetative Symptome sowie ein ausgeprägtes Ruhebedürfnis.\nBesserung trete vor allem durch Hinlegen, Dunkelheit und Reizabschirmung ein."
+  },
+  {
+    "section": "Migräne",
+    "title": "Migräne mit Aura – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über Migräneattacken mit Aura.\nDer Migräne gehen visuelle Phänomene in Form von Lichtblitzen beziehungsweise Sehstörungen voraus; anschließend treten meist pochende Kopfschmerzen auf, die ein bis drei Tage anhalten.\nBegleitend bestünden Übelkeit sowie Licht- und Geräuschempfindlichkeit, teilweise auch neurologische Begleitsymptome.\nLinderung erfahre sie durch Ruhe, Dunkelheit und Rückzug in eine reizfreie Umgebung."
+  },
+  {
+    "section": "Migräne",
+    "title": "Migräne mit Aura – Template 2",
+    "text": "Der Patient berichtet über rezidivierende Migräne mit Aura.\nVor den Anfällen komme es zu visuellen Störungen, teilweise auch zu Parästhesien oder vorübergehenden Sensibilitätsstörungen; im Anschluss bestünden pochende Kopfschmerzen mit einer Dauer von meist mehreren Stunden bis zu drei Tagen.\nBegleitend träten Übelkeit sowie Photophobie auf.\nRuhe, Dunkelheit und körperliche Schonung führen zu einer Besserung."
+  },
+  {
+    "section": "Migräne",
+    "title": "Migräne – hochfrequent – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über eine hochfrequente Migränesymptomatik mit mehrfach monatlich auftretenden Attacken.\nDie Kopfschmerzen werden als pochend beschrieben, sind überwiegend einseitig lokalisiert und dauern unbehandelt bis zu drei Tage an.\nBegleitend bestünden Übelkeit, teilweise Erbrechen sowie Licht-, Geräusch- und Geruchsempfindlichkeit.\nWährend der Attacken bestehe ein ausgeprägtes Rückzugsbedürfnis; Linderung erfahre sie durch Ruhe, Dunkelheit und medikamentöse Akuttherapie."
+  },
+  {
+    "section": "Tinnitus aurium",
+    "title": "Tinnitus aurium – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über einen Tinnitus aurium.\nDer Tinnitus sei beidseits lokalisiert, kontinuierlich vorhanden und von wechselnder Intensität.\nCharakteristisch sei ein hochfrequentes Pfeifen.\nEine Verstärkung trete insbesondere unter Stress auf."
+  },
+  {
+    "section": "Tinnitus aurium",
+    "title": "Tinnitus aurium – Template 2",
+    "text": "Der Patient berichtet seit vielen Jahren über einen Tinnitus aurium.\nDie Ohrgeräusche seien dauerhaft vorhanden und würden in ihrer Intensität schwanken.\nDer Charakter werde als Pfeifen beziehungsweise Rauschen beschrieben.\nEine Verschlechterung bestehe vor allem in stressbelasteten Situationen."
+  },
+  {
+    "section": "Tinnitus aurium",
+    "title": "Tinnitus aurium – intermittierend – Template 1",
+    "text": "Die Patientin berichtet seit mehreren Jahren über einen intermittierend auftretenden Tinnitus aurium.\nDer Tinnitus sei rechtsbetont lokalisiert und werde als hochfrequentes Pfeifen beschrieben.\nDie Intensität schwanke deutlich im Verlauf.\nEine Verstärkung trete insbesondere unter Belastung oder Stress auf."
+  },
+  {
+    "section": "Tinnitus aurium",
+    "title": "Tinnitus aurium – intermittierend – Template 2",
+    "text": "Der Patient berichtet seit vielen Jahren über intermittierend auftretende Ohrgeräusche im Sinne eines Tinnitus aurium.\nDer Charakter werde als Pfeifen beschrieben.\nDie Beschwerden seien nicht durchgehend vorhanden, träten jedoch immer wieder in wechselnder Ausprägung auf.\nStress führe zu einer Zunahme der Symptomatik."
+  },
+  {
+    "section": "Tinnitus aurium",
+    "title": "Tinnitus aurium – stressassoziiert – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über einen Tinnitus aurium.\nDer Tinnitus werde als Pfeifen beziehungsweise Rauschen beschrieben und sei von wechselnder Intensität.\nEine deutliche Verstärkung bestehe insbesondere unter psychischer Belastung oder Stress.\nIn Phasen geringerer Belastung sei die Symptomatik besser tolerierbar."
+  },
+  {
+    "section": "Tinnitus aurium",
+    "title": "Tinnitus aurium – einseitig – Template 1",
+    "text": "Der Patient berichtet seit vielen Jahren über einen linksbetonten Tinnitus aurium.\nDer Charakter werde als hochfrequentes Pfeifen beschrieben.\nDie Beschwerden seien dauerhaft vorhanden, jedoch von wechselnder Intensität.\nUnter Stress nehme die Symptomatik deutlich zu."
+  },
+  {
+    "section": "Reizdarm / funktionelle Verdauungsbeschwerden",
+    "title": "Reizdarmsyndrom – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über Verdauungsbeschwerden im Sinne eines Reizdarmsyndroms.\nDie Symptomatik äußere sich vor allem in Bauchschmerzen, vermehrten Blähungen, Völlegefühl sowie wechselnden Stuhlgewohnheiten mit Obstipation und Durchfall.\nEine Verschlechterung trete insbesondere unter Stress auf.\nHinweise auf Gewichtsverlust bestünden nicht."
+  },
+  {
+    "section": "Reizdarm / funktionelle Verdauungsbeschwerden",
+    "title": "Reizdarmsyndrom – Template 2",
+    "text": "Der Patient berichtet seit längerer Zeit über funktionelle Verdauungsbeschwerden im Sinne eines Reizdarmsyndroms.\nDie Beschwerden äußern sich in krampfartigen Bauchschmerzen, Blähungen, Völlegefühl sowie phasenweise verändertem Stuhlverhalten.\nDie Symptomatik zeige einen schubartigen Verlauf und verstärke sich insbesondere in Belastungssituationen.\nTeilweise bestünden auch Übelkeit und Nahrungsmittelunverträglichkeiten."
+  },
+  {
+    "section": "TEMPLATE LIBRARY – REIZDARM / GI",
+    "title": "Funktionelle Verdauungsbeschwerden – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über funktionelle Verdauungsbeschwerden.\nDiese äußern sich vor allem in Oberbauchschmerzen, Völlegefühl, Blähungen sowie gelegentlich Übelkeit.\nEine Verschlechterung trete insbesondere nach der Nahrungsaufnahme oder unter Stress auf.\nWärme werde teilweise als lindernd empfunden."
+  },
+  {
+    "section": "TEMPLATE LIBRARY – REIZDARM / GI",
+    "title": "Funktionelle Verdauungsbeschwerden – Template 2",
+    "text": "Der Patient berichtet seit längerer Zeit über Verdauungsbeschwerden mit Völlegefühl, diffusen Bauchschmerzen, Sodbrennen und Aufstoßen.\nTeilweise bestehe zudem eine veränderte Stuhlkonsistenz.\nDie Beschwerden verstärkten sich vor allem nach dem Essen.\nWärme und körperliche Schonung führen teilweise zu einer Besserung."
+  },
+  {
+    "section": "Reizdarm / funktionelle Verdauungsbeschwerden",
+    "title": "Reizdarmsyndrom mit Nahrungsmittelunverträglichkeit – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über Verdauungsbeschwerden bei bestehender Nahrungsmittelunverträglichkeit.\nDie Symptomatik äußert sich in Bauchschmerzen, Blähungen, Völlegefühl, Übelkeit sowie phasenweise Durchfällen.\nDie Beschwerden treten insbesondere nach unverträglichen Nahrungsmitteln auf und verstärken sich zusätzlich unter Stress.\nEs wird ein Reizdarmsyndrom vermutet."
+  },
+  {
+    "section": "Reizdarm / funktionelle Verdauungsbeschwerden",
+    "title": "Reizdarmsyndrom mit Obstipationsneigung – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über ein Reizdarmsyndrom.\nDie Beschwerden äußern sich vor allem in Druckschmerzen im Unterbauch, Blähbauch, gelegentlichen Darmkrämpfen sowie einer ausgeprägten Obstipationsneigung.\nDie Symptomatik tritt schubweise auf und hält jeweils mehrere Tage an.\nTeilweise bestehe zusätzlich intermittierende Übelkeit."
+  },
+  {
+    "section": "Reizdarm / funktionelle Verdauungsbeschwerden",
+    "title": "Reizdarmsyndrom – stressassoziiert – Template 1",
+    "text": "Der Patient berichtet seit vielen Jahren über Verdauungsbeschwerden im Sinne eines Reizdarmsyndroms.\nDie Beschwerden äußern sich in Bauchschmerzen, Blähungen und verändertem Stuhlverhalten.\nEine deutliche Verschlechterung bestehe insbesondere bei psychischer Belastung oder Stress.\nTeilweise bestünden zusätzlich Nahrungsmittelunverträglichkeiten."
+  },
+  {
+    "section": "Fibromyalgie / Ganzkörperschmerzen",
+    "title": "Fibromyalgie – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über Ganzkörperschmerzen im Rahmen einer Fibromyalgie.\nDie Schmerzen betreffen wechselnd verschiedene Körperregionen, vor allem den Rücken, die Extremitäten sowie den Schulter-Nacken-Bereich, und werden als dumpf, ziehend oder drückend beschrieben.\nEine Verschlechterung trete insbesondere bei Stress, körperlicher oder psychischer Überlastung sowie bei Kälte auf.\nWärme und milde Bewegung führen zu einer vorübergehenden Linderung."
+  },
+  {
+    "section": "Fibromyalgie / Ganzkörperschmerzen",
+    "title": "Fibromyalgie – Template 2",
+    "text": "Der Patient berichtet seit mehreren Jahren über generalisierte Schmerzen im gesamten Körper.\nDie Schmerzlokalisation sei wechselnd, der Charakter unterschiedlich mit dumpfen, ziehenden und teilweise brennenden Beschwerden.\nBegleitend bestünden ein Schweregefühl in den Gliedmaßen sowie eine erhöhte Druckempfindlichkeit.\nLinderung erfahre er vor allem durch Wärme und leichte körperliche Aktivität."
+  },
+  {
+    "section": "Fibromyalgie / Ganzkörperschmerzen",
+    "title": "Fibromyalgie – Template 3",
+    "text": "Die Patientin berichtet über seit Jahren bestehende, fluktuierende Ganzkörperschmerzen.\nBetroffen seien insbesondere Rücken, Extremitäten und Schulter-Nacken-Bereich; die Schmerzen werden als dumpf, ziehend, stechend oder brennend beschrieben.\nEine Schmerzverstärkung trete vor allem bei Wetterumschwung, Stress und körperlicher Belastung auf.\nWärmeanwendungen sowie regelmäßige leichte Bewegung wirken lindernd."
+  },
+  {
+    "section": "Fibromyalgie / Ganzkörperschmerzen",
+    "title": "Fibromyalgie – Template 4",
+    "text": "Der Patient berichtet seit längerer Zeit über diffuse Schmerzen in vielen Körperregionen im Sinne einer Fibromyalgie.\nDie Beschwerden seien dauerhaft vorhanden, jedoch in wechselnder Intensität, mit Schwerpunkt im Bereich von Rücken und Extremitäten.\nBegleitend bestünden Druckschmerzhaftigkeit, Morgensteifigkeit sowie ein Schweregefühl in den Gliedmaßen.\nWärme führe zu einer vorübergehenden Besserung, während Kälte und Überlastung die Beschwerden verstärkten."
+  },
+  {
+    "section": "Fibromyalgie / Ganzkörperschmerzen",
+    "title": "Ganzkörperschmerzen – Template 1",
+    "text": "Die Patientin berichtet seit mehreren Jahren über wellenartig auftretende Ganzkörperschmerzen.\nDie Schmerzen betreffen unterschiedliche Körperregionen und werden als ziehend, bohrend, stechend oder brennend beschrieben.\nEine Verschlechterung trete insbesondere bei Stress, körperlicher Belastung oder Kälte auf.\nWärme werde als angenehm und vorübergehend lindernd empfunden."
+  },
+  {
+    "section": "Fibromyalgie / Ganzkörperschmerzen",
+    "title": "Fibromyalgie – stressassoziiert – Template 1",
+    "text": "Die Patientin berichtet seit vielen Jahren über generalisierte Schmerzen im Sinne einer Fibromyalgie.\nDie Beschwerden betreffen den gesamten Körper mit wechselnder Lokalisation und unterschiedlicher Schmerzqualität.\nEine deutliche Verschlechterung bestehe insbesondere unter psychischer Belastung, Stress oder Schlafmangel.\nWärme, Physiotherapie und leichte Bewegung führen zu einer vorübergehenden Linderung."
+  },
+  {
+    "section": "Fibromyalgie / Ganzkörperschmerzen",
+    "title": "Fibromyalgie – mit Druckschmerzhaftigkeit – Template 1",
+    "text": "Der Patient berichtet seit Jahren über diffuse Ganzkörperschmerzen.\nDie Schmerzen seien dauerhaft vorhanden, fluktuierend in ihrer Intensität und gingen mit einer ausgeprägten Druckempfindlichkeit der Muskulatur einher.\nBegleitend bestünden teilweise Morgensteifigkeit und ein Schweregefühl der Gliedmaßen.\nWärme wirke lindernd, während Kälte und Überlastung die Symptomatik verstärkten."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "5. DATASET-DERIVED TEMPLATES – CHRONISCHE MÜDIGKEITSSYMPTOMATIK",
+    "text": "Níže už dávám šablony ve stylu projektu:\nkrátké, klinické, Verdichtungsstil, bez omáčky."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 1",
+    "text": "Bei Aufnahmegespräch berichtet die Patientin seit Jahren unter Müdigkeitssymptomatik zu leiden. Antrieb und Leistungsfähigkeit seien reduziert, sie fühle sich häufig erschöpft, die Belastbarkeitsgrenze sei schneller als früher erreicht. Weiterhin bestünden Konzentrations- und Merkfähigkeitsstörungen, innere Unruhe sowie eine schwankende, teilweise gedrückte Stimmung. Der Schlaf sei nicht erholsam und von Ein- und Durchschlafstörungen gestört."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 2",
+    "text": "Seit mehreren Jahren bestehende Müdigkeitssymptomatik mit verminderter Belastbarkeit und reduzierter Leistungsfähigkeit. Die Patientin berichtet über ausgeprägte Erschöpfbarkeit, Kraftlosigkeit sowie Konzentrations- und Merkfähigkeitsstörungen. Begleitend bestünden innere Unruhe, erhöhte Reizbarkeit und eine schwankende Stimmung. Der Schlaf sei durch Ein- und Durchschlafstörungen beeinträchtigt."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 3",
+    "text": "Im Vordergrund steht eine chronische Müdigkeitssymptomatik seit Jahren. Antrieb und Leistungsfähigkeit seien deutlich reduziert, die Patientin fühle sich häufig müde und erschöpft, ihre Belastbarkeitsgrenze sei rasch erreicht. Zusätzlich bestünden Konzentrationsstörungen, innere Unruhe und eine teilweise gedrückte Stimmung. Der Schlaf sei nicht ausreichend erholsam."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 4",
+    "text": "Bei Aufnahme berichtet der Patient über seit längerer Zeit bestehende Erschöpfungssymptomatik. Er fühle sich energielos und kraftlos, Antrieb und Belastbarkeit seien deutlich vermindert. Weiterhin bestünden Konzentrations- und Merkfähigkeitsstörungen sowie innere Unruhe bei schwankender, teilweise gedrückter Stimmung. Der Schlaf sei von Ein- und Durchschlafstörungen gestört."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 1",
+    "text": "Bei Aufnahme berichtet die Patientin, seit einer COVID-19-Infektion unter anhaltender Müdigkeitssymptomatik zu leiden. Sie fühle sich stark erschöpft, Antrieb und Leistungsfähigkeit seien deutlich reduziert, die Belastbarkeitsgrenze sei erheblich schneller erreicht. Zudem bestünden Konzentrations- und Merkfähigkeitsstörungen im Sinne eines Brainfogs. Typisch seien postbelastungsinduzierte Verschlechterungen mit mehrtägigen Erschöpfungsphasen nach körperlicher oder geistiger Aktivität."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 2",
+    "text": "Vor dem Hintergrund einer durchgemachten COVID-19-Infektion besteht eine ausgeprägte Fatigue-Symptomatik mit deutlich verminderter Belastbarkeit. Bereits geringe körperliche oder geistige Belastungen führten zu starker Erschöpfung, teils mit verzögert auftretenden mehrtägigen Crash-Phasen. Begleitend bestünden Konzentrationsstörungen, Wortfindungsstörungen, Merkfähigkeitsstörungen sowie nicht erholsamer Schlaf."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 3",
+    "text": "Seit der COVID-19-Infektion leidet die Patientin unter einer anhaltenden Erschöpfungssymptomatik mit reduzierter Leistungsfähigkeit und deutlich verminderter Belastbarkeit. Sie berichtet über postexertionelle Verschlechterungen nach körperlicher und mentaler Aktivität, kognitive Einschränkungen im Sinne eines Brainfogs sowie eine ausgeprägte psychophysische Erschöpfbarkeit. Der Schlaf sei nicht erholsam."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 4",
+    "text": "Bei Aufnahmegespräch berichtet der Patient, nach durchgemachter Corona-Infektion unter chronischer Müdigkeitssymptomatik zu leiden. Er fühle sich rasch erschöpft, Antrieb und Leistungsfähigkeit seien vermindert, die Belastbarkeitsgrenze sei deutlich reduziert. Zusätzlich bestünden Konzentrations- und Merkfähigkeitsstörungen, innere Unruhe und phasenweise gedrückte Stimmung. Nach Überlastung komme es zu ausgeprägten Erschöpfungsphasen mit deutlicher Zustandsverschlechterung.\nDataset-derived templates\nMechanisch-degenerative Gelenkbeschwerden"
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 1 – obecný mechanický",
+    "text": "Seit mehreren Jahren bestehende Schmerzen im Bereich des [Gelenks]. Die Beschwerden sind überwiegend belastungsabhängig und werden als ziehend bis stechend beschrieben. Eine Verschlechterung tritt insbesondere bei Gehen, Stehen oder sonstiger körperlicher Belastung auf. Linderung erfährt die Patientin durch Wärme, Schonung und physiotherapeutische Maßnahmen."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 2 – arthrotický pattern",
+    "text": "Seit Jahren bestehende Beschwerden im Bereich des [Gelenks] bei bekannter [Arthrose/arthrotischer Veränderung]. Die Schmerzen treten intermittierend auf, haben im Verlauf jedoch zugenommen und werden überwiegend als dumpf, ziehend oder stechend beschrieben. Belastung verstärkt die Symptomatik, während Wärme und Ruhe als lindernd empfunden werden."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 3 – s funkční limitací",
+    "text": "Seit längerer Zeit bestehende belastungsabhängige Schmerzen im Bereich des [Gelenks]. Die Beschwerden gehen mit funktionellen Einschränkungen einher, insbesondere bei [Treppensteigen / Hocken / Greifen / feinmotorischen Tätigkeiten]. Der Schmerz wird als ziehend bis stechend beschrieben. Linderung durch Wärme und Schonung."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 4 – posttraumatický / mechanický",
+    "text": "Seit [Zeitraum] bestehende Schmerzen im Bereich des [Gelenks] nach [Trauma / Überlastung]. Die Schmerzen treten vor allem bei Belastung und Bewegung auf und werden als stechend bzw. ziehend beschrieben. Begleitend besteht eine funktionelle Einschränkung des betroffenen Gelenks. Eine Besserung wird durch Wärme, Umschläge und physiotherapeutische Maßnahmen angegeben."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 5 – drobné klouby ruky",
+    "text": "Seit Jahren bestehende Schmerzen im Bereich der [Finger-/Handgelenke], überwiegend belastungsabhängig, mit Einschränkung der Greiffunktion und Feinmotorik. Die Schmerzen werden als stechend oder ziehend beschrieben. Wärme, Bewegung und Physiotherapie führen zu einer gewissen Linderung.\nDataset-derived templates\nEntzündlich-rheumatologische Gelenkbeschwerden"
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 1 – obecný polyartikulární pattern",
+    "text": "Seit mehreren Jahren bestehende entzündliche Gelenkbeschwerden mit Befall vor allem der [betroffenen Gelenke]. Die Beschwerden verlaufen schubförmig mit phasenweiser deutlicher Verschlechterung. In den akuten Phasen bestehen Schmerzen, Schwellung und Steifigkeit der betroffenen Gelenke. Begleitend besteht eine Morgensteifigkeit."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 2 – RA / polyarthritis pattern",
+    "text": "Seit [Zeitraum] bestehende polyarthritische Gelenkbeschwerden im Rahmen einer bekannten [rheumatoiden Arthritis / Polyarthritis]. Betroffen sind vor allem die [betroffenen Gelenke]. Die Schmerzen werden überwiegend als stechend beschrieben; in Schubphasen sind die Gelenke geschwollen, teils überwärmt und schmerzhaft. Zusätzlich besteht eine Morgensteifigkeit."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 3 – malé klouby ruky",
+    "text": "Seit längerer Zeit bestehende entzündliche Beschwerden im Bereich der Hand- und Fingergelenke mit Schmerzen, Steifigkeit und teils Schwellung der betroffenen Gelenke. Es bestehen funktionelle Einschränkungen der Feinmotorik sowie eine verminderte Greifkraft. Die Beschwerden verlaufen schubweise."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 4 – wechselnde Gelenkbeteiligung",
+    "text": "Seit Jahren bestehende schubförmig verlaufende Gelenkbeschwerden mit wechselnder Beteiligung mehrerer Gelenkregionen, insbesondere der [betroffenen Gelenke]. In den akuten Phasen bestehen Schmerzen, Schwellung und Steifigkeit der Gelenke. Begleitend wird eine Morgensteifigkeit angegeben."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 5 – Kollagenose / Sjögren / Lupus Kontext",
+    "text": "Im Rahmen einer bekannten [Kollagenose / Sjögren-Syndrom / Lupus-Erkrankung] bestehen seit Jahren entzündliche Gelenkbeschwerden an den [betroffenen Gelenken]. Die Beschwerden verlaufen chronisch-fluktuierend mit schubweiser Verstärkung. Begleitend bestehen Steifigkeit, teils Schwellung sowie funktionelle Einschränkungen im Alltag.\nDataset-derived templates\nCED / IBD (Morbus Crohn / Colitis ulcerosa)"
+  },
+  {
+    "section": "CED / IBD",
+    "title": "Template 1 – Colitis ulcerosa, aktuell eher ruhig",
+    "text": "Bei der Patientin ist seit [Jahr] eine Colitis ulcerosa bekannt. Die Erkrankung verläuft schubförmig, wobei die Schübe nach Angaben der Patientin vor allem stressassoziiert auftreten. Aktuell liegt die Stuhlfrequenz bei [x] täglich, der Stuhl ist [geformt/breiig], Blut- oder Schleimbeimengungen werden derzeit verneint. Im Vordergrund stehen aktuell [Blähungen/postprandiale Bauchschmerzen/Völlegefühl]."
+  },
+  {
+    "section": "CED / IBD",
+    "title": "Template 2 – Colitis ulcerosa, aktiver Verlauf",
+    "text": "Seit [Jahr] bekannte Colitis ulcerosa mit aktuell florider Symptomatik. Die Stuhlfrequenz liegt derzeit bei [x] Entleerungen täglich, teils auch nachts; der Stuhl ist überwiegend [flüssig/breiig], gelegentlich mit Blut- und/oder Schleimbeimengungen. Bauchschmerzen bestehen vor allem vor dem Stuhlgang und während der Darmentleerung, zusätzlich werden Blähungen und Völlegefühl angegeben."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 3 – Schubförmiger Verlauf",
+    "text": "Seit [Jahr] bekannte chronisch-entzündliche Darmerkrankung im Sinne einer [Colitis ulcerosa / eines Morbus Crohn] mit schubförmigem Verlauf. Die Schübe treten nach Angaben der Patientin insbesondere unter Stress auf und dauern jeweils etwa [Zeitraum] an. Außerhalb der Schubphasen besteht [x]-mal täglicher Stuhlgang, aktuell ohne relevante Blut- oder Schleimbeimengungen."
+  },
+  {
+    "section": "CED / IBD",
+    "title": "Template 4 – Morbus Crohn mit Bauchschmerzpattern",
+    "text": "Seit [Jahr] bekannter Morbus Crohn. Im Vordergrund stehen rezidivierende Bauchschmerzen, überwiegend im [rechten / linken] Unterbauch lokalisiert, von [dumpfem / krampfartigem / kolikartigem] Charakter. Die Beschwerden verstärken sich nach der Verdauung bzw. unter Stress. Die Stuhlfrequenz liegt aktuell bei [x] täglich, der Stuhl ist [breiig/geformt], Blutbeimengungen werden [verneint / gelegentlich angegeben]."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 5 – komplexer / operativer Crohn-Verlauf",
+    "text": "Seit [Jahr] bekannter Morbus Crohn mit komplexem Verlauf. Im Vordergrund stehen chronisch rezidivierende Bauchschmerzen mit [kolikartigem / krampfartigem / ziehendem] Charakter sowie rezidivierende Stuhlunregelmäßigkeiten. Zusätzlich besteht ein Zustand nach mehrfachen abdominellen Eingriffen / Stomaanlage. Eine Verschlechterung wird insbesondere unter Stress und körperlicher Belastung angegeben.\nDATASET-DERIVED TEMPLATES\nPolyneuropathische Beschwerden / Polyneuropathie"
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 1 – obecný distal-senzitivní pattern",
+    "text": "Seit mehreren Jahren bestehende polyneuropathische Beschwerden mit Brennen, Kribbeln und Taubheitsgefühlen, vor allem im Bereich beider Füße. Die Symptomatik begann distal und hat sich im Verlauf zunehmend auf die Unterschenkel ausgedehnt. Die Beschwerden bestehen dauerhaft mit wechselnder Intensität und verstärken sich insbesondere in Ruhe bzw. nachts."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 2 – Small-Fiber-Neuropathie pattern",
+    "text": "Seit Jahren bestehende brennende und stechende Missempfindungen im Bereich beider Füße bei bekannter / vermuteter Small-Fiber-Neuropathie. Im Verlauf kam es zu einer Zunahme und Ausbreitung der Beschwerden, teils bis in die Unterschenkel. Die Symptomatik ist überwiegend dauerhaft vorhanden und führt zu einer deutlichen Einschränkung im Alltag."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 3 – s Gangunsicherheit",
+    "text": "Seit längerer Zeit bestehende Polyneuropathie mit Taubheitsgefühlen, Kribbelparästhesien und Sensibilitätsstörungen der unteren Extremitäten. Begleitend besteht eine zunehmende Gangunsicherheit, insbesondere auf unebenem Untergrund und bei schlechten Lichtverhältnissen. Die Beschwerden haben sich im Verlauf progredient entwickelt."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 4 – neuropathische Schmerzen mit funktionellem dopadem",
+    "text": "Seit Jahren bestehende neuropathische Beschwerden mit brennenden bzw. stechenden Schmerzen sowie Taubheitsgefühlen im Bereich der [Füße/Hände]. Die Symptomatik verstärkt sich vor allem abends bzw. nachts und führt zu funktionellen Einschränkungen im Alltag. Begleitend werden Sensibilitätsstörungen und eine subjektive Unsicherheit beim Gehen angegeben."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 5 – chemotherapieinduziert / toxisch / sekundär",
+    "text": "Seit [Zeitraum] bestehende polyneuropathische Beschwerden vermutlich im Rahmen einer [chemotherapieinduzierten / toxischen / sekundären] Neuropathie. Die Symptomatik äußert sich in distalen Missempfindungen mit Brennen, Kribbeln und Taubheitsgefühlen, vor allem im Bereich der Füße und Unterschenkel. Im Verlauf zeigt sich eine progrediente funktionelle Beeinträchtigung.\nDATASET-DERIVED TEMPLATES\nAllgemeine Schmerzbeschreibung"
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 1",
+    "text": "Seit längerer Zeit bestehende Schmerzen im Bereich von [Region]. Die Schmerzen werden überwiegend als ziehend bis stechend beschrieben und treten in wechselnder Intensität auf. Eine Verschlechterung besteht insbesondere bei Belastung bzw. Bewegung. Wärme führt zu einer vorübergehenden Linderung."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 2",
+    "text": "Seit mehreren Jahren intermittierend auftretende Schmerzen im Bereich von [Region]. Die Beschwerden werden als dumpf, ziehend oder drückend beschrieben. Eine Schmerzverstärkung tritt vor allem bei längerem Sitzen, Stehen oder unter körperlicher Belastung auf. Linderung erfährt der Patient durch Wärme sowie manuelle Therapie."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 3",
+    "text": "Seit Jahren bestehende Schmerzsymptomatik im Bereich von [Region] mit wechselnder Intensität. Die Schmerzen werden überwiegend als ziehend und stechend beschrieben. Eine Verschlechterung wird insbesondere unter Stress, Belastung oder bei Kälte angegeben. Wärme und Schonung wirken teilweise lindernd."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 4",
+    "text": "Chronische Schmerzen im Bereich von [Region], dauerhaft vorhanden mit phasenweiser Verstärkung. Der Schmerzcharakter wird als dumpf bis ziehend beschrieben. Die Beschwerden verschlechtern sich insbesondere bei körperlicher Belastung und bessern sich teilweise unter Wärme sowie physiotherapeutischen Maßnahmen."
+  },
+  {
+    "section": "EINLEITUNG",
+    "title": "Template 5",
+    "text": "Seit längerer Zeit bestehende Beschwerden im Bereich von [Region]. Die Schmerzen treten intermittierend bzw. phasenweise auf und werden als ziehend, stechend oder drückend beschrieben. Eine vorübergehende Linderung wird durch Wärme, Ruhe oder manuelle Therapie angegeben."
+  }
+]
