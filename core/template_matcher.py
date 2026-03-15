@@ -9,6 +9,9 @@ class TemplateMatcher:
         self._repository = repository
         self._index = index
 
-    def find_best_template(self, query: str) -> Template:
-        results = self._index.find_best_match(query, top_k=1)
-        return results[0]
+    def find_best_templates(self, query: str, top_k: int = 3) -> list[Template]:
+        return self._index.find_best_match(query, top_k=top_k)
+
+    def find_best_template(self, query: str) -> Template | None:
+        results = self.find_best_templates(query, top_k=1)
+        return results[0] if results else None
