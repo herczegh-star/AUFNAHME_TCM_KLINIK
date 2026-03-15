@@ -81,37 +81,37 @@ class TemplateFiller:
         return text
 
     def _append_enrichments(self, text: str, profile: SymptomProfile) -> str:
-        if profile.progression and not self._contains_semantic_hint(text, "progression"):
+        if profile.progression:
             text = self._append_if_missing(
                 text,
                 f"Im Verlauf habe sich die Symptomatik {profile.progression}."
             )
 
-        if profile.character and not self._contains_semantic_hint(text, "character"):
+        if profile.character:
             text = self._append_if_missing(
                 text,
                 f"Die Schmerzen werden als {profile.character} beschrieben."
             )
 
-        if profile.radiation and not self._contains_semantic_hint(text, "radiation"):
+        if profile.radiation:
             text = self._append_if_missing(
                 text,
                 f"Teilweise besteht eine Ausstrahlung {profile.radiation}."
             )
 
-        if profile.side_or_dominance and not self._contains_semantic_hint(text, "side_or_dominance"):
+        if profile.side_or_dominance:
             text = self._append_if_missing(
                 text,
                 f"Die Beschwerden sind {profile.side_or_dominance}."
             )
 
-        if profile.aggravating_factors and not self._contains_semantic_hint(text, "aggravating_factors"):
+        if profile.aggravating_factors:
             text = self._append_if_missing(
                 text,
                 f"Eine Verschlechterung tritt insbesondere {profile.aggravating_factors} auf."
             )
 
-        if profile.relieving_factors and not self._contains_semantic_hint(text, "relieving_factors"):
+        if profile.relieving_factors:
             relief = profile.relieving_factors.lstrip()
             if relief.lower().startswith("durch "):
                 relief = relief[6:]
@@ -120,7 +120,7 @@ class TemplateFiller:
                 f"Linderung erfolgt durch {relief}."
             )
 
-        if profile.associated_symptoms and not self._contains_semantic_hint(text, "associated_symptoms"):
+        if profile.associated_symptoms:
             text = self._append_if_missing(
                 text,
                 f"Begleitend bestehen {profile.associated_symptoms}."
