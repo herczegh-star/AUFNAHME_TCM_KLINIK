@@ -22,7 +22,15 @@ from __future__ import annotations
 
 import os
 import re
+from pathlib import Path
 from typing import Protocol, runtime_checkable
+
+# Load .env from project root if present
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).parent.parent / ".env")
+except ImportError:
+    pass
 
 
 # ---------------------------------------------------------------------------
@@ -100,14 +108,58 @@ class AnthropicRefinerClient:
 
 
 # ---------------------------------------------------------------------------
+# OpenAI backend
+# ---------------------------------------------------------------------------
+
+class OpenAIRefinerClient:
+    """
+    Calls GPT via the OpenAI SDK.
+    Requires OPENAI_API_KEY environment variable (or .env file).
+    """
+
+    MODEL = "gpt-4o-mini"
+    MAX_TOKENS = 1024
+
+    def __init__(self) -> None:
+        from openai import OpenAI
+        self._client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
+    def refine(self, raw_text: str) -> str:
+        response = self._client.chat.completions.create(
+            model=self.MODEL,
+            max_tokens=self.MAX_TOKENS,
+            messages=[
+                {"role": "system", "content": _SYSTEM_PROMPT},
+                {"role": "user", "content": _USER_TEMPLATE.format(text=raw_text)},
+            ],
+        )
+        return response.choices[0].message.content.strip()
+
+
+# ---------------------------------------------------------------------------
 # Semantic validator
 # ---------------------------------------------------------------------------
 
 _LATERALITY   = re.compile(r"\b(links|rechts|linksbetont|rechtsbetont|beidseits|beiderseitig|einseitig)\b", re.I)
 _NUMBERS      = re.compile(r"\b\d+\b")
 _NEGATIONS    = re.compile(r"\b(kein|keine|keiner|keinem|keinen|ohne|nicht)\b", re.I)
-_REGIONS      = re.compile(r"\b(LWS|HWS|Knie|Schulter|Hüfte|Nacken|Rücken|Wirbelsäule|Bein|Arm|Fuß|Zehen)\b", re.I)
+_REGIONS      = re.compile(r"\b(LWS|Lendenwirbel\w*|HWS|Halswirbel\w*|Knie|Schulter|Hüfte|Nacken|Rücken|Wirbelsäule|Bein|Arm|Fuß|Zehen)\b", re.I)
 _PROGRESSION  = re.compile(r"\b(progredient|zunehmend|intermittierend|fluktuierend|schubweise|verschlechtert)\b", re.I)
+
+# Abbreviation → accepted expanded equivalents
+_REGION_EQUIVALENTS: dict[str, list[str]] = {
+    "lws": ["lendenwirbelsäule", "lendenwirbel", "lws"],
+    "hws": ["halswirbelsäule", "halswirbel", "hws"],
+}
+
+
+def _normalize_region(token: str) -> str:
+    """Map expanded forms back to their abbreviation for comparison."""
+    t = token.lower()
+    for abbrev, forms in _REGION_EQUIVALENTS.items():
+        if t in forms or any(t.startswith(f) for f in forms):
+            return abbrev
+    return t
 
 
 def _extract_guard_tokens(text: str) -> dict[str, list[str]]:
@@ -115,7 +167,7 @@ def _extract_guard_tokens(text: str) -> dict[str, list[str]]:
         "laterality":  _LATERALITY.findall(text.lower()),
         "numbers":     _NUMBERS.findall(text),
         "negations":   _NEGATIONS.findall(text.lower()),
-        "regions":     [r.lower() for r in _REGIONS.findall(text)],
+        "regions":     [_normalize_region(r) for r in _REGIONS.findall(text)],
         "progression": _PROGRESSION.findall(text.lower()),
     }
 
