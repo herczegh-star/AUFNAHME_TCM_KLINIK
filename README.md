@@ -51,6 +51,40 @@ AUFNAHME_TCM_KLINIK
 
 ---
 
+## Setup
+
+```bash
+python -m venv venv
+```
+
+**Windows:**
+```bash
+venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+---
+
+## Running the application
+
+Always run from the **project root directory**:
+
+```bash
+python ui/app.py
+```
+
+Using the virtual environment (recommended):
+
+```bash
+venv\Scripts\activate
+python ui/app.py
+```
+
+> The app prints the active Python executable and version on startup
+> to confirm the correct interpreter is used.
+
+---
+
 ## Status
 
 Early MVP stage.

@@ -1,6 +1,9 @@
 import sys
 from pathlib import Path
 
+print("Python executable:", sys.executable)
+print("Python version:", sys.version)
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import flet as ft
