@@ -49,6 +49,16 @@ def compose_symptom_text(
     """
     slots = _extract_slots(form_data)
     filled = sum(1 for v in slots.values() if v)
+
+    # Replace generic duration in template anchor with user value
+    if slots["dauer"]:
+        template_text = re.sub(
+            r"seit\s+(vielen|mehreren|einigen|langen)\s+Jahren",
+            slots["dauer"],
+            template_text,
+            flags=re.IGNORECASE,
+        )
+
     anchor = _extract_anchor(template_text)
 
     if filled >= 3:
