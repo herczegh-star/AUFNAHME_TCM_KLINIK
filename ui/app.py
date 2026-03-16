@@ -48,10 +48,17 @@ def main(page: ft.Page) -> None:
     matcher, llm = build_pipeline()
 
     # --- Form fields ---
+    def on_symptom_group_change(e: ft.ControlEvent) -> None:
+        for field in [duration, character, radiation, side, aggravating, relieving, associated, progression]:
+            field.value = ""
+        result_column.controls.clear()
+        page.update()
+
     symptom_group = ft.Dropdown(
         label="Symptomgruppe",
         options=[ft.dropdown.Option(g) for g in SYMPTOM_GROUPS],
         expand=True,
+        on_change=on_symptom_group_change,
     )
     duration       = ft.TextField(label="Dauer", hint_text="z.B. seit 5 Jahren")
     character      = ft.TextField(label="Charakter", hint_text="z.B. stechend, dumpf")
