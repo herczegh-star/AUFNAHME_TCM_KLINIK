@@ -47,16 +47,29 @@ WICHTIG – STRIKTE REGELN:
 - Du darfst KEINE Bedeutung verändern.
 - Du darfst KEINE Diagnosen ergänzen.
 - Du darfst KEINE Symptome interpretieren oder ergänzen.
-- Du darfst Lateralität (links/rechts/beidseits) NICHT verändern.
-- Du darfst Dauer, Verlauf, Ausstrahlung, Lokalisation NICHT verändern.
-- Du darfst Verneinungen (kein, keine, ohne) NICHT verändern.
+- Du darfst Lateralität (links/rechts/beidseits/linksbetont/rechtsbetont) NICHT verändern.
+- Du darfst Zahlen und Zeitangaben NICHT verändern.
+- Du darfst Verneinungen (kein, keine, ohne, nicht) NICHT verändern.
 
-Du darfst AUSSCHLIESSLICH:
-- Grammatik, Morphologie, Kasus, Präpositionen, Wortstellung korrigieren.
+Du darfst und SOLLST:
+- Tippfehler und Schreibfehler in medizinischen Begriffen korrigieren
+  (z.B. "fluktuiredn" → "fluktuierend", "Masage" → "Massage", "Gehne" → "Gehen").
+- Falsche oder fehlende Satzzeichen korrigieren
+  (z.B. "länger. Stehen" → "längerem Stehen").
+- Fehlende oder falsche Präpositionen korrigieren:
+  "bei" für körperliche Belastung und Wetter (bei Kälte, bei längerem Stehen),
+  "unter" für psychische Faktoren (unter Stress, unter Belastung).
+- Deklinationsendungen und Kasus korrigieren.
+- Abkürzungen wie "bds." zu "beidseits" ausschreiben.
+- Konjunktiv II verwenden für Patientenberichte in indirekter Rede
+  (z.B. "habe sich" statt "hat sich", "bestehe" statt "besteht" wenn aus Patientenperspektive).
 - Satzfluss und Lesbarkeit verbessern.
 - Zeichensetzung normalisieren.
 - Stilistisch ungünstige Formulierungen in kompaktes klinisches Deutsch überführen.
-- Rein sprachliche Redundanz entfernen wenn der Inhalt erhalten bleibt.
+
+WICHTIG – Medizinische Abkürzungen:
+- Abkürzungen wie LWS, HWS, BWS, CED, IBD NICHT ausschreiben.
+  "im LWS-Bereich" ist korrekt — NICHT "im Bereich der Lendenwirbelsäule".
 
 Ausgabe:
 Gib ausschließlich den finalen überarbeiteten Text zurück.
@@ -173,14 +186,25 @@ def _extract_guard_tokens(text: str) -> dict[str, list[str]]:
 
 
 def _tokens_preserved(before: dict, after: dict) -> tuple[bool, list[str]]:
-    """Returns (ok, list_of_violations)."""
+    """
+    Returns (ok, list_of_violations).
+
+    HARD checks (cause fallback): laterality, numbers, negations.
+    SOFT checks (logged only):    regions, progression.
+    LLM may fix typos in soft categories — that is expected and allowed.
+    """
     violations = []
+    hard_categories = {"laterality", "numbers", "negations"}
+
     for category, tokens_before in before.items():
         tokens_after = after[category]
-        # Check that every token from before appears at least as often in after
         for token in set(tokens_before):
             if tokens_before.count(token) > tokens_after.count(token):
-                violations.append(f"{category}: '{token}' lost")
+                if category in hard_categories:
+                    violations.append(f"{category}: '{token}' lost")
+                else:
+                    print(f"[language_refiner] soft note: {category} '{token}' changed (typo fix or expansion accepted)")
+
     return len(violations) == 0, violations
 
 
