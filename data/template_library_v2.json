@@ -1,0 +1,921 @@
+﻿{
+  "verze": "2.2-hybrid-final",
+  "popis": "Nova knihovna symptomovych clusteru pro projekt AUFNAHME_TCM_KLINIK",
+  "jazyk_vystupu": "de",
+  "clustery": [
+    {
+      "id": "muedigkeit",
+      "name": "Müdigkeit",
+      "type": "symptom_cluster",
+      "mode": "variant",
+      "meta": {
+        "gender_context": "neutral"
+      },
+      "varianty": [
+        {
+          "id": "chronische_muedigkeit",
+          "name": "Chronische Müdigkeit",
+          "struktura_textu": [
+            "kontext_prijmu",
+            "hlavni_symptom",
+            "snizeny_antrieb_a_vykonnost",
+            "snizena_belastbarkeit",
+            "psychovegetativni_symptomy",
+            "kognitivni_symptomy",
+            "spanek"
+          ]
+        },
+        {
+          "id": "postcovid_muedigkeit",
+          "name": "Post-Covid Müdigkeit",
+          "struktura_textu": [
+            "infekcni_kontext",
+            "hlavni_symptom",
+            "snizeny_antrieb_a_vykonnost",
+            "snizena_belastbarkeit",
+            "postexertionalni_crash",
+            "brain_fog",
+            "psychovegetativni_symptomy",
+            "spanek"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lws_syndrom",
+      "name": "LWS-Syndrom",
+      "type": "symptom_cluster",
+      "mode": "structured",
+      "meta": {
+        "gender_context": "neutral"
+      },
+      "struktur": [
+        "dauer",
+        "lokalisation",
+        "ausstrahlung",
+        "schmerzcharakter",
+        "verlauf",
+        "verschlimmerungsfaktoren",
+        "linderungsfaktoren",
+        "funktionelle_einschraenkung"
+      ],
+      "schmerzcharakter": [
+        "dumpf",
+        "brennend",
+        "stechend",
+        "pochend",
+        "ziehend"
+      ],
+      "ausstrahlung": [
+        "ohne Ausstrahlung",
+        "ins rechte Bein",
+        "ins linke Bein",
+        "in beide Beine",
+        "in die Glutealregion",
+        "in die Hüften"
+      ],
+      "verschlimmerungsfaktoren": [
+        "Belastung",
+        "körperliche Anstrengung",
+        "längeres Sitzen",
+        "längeres Stehen",
+        "längeres Gehen",
+        "Stress",
+        "Fehlhaltung",
+        "Bewegungsmangel",
+        "Gewichtszunahme"
+      ],
+      "linderungsfaktoren": [
+        "Wärme",
+        "lokale Wärme",
+        "manuelle Therapie",
+        "Bewegung",
+        "Massagen",
+        "Entspannungsübungen"
+      ]
+    },
+    {
+      "id": "hws_syndrom",
+      "name": "HWS-Syndrom",
+      "type": "symptom_cluster",
+      "mode": "structured",
+      "meta": {
+        "gender_context": "neutral"
+      },
+      "struktur": [
+        "dauer",
+        "lokalisation",
+        "ausstrahlung",
+        "schmerzcharakter",
+        "verlauf",
+        "begleitsymptome",
+        "verschlimmerungsfaktoren",
+        "linderungsfaktoren"
+      ],
+      "schmerzcharakter": [
+        "dumpf",
+        "drückend",
+        "ziehend",
+        "stechend",
+        "verkrampfend"
+      ],
+      "ausstrahlung": [
+        "in die Schulter",
+        "in die Schultern",
+        "in die Arme",
+        "in die linke Schulter",
+        "in die rechte Schulter",
+        "in die linke Gesichtshälfte"
+      ],
+      "begleitsymptome": [
+        "Nacken-Schulter-Verspannung",
+        "muskuläre Verspannungen im Nacken-Schulter-Bereich",
+        "Gefühlsstörungen in den Fingern",
+        "Einschlafen der Hände",
+        "Spannungskopfschmerzen"
+      ],
+      "verschlimmerungsfaktoren": [
+        "Stress",
+        "Fehlhaltung",
+        "körperliche Belastung"
+      ],
+      "linderungsfaktoren": [
+        "Wärme",
+        "lokale Wärmeanwendungen",
+        "manuelle Therapie",
+        "Massage",
+        "körperliche Ruhe",
+        "Tuina-Massage",
+        "Akupunktur"
+      ]
+    },
+    {
+      "id": "ws_syndrom",
+      "name": "WS-Syndrom",
+      "type": "symptom_cluster",
+      "mode": "structured",
+      "meta": {
+        "gender_context": "neutral"
+      },
+      "struktur": [
+        "dauer",
+        "lokalisation",
+        "ausstrahlung",
+        "schmerzcharakter",
+        "verlauf",
+        "begleitsymptome",
+        "verschlimmerungsfaktoren",
+        "linderungsfaktoren"
+      ],
+      "lokalisation": [
+        "HWS",
+        "BWS",
+        "LWS",
+        "gesamte Wirbelsäule"
+      ],
+      "schmerzcharakter": [
+        "dumpf",
+        "ziehend",
+        "stechend",
+        "brennend",
+        "drückend",
+        "pochend"
+      ],
+      "ausstrahlung": [
+        "ohne Ausstrahlung",
+        "in die Schultern",
+        "in die Arme",
+        "ins rechte Bein",
+        "ins linke Bein",
+        "in beide Beine",
+        "in die Glutealregion"
+      ],
+      "begleitsymptome": [
+        "muskuläre Verspannungen",
+        "Nacken-Schulter-Verspannung",
+        "Gefühlsstörungen",
+        "Einschlafen der Hände",
+        "Spannungskopfschmerzen"
+      ],
+      "verschlimmerungsfaktoren": [
+        "Belastung",
+        "längeres Sitzen",
+        "längeres Stehen",
+        "längeres Gehen",
+        "Stress",
+        "Fehlhaltung",
+        "Bewegungsmangel"
+      ],
+      "linderungsfaktoren": [
+        "Wärme",
+        "lokale Wärmeanwendungen",
+        "manuelle Therapie",
+        "Massage",
+        "Bewegung",
+        "körperliche Ruhe"
+      ]
+    },
+    {
+      "id": "fibromyalgie_ganzkoerperschmerzen",
+      "name": "Fibromyalgie / Ganzkörperschmerzen",
+      "type": "symptom_cluster",
+      "mode": "structured",
+      "meta": {
+        "gender_context": "neutral"
+      },
+      "struktur": [
+        "dauer",
+        "beginn_und_entwicklung",
+        "lokalisation_und_schmerzschwerpunkt",
+        "schmerzcharakter",
+        "verlauf_und_intensitaet",
+        "begleitsymptome",
+        "verschlimmerungsfaktoren",
+        "linderungsfaktoren",
+        "vorbefunde_und_diagnostik"
+      ],
+      "lokalisation_und_schmerzschwerpunkt": [
+        "ganzer Körper",
+        "gesamter Rücken",
+        "Wirbelsäule",
+        "Extremitäten",
+        "Rumpf",
+        "Kopf und Gesicht",
+        "Nacken-Schulter-Bereich",
+        "Bauch",
+        "Beine",
+        "Hüftenregion",
+        "Schultern",
+        "Arme",
+        "Hände",
+        "Füße",
+        "Waden",
+        "Gelenke",
+        "Muskulatur"
+      ],
+      "schmerzcharakter": [
+        "ziehend",
+        "stechend",
+        "pochend",
+        "brennend",
+        "drückend",
+        "dumpf",
+        "reißend",
+        "diffus",
+        "muskelkaterähnlich",
+        "gelenkähnlich",
+        "grippal / influenzaartig",
+        "Nervenschmerzen"
+      ],
+      "verlauf_und_intensitaet": [
+        "schleichender Beginn",
+        "allmähliche Ausweitung auf weitere Körperregionen",
+        "rezidivierend",
+        "persistierend",
+        "dauerhaft vorhanden mit Fluktuationen",
+        "schubweise",
+        "progredient",
+        "tags und nachts vorhanden",
+        "wechselnde Intensität",
+        "Grundschmerz mit Exazerbationen"
+      ],
+      "begleitsymptome": [
+        "Taubheitsgefühle in Armen und Beinen",
+        "Druckschmerzhaftigkeit an bestimmten Körperpunkten"
+      ],
+      "verschlimmerungsfaktoren": [
+        "Stress",
+        "körperliche Belastung",
+        "körperliche Überlastung",
+        "Schlafmangel",
+        "kaltes Wetter",
+        "kalte Jahreszeiten",
+        "allgemeine Kälteexposition",
+        "nasskaltes Wetter",
+        "warme Jahreszeiten"
+      ],
+      "linderungsfaktoren": [
+        "Wärme",
+        "lokale Wärmeanwendungen",
+        "manuelle Therapie",
+        "Ruhe",
+        "Kälte",
+        "Physiotherapie",
+        "Fango",
+        "warme Bäder",
+        "Wärmepflaster"
+      ],
+      "vorbefunde_und_diagnostik": [
+        "umfangreiche fachärztliche und diagnostische Untersuchungen ohne Nachweis einer körperlichen Ursache",
+        "rheumatologische Erkrankung ausgeschlossen",
+        "Diagnose einer Fibromyalgie gestellt"
+      ]
+    },
+    {
+      "id": "kopfschmerzen",
+      "name": "Kopfschmerzen",
+      "type": "symptom_cluster",
+      "mode": "structured",
+      "meta": {
+        "gender_context": "neutral"
+      },
+      "struktur": [
+        "dauer",
+        "frequenz",
+        "lokalisation",
+        "ausstrahlung",
+        "schmerzcharakter",
+        "verlauf",
+        "begleitsymptome",
+        "verschlimmerungsfaktoren",
+        "linderungsfaktoren",
+        "therapieverlauf"
+      ],
+      "lokalisation": [
+        "Stirnbereich",
+        "Schläfen",
+        "Hinterkopf",
+        "Scheitel",
+        "Nackenbereich",
+        "okzipital",
+        "beidseitig",
+        "einseitig"
+      ],
+      "ausstrahlung": [
+        "vom Stirnbereich über die Schädeldecke zum Hinterkopf",
+        "vom Nackenbereich zum Scheitel",
+        "vom Scheitel nach kaudal in den Nacken-Schulterbereich"
+      ],
+      "schmerzcharakter": [
+        "dumpf",
+        "drückend",
+        "stechend",
+        "ziehend",
+        "Gefühl eines „vollen Kopfes“"
+      ],
+      "frequenz": [
+        "täglich",
+        "mehrmals pro Woche",
+        "einmal pro Woche",
+        "mehrere Tage pro Woche",
+        "mehrere Schmerztage pro Monat"
+      ],
+      "verlauf": [
+        "seit vielen Jahren bestehend",
+        "zunehmende Intensität im Verlauf",
+        "episodisch",
+        "rezidivierend",
+        "stundenlang anhaltend",
+        "ein bis zwei Tage anhaltend"
+      ],
+      "begleitsymptome": [
+        "Geräuschüberempfindlichkeit",
+        "Lichtempfindlichkeit",
+        "muskuläre Verspannungen im Nacken-Schulterbereich",
+        "Nacken-Schulter-Schmerzen"
+      ],
+      "verschlimmerungsfaktoren": [
+        "Stress",
+        "laute Umgebung"
+      ],
+      "linderungsfaktoren": [
+        "Ruhe",
+        "Wärmeapplikationen"
+      ],
+      "therapieverlauf": [
+        "mehrere Therapieoptionen ohne ausreichende Wirkung"
+      ]
+    },
+    {
+      "id": "migraene",
+      "name": "Migräne",
+      "type": "symptom_cluster",
+      "mode": "structured",
+      "meta": {
+        "gender_context": "neutral"
+      },
+      "untertypen": [
+        "Migräne mit Aura",
+        "Migräne ohne Aura"
+      ],
+      "struktur": [
+        "dauer",
+        "beginn",
+        "frequenz",
+        "lokalisation",
+        "ausstrahlung",
+        "schmerzcharakter",
+        "aura",
+        "begleitsymptome",
+        "verschlimmerungsfaktoren",
+        "linderungsfaktoren",
+        "therapie",
+        "funktionelle_folgen"
+      ],
+      "lokalisation": [
+        "Stirnbereich",
+        "temporal",
+        "temporo-parietal",
+        "temporo-parieto-occipital",
+        "Gesichtshälfte",
+        "rechts",
+        "links",
+        "beidseits",
+        "gesamter Kopf"
+      ],
+      "schmerzcharakter": [
+        "pochend",
+        "pulsierend",
+        "stechend",
+        "dumpf",
+        "klopfend",
+        "durchdringend",
+        "krampfartig",
+        "heiß"
+      ],
+      "aura": [
+        "keine Aura",
+        "Augenflimmern",
+        "Lichtphänomene",
+        "Gesichtsfeldeinschränkung",
+        "unscharfes Sehen",
+        "Sehstörungen",
+        "goldene Zacken",
+        "Wortfindungsstörungen"
+      ],
+      "begleitsymptome": [
+        "Übelkeit",
+        "Erbrechen",
+        "Schwindel",
+        "Lärmempfindlichkeit",
+        "Lichtempfindlichkeit",
+        "verschwommenes Sehen",
+        "muskuläre Verspannungen",
+        "Durchfall",
+        "Konzentrationsstörungen",
+        "Gedächtnisstörungen"
+      ],
+      "frequenz": [
+        "einmal monatlich",
+        "mehrmals monatlich",
+        "1–2 Attacken pro Woche",
+        "1–2 Mal pro Woche",
+        "8–10 Attacken pro Monat",
+        "über 20 Migränetage pro Monat"
+      ],
+      "verlauf": [
+        "seit der Kindheit",
+        "seit der Jugend",
+        "seit vielen Jahren",
+        "zunehmende Intensität",
+        "zunehmende Frequenz"
+      ],
+      "linderungsfaktoren": [
+        "Ruhe",
+        "Dunkelheit",
+        "frische Luft",
+        "Kälte",
+        "lokale Wärmeanwendungen"
+      ],
+      "therapie": [
+        "Acetylsalicylsäure",
+        "Sumatriptan",
+        "Topiramat"
+      ],
+      "funktionelle_folgen": [
+        "mehrtägige Erschöpfung nach der Attacke",
+        "reduzierte Belastbarkeit",
+        "Beeinträchtigung von Stimmung und Energie"
+      ]
+    },
+    {
+      "id": "reizdarm_funktionelle_verdauungsbeschwerden",
+      "name": "Reizdarm / funktionelle Verdauungsbeschwerden",
+      "type": "symptom_cluster",
+      "mode": "structured",
+      "meta": {
+        "gender_context": "neutral"
+      },
+      "struktur": [
+        "dauer",
+        "beginn_und_verlauf",
+        "stuhlfrequenz_und_konsistenz",
+        "bauchschmerzen",
+        "weitere_gastrointestinale_symptome",
+        "nahrungsmittelunvertraeglichkeiten",
+        "verschlimmerungsfaktoren",
+        "linderungsfaktoren",
+        "diagnostik"
+      ],
+      "stuhlfrequenz_und_konsistenz": [
+        "mehrfache Stuhlentleerungen pro Tag",
+        "3–4 Stuhlentleerungen täglich",
+        "bis zu fünf Stuhlentleerungen täglich",
+        "breiiger Stuhl",
+        "wässriger Stuhl",
+        "wechselnde Stuhlkonsistenz",
+        "Schleimbeimengungen",
+        "Stuhldrang",
+        "wechselnd Durchfall und Obstipation"
+      ],
+      "bauchschmerzen": [
+        "krampfartige Bauchschmerzen",
+        "diffuse Bauchschmerzen",
+        "Unterbauchschmerzen",
+        "Oberbauchschmerzen",
+        "Mittelbauchschmerzen"
+      ],
+      "weitere_gastrointestinale_symptome": [
+        "Blähungen",
+        "Blähbauch",
+        "Flatulenz",
+        "Völlegefühl",
+        "Übelkeit",
+        "Aufstoßen",
+        "Sodbrennen",
+        "Verkrampfungen der Speiseröhre"
+      ],
+      "nahrungsmittelunvertraeglichkeiten": [
+        "Lactoseintoleranz",
+        "Glutenunverträglichkeit",
+        "Sojaunverträglichkeit",
+        "verschiedene Nahrungsmittelunverträglichkeiten"
+      ],
+      "verlauf": [
+        "seit vielen Jahren bestehend",
+        "seit der Kindheit",
+        "chronisch rezidivierend",
+        "schubweiser Verlauf",
+        "phasenweise Verschlechterung"
+      ],
+      "verschlimmerungsfaktoren": [
+        "Stress",
+        "nicht verträgliche Nahrungsmittel"
+      ],
+      "linderungsfaktoren": [
+        "Ernährungsanpassung",
+        "Meidung unverträglicher Nahrungsmittel"
+      ],
+      "diagnostik": [
+        "Reizdarmsyndrom vermutet",
+        "bekanntes Reizdarmsyndrom",
+        "Gastro- und Koloskopie ohne richtungsweisenden Befund"
+      ]
+    },
+    {
+      "id": "ced_ibd",
+      "name": "CED / IBD",
+      "type": "symptom_cluster",
+      "mode": "structured",
+      "meta": {
+        "gender_context": "neutral"
+      },
+      "untertypen": [
+        "Morbus Crohn",
+        "Colitis ulcerosa"
+      ],
+      "struktur": [
+        "diagnose_und_erkrankungsbeginn",
+        "befallsmuster",
+        "verlauf",
+        "stuhlfrequenz_und_konsistenz",
+        "bauchschmerzen",
+        "weitere_symptome",
+        "extraintestinale_manifestationen",
+        "verschlimmerungsfaktoren",
+        "therapie",
+        "operationen"
+      ],
+      "befallsmuster": [
+        "Ileum",
+        "Sigma",
+        "Colon",
+        "Colon ascendens",
+        "terminales Ileum",
+        "neoterminales Ileum",
+        "Proktitis"
+      ],
+      "stuhlfrequenz_und_konsistenz": [
+        "einmal täglich geformter Stuhl",
+        "1–2 Stuhlentleerungen pro Tag",
+        "2–3 Stuhlentleerungen pro Tag",
+        "4–5 Stuhlentleerungen pro Tag",
+        "bis zu 14 Stuhlentleerungen pro Tag",
+        "bis zu 20 Stuhlentleerungen pro Tag",
+        "breiiger Stuhl",
+        "geformter Stuhl",
+        "Durchfälle",
+        "Blutbeimengungen",
+        "Schleimbeimengungen"
+      ],
+      "bauchschmerzen": [
+        "diffuse Bauchschmerzen",
+        "krampfartige Bauchschmerzen",
+        "Bauchkrämpfe",
+        "Oberbauchschmerzen",
+        "rechter Unterbauch",
+        "postprandiale Bauchschmerzen"
+      ],
+      "weitere_symptome": [
+        "Blähungen",
+        "Flatulenz"
+      ],
+      "extraintestinale_manifestationen": [
+        "Erythema nodosum",
+        "Pyoderma gangrenosum"
+      ],
+      "verlauf": [
+        "chronisch aktiver Verlauf",
+        "schubweiser Verlauf",
+        "rezidivierende Schübe",
+        "komplizierter Verlauf"
+      ],
+      "verschlimmerungsfaktoren": [
+        "Stress",
+        "bestimmte Nahrungsmittel"
+      ],
+      "therapie": [
+        "Salofalk",
+        "Kortison",
+        "Prednisolon",
+        "Azathioprin",
+        "Infliximab",
+        "Golimumab",
+        "Enbrel",
+        "Rinvoq"
+      ],
+      "operationen": [
+        "Dünndarmteilresektion",
+        "Resektion des terminalen Ileums",
+        "Resektion des Colon ascendens",
+        "Ileotransversostomie",
+        "Dilatation von Anastomosenstenosen"
+      ]
+    },
+    {
+      "id": "tinnitus_aurium",
+      "name": "Tinnitus aurium",
+      "type": "symptom_cluster",
+      "mode": "structured",
+      "meta": {
+        "gender_context": "neutral"
+      },
+      "struktur": [
+        "dauer",
+        "lokalisation",
+        "charakter",
+        "verlauf",
+        "intensitaet",
+        "begleitsymptome"
+      ],
+      "lokalisation": [
+        "rechts",
+        "links",
+        "beidseits"
+      ],
+      "charakter": [
+        "hohes Pfeifen",
+        "hochfrequentes Pfeifen",
+        "Rauschen",
+        "Pfeifen"
+      ],
+      "verlauf": [
+        "kontinuierlich vorhanden",
+        "intermittierend vorhanden",
+        "Tag und Nacht vorhanden",
+        "seit Jahren bestehend"
+      ],
+      "intensitaet": [
+        "schwankende Intensität",
+        "unterschiedliche Intensität"
+      ],
+      "begleitsymptome": [
+        "Schwankschwindel"
+      ]
+    },
+    {
+      "id": "weitere_beschwerden",
+      "name": "Weitere Beschwerden",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "templates": [
+        "Die Patientin berichtet außerdem über zahlreiche weitere, eher unspezifische Beschwerden, die sie gerne mithilfe der TCM besser in den Griff bekommen möchte. Als Beispiele nennt sie {symptomliste}.",
+        "Weitere behandlungsbedürftige Beschwerden: {symptomliste}."
+      ]
+    },
+    {
+      "id": "polyarthritis_entzuendlich",
+      "name": "Polyarthritis entzündlich",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "Rheumatoide Arthritis (seropositiv/seronegativ)",
+        "chronische Polyarthritis",
+        "Psoriasis-Arthritis",
+        "axiale Spondyloarthritis (Morbus Bechterew)",
+        "HLA-B27-assoziierte Polyarthritis",
+        "Sjögren-Syndrom (mit Gelenkbeteiligung)"
+      ],
+      "templates": [
+        "Seit [dauer] bestehende chronische Gelenkbeschwerden im Rahmen einer [diagnose]. Betroffen sind vor allem [lokalisation]. Schmerzen stechend, teilweise auch ziehend oder dumpf. Zeitweise Schwellung und Überwärmung der Gelenke. Morgensteifigkeit ca. [morgensteifigkeit_minuten] Minuten. Beschwerden nehmen bei Belastung sowie Kälte und Nässe zu, Wärme wirkt lindernd. Chronisch rezidivierender Verlauf."
+      ]
+    },
+    {
+      "id": "axiale_spondyloarthritis_bechterew",
+      "name": "Axiale Spondyloarthritis / Morbus Bechterew",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "Morbus Bechterew",
+        "axiale Spondyloarthritis",
+        "HLA-B27-assoziierte Spondyloarthritis"
+      ],
+      "templates": [
+        "Seit [dauer] bestehende chronische Rückenschmerzen im Rahmen eines Morbus Bechterew. Meist drückender Grundschmerz mit morgendlicher Schmerzverstärkung, Dauer ca. [schmerzverstaerkung_morgens_minuten] Minuten. Schmerzen führen teilweise zum nächtlichen Erwachen. Bewegungseinschränkung beim Bücken und Drehen. Zeitweise Blockierungsgefühl im Bereich der Wirbelsäule. Zunahme der Beschwerden bei Kälte und Feuchtigkeit, Besserung durch Wärme und Ruhe."
+      ]
+    },
+    {
+      "id": "psoriasis_arthritis",
+      "name": "Psoriasis-Arthritis",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "Psoriasis-Arthritis"
+      ],
+      "templates": [
+        "Seit [dauer] bestehende Gelenkbeschwerden im Rahmen einer Psoriasis-Arthritis. Betroffen sind vor allem [lokalisation]. Schmerzen stechend, teilweise auch ziehend. Zeitweise Schwellung einzelner Gelenke. Beschwerden nehmen bei Belastung sowie Kälte und Nässe zu, Wärme wirkt lindernd. Morgensteifigkeit ca. [morgensteifigkeit_minuten] Minuten. Derzeit [psoriasis_hautstatus] Hauterscheinungen im Sinne einer Psoriasis."
+      ]
+    },
+    {
+      "id": "sjogren_sicca_symptomatik",
+      "name": "Sjögren / Sicca-Symptomatik",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "Sjögren-Syndrom",
+        "Sicca-Syndrom",
+        "V. a. Sjögren-Syndrom"
+      ],
+      "templates": [
+        "Seit [dauer] bestehende Sicca-Symptomatik mit trockenen Augen und Mundtrockenheit im Rahmen eines [diagnose]. Die Patientin berichtet über verminderten Tränenfluss sowie trockene Schleimhäute. Zeitweise Brennen der Augen. Chronischer Verlauf."
+      ]
+    },
+    {
+      "id": "gelenksarthrose_mechanisch",
+      "name": "Gelenksarthrose mechanisch",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "Arthrose",
+        "Gelenksarthrose",
+        "degenerative Gelenkerkrankung"
+      ],
+      "templates": [
+        "Seit [dauer] bestehende Gelenkbeschwerden im Sinne einer Arthrose mit Schmerzen in [lokalisation]. Schmerzen stechend, drückend und teilweise brennend. Auftreten bei Belastung sowie Druck, teils auch bei längerem Sitzen, teilweise dauerhaft vorhanden. Linderung durch Bewegung, Ruhe, Liegen sowie Wärme oder Kälte. Zusätzlich Steifigkeitsgefühl und Anlaufschmerzen."
+      ]
+    },
+    {
+      "id": "chronische_sinusitis",
+      "name": "Chronische Sinusitis",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "chronische Sinusitis",
+        "Nasenpolypen (Z. n. OP)",
+        "chronische Rhinosinusitis"
+      ],
+      "templates": [
+        "Seit der Kindheit bestehende Beschwerden im Sinne einer chronischen Sinusitis. Z. n. operativer Entfernung von Nasenpolypen. Anhaltend gereizte Schleimhäute im Nasen-Rachenraum sowie Druckgefühl im Stirnbereich. Rezidivierend verstopfte Nase, insbesondere im Liegen. Häufige Infekte der oberen Atemwege. Begleitend Müdigkeit und Kopfschmerzen."
+      ]
+    },
+    {
+      "id": "weitere_unspezifische_beschwerden",
+      "name": "Weitere unspezifische Beschwerden",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "funktion": "doplnění vedlejších symptomů mimo hlavní okruhy",
+      "templates": [
+        "Darüber hinaus berichtet die Patientin über zahlreiche weitere, eher unspezifische Beschwerden. Hierzu zählen Muskelverspannungen im Bereich der Hals- und Lendenwirbelsäule, gelegentlicher Schwindel, Hitzewallungen, Gewichtszunahme (ca. [gewichtszunahme_kg] kg in den letzten [gewichtszunahme_jahre] Jahren), Schwellungsgefühle in den kleinen Hand- und Fingergelenken, gelegentliche Knieschmerzen sowie Muskelkrämpfe in den Waden und Oberschenkeln."
+      ]
+    },
+    {
+      "id": "trigeminusneuralgie",
+      "name": "Trigeminusneuralgie",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "Trigeminusneuralgie"
+      ],
+      "templates": [
+        "Seit [dauer] bestehende Schmerzproblematik im Sinne einer Trigeminusneuralgie im Versorgungsgebiet des N. trigeminus ([ast], [seite]). Initial attackenartige, blitzartig einschießende Schmerzen von Sekunden Dauer, mehrfach täglich auftretend. Im Verlauf Veränderung der Schmerzcharakteristik mit nun eher anhaltenden Schmerzen und deutlicher Triggerbarkeit. Schmerzverstärkung bei Kauen, Sprechen, Essen, Trinken sowie bei Kälte und Zugluft. Schmerzintensität zwischen [vas_min] und [vas_max] auf der VAS. Chronisch rezidivierender Verlauf."
+      ]
+    },
+    {
+      "id": "restless_legs_syndrom",
+      "name": "Restless-Legs-Syndrom",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "Restless-Legs-Syndrom"
+      ],
+      "templates": [
+        "Seit [dauer] bestehende Beschwerden im Sinne eines Restless-Legs-Syndroms mit nächtlichem Bewegungsdrang der Beine, vor allem in Ruhe. Auftreten überwiegend abends und nachts mit wiederholtem Erwachen. Linderung durch Bewegung sowie Kälteanwendungen. Schlaf deutlich beeinträchtigt."
+      ]
+    },
+    {
+      "id": "polyneuropathie",
+      "name": "Polyneuropathie",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "Polyneuropathie",
+        "sensibel betonte Polyneuropathie",
+        "chemotherapieinduzierte Polyneuropathie"
+      ],
+      "templates": [
+        "Seit [dauer] bestehende polyneuropathische Beschwerden mit Parästhesien und brennenden Schmerzen an den distalen Extremitäten, initial an den Füßen, im Verlauf aufsteigend bis [lokalisation]. Teilweise Taubheitsgefühl sowie Gangunsicherheit. Zunahme bei Kälte und Stress, Linderung durch Kälteanwendungen."
+      ]
+    },
+    {
+      "id": "interstitielle_zystitis",
+      "name": "Interstitielle Zystitis",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "interstitielle Zystitis",
+        "chronische Zystitis",
+        "Blasenschmerzsyndrom"
+      ],
+      "templates": [
+        "Seit [dauer] bestehender ausgeprägter Harndrang mit Pollakisurie und Nykturie sowie Schmerzen im Unterbauch bzw. im Bereich der Harnblase. Die Schmerzen werden als brennend und stechend beschrieben und treten sowohl beim Wasserlassen als auch in Ruhe auf. Teilweise Ausstrahlung in den Beckenbereich. Zusätzlich besteht eine Stressinkontinenz. Mehrfache urologische Abklärungen ohne richtungsweisenden Befund bzw. Verdacht auf interstitielle Zystitis. Deutliche Einschränkung der Lebensqualität."
+      ]
+    },
+    {
+      "id": "crps",
+      "name": "CRPS",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "komplexes regionales Schmerzsyndrom (CRPS)",
+        "Morbus Sudeck"
+      ],
+      "templates": [
+        "Seit [dauer] bestehendes komplexes regionales Schmerzsyndrom im Bereich [lokalisation] nach vorausgegangenem Trauma bzw. operativem Eingriff. Anhaltende Schmerzen mit neuropathischem Charakter (brennend, stechend) sowie Allodynie. Initial Schwellung und Rötung, im Verlauf persistierende Beschwerden mit Zunahme bei Belastung, teils auch Ruheschmerz. Funktionelle Einschränkung der betroffenen Extremität. Teilweise Besserung bei Wärme."
+      ]
+    },
+    {
+      "id": "endometriose",
+      "name": "Endometriose",
+      "type": "symptom_cluster",
+      "mode": "template",
+      "meta": {
+        "gender_context": "female_default"
+      },
+      "diagnosen": [
+        "Endometriose"
+      ],
+      "templates": [
+        "Seit [dauer] bestehende Endometriose mit anhaltenden Schmerzen unterschiedlicher Intensität, zyklusabhängig verstärkt. Schmerzen werden als reißend, krampfartig sowie ziehend beschrieben, vor allem im Unterbauch und Rücken, mit Ausstrahlung in beide Beine. Zusätzlich persistierende Mittelbauchschmerzen mit stechendem Charakter und permanentem Druckgefühl im Abdomen. Zunahme unter psychischer Belastung, kein Zusammenhang mit Nahrungsaufnahme, Tageszeit oder körperlicher Belastung. Weiterhin Obstipation. Trotz hormoneller Therapie sowie mehrfacher operativer Eingriffe keine ausreichende Besserung. Deutliche Einschränkung der Lebensqualität."
+      ]
+    }
+  ]
+}

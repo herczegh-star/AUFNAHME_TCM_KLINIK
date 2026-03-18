@@ -2,20 +2,21 @@
 symptom_composer.py
 -------------------
 Composes a final clinical German symptom paragraph from:
-- a selected template text (framing anchor)
+- a selected cluster text (framing anchor or pre-written template)
 - structured form data (primary source of truth)
 
 Architecture:
-    1. Normalize raw form values (fix common wording, add prepositions)
-    2. Detect how many slots are filled → decide composition strategy
-    3. If enough slots filled: build paragraph from form data, using
+    1. Replace [placeholder] slots in template texts from form_data
+    2. Normalize raw form values (fix wording, add prepositions)
+    3. Detect how many slots are filled → decide composition strategy
+    4. If enough slots filled: build paragraph from form data, using
        only the first sentence of the template as introductory anchor
-    4. If few slots filled: fall back to template with selective appending
-    5. Return one clean compact paragraph
+    5. If few slots filled: fall back to template with selective appending
+    6. Return one clean compact paragraph
 
 Insertion point in project:
-    ui/app.py  →  replace TemplateFiller.fill_template() call
-                  with symptom_composer.compose_symptom_text()
+    ui/app.py → compose_symptom_text(t.text, form_data, group)
+    where t is now a Cluster object from template_repository.py
 """
 
 from __future__ import annotations
@@ -36,7 +37,9 @@ def compose_symptom_text(
     Compose a final clinical German paragraph.
 
     Args:
-        template_text:  Selected template text (anchor / framing).
+        template_text:  Cluster text — either a pre-written template
+                        (mode=template, may contain [placeholders]) or
+                        a generated anchor sentence (mode=structured/variant).
         form_data:      Dict with keys matching form fields (see below).
         symptom_group:  Symptom group string, e.g. 'LWS-Syndrom'.
 
@@ -48,9 +51,11 @@ def compose_symptom_text(
         One compact clinical paragraph.
     """
     slots = _extract_slots(form_data)
-    filled = sum(1 for v in slots.values() if v)
 
-    # Replace generic duration in template anchor with user value
+    # Step 1: fill [placeholder] slots in template texts (mode=template)
+    template_text = _replace_placeholders(template_text, slots)
+
+    # Step 2: replace generic duration phrase if user provided dauer
     if slots["dauer"]:
         template_text = re.sub(
             r"seit\s+(vielen|mehreren|einigen|langen)\s+Jahren",
@@ -58,13 +63,55 @@ def compose_symptom_text(
             template_text,
             flags=re.IGNORECASE,
         )
+        # also handle "Seit [dauer]" placeholder pattern
+        template_text = re.sub(
+            r"Seit\s+\[dauer\]",
+            f"Seit {slots['dauer'].removeprefix('seit ').removeprefix('Seit ')}",
+            template_text,
+            flags=re.IGNORECASE,
+        )
 
     anchor = _extract_anchor(template_text)
+    filled = sum(1 for v in slots.values() if v)
 
     if filled >= 3:
         return _compose_from_slots(anchor, slots, symptom_group)
     else:
         return _compose_fallback(template_text, slots)
+
+
+# ---------------------------------------------------------------------------
+# Placeholder replacement (for mode=template clusters)
+# ---------------------------------------------------------------------------
+
+_PLACEHOLDER_MAP = {
+    "dauer":       "dauer",
+    "lokalisation": "seite",
+    "diagnose":    None,   # no direct form field, skip
+}
+
+
+def _replace_placeholders(text: str, slots: dict[str, str]) -> str:
+    """
+    Replace [placeholder] tokens in template texts with form_data values.
+
+    Templates use the pattern:  "Seit [dauer] bestehende..."
+    The slot value is "seit 3 Jahren" — so we strip the leading "seit"
+    to avoid "Seit seit 3 Jahren".
+    """
+    def replace(m: re.Match) -> str:
+        key = m.group(1).lower()
+        if key == "dauer" and slots["dauer"]:
+            # Strip leading "seit" — template already provides it
+            val = re.sub(r"^seit\s+", "", slots["dauer"], flags=re.IGNORECASE)
+            return val
+        if key == "lokalisation" and slots["seite"]:
+            return slots["seite"]
+        if key == "diagnose":
+            return m.group(0)  # keep as-is, LLM will handle context
+        return m.group(0)
+
+    return re.sub(r"\[([^\]]+)\]", replace, text)
 
 
 # ---------------------------------------------------------------------------
@@ -92,7 +139,6 @@ def _normalize_dauer(value: str) -> str:
     if not value:
         return ""
     value = value.strip()
-    # bare number → "seit N Jahren"
     if re.fullmatch(r"\d+", value):
         return f"seit {value} Jahren"
     if not value.lower().startswith("seit"):
@@ -103,7 +149,6 @@ def _normalize_dauer(value: str) -> str:
 def _normalize_charakter(value: str) -> str:
     if not value:
         return ""
-    # normalize infinitive → adjective form
     replacements = [
         (r"\bstechen\b", "stechend"),
         (r"\bziehen\b", "ziehend"),
@@ -122,7 +167,6 @@ def _normalize_ausstrahlung(value: str) -> str:
     if not value:
         return ""
     value = _normalize_generic(value)
-    # ensure "in" preposition is present
     if not re.match(r"^(in|nach|bis)\b", value, re.IGNORECASE):
         value = f"in {value}"
     return value
@@ -132,9 +176,8 @@ def _normalize_verschlechterung(value: str) -> str:
     if not value:
         return ""
     value = _normalize_generic(value)
-    # fix common patterns
     value = re.sub(r"\blänger[e]?\s+Sitzen\b", "längerem Sitzen", value, flags=re.IGNORECASE)
-    value = re.sub(r"\blang[e]?\s+Sitzen\b", "längerem Sitzen", value, flags=re.IGNORECASE)
+    value = re.sub(r"\blang[e]?\s+Sitzen\b",   "längerem Sitzen", value, flags=re.IGNORECASE)
     value = re.sub(r"\bkälte\b", "Kälte", value, flags=re.IGNORECASE)
     return value
 
@@ -143,11 +186,8 @@ def _normalize_linderung(value: str) -> str:
     if not value:
         return ""
     value = _normalize_generic(value)
-    # strip leading "durch" to avoid "durch durch"
     value = re.sub(r"^durch\s+", "", value, flags=re.IGNORECASE)
-    # fix common typos
-    value = re.sub(r"\bmanuell[e]?\s+[Tt]herapie\b", "manuelle Therapie", value)
-    value = re.sub(r"\bmanuell[e]?\s+[Tt]herapien\b", "manuelle Therapie", value)
+    value = re.sub(r"\bmanuell[e]?\s+[Tt]herapie[n]?\b", "manuelle Therapie", value)
     return value
 
 
@@ -155,22 +195,18 @@ def _normalize_begleitsymptome(value: str) -> str:
     if not value:
         return ""
     value = _normalize_generic(value)
-    # "Kribbeln Zehen li/re Bein" → "Kribbeln im linken/rechten Bein"
     value = re.sub(
         r"\bKribbeln\s+(?:Zehen\s+)?(li|re)\s+Bein\b",
         lambda m: f"Kribbeln im {'linken' if m.group(1) == 'li' else 'rechten'} Bein",
         value,
     )
-    # "Kribbeln Zehen" (without side) → "Kribbeln in den Zehen"
     value = re.sub(r"\bKribbeln\s+Zehen\b", "Kribbeln in den Zehen", value)
     return value
 
 
 def _normalize_generic(value: str) -> str:
-    """Fix spacing, commas, and basic capitalization."""
     if not value:
         return ""
-    # fix multiple spaces / commas
     value = re.sub(r"\s+", " ", value)
     value = re.sub(r",\s*,", ",", value)
     value = re.sub(r",([^\s])", r", \1", value)
@@ -201,6 +237,7 @@ def _compose_from_slots(
     """
     Primary strategy: build paragraph from form slots.
     Uses anchor sentence as opening, then slot-driven sentences.
+    Works for all cluster types (LWS, HWS, Migräne, Tinnitus, etc.).
     """
     parts: list[str] = [anchor]
 
@@ -244,10 +281,10 @@ def _compose_fallback(template_text: str, slots: dict[str, str]) -> str:
     def already_covered(keywords: list[str]) -> bool:
         return any(kw in text_lower for kw in keywords)
 
-    if slots["verlauf"] and not already_covered(["verschlechtert", "progred", "zunehm", "schub"]):
+    if slots["verlauf"] and not already_covered(["verschlechtert", "progred", "zunehm", "schub", "fluktu"]):
         text = _append(text, f"Im Verlauf habe sich die Symptomatik {slots['verlauf']}.")
 
-    if slots["charakter"] and not already_covered(["ziehend", "stechend", "dumpf", "pochend", "brennend"]):
+    if slots["charakter"] and not already_covered(["ziehend", "stechend", "dumpf", "pochend", "brennend", "drückend"]):
         text = _append(text, f"Die Beschwerden werden als {slots['charakter']} beschrieben.")
 
     if slots["ausstrahlung"] and not already_covered(["ausstrahl"]):
@@ -300,41 +337,3 @@ def _cleanup(text: str) -> str:
     text = re.sub(r"  +", " ", text)
     text = text.strip()
     return text
-
-
-# ---------------------------------------------------------------------------
-# Example usage
-# ---------------------------------------------------------------------------
-#
-# from core.symptom_composer import compose_symptom_text
-#
-# template_text = (
-#     "Die Patientin berichtet seit vielen Jahren über intermittierend "
-#     "auftretende Schmerzen im LWS-Bereich. Die Schmerzen werden überwiegend "
-#     "als ziehend beschrieben. Eine Schmerzverstärkung bestehe insbesondere "
-#     "bei längerem Sitzen oder Stehen. Linderung erfahre sie durch Wärme "
-#     "sowie manuelle Therapie."
-# )
-#
-# form_data = {
-#     "dauer":            "10",
-#     "verlauf":          "schwankenden",
-#     "charakter":        "ziehend, teilweise stechend",
-#     "seite":            "rechtbetont",
-#     "ausstrahlung":     "beide Beine",
-#     "verschlechterung": "kälte, lange Sitzen, Stehen, Gehen",
-#     "linderung":        "wärme, manuelle therapie",
-#     "begleitsymptome":  "teilweise Kribbeln Zehen li Bein",
-# }
-#
-# result = compose_symptom_text(template_text, form_data, "LWS-Syndrom")
-# print(result)
-#
-# Expected style:
-# "Die Patientin berichtet seit vielen Jahren über intermittierend auftretende
-#  Schmerzen im LWS-Bereich. Im Verlauf habe sich die Symptomatik schwankenden.
-#  Die Beschwerden werden überwiegend als ziehend, teilweise stechend beschrieben.
-#  Teilweise besteht eine Ausstrahlung in beide Beine, rechtbetont.
-#  Eine Verschlechterung tritt insbesondere Kälte, längerem Sitzen, Stehen, Gehen auf.
-#  Linderung erfolgt durch wärme, manuelle Therapie.
-#  Begleitend besteht teilweise Kribbeln im linken Bein."
