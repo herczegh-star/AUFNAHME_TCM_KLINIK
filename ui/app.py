@@ -16,15 +16,28 @@ from core.language_refiner import refine_clinical_german, OpenAIRefinerClient
 
 
 SYMPTOM_GROUPS = [
-    "EINLEITUNG",
+    # structured clusters
     "LWS-Syndrom",
     "HWS-Syndrom",
+    "WS-Syndrom",
     "Fibromyalgie / Ganzkörperschmerzen",
     "Kopfschmerzen",
     "Migräne",
     "Reizdarm / funktionelle Verdauungsbeschwerden",
     "CED / IBD",
     "Tinnitus aurium",
+    # variant clusters
+    "Müdigkeit",
+    # template clusters
+    "Polyneuropathie",
+    "Restless-Legs-Syndrom",
+    "Sjögren / Sicca-Symptomatik",
+    "Endometriose",
+    "Interstitielle Zystitis",
+    "Axiale Spondyloarthritis / Morbus Bechterew",
+    "Gelenksarthrose mechanisch",
+    "Trigeminusneuralgie",
+    "CRPS",
 ]
 
 

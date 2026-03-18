@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
 
 # ---------------------------------------------------------------------------
-# Cluster anchors for structured mode (no pre-written text)
+# Cluster anchors for structured / variant mode (no pre-written text)
 # ---------------------------------------------------------------------------
 
 _CLUSTER_ANCHORS: dict[str, str] = {
@@ -28,6 +29,7 @@ _CLUSTER_ANCHORS: dict[str, str] = {
         "Der Patient berichtet über eine bekannte chronisch entzündliche Darmerkrankung.",
     "tinnitus_aurium":
         "Der Patient berichtet seit vielen Jahren über einen Tinnitus aurium.",
+    # variant mode — anchor selected dynamically in symptom_composer
     "muedigkeit":
         "Der Patient berichtet seit vielen Jahren über chronische Erschöpfung und ausgeprägte Müdigkeit.",
 }
@@ -55,12 +57,13 @@ class Cluster:
     id: str
     name: str
     type: str
-    mode: str                                   # "structured" | "template" | "variant"
+    mode: str                                    # "structured" | "template" | "variant"
     meta: dict         = field(default_factory=dict,  compare=False, hash=False)
     struktur: tuple    = field(default_factory=tuple, compare=False, hash=False)
     slot_options: dict = field(default_factory=dict,  compare=False, hash=False)
     templates: tuple   = field(default_factory=tuple, compare=False, hash=False)
     varianty: tuple    = field(default_factory=tuple, compare=False, hash=False)
+    diagnosen: tuple   = field(default_factory=tuple, compare=False, hash=False)
 
     # --- backward-compat interface for UI ---
 
@@ -75,13 +78,19 @@ class Cluster:
     @property
     def text(self) -> str:
         """
-        Representative text for this cluster:
-        - template mode  → first pre-written template (may contain [placeholders])
-        - structured mode → generated anchor sentence
-        - variant mode   → generated anchor sentence
+        Representative text for this cluster passed to symptom_composer.
+
+        - template mode  → first pre-written template, with [diagnose]
+                           pre-filled from diagnosen[0] if available.
+                           [dauer] and [lokalisation] left for composer.
+        - structured mode → cluster-specific anchor sentence
+        - variant mode   → anchor sentence; composer selects variant
         """
         if self.mode == "template" and self.templates:
-            return self.templates[0]
+            t = self.templates[0]
+            if self.diagnosen:
+                t = re.sub(r"\[diagnose\]", self.diagnosen[0], t, flags=re.IGNORECASE)
+            return t
         return _generate_anchor(self.id, self.name)
 
 
@@ -125,6 +134,7 @@ class TemplateRepository:
                 slot_options=slot_options,
                 templates=tuple(entry.get("templates", [])),
                 varianty=tuple(entry.get("varianty", [])),
+                diagnosen=tuple(entry.get("diagnosen", [])),
             ))
 
     def get_all_templates(self) -> list[Cluster]:

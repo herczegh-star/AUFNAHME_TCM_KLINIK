@@ -2,26 +2,60 @@
 symptom_composer.py
 -------------------
 Composes a final clinical German symptom paragraph from:
-- a selected cluster text (framing anchor or pre-written template)
+- a selected cluster text (anchor, pre-written template, or variant anchor)
 - structured form data (primary source of truth)
 
-Architecture:
-    1. Replace [placeholder] slots in template texts from form_data
-    2. Normalize raw form values (fix wording, add prepositions)
-    3. Detect how many slots are filled → decide composition strategy
-    4. If enough slots filled: build paragraph from form data, using
-       only the first sentence of the template as introductory anchor
-    5. If few slots filled: fall back to template with selective appending
-    6. Return one clean compact paragraph
+Three cluster modes, three composition paths:
 
-Insertion point in project:
-    ui/app.py → compose_symptom_text(t.text, form_data, group)
-    where t is now a Cluster object from template_repository.py
+  structured  → slot-driven composition from form_data
+                anchor = first sentence of generated cluster anchor
+                primary if filled >= 3, fallback otherwise
+
+  template    → pre-written clinical template is the base
+                replace [dauer], [lokalisation] from form_data
+                remove unresolved [placeholder] tokens cleanly
+                append any missing slot info not already covered
+                NEVER reduce to anchor + generic sentences
+
+  variant     → select best variant anchor based on form_data content
+                (currently: Müdigkeit chronisch vs. Post-Covid)
+                then slot-driven composition from that anchor
 """
 
 from __future__ import annotations
 
 import re
+
+# ---------------------------------------------------------------------------
+# Variant mode config
+# ---------------------------------------------------------------------------
+
+_POSTCOVID_KEYWORDS = {"covid", "post-covid", "postcovid", "long covid", "postcovid-syndrom"}
+
+_VARIANT_ANCHORS: dict[str, dict[str, str]] = {
+    "Müdigkeit": {
+        "default":  "Der Patient berichtet seit vielen Jahren über chronische Erschöpfung "
+                    "und ausgeprägte Müdigkeit mit deutlich reduzierter Belastbarkeit.",
+        "postcovid": "Der Patient berichtet über Beschwerden im Sinne eines Post-Covid-Syndroms "
+                     "mit ausgeprägter Fatigue, reduzierter Belastbarkeit und Post-Exertional Malaise.",
+    },
+}
+
+
+# ---------------------------------------------------------------------------
+# Mode detection
+# ---------------------------------------------------------------------------
+
+_HAS_PLACEHOLDER = re.compile(r"\[[a-z_äöü]+\]", re.IGNORECASE)
+
+
+def _is_template_mode(text: str) -> bool:
+    """Template mode texts contain [placeholder] tokens."""
+    return bool(_HAS_PLACEHOLDER.search(text))
+
+
+def _is_variant_mode(symptom_group: str) -> bool:
+    return symptom_group in _VARIANT_ANCHORS
 
 
 # ---------------------------------------------------------------------------
@@ -37,36 +71,110 @@ def compose_symptom_text(
     Compose a final clinical German paragraph.
 
     Args:
-        template_text:  Cluster text — either a pre-written template
-                        (mode=template, may contain [placeholders]) or
-                        a generated anchor sentence (mode=structured/variant).
-        form_data:      Dict with keys matching form fields (see below).
-        symptom_group:  Symptom group string, e.g. 'LWS-Syndrom'.
-
-    Recognised form_data keys:
-        dauer, verlauf, charakter, seite, ausstrahlung,
-        verschlechterung, linderung, begleitsymptome
+        template_text:  Cluster.text — pre-written template (template mode),
+                        generated anchor (structured/variant mode).
+        form_data:      Dict with keys: dauer, verlauf, charakter, seite,
+                        ausstrahlung, verschlechterung, linderung, begleitsymptome
+        symptom_group:  Cluster name, e.g. "LWS-Syndrom", "Müdigkeit".
 
     Returns:
-        One compact clinical paragraph.
+        One compact clinical paragraph in German.
     """
     slots = _extract_slots(form_data)
 
-    # Step 1: fill [placeholder] slots in template texts (mode=template)
-    template_text = _replace_placeholders(template_text, slots)
+    # --- PATH A: template mode ---
+    if _is_template_mode(template_text):
+        return _compose_template_mode(template_text, slots)
 
-    # Step 2: replace generic duration phrase if user provided dauer
+    # --- PATH B: variant mode ---
+    if _is_variant_mode(symptom_group):
+        return _compose_variant_mode(template_text, slots, symptom_group, form_data)
+
+    # --- PATH C: structured mode ---
+    return _compose_structured_mode(template_text, slots)
+
+
+# ---------------------------------------------------------------------------
+# Composition: template mode
+# ---------------------------------------------------------------------------
+
+def _compose_template_mode(template_text: str, slots: dict[str, str]) -> str:
+    """
+    For mode=template clusters:
+    - pre-written template is the clinical base
+    - replace [dauer] and [lokalisation] from slots
+    - remove any remaining [placeholder] tokens cleanly
+    - append missing slot information not already in the template
+    """
+    text = _replace_placeholders(template_text, slots)
+    text = _remove_unresolved_placeholders(text)
+
+    # Replace generic duration if dauer slot is filled
+    if slots["dauer"]:
+        text = re.sub(
+            r"seit\s+(vielen|mehreren|einigen|langen)\s+Jahren",
+            slots["dauer"],
+            text,
+            flags=re.IGNORECASE,
+        )
+
+    return _compose_fallback(text, slots)
+
+
+# ---------------------------------------------------------------------------
+# Composition: variant mode
+# ---------------------------------------------------------------------------
+
+def _compose_variant_mode(
+    template_text: str,
+    slots: dict[str, str],
+    symptom_group: str,
+    raw_form: dict[str, str],
+) -> str:
+    """
+    For mode=variant clusters (currently: Müdigkeit):
+    - select the right variant anchor based on form_data content
+    - apply duration replacement
+    - slot-driven composition from selected anchor
+    """
+    anchors = _VARIANT_ANCHORS[symptom_group]
+
+    # Detect Post-Covid variant
+    all_values = " ".join(raw_form.values()).lower()
+    if any(kw in all_values for kw in _POSTCOVID_KEYWORDS):
+        anchor = anchors["postcovid"]
+    else:
+        anchor = anchors["default"]
+
+    # Replace generic duration in anchor
+    if slots["dauer"]:
+        anchor = re.sub(
+            r"seit\s+(vielen|mehreren|einigen|langen)\s+Jahren",
+            slots["dauer"],
+            anchor,
+            flags=re.IGNORECASE,
+        )
+
+    filled = sum(1 for v in slots.values() if v)
+    if filled >= 2:
+        return _compose_from_slots(anchor, slots, symptom_group)
+    return _compose_fallback(anchor, slots)
+
+
+# ---------------------------------------------------------------------------
+# Composition: structured mode
+# ---------------------------------------------------------------------------
+
+def _compose_structured_mode(template_text: str, slots: dict[str, str]) -> str:
+    """
+    For mode=structured clusters:
+    - replace generic duration in anchor
+    - slot-driven if >= 3 fields filled, fallback otherwise
+    """
     if slots["dauer"]:
         template_text = re.sub(
             r"seit\s+(vielen|mehreren|einigen|langen)\s+Jahren",
             slots["dauer"],
-            template_text,
-            flags=re.IGNORECASE,
-        )
-        # also handle "Seit [dauer]" placeholder pattern
-        template_text = re.sub(
-            r"Seit\s+\[dauer\]",
-            f"Seit {slots['dauer'].removeprefix('seit ').removeprefix('Seit ')}",
             template_text,
             flags=re.IGNORECASE,
         )
@@ -75,43 +183,59 @@ def compose_symptom_text(
     filled = sum(1 for v in slots.values() if v)
 
     if filled >= 3:
-        return _compose_from_slots(anchor, slots, symptom_group)
-    else:
-        return _compose_fallback(template_text, slots)
+        return _compose_from_slots(anchor, slots, "")
+    return _compose_fallback(template_text, slots)
 
 
 # ---------------------------------------------------------------------------
-# Placeholder replacement (for mode=template clusters)
+# Placeholder replacement (for template mode)
 # ---------------------------------------------------------------------------
-
-_PLACEHOLDER_MAP = {
-    "dauer":       "dauer",
-    "lokalisation": "seite",
-    "diagnose":    None,   # no direct form field, skip
-}
-
 
 def _replace_placeholders(text: str, slots: dict[str, str]) -> str:
     """
-    Replace [placeholder] tokens in template texts with form_data values.
+    Replace known [placeholder] tokens from form slots.
 
-    Templates use the pattern:  "Seit [dauer] bestehende..."
-    The slot value is "seit 3 Jahren" — so we strip the leading "seit"
-    to avoid "Seit seit 3 Jahren".
+    [dauer]      → slot value with leading "seit" stripped
+                   (template already has "Seit" before the placeholder)
+    [lokalisation] → NOT replaced from seite/laterality — left for cleanup
+    [diagnose]   → pre-filled in Cluster.text; should not reach here
     """
     def replace(m: re.Match) -> str:
         key = m.group(1).lower()
+
         if key == "dauer" and slots["dauer"]:
-            # Strip leading "seit" — template already provides it
-            val = re.sub(r"^seit\s+", "", slots["dauer"], flags=re.IGNORECASE)
-            return val
-        if key == "lokalisation" and slots["seite"]:
-            return slots["seite"]
-        if key == "diagnose":
-            return m.group(0)  # keep as-is, LLM will handle context
-        return m.group(0)
+            # Strip leading "seit " — template writes "Seit [dauer] bestehende..."
+            return re.sub(r"^seit\s+", "", slots["dauer"], flags=re.IGNORECASE)
+
+        # [lokalisation] must NOT be blindly mapped to laterality (seite field).
+        # A Polyneuropathie template expects a body region ("an den Beinen"),
+        # not "linksbetont". Leave unresolved; _remove_unresolved_placeholders handles it.
+
+        return m.group(0)  # leave unknown placeholders for cleanup
 
     return re.sub(r"\[([^\]]+)\]", replace, text)
+
+
+def _remove_unresolved_placeholders(text: str) -> str:
+    """
+    Remove [placeholder] tokens that were not replaced.
+    Handles common grammatical contexts to avoid malformed sentences.
+
+    Examples:
+      "...aufsteigend bis [lokalisation]."  →  "...aufsteigend."
+      "...im Rahmen einer [diagnose]."      →  "...im Rahmen einer bekannten Erkrankung."
+      "...in [lokalisation] sowie..."       →  "...sowie..."
+    """
+    # Prepositions/articles directly before [placeholder]
+    text = re.sub(
+        r"\s+(bis|in|nach|an|im|eines|einer|einem|einen|von|bei)\s+\[[^\]]+\]",
+        "",
+        text,
+        flags=re.IGNORECASE,
+    )
+    # Any remaining [placeholder] tokens
+    text = re.sub(r"\s*\[[^\]]+\]", "", text)
+    return _cleanup(text)
 
 
 # ---------------------------------------------------------------------------
@@ -119,7 +243,6 @@ def _replace_placeholders(text: str, slots: dict[str, str]) -> str:
 # ---------------------------------------------------------------------------
 
 def _extract_slots(form_data: dict[str, str]) -> dict[str, str]:
-    """Normalize all form values into clean slot strings."""
     def get(key: str) -> str:
         return form_data.get(key, "").strip()
 
@@ -218,15 +341,12 @@ def _normalize_generic(value: str) -> str:
 # ---------------------------------------------------------------------------
 
 def _extract_anchor(template_text: str) -> str:
-    """Return only the first sentence of the template as framing anchor."""
     sentences = re.split(r"(?<=\.)\s+", template_text.strip())
-    if sentences:
-        return sentences[0].strip()
-    return template_text.strip()
+    return sentences[0].strip() if sentences else template_text.strip()
 
 
 # ---------------------------------------------------------------------------
-# Composition strategies
+# Composition strategies (shared by structured and variant paths)
 # ---------------------------------------------------------------------------
 
 def _compose_from_slots(
@@ -234,11 +354,6 @@ def _compose_from_slots(
     slots: dict[str, str],
     symptom_group: str,
 ) -> str:
-    """
-    Primary strategy: build paragraph from form slots.
-    Uses anchor sentence as opening, then slot-driven sentences.
-    Works for all cluster types (LWS, HWS, Migräne, Tinnitus, etc.).
-    """
     parts: list[str] = [anchor]
 
     if slots["verlauf"]:
@@ -257,9 +372,7 @@ def _compose_from_slots(
         parts.append(f"Die Beschwerden sind {seite}.")
 
     if slots["verschlechterung"]:
-        parts.append(
-            f"Eine Verschlechterung tritt insbesondere {slots['verschlechterung']} auf."
-        )
+        parts.append(f"Eine Verschlechterung tritt insbesondere {slots['verschlechterung']} auf.")
 
     if slots["linderung"]:
         parts.append(f"Linderung erfolgt durch {slots['linderung']}.")
@@ -270,36 +383,37 @@ def _compose_from_slots(
     return _join_sentences(parts)
 
 
-def _compose_fallback(template_text: str, slots: dict[str, str]) -> str:
+def _compose_fallback(text: str, slots: dict[str, str]) -> str:
     """
-    Fallback strategy: keep full template, append only filled slots
-    that are not already semantically covered.
+    Keep the base text and selectively append slots not already covered.
+    Used for template mode (base = full pre-written template) and
+    structured mode with few filled fields (base = full anchor text).
     """
-    text = template_text.strip()
+    text = text.strip()
     text_lower = text.lower()
 
     def already_covered(keywords: list[str]) -> bool:
         return any(kw in text_lower for kw in keywords)
 
-    if slots["verlauf"] and not already_covered(["verschlechtert", "progred", "zunehm", "schub", "fluktu"]):
+    if slots["verlauf"] and not already_covered(["verschlechtert", "progred", "zunehm", "schub", "fluktu", "intermit"]):
         text = _append(text, f"Im Verlauf habe sich die Symptomatik {slots['verlauf']}.")
 
-    if slots["charakter"] and not already_covered(["ziehend", "stechend", "dumpf", "pochend", "brennend", "drückend"]):
+    if slots["charakter"] and not already_covered(["ziehend", "stechend", "dumpf", "pochend", "brennend", "drückend", "parästhesien", "kribbeln"]):
         text = _append(text, f"Die Beschwerden werden als {slots['charakter']} beschrieben.")
 
     if slots["ausstrahlung"] and not already_covered(["ausstrahl"]):
         text = _append(text, f"Teilweise besteht eine Ausstrahlung {slots['ausstrahlung']}.")
 
-    if slots["seite"] and not already_covered(["rechts", "links", "betont", "beidseits"]):
+    if slots["seite"] and not already_covered(["rechts", "links", "betont", "beidseits", "einseitig"]):
         text = _append(text, f"Die Beschwerden sind {slots['seite']}.")
 
-    if slots["verschlechterung"] and not already_covered(["verstärk", "verschlechter"]):
+    if slots["verschlechterung"] and not already_covered(["verstärk", "verschlechter", "belastung", "stress"]):
         text = _append(text, f"Eine Verschlechterung tritt insbesondere {slots['verschlechterung']} auf.")
 
-    if slots["linderung"] and not already_covered(["linderung", "wärme", "ruhe", "manuelle therapie"]):
+    if slots["linderung"] and not already_covered(["linderung", "wärme", "ruhe", "massage", "manuelle therapie"]):
         text = _append(text, f"Linderung erfolgt durch {slots['linderung']}.")
 
-    if slots["begleitsymptome"] and not already_covered(["begleit", "kribbeln", "taubheit"]):
+    if slots["begleitsymptome"] and not already_covered(["begleit", "kribbeln", "taubheit", "übelkeit", "schwindel"]):
         text = _append(text, f"Begleitend besteht {slots['begleitsymptome']}.")
 
     return _cleanup(text)
@@ -335,5 +449,7 @@ def _join_sentences(parts: list[str]) -> str:
 def _cleanup(text: str) -> str:
     text = re.sub(r"\.\.+", ".", text)
     text = re.sub(r"  +", " ", text)
-    text = text.strip()
-    return text
+    # Fix double commas or trailing comma before period
+    text = re.sub(r",\s*\.", ".", text)
+    text = re.sub(r"\s+\.", ".", text)
+    return text.strip()
