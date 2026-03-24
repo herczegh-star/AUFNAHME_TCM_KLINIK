@@ -17,7 +17,11 @@ from core.language_refiner import OpenAIRefinerClient
 from core.template_repository import TemplateRepository
 from models.case_summary import CaseSummary
 from ui.components.summary_panel import SummaryPanel
-from services.document_service import append_blocks_to_docx
+from services.document_service import insert_blocks_into_section
+from core.draft_schema import SymptomDraftInput
+from core.prompt_builder import PromptBuilder
+from services.style_library_service import StyleLibraryService
+from services.ai_draft_service import AIDraftService
 
 
 SYMPTOM_GROUPS = [
@@ -88,6 +92,32 @@ DEFAULT_FIELD_DEFS: list[tuple[str, str, str]] = [
     ("Linderung",       "linderung",        "z.B. Wärme, Ruhe"),
     ("Begleitsymptome", "begleitsymptome",  "z.B. Übelkeit, Kribbeln"),
 ]
+
+
+_CLUSTER_HINTS: dict[str, dict[str, str]] = {
+    "LWS-Syndrom": {
+        "pain_quality":        "dumpf-drückend, ziehend, stechend, …",
+        "radiation":           "ins Gesäß, Oberschenkel, Bein, …",
+        "aggravating":         "langes Sitzen, Heben, Kälte, Stress, …",
+        "relieving":           "Wärme, Entlastungslagerung, Massage, …",
+        "func_limitations":    "Sitztoleranz, Gehstrecke, Heben, …",
+    },
+    "HWS-Syndrom": {
+        "pain_quality":        "ziehend, drückend, verspannt, brennend, …",
+        "radiation":           "in Schulter, Arm, Hand, Hinterkopf, …",
+        "aggravating":         "Bildschirmarbeit, Zugluft, Stress, Kopfrotation, …",
+        "relieving":           "Wärme, Entlastung, Physiotherapie, …",
+        "func_limitations":    "Kopfrotation, Lesen, Bildschirmarbeit, Autofahren, …",
+    },
+}
+
+_DEFAULT_HINTS: dict[str, str] = {
+    "pain_quality":     "ziehend, stechend, brennend, …",
+    "radiation":        "z.B. in Extremitäten, Kopf, …",
+    "aggravating":      "Kälte, Belastung, Stress, …",
+    "relieving":        "Wärme, Ruhe, Massage, …",
+    "func_limitations": "Alltag, Beruf, Freizeit, …",
+}
 
 
 class ScreenComposer:
@@ -258,6 +288,138 @@ class ScreenComposer:
 
         rebuild_fields(None)
 
+        # --- AI draft service ---
+        _ai_svc = StyleLibraryService()
+        _ai_service = AIDraftService(_ai_svc, PromptBuilder())
+
+        # --- AI draft form fields ---
+        _cluster_names = _ai_svc.get_cluster_names()
+        _cluster_default = _cluster_names[0] if _cluster_names else "LWS-Syndrom"
+        ai_cluster = ft.Dropdown(
+            label="Cluster",
+            value=_cluster_default,
+            options=[ft.dropdown.Option(n) for n in _cluster_names],
+            expand=True,
+        )
+        ai_duration     = ft.TextField(label="Dauer",           hint_text="z.B. 5 Jahre",          expand=True)
+        ai_pain_quality = ft.TextField(label="Schmerzcharakter",hint_text="ziehend, stechend, …",  expand=True)
+        ai_radiation    = ft.TextField(label="Ausstrahlung",    hint_text="z.B. links ins Bein",   expand=True)
+        ai_aggravating       = ft.TextField(label="Verschlechterung",       hint_text="Kälte, Sitzen, Stress",       expand=True)
+        ai_relieving         = ft.TextField(label="Linderung",              hint_text="Wärme, Massage, …",           expand=True)
+        ai_func_limitations  = ft.TextField(label="Funktionelle Einschr.", hint_text="Gehstrecke, Sitztoleranz, …", expand=True)
+        ai_additional_notes  = ft.TextField(label="Zusatzhinweise",         hint_text="Freier Text",                 expand=True, multiline=True, min_lines=2, max_lines=4)
+
+        def on_ai_cluster_change(e: ft.ControlEvent) -> None:
+            hints = _CLUSTER_HINTS.get(ai_cluster.value or "", _DEFAULT_HINTS)
+            ai_pain_quality.hint_text   = hints["pain_quality"]
+            ai_radiation.hint_text      = hints["radiation"]
+            ai_aggravating.hint_text    = hints["aggravating"]
+            ai_relieving.hint_text      = hints["relieving"]
+            ai_func_limitations.hint_text = hints["func_limitations"]
+            page.update()
+
+        ai_cluster.on_change = on_ai_cluster_change
+        # Apply hints for the initial cluster value
+        on_ai_cluster_change(None)
+
+        draft_result_field = ft.TextField(
+            label="Generierter Entwurf (bearbeitbar)",
+            multiline=True,
+            min_lines=4,
+            max_lines=10,
+            expand=True,
+        )
+        draft_status = ft.Text("", size=12)
+
+        debug_system_field = ft.TextField(
+            label="SYSTEM PROMPT",
+            multiline=True, min_lines=3, max_lines=8,
+            read_only=True, expand=True,
+        )
+        debug_user_field = ft.TextField(
+            label="USER PROMPT",
+            multiline=True, min_lines=6, max_lines=16,
+            read_only=True, expand=True,
+        )
+        debug_container = ft.Column(
+            controls=[
+                ft.Divider(height=16),
+                ft.Text("Prompt-Debug", weight=ft.FontWeight.BOLD, size=12, color=ft.Colors.GREY_600),
+                debug_system_field,
+                ft.Container(height=8),
+                debug_user_field,
+            ],
+            visible=False,
+        )
+
+        debug_checkbox = ft.Checkbox(
+            label="Prompt-Debug anzeigen",
+            value=False,
+            on_change=lambda e: (
+                setattr(debug_container, "visible", debug_checkbox.value),
+                page.update(),
+            ),
+        )
+
+        def on_draft_generate(e: ft.ControlEvent) -> None:
+            def split_csv(val: str) -> list[str]:
+                return [x.strip() for x in val.split(",") if x.strip()]
+
+            inp = SymptomDraftInput(
+                cluster             = ai_cluster.value or _cluster_default,
+                duration            = ai_duration.value.strip() or None,
+                pain_quality        = split_csv(ai_pain_quality.value),
+                radiation           = ai_radiation.value.strip() or None,
+                aggravating_factors  = split_csv(ai_aggravating.value),
+                relieving_factors    = split_csv(ai_relieving.value),
+                functional_limitations = split_csv(ai_func_limitations.value),
+                additional_notes     = ai_additional_notes.value.strip() or None,
+            )
+            if debug_checkbox.value:
+                style_config = _ai_svc.get_cluster_config(inp.cluster)
+                debug_system_field.value = _ai_service._prompt_builder.build_system_prompt()
+                debug_user_field.value   = _ai_service._prompt_builder.build_user_prompt(inp, style_config)
+
+            try:
+                result = _ai_service.generate_draft(inp)
+                draft_result_field.value = result.main_text
+                if result.validation.warnings:
+                    draft_status.value = "\n".join(f"⚠ {w}" for w in result.validation.warnings)
+                    draft_status.color = ft.Colors.ORANGE_700
+                    draft_result_field.border_color = ft.Colors.ORANGE_700
+                else:
+                    draft_status.value = "✓ Validierung: OK"
+                    draft_status.color = ft.Colors.GREEN_700
+                    draft_result_field.border_color = ft.Colors.GREEN_700
+            except Exception as exc:
+                draft_status.value = f"Fehler: {exc}"
+                draft_status.color = ft.Colors.RED_700
+            page.update()
+
+        def on_ai_apply(e: ft.ControlEvent) -> None:
+            if not controller:
+                return
+            path = controller.state.schablone_path
+            if path is None:
+                draft_status.value = "Keine Schablone vorhanden."
+                draft_status.color = ft.Colors.RED_700
+                page.update()
+                return
+            draft_text = (draft_result_field.value or "").strip()
+            if not draft_text:
+                draft_status.value = "Bitte zuerst einen Entwurf generieren oder eingeben."
+                draft_status.color = ft.Colors.ORANGE_700
+                page.update()
+                return
+            try:
+                insert_blocks_into_section(path, [draft_text])
+                draft_status.value = "Text wurde in den Bericht übernommen."
+                draft_status.color = ft.Colors.GREEN_700
+            except Exception as exc:
+                draft_status.value = f"Fehler beim Übernehmen: {exc}"
+                draft_status.color = ft.Colors.RED_700
+            page.update()
+
         def on_export(e: ft.ControlEvent) -> None:
             if not controller:
                 return
@@ -267,6 +429,25 @@ class ScreenComposer:
                 export_status.color = ft.Colors.RED_700
                 page.update()
                 return
+
+            if mode_selector.value == "AI-Entwurf-Modus":
+                draft_text = draft_result_field.value.strip()
+                if not draft_text:
+                    export_status.value = "Bitte zuerst einen Entwurf generieren oder eingeben."
+                    export_status.color = ft.Colors.ORANGE_700
+                    page.update()
+                    return
+                try:
+                    insert_blocks_into_section(path, [draft_text])
+                    export_status.value = "Entwurf wurde in die Aufnahme übernommen."
+                    export_status.color = ft.Colors.GREEN_700
+                except Exception as exc:
+                    export_status.value = f"Datei konnte nicht gespeichert werden: {exc}"
+                    export_status.color = ft.Colors.RED_700
+                page.update()
+                return
+
+            # Block-Modus — stávající chování beze změny
             blocks = controller.state.composed_blocks
             if not blocks:
                 export_status.value = "Keine Textblöcke ausgewählt."
@@ -274,7 +455,7 @@ class ScreenComposer:
                 page.update()
                 return
             try:
-                append_blocks_to_docx(path, blocks)
+                insert_blocks_into_section(path, blocks)
                 controller.state.composed_blocks.clear()
                 refresh_blocks_column()
                 export_status.value = "Text wurde in die Aufnahme übernommen."
@@ -284,10 +465,9 @@ class ScreenComposer:
                 export_status.color = ft.Colors.RED_700
             page.update()
 
-        composer_column = ft.Column(
+        # --- Mode switcher ---
+        block_mode_container = ft.Column(
             controls=[
-                ft.Text("AUFNAHME TCM KLINIK", size=22, weight=ft.FontWeight.BOLD),
-                ft.Container(height=12),
                 symptom_group,
                 ft.Container(height=8),
                 fields_container,
@@ -304,9 +484,88 @@ class ScreenComposer:
                 ft.Container(height=4),
                 export_status,
             ],
+            visible=True,
+        )
+
+        ai_draft_container = ft.Column(
+            controls=[
+                ft.Row(controls=[ai_cluster, ai_duration],       spacing=12),
+                ft.Row(controls=[ai_pain_quality, ai_radiation], spacing=12),
+                ft.Row(controls=[ai_aggravating, ai_relieving],          spacing=12),
+                ft.Row(controls=[ai_func_limitations, ai_additional_notes], spacing=12),
+                ft.Container(height=12),
+                debug_checkbox,
+                ft.Row(controls=[
+                    ft.ElevatedButton("Draft generieren",    on_click=on_draft_generate),
+                    ft.ElevatedButton("In Bericht übernehmen", on_click=on_ai_apply),
+                ], spacing=12),
+                ft.Container(height=12),
+                draft_result_field,
+                ft.Container(height=4),
+                draft_status,
+                debug_container,
+            ],
+            visible=False,
+        )
+
+        def on_mode_change(e: ft.ControlEvent) -> None:
+            is_ai = mode_selector.value == "AI-Entwurf-Modus"
+            block_mode_container.visible = not is_ai
+            ai_draft_container.visible   = is_ai
+            page.update()
+
+        mode_selector = ft.Dropdown(
+            label="Modus",
+            value="Block-Modus",
+            options=[
+                ft.dropdown.Option("Block-Modus"),
+                ft.dropdown.Option("AI-Entwurf-Modus"),
+            ],
+            width=240,
+            on_change=on_mode_change,
+        )
+
+        composer_column = ft.Column(
+            controls=[
+                ft.Text("AUFNAHME TCM KLINIK", size=22, weight=ft.FontWeight.BOLD),
+                ft.Container(height=12),
+                mode_selector,
+                ft.Container(height=12),
+                block_mode_container,
+                ai_draft_container,
+            ],
             expand=True,
             scroll=ft.ScrollMode.AUTO,
         )
+
+        # --- Prefill AI draft from CaseSummary ---
+        if self._summary and self._summary.most_burdensome:
+            _cluster_val = self._summary.most_burdensome.strip()
+            _notes_parts = [
+                self._summary.priority_complaint,
+                self._summary.additional_complaints,
+            ]
+            _additional = ", ".join(p for p in _notes_parts if p and p.strip())
+            _inp = SymptomDraftInput(
+                cluster          = _cluster_val if _cluster_val in _cluster_names else _cluster_default,
+                additional_notes = _additional or None,
+            )
+            try:
+                _result = _ai_service.generate_draft(_inp)
+                draft_result_field.value = _result.main_text
+                mode_selector.value         = "AI-Entwurf-Modus"
+                block_mode_container.visible = False
+                ai_draft_container.visible   = True
+                if _result.validation.warnings:
+                    draft_status.value = "\n".join(f"⚠ {w}" for w in _result.validation.warnings)
+                    draft_status.color = ft.Colors.ORANGE_700
+                    draft_result_field.border_color = ft.Colors.ORANGE_700
+                else:
+                    draft_status.value = "✓ Validierung: OK"
+                    draft_status.color = ft.Colors.GREEN_700
+                    draft_result_field.border_color = ft.Colors.GREEN_700
+            except Exception:
+                pass  # silent — neblokuje otevření screenu
 
         if self._summary:
             page.add(ft.Row(

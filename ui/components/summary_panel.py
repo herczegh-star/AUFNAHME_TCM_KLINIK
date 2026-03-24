@@ -25,10 +25,9 @@ class SummaryPanel:
         ]
 
         for label, value in [
-            ("Hauptbeschwerde",    self._summary.priority_complaint),
-            ("Weitere Angaben",    self._summary.main_complaints),
-            ("Belastung",          self._summary.most_burdensome),
-            ("Weitere Beschwerden", self._summary.additional_complaints),
+            ("Hauptbeschwerde",                             self._summary.most_burdensome),
+            ("Weitere im Vordergrund stehende Beschwerden", self._summary.priority_complaint),
+            ("Weitere Beschwerden",                         self._summary.additional_complaints),
         ]:
             if not value:
                 continue

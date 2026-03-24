@@ -17,10 +17,9 @@ from models.case_summary import CaseSummary
 
 
 _FIELDS = [
-    ("Hauptbeschwerde",    "priority_complaint"),
-    ("Aktuelle Beschwerden", "main_complaints"),
-    ("Größte Belastung",   "most_burdensome"),
-    ("Weitere Beschwerden", "additional_complaints"),
+    ("Hauptbeschwerde",                             "most_burdensome"),
+    ("Weitere im Vordergrund stehende Beschwerden", "priority_complaint"),
+    ("Weitere Beschwerden",                         "additional_complaints"),
 ]
 
 
@@ -49,10 +48,10 @@ class ScreenSummaryReview:
 
         def on_weiter(e: ft.ControlEvent) -> None:
             updated = CaseSummary(
-                priority_complaint    = fields[0].value.strip(),
-                main_complaints       = fields[1].value.strip(),
-                most_burdensome       = fields[2].value.strip(),
-                additional_complaints = fields[3].value.strip(),
+                main_complaints       = summary.main_complaints,
+                most_burdensome       = fields[0].value.strip(),
+                priority_complaint    = fields[1].value.strip(),
+                additional_complaints = fields[2].value.strip(),
             )
             controller.show_screen_3(updated)
 

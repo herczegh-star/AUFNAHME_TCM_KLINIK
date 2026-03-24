@@ -13,11 +13,24 @@ import flet as ft
 from models.case_summary import CaseSummary
 
 
+# (label, hint_text)
 _QUESTIONS = [
-    "Welche körperlichen Beschwerden beschäftigen Sie aktuell?",
-    "Was davon belastet Sie im Alltag am meisten?",
-    "Wenn Sie eine Beschwerde sofort loswerden könnten – welche wäre das?",
-    "Gibt es noch weitere Beschwerden, die wir berücksichtigen sollten?",
+    (
+        "Welche körperlichen Beschwerden stehen aktuell im Vordergrund?",
+        "",
+    ),
+    (
+        "Welche dieser Beschwerden steht für Sie aktuell im Vordergrund?",
+        "Bitte nur eine Beschwerde auswählen.",
+    ),
+    (
+        "Welche 1–2 weiteren Beschwerden stehen neben dem Hauptproblem aktuell ebenfalls im Vordergrund?",
+        "Bitte maximal zwei Beschwerden.",
+    ),
+    (
+        "Welche weiteren behandlungsbedürftigen Beschwerden bestehen darüber hinaus?",
+        "Bitte kurz aufzählen, ohne Beschreibung.",
+    ),
 ]
 
 
@@ -42,14 +55,30 @@ class ScreenInterview:
 
         fields = [
             ft.TextField(
-                label=q,
+                label=label,
                 value=_prefill_values[i],
                 multiline=True,
                 min_lines=2,
                 max_lines=4,
                 expand=True,
             )
-            for i, q in enumerate(_QUESTIONS)
+            for i, (label, _hint) in enumerate(_QUESTIONS)
+        ]
+
+        def _wrap(tf: ft.TextField, hint: str) -> ft.Control:
+            if not hint:
+                return tf
+            return ft.Column(
+                controls=[
+                    ft.Text(hint, size=11, color=ft.Colors.GREY_600, italic=True),
+                    tf,
+                ],
+                spacing=4,
+            )
+
+        field_controls = [
+            _wrap(fields[i], hint)
+            for i, (_, hint) in enumerate(_QUESTIONS)
         ]
 
         def on_weiter(e: ft.ControlEvent) -> None:
@@ -66,7 +95,7 @@ class ScreenInterview:
             ft.Container(height=16),
             ft.Text("Psychosomatisches Interview", size=16),
             ft.Container(height=16),
-            *fields,
+            *field_controls,
             ft.Container(height=16),
             ft.ElevatedButton("Weiter", on_click=on_weiter),
         )

@@ -1,0 +1,89 @@
+{
+  "version": "1.0",
+  "language": "de",
+  "clusters": {
+    "LWS-Syndrom": {
+      "meta": {
+        "cluster_id": "LWS-Syndrom",
+        "icd10": "M54.5",
+        "beschreibung": "Lumbales Schmerzsyndrom – klinisch-sachliche Beschreibung von Schmerzcharakter, Lokalisation, Verlauf, Auslösern und funktioneller Einschränkung. Ohne diagnostische Schlussfolgerung, ohne Therapieempfehlung.",
+        "stil": "Verdichtungsstil, klinisch-sachlich, Präsens, passiv wo angemessen"
+      },
+      "rules": [
+        "Schmerz immer mit Lokalisation und Charakter beschreiben.",
+        "Ausstrahlung explizit angeben oder negieren.",
+        "Verlauf in komprimierter Form: Beginn, Entwicklung, aktueller Status.",
+        "Intensität mit NRS-Wert oder qualitativer Angabe (erträglich / beeinträchtigend / invalidisierend), keine subjektiven Superlative.",
+        "Verschlechterungsfaktoren konkret benennen – nur was der Patient angibt.",
+        "Linderungsfaktoren präzise, ohne Wertung.",
+        "Keine diagnostischen Interpretationen, es sei denn der Patient berichtet von gestellten Diagnosen.",
+        "Funktionelle Einschränkung konkret und alltagsbezogen formulieren.",
+        "Keine Therapieempfehlungen, keine Prognose, kein Ausdruck von Erwartung oder Hoffnung.",
+        "Sätze kurz halten. Hauptaussage pro Satz. Kein Füllwerk."
+      ],
+      "preferred_patterns": [
+        "{charakter} Schmerzen {lokalisation}, {ausstrahlung}.",
+        "Schmerzintensität {intensitaet}, {verlauf}.",
+        "Erstmanifestation {beginn}, seither {verlauf}.",
+        "Verschlechterung bei {verschlechterungsfaktoren}.",
+        "Teilweise Besserung durch {linderungsfaktoren}.",
+        "Funktionell: {funktionelle_einschraenkung}.",
+        "Vorbefunde: {vorbefunde_und_diagnostik} (Patientenangabe)."
+      ],
+      "preferred_phrases": {
+        "charakter": [
+          "dumpf-drückend",
+          "ziehend",
+          "stechend",
+          "brennend",
+          "krampfartig",
+          "lasierend"
+        ],
+        "lokalisation": [
+          "lumbal beidseits",
+          "lumbal rechts betont",
+          "lumbal links betont",
+          "lumbosakral",
+          "paravertebral lumbal",
+          "im Bereich L4/L5"
+        ],
+        "ausstrahlung": [
+          "ohne Ausstrahlung",
+          "Ausstrahlung ins Gesäß beidseits",
+          "Ausstrahlung ins rechte Gesäß",
+          "Ausstrahlung in die Oberschenkelrückseite",
+          "Ausstrahlung bis zum Knie, kein Unterschenkel",
+          "Ausstrahlung bis in den Fuß"
+        ],
+        "verlauf": [
+          "chronisch-rezidivierend",
+          "progredient",
+          "fluktuierend mit Exazerbationsphasen",
+          "stabil auf hohem Schmerzniveau",
+          "akute Verschlechterung auf chronischem Hintergrund"
+        ],
+        "verschlechterungsfaktoren": [
+          "längerem Stehen",
+          "längerem Sitzen",
+          "Kälte und Nässe",
+          "körperlicher Belastung",
+          "Heben und Tragen",
+          "Stressbelastung",
+          "morgendlicher Anlaufsteifigkeit"
+        ],
+        "linderungsfaktoren": [
+          "Wärmeapplikation",
+          "Bewegung im flachen Gelände",
+          "Entlastungslagerung",
+          "Schmerzmitteln (temporär)",
+          "Massagen"
+        ]
+      },
+      "examples": [
+        "Dumpf-drückende Schmerzen lumbal beidseits mit Betonung paravertebral links, Ausstrahlung ins linke Gesäß bis zur Oberschenkelrückseite, kein Unterschenkel. Schmerzintensität NRS 5/10 in Ruhe, unter Belastung bis 7/10. Erstmanifestation vor ca. 7 Jahren nach beruflicher Überbelastung, seither chronisch-rezidivierend mit zunehmender Basisschmerzhaftigkeit. Verschlechterung bei längerem Sitzen, Kälte und in beruflichen Belastungsphasen. Teilweise Besserung durch Wärmeapplikation und Entlastungslagerung. Funktionell: Sitztoleranz auf ca. 45 Minuten begrenzt; Heben über 5 kg nicht möglich.",
+        "Stechend-brennende Schmerzen lumbosakral, ohne Ausstrahlung in die Extremitäten. Aktuelle Exazerbation seit 10 Tagen nach schwerem Hebevorgang; chronisches Grundleiden seit ca. 12 Jahren bekannt. Schmerzintensität NRS 7–8/10 bei Bewegung, 4/10 in Ruhe. Morgensteifigkeit ca. 20–30 Minuten. Verschlechterung bei allen Rotationsbewegungen sowie bei Kälte. Kein Fieber, keine Blasen- oder Mastdarmstörungen. Funktionell: Ankleiden und Schuhe anziehen erschwert; Gehstrecke auf ca. 15 Minuten reduziert.",
+        "Ziehende Schmerzen lumbal rechts betont mit Ausstrahlung in die rechte Oberschenkelrückseite bis zum Knie. MRT 2023: Bandscheibenprotrusion L4/L5 rechts (Patientenangabe, Vorbefund liegt nicht vor). Schmerzintensität NRS 6/10 in Ruhe, 9/10 unter Belastung. Verlauf seit ca. 3 Jahren progredient. Verschlechterung bei längerem Stehen, Treppensteigen und Kälteexposition. Partielle Linderung durch Schmerzmittel (NSAR, bei Bedarf). Funktionell: Berufstätigkeit durch häufige Positionswechsel kompensiert; Freizeitaktivitäten wie Radfahren und Wandern vollständig aufgegeben."
+      ]
+    }
+  }
+}
