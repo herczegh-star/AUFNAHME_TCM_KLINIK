@@ -57,5 +57,10 @@ class AppController:
         self.state.current_screen = 3
         self.state.summary = summary
         self.page.controls.clear()
-        ScreenComposer(self.page, self._pipeline, summary).render()
+        ScreenComposer(
+            page=self.page,
+            pipeline=self._pipeline,
+            summary=summary,
+            controller=self,
+        ).render()
         self.page.update()

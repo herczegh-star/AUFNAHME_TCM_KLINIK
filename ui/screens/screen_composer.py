@@ -17,6 +17,7 @@ from core.language_refiner import OpenAIRefinerClient
 from core.template_repository import TemplateRepository
 from models.case_summary import CaseSummary
 from ui.components.summary_panel import SummaryPanel
+from services.document_service import append_blocks_to_docx
 
 
 SYMPTOM_GROUPS = [
@@ -100,21 +101,57 @@ class ScreenComposer:
         page: ft.Page,
         pipeline: tuple[TemplateMatcher, OpenAIRefinerClient | None, TemplateRepository],
         summary: CaseSummary | None = None,
+        controller=None,
     ) -> None:
         self._page = page
         self._matcher, self._llm, self._repo = pipeline
-        self._summary = summary  # available for Phase 4 SummaryPanel; not used in render()
+        self._summary = summary
+        self._controller = controller
 
     def render(self) -> None:
-        page    = self._page
-        matcher = self._matcher
-        llm     = self._llm
-        repo    = self._repo
+        page       = self._page
+        matcher    = self._matcher
+        llm        = self._llm
+        repo       = self._repo
+        controller = self._controller
 
         # --- State ---
         active_fields: dict[str, ft.TextField] = {}
         fields_container = ft.Column(spacing=8)
-        result_column = ft.Column(spacing=16)
+        result_column    = ft.Column(spacing=16)
+        blocks_column    = ft.Column(spacing=8)
+        export_status    = ft.Text("", size=12)
+
+        # --- Block list helpers ---
+        def refresh_blocks_column() -> None:
+            blocks = controller.state.composed_blocks if controller else []
+            blocks_column.controls = [
+                ft.Card(
+                    content=ft.Container(
+                        padding=12,
+                        content=ft.Column(
+                            spacing=4,
+                            controls=[
+                                ft.Text(b, size=12, selectable=True),
+                                ft.TextButton(
+                                    "Entfernen",
+                                    on_click=make_remove_handler(b),
+                                ),
+                            ],
+                        ),
+                    )
+                )
+                for b in blocks
+            ]
+            blocks_column.update()
+            page.update()
+
+        def make_remove_handler(text: str):
+            def on_remove(e: ft.ControlEvent) -> None:
+                if controller and text in controller.state.composed_blocks:
+                    controller.state.composed_blocks.remove(text)
+                refresh_blocks_column()
+            return on_remove
 
         # --- Field builder ---
         def rebuild_fields(cluster: Cluster | None) -> None:
@@ -181,6 +218,13 @@ class ScreenComposer:
                         page.set_clipboard(text)
                     return on_copy
 
+                def make_uebernehmen_handler(text: str):
+                    def on_uebernehmen(e: ft.ControlEvent) -> None:
+                        if controller:
+                            controller.state.composed_blocks.append(text)
+                            refresh_blocks_column()
+                    return on_uebernehmen
+
                 result_column.controls.append(
                     ft.Card(
                         content=ft.Container(
@@ -192,7 +236,10 @@ class ScreenComposer:
                                     ft.Text(t.section, color=ft.Colors.GREY_600, size=12),
                                     ft.Divider(height=1),
                                     ft.Text(filled_text, size=13, selectable=True),
-                                    ft.ElevatedButton("Kopieren", on_click=make_copy_handler(filled_text)),
+                                    ft.Row(controls=[
+                                        ft.ElevatedButton("Kopieren", on_click=make_copy_handler(filled_text)),
+                                        ft.ElevatedButton("Übernehmen", on_click=make_uebernehmen_handler(filled_text)),
+                                    ], spacing=8),
                                 ],
                             ),
                         )
@@ -211,6 +258,32 @@ class ScreenComposer:
 
         rebuild_fields(None)
 
+        def on_export(e: ft.ControlEvent) -> None:
+            if not controller:
+                return
+            path = controller.state.schablone_path
+            if path is None:
+                export_status.value = "Keine Schablone vorhanden."
+                export_status.color = ft.Colors.RED_700
+                page.update()
+                return
+            blocks = controller.state.composed_blocks
+            if not blocks:
+                export_status.value = "Keine Textblöcke ausgewählt."
+                export_status.color = ft.Colors.ORANGE_700
+                page.update()
+                return
+            try:
+                append_blocks_to_docx(path, blocks)
+                controller.state.composed_blocks.clear()
+                refresh_blocks_column()
+                export_status.value = "Text wurde in die Aufnahme übernommen."
+                export_status.color = ft.Colors.GREEN_700
+            except Exception as exc:
+                export_status.value = f"Datei konnte nicht gespeichert werden: {exc}"
+                export_status.color = ft.Colors.RED_700
+            page.update()
+
         composer_column = ft.Column(
             controls=[
                 ft.Text("AUFNAHME TCM KLINIK", size=22, weight=ft.FontWeight.BOLD),
@@ -222,6 +295,14 @@ class ScreenComposer:
                 ft.ElevatedButton("Text generieren", on_click=on_generate),
                 ft.Container(height=16),
                 result_column,
+                ft.Divider(height=24),
+                ft.Text("Ausgewählte Textblöcke", weight=ft.FontWeight.BOLD, size=14),
+                ft.Container(height=8),
+                blocks_column,
+                ft.Container(height=8),
+                ft.ElevatedButton("In Aufnahme übernehmen", on_click=on_export),
+                ft.Container(height=4),
+                export_status,
             ],
             expand=True,
             scroll=ft.ScrollMode.AUTO,
