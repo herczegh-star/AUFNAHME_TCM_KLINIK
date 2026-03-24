@@ -15,6 +15,7 @@ from core.language_refiner import refine_clinical_german
 from core.template_matcher import TemplateMatcher
 from core.language_refiner import OpenAIRefinerClient
 from core.template_repository import TemplateRepository
+from models.case_summary import CaseSummary
 
 
 SYMPTOM_GROUPS = [
@@ -97,9 +98,11 @@ class ScreenComposer:
         self,
         page: ft.Page,
         pipeline: tuple[TemplateMatcher, OpenAIRefinerClient | None, TemplateRepository],
+        summary: CaseSummary | None = None,
     ) -> None:
         self._page = page
         self._matcher, self._llm, self._repo = pipeline
+        self._summary = summary  # available for Phase 4 SummaryPanel; not used in render()
 
     def render(self) -> None:
         page    = self._page
