@@ -16,6 +16,7 @@ from core.template_matcher import TemplateMatcher
 from core.language_refiner import OpenAIRefinerClient
 from core.template_repository import TemplateRepository
 from models.case_summary import CaseSummary
+from ui.components.summary_panel import SummaryPanel
 
 
 SYMPTOM_GROUPS = [
@@ -210,14 +211,28 @@ class ScreenComposer:
 
         rebuild_fields(None)
 
-        page.add(
-            ft.Text("AUFNAHME TCM KLINIK", size=22, weight=ft.FontWeight.BOLD),
-            ft.Container(height=12),
-            symptom_group,
-            ft.Container(height=8),
-            fields_container,
-            ft.Container(height=12),
-            ft.ElevatedButton("Text generieren", on_click=on_generate),
-            ft.Container(height=16),
-            result_column,
+        composer_column = ft.Column(
+            controls=[
+                ft.Text("AUFNAHME TCM KLINIK", size=22, weight=ft.FontWeight.BOLD),
+                ft.Container(height=12),
+                symptom_group,
+                ft.Container(height=8),
+                fields_container,
+                ft.Container(height=12),
+                ft.ElevatedButton("Text generieren", on_click=on_generate),
+                ft.Container(height=16),
+                result_column,
+            ],
+            expand=True,
+            scroll=ft.ScrollMode.AUTO,
         )
+
+        if self._summary:
+            page.add(ft.Row(
+                controls=[composer_column, SummaryPanel(self._summary).build()],
+                spacing=24,
+                vertical_alignment=ft.CrossAxisAlignment.START,
+                expand=True,
+            ))
+        else:
+            page.add(composer_column)
