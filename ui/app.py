@@ -8,11 +8,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import flet as ft
 
-from core.template_repository import Cluster, TemplateRepository
-from core.embedding_index import EmbeddingIndex
-from core.template_matcher import TemplateMatcher
+from core.template_repository import Cluster
 from core.symptom_composer import compose_symptom_text
-from core.language_refiner import refine_clinical_german, OpenAIRefinerClient
+from core.language_refiner import refine_clinical_german
+from services.pipeline_service import PipelineService
 
 
 SYMPTOM_GROUPS = [
@@ -92,24 +91,12 @@ DEFAULT_FIELD_DEFS: list[tuple[str, str, str]] = [
 ]
 
 
-def build_pipeline() -> tuple[TemplateMatcher, OpenAIRefinerClient | None, TemplateRepository]:
-    repo = TemplateRepository()
-    repo.load_templates()
-    index = EmbeddingIndex()
-    index.build_index(repo.get_all_templates())
-    try:
-        llm = OpenAIRefinerClient()
-    except Exception:
-        llm = None
-    return TemplateMatcher(repo, index), llm, repo
-
-
 def main(page: ft.Page) -> None:
     page.title = "AUFNAHME TCM KLINIK"
     page.padding = 24
     page.scroll = ft.ScrollMode.AUTO
 
-    matcher, llm, repo = build_pipeline()
+    matcher, llm, repo = PipelineService().build()
 
     # --- State ---
     active_fields: dict[str, ft.TextField] = {}   # form_data_key → TextField

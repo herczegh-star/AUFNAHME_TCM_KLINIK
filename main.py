@@ -1,32 +1,12 @@
-from core.template_repository import TemplateRepository
-from core.embedding_index import EmbeddingIndex
-from core.template_matcher import TemplateMatcher
+"""
+main.py — application entrypoint
 
+TRANSITIONAL: currently launches ui/app.py::main() directly.
+Phase 2 will replace this with AppController-driven start.
+"""
 
-def main() -> None:
-    print("Loading templates...")
-    repo = TemplateRepository()
-    repo.load_templates()
-
-    print("Building embedding index...")
-    index = EmbeddingIndex()
-    index.build_index(repo.get_all_templates())
-
-    matcher = TemplateMatcher(repo, index)
-
-    print("\nTemplate selection ready.\n")
-
-    query = input("User input:\n> ").strip()
-    results = matcher.find_best_templates(query, top_k=3)
-
-    print("\nTop matches:\n")
-    for i, t in enumerate(results, 1):
-        print(f"{i}.")
-        print(f"Section: {t.section}")
-        print(f"Title:   {t.title}")
-        print(f"Text:\n{t.text}")
-        print()
-
+import flet as ft
+from ui.app import main
 
 if __name__ == "__main__":
-    main()
+    ft.app(target=main)
