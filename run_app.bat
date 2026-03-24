@@ -3,6 +3,6 @@ cd /d %~dp0
 
 call venv\Scripts\activate
 
-python ui/app.py
+python main.py
 
 pause
