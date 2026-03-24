@@ -43,7 +43,7 @@ class AppState:
     Phase 2: instantiated and owned by AppController.
     """
     # Navigation
-    current_screen: int = 1                    # 1 | 2 | 3
+    current_screen: int | str = 1              # 1 | 2 | "summary_review" | 3
 
     # Screen 1
     schablone_generated: bool = False

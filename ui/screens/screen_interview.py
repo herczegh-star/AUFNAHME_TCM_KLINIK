@@ -23,17 +23,33 @@ _QUESTIONS = [
 
 class ScreenInterview:
 
-    def __init__(self, page: ft.Page, controller) -> None:
+    def __init__(self, page: ft.Page, controller, prefill: CaseSummary | None = None) -> None:
         self._page = page
         self._controller = controller
+        self._prefill = prefill
 
     def render(self) -> None:
-        page = self._page
+        page       = self._page
         controller = self._controller
+        prefill    = self._prefill
+
+        _prefill_values = [
+            prefill.main_complaints       if prefill else "",
+            prefill.most_burdensome       if prefill else "",
+            prefill.priority_complaint    if prefill else "",
+            prefill.additional_complaints if prefill else "",
+        ]
 
         fields = [
-            ft.TextField(label=q, multiline=True, min_lines=2, max_lines=4, expand=True)
-            for q in _QUESTIONS
+            ft.TextField(
+                label=q,
+                value=_prefill_values[i],
+                multiline=True,
+                min_lines=2,
+                max_lines=4,
+                expand=True,
+            )
+            for i, q in enumerate(_QUESTIONS)
         ]
 
         def on_weiter(e: ft.ControlEvent) -> None:
@@ -43,7 +59,7 @@ class ScreenInterview:
                 priority_complaint    = fields[2].value.strip(),
                 additional_complaints = fields[3].value.strip(),
             )
-            controller.show_screen_3(summary)
+            controller.show_screen_2b(summary)
 
         page.add(
             ft.Text("AUFNAHME TCM KLINIK", size=22, weight=ft.FontWeight.BOLD),

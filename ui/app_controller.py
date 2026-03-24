@@ -15,6 +15,7 @@ from models.case_summary import AppState, CaseSummary
 from services.pipeline_service import PipelineService
 from ui.screens.screen_welcome import ScreenWelcome
 from ui.screens.screen_interview import ScreenInterview
+from ui.screens.screen_summary_review import ScreenSummaryReview
 from ui.screens.screen_composer import ScreenComposer
 
 
@@ -42,7 +43,14 @@ class AppController:
     def show_screen_2(self) -> None:
         self.state.current_screen = 2
         self.page.controls.clear()
-        ScreenInterview(self.page, self).render()
+        ScreenInterview(self.page, self, prefill=self.state.summary).render()
+        self.page.update()
+
+    def show_screen_2b(self, summary: CaseSummary) -> None:
+        self.state.current_screen = "summary_review"
+        self.state.summary = summary
+        self.page.controls.clear()
+        ScreenSummaryReview(self.page, self).render()
         self.page.update()
 
     def show_screen_3(self, summary: CaseSummary) -> None:
