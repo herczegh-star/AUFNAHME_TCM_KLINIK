@@ -19,6 +19,7 @@ from core.ai_draft.block_loader import BlockLoader
 from core.ai_draft.block_model import Block
 from core.ai_draft.block_selector import BlockSelector
 from core.ai_draft.draft_composer import DraftComposer
+from core.ai_draft.input_normalizer import InputNormalizer
 from core.ai_draft.rule_engine import RuleEngine, RuleEngineResult
 
 
@@ -58,10 +59,11 @@ class DraftPipeline:
     """
 
     def __init__(self) -> None:
-        loader         = BlockLoader()
-        self._selector = BlockSelector(loader)
-        self._engine   = RuleEngine()
-        self._composer = DraftComposer()
+        loader            = BlockLoader()
+        self._normalizer  = InputNormalizer()
+        self._selector    = BlockSelector(loader)
+        self._engine      = RuleEngine()
+        self._composer    = DraftComposer()
 
     # ------------------------------------------------------------------
     # Public API
@@ -79,13 +81,16 @@ class DraftPipeline:
         Returns DraftPipelineResult with draft_text="" and is_valid=False
         if the rule engine finds critical violations or no blocks remain.
         """
-        # Step 1 — select
+        # Step 1 — normalize
+        input_data = self._normalizer.normalize_input(input_data)
+
+        # Step 2 — select
         candidates = self._selector.select_blocks(input_data)
 
-        # Step 2 — validate
+        # Step 3 — validate
         rule_result = self._engine.validate(candidates)
 
-        # Step 3 — compose (only if valid and blocks remain)
+        # Step 4 — compose (only if valid and blocks remain)
         if not rule_result.is_valid or not rule_result.blocks:
             return DraftPipelineResult(
                 draft_text  = "",
