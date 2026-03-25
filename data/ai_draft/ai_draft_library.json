@@ -1,0 +1,936 @@
+{
+  "version": "1.1",
+  "language": "de",
+  "library": [
+
+    {
+      "id": "lws_core_lumbalschmerz_beidseits",
+      "cluster": "LWS-Syndrom",
+      "type": "CORE_SYMPTOM",
+      "semantic": {
+        "localisation": "lumbal",
+        "side": "beidseits",
+        "character": null,
+        "radiation": null,
+        "onset": null
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_mod_charakter_ziehend",
+          "lws_mod_charakter_stechend",
+          "lws_mod_ausstrahlung_bein",
+          "lws_mod_aggravating_sitzen",
+          "lws_mod_relieving_waerme",
+          "lws_func_sitztoleranz",
+          "lws_func_gehstrecke",
+          "lws_assoc_morgensteifigkeit"
+        ],
+        "forbidden_with": [
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links"
+        ],
+        "requires": []
+      },
+      "language": {
+        "variants": [
+          "Schmerzen lumbal beidseits.",
+          "Lumbale Schmerzen beidseits, ohne eindeutige Seitendominanz."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.95,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "lws_core_lumbalschmerz_rechts",
+      "cluster": "LWS-Syndrom",
+      "type": "CORE_SYMPTOM",
+      "semantic": {
+        "localisation": "lumbal",
+        "side": "rechts",
+        "character": null,
+        "radiation": null,
+        "onset": null
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_mod_charakter_ziehend",
+          "lws_mod_charakter_stechend",
+          "lws_mod_ausstrahlung_bein",
+          "lws_mod_aggravating_sitzen",
+          "lws_mod_relieving_waerme",
+          "lws_func_sitztoleranz",
+          "lws_func_gehstrecke",
+          "lws_assoc_morgensteifigkeit"
+        ],
+        "forbidden_with": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_links"
+        ],
+        "requires": []
+      },
+      "language": {
+        "variants": [
+          "Schmerzen lumbal rechts betont.",
+          "Lumbale Schmerzen mit Betonung der rechten Seite."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "lws_core_lumbalschmerz_links",
+      "cluster": "LWS-Syndrom",
+      "type": "CORE_SYMPTOM",
+      "semantic": {
+        "localisation": "lumbal",
+        "side": "links",
+        "character": null,
+        "radiation": null,
+        "onset": null
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_mod_charakter_ziehend",
+          "lws_mod_charakter_stechend",
+          "lws_mod_ausstrahlung_bein",
+          "lws_mod_aggravating_sitzen",
+          "lws_mod_relieving_waerme",
+          "lws_func_sitztoleranz",
+          "lws_func_gehstrecke",
+          "lws_assoc_morgensteifigkeit"
+        ],
+        "forbidden_with": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts"
+        ],
+        "requires": []
+      },
+      "language": {
+        "variants": [
+          "Schmerzen lumbal links betont.",
+          "Lumbale Schmerzen mit Betonung der linken Seite."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "lws_mod_charakter_ziehend",
+      "cluster": "LWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "character",
+        "value": "ziehend"
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links",
+          "lws_mod_charakter_stechend",
+          "lws_mod_ausstrahlung_bein",
+          "lws_mod_aggravating_sitzen",
+          "lws_mod_relieving_waerme",
+          "lws_func_sitztoleranz",
+          "lws_func_gehstrecke"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "ziehend",
+          "dumpf-ziehend"
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "lws_mod_charakter_stechend",
+      "cluster": "LWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "character",
+        "value": "stechend"
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links",
+          "lws_mod_charakter_ziehend",
+          "lws_mod_ausstrahlung_bein",
+          "lws_mod_aggravating_sitzen",
+          "lws_mod_relieving_waerme",
+          "lws_func_sitztoleranz",
+          "lws_func_gehstrecke"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "stechend",
+          "teilweise stechend"
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "lws_mod_ausstrahlung_bein",
+      "cluster": "LWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "radiation",
+        "target_region": "Bein",
+        "side": null,
+        "extent": null
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links",
+          "lws_mod_charakter_ziehend",
+          "lws_mod_charakter_stechend",
+          "lws_mod_aggravating_sitzen",
+          "lws_mod_relieving_waerme",
+          "lws_func_sitztoleranz",
+          "lws_func_gehstrecke"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "mit Ausstrahlung ins Bein.",
+          "Ausstrahlung in die Oberschenkelrückseite."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.85,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "lws_mod_aggravating_sitzen",
+      "cluster": "LWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "aggravating_factor",
+        "trigger": "prolonged_sitting",
+        "trigger_label": "langes Sitzen"
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links",
+          "lws_mod_charakter_ziehend",
+          "lws_mod_charakter_stechend",
+          "lws_mod_ausstrahlung_bein",
+          "lws_mod_relieving_waerme",
+          "lws_func_sitztoleranz",
+          "lws_func_gehstrecke",
+          "lws_assoc_morgensteifigkeit"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "Verschlechterung bei längerem Sitzen.",
+          "Verstärkung der Beschwerden bei längerem Sitzen und statischer Belastung."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "lws_mod_relieving_waerme",
+      "cluster": "LWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "relieving_factor",
+        "trigger": "heat_application",
+        "trigger_label": "Wärme"
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links",
+          "lws_mod_charakter_ziehend",
+          "lws_mod_charakter_stechend",
+          "lws_mod_ausstrahlung_bein",
+          "lws_mod_aggravating_sitzen",
+          "lws_func_sitztoleranz",
+          "lws_func_gehstrecke",
+          "lws_assoc_morgensteifigkeit"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "Teilweise Besserung durch Wärme.",
+          "Linderung durch Wärmeapplikation."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.85,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "lws_func_sitztoleranz",
+      "cluster": "LWS-Syndrom",
+      "type": "FUNCTIONAL_IMPACT",
+      "semantic": {
+        "limitation_type": "sitting_tolerance",
+        "severity": null,
+        "quantification": null
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links",
+          "lws_mod_charakter_ziehend",
+          "lws_mod_charakter_stechend",
+          "lws_mod_ausstrahlung_bein",
+          "lws_mod_aggravating_sitzen",
+          "lws_mod_relieving_waerme",
+          "lws_func_gehstrecke",
+          "lws_assoc_morgensteifigkeit"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "Sitztoleranz deutlich reduziert.",
+          "Funktionell: Sitztoleranz eingeschränkt."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.85,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "lws_func_gehstrecke",
+      "cluster": "LWS-Syndrom",
+      "type": "FUNCTIONAL_IMPACT",
+      "semantic": {
+        "limitation_type": "walking_distance",
+        "severity": null,
+        "quantification": null
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links",
+          "lws_mod_charakter_ziehend",
+          "lws_mod_charakter_stechend",
+          "lws_mod_ausstrahlung_bein",
+          "lws_mod_aggravating_sitzen",
+          "lws_mod_relieving_waerme",
+          "lws_func_sitztoleranz",
+          "lws_assoc_morgensteifigkeit"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "Gehstrecke reduziert.",
+          "Funktionell: Gehstrecke schmerzbedingt eingeschränkt."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.85,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "lws_assoc_morgensteifigkeit",
+      "cluster": "LWS-Syndrom",
+      "type": "ASSOCIATED_SYMPTOM",
+      "semantic": {
+        "symptom": "morning_stiffness",
+        "localisation": "lumbal",
+        "duration_minutes": null,
+        "selective": true
+      },
+      "composition": {
+        "allowed_with": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links",
+          "lws_mod_charakter_ziehend",
+          "lws_mod_charakter_stechend",
+          "lws_mod_aggravating_sitzen",
+          "lws_mod_relieving_waerme",
+          "lws_func_sitztoleranz",
+          "lws_func_gehstrecke"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "lws_core_lumbalschmerz_beidseits",
+          "lws_core_lumbalschmerz_rechts",
+          "lws_core_lumbalschmerz_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "Morgensteifigkeit lumbal.",
+          "Morgensteifigkeit im Lumbalbereich, Besserung nach Anlaufen."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.8,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_core_zervikal_beidseits",
+      "cluster": "HWS-Syndrom",
+      "type": "CORE_SYMPTOM",
+      "semantic": {
+        "localisation": "zervikal",
+        "side": "beidseits",
+        "character": null,
+        "radiation": null,
+        "onset": null
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_mod_charakter_ziehend",
+          "hws_mod_charakter_stechend",
+          "hws_mod_charakter_dumpf",
+          "hws_mod_ausstrahlung_schulter_arm",
+          "hws_mod_aggravating_bildschirm",
+          "hws_mod_relieving_waerme",
+          "hws_func_kopfrotation",
+          "hws_assoc_kopfschmerzen"
+        ],
+        "forbidden_with": [
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links"
+        ],
+        "requires": []
+      },
+      "language": {
+        "variants": [
+          "Schmerzen zervikal beidseits.",
+          "Zervikale Schmerzen beidseits."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_core_zervikal_rechts",
+      "cluster": "HWS-Syndrom",
+      "type": "CORE_SYMPTOM",
+      "semantic": {
+        "localisation": "zervikal",
+        "side": "rechts",
+        "character": null,
+        "radiation": null,
+        "onset": null
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_mod_charakter_ziehend",
+          "hws_mod_charakter_stechend",
+          "hws_mod_charakter_dumpf",
+          "hws_mod_ausstrahlung_schulter_arm",
+          "hws_mod_aggravating_bildschirm",
+          "hws_mod_relieving_waerme",
+          "hws_func_kopfrotation",
+          "hws_assoc_kopfschmerzen"
+        ],
+        "forbidden_with": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_links"
+        ],
+        "requires": []
+      },
+      "language": {
+        "variants": [
+          "Schmerzen zervikal rechts betont.",
+          "Zervikale Schmerzen mit Betonung der rechten Seite."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_core_zervikal_links",
+      "cluster": "HWS-Syndrom",
+      "type": "CORE_SYMPTOM",
+      "semantic": {
+        "localisation": "zervikal",
+        "side": "links",
+        "character": null,
+        "radiation": null,
+        "onset": null
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_mod_charakter_ziehend",
+          "hws_mod_charakter_stechend",
+          "hws_mod_charakter_dumpf",
+          "hws_mod_ausstrahlung_schulter_arm",
+          "hws_mod_aggravating_bildschirm",
+          "hws_mod_relieving_waerme",
+          "hws_func_kopfrotation",
+          "hws_assoc_kopfschmerzen"
+        ],
+        "forbidden_with": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts"
+        ],
+        "requires": []
+      },
+      "language": {
+        "variants": [
+          "Schmerzen zervikal links betont.",
+          "Zervikale Schmerzen mit Betonung der linken Seite."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_mod_charakter_ziehend",
+      "cluster": "HWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "character",
+        "value": "ziehend"
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links",
+          "hws_mod_charakter_stechend",
+          "hws_mod_charakter_dumpf",
+          "hws_mod_ausstrahlung_schulter_arm",
+          "hws_mod_aggravating_bildschirm",
+          "hws_mod_relieving_waerme",
+          "hws_func_kopfrotation"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "ziehend",
+          "dumpf-ziehend"
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_mod_charakter_stechend",
+      "cluster": "HWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "character",
+        "value": "stechend"
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links",
+          "hws_mod_charakter_ziehend",
+          "hws_mod_charakter_dumpf",
+          "hws_mod_ausstrahlung_schulter_arm",
+          "hws_mod_aggravating_bildschirm",
+          "hws_mod_relieving_waerme",
+          "hws_func_kopfrotation"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "stechend",
+          "teilweise stechend"
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_mod_charakter_dumpf",
+      "cluster": "HWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "character",
+        "value": "dumpf"
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links",
+          "hws_mod_charakter_ziehend",
+          "hws_mod_charakter_stechend",
+          "hws_mod_ausstrahlung_schulter_arm",
+          "hws_mod_aggravating_bildschirm",
+          "hws_mod_relieving_waerme",
+          "hws_func_kopfrotation"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "dumpf",
+          "dumpf-drückend"
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_mod_ausstrahlung_schulter_arm",
+      "cluster": "HWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "radiation",
+        "target_region": "Schulter/Arm",
+        "side": null,
+        "extent": null
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links",
+          "hws_mod_charakter_ziehend",
+          "hws_mod_charakter_stechend",
+          "hws_mod_charakter_dumpf",
+          "hws_mod_aggravating_bildschirm",
+          "hws_mod_relieving_waerme",
+          "hws_func_kopfrotation"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "mit Ausstrahlung in Schulter und Arm.",
+          "Ausstrahlung in die Schulter-Arm-Region."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.85,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_mod_aggravating_bildschirm",
+      "cluster": "HWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "aggravating_factor",
+        "trigger": "screen_work",
+        "trigger_label": "längere Bildschirmarbeit"
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links",
+          "hws_mod_charakter_ziehend",
+          "hws_mod_charakter_stechend",
+          "hws_mod_charakter_dumpf",
+          "hws_mod_ausstrahlung_schulter_arm",
+          "hws_mod_relieving_waerme",
+          "hws_func_kopfrotation",
+          "hws_assoc_kopfschmerzen"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "Verschlechterung bei längerer Bildschirmarbeit.",
+          "Verstärkung der Beschwerden bei statischer Kopfhaltung und Bildschirmarbeit."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.9,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_mod_relieving_waerme",
+      "cluster": "HWS-Syndrom",
+      "type": "MODIFIER",
+      "semantic": {
+        "modifier_type": "relieving_factor",
+        "trigger": "heat_application",
+        "trigger_label": "Wärme"
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links",
+          "hws_mod_charakter_ziehend",
+          "hws_mod_charakter_stechend",
+          "hws_mod_charakter_dumpf",
+          "hws_mod_ausstrahlung_schulter_arm",
+          "hws_mod_aggravating_bildschirm",
+          "hws_func_kopfrotation",
+          "hws_assoc_kopfschmerzen"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "Teilweise Besserung durch Wärme.",
+          "Linderung durch Wärmeapplikation zervikal."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.85,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_func_kopfrotation",
+      "cluster": "HWS-Syndrom",
+      "type": "FUNCTIONAL_IMPACT",
+      "semantic": {
+        "limitation_type": "head_rotation",
+        "severity": null,
+        "quantification": null
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links",
+          "hws_mod_charakter_ziehend",
+          "hws_mod_charakter_stechend",
+          "hws_mod_charakter_dumpf",
+          "hws_mod_ausstrahlung_schulter_arm",
+          "hws_mod_aggravating_bildschirm",
+          "hws_mod_relieving_waerme",
+          "hws_assoc_kopfschmerzen"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "Kopfrotation schmerzhaft eingeschränkt.",
+          "Funktionell: Rotation und Seitneigung der HWS schmerzhaft begrenzt."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.85,
+        "source": "manual_curation",
+        "validated": true
+      }
+    },
+
+    {
+      "id": "hws_assoc_kopfschmerzen",
+      "cluster": "HWS-Syndrom",
+      "type": "ASSOCIATED_SYMPTOM",
+      "semantic": {
+        "symptom": "cervicogenic_headache",
+        "localisation": "zervikal",
+        "selective": true
+      },
+      "composition": {
+        "allowed_with": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links",
+          "hws_mod_charakter_ziehend",
+          "hws_mod_charakter_stechend",
+          "hws_mod_charakter_dumpf",
+          "hws_mod_aggravating_bildschirm",
+          "hws_mod_relieving_waerme",
+          "hws_func_kopfrotation"
+        ],
+        "forbidden_with": [],
+        "requires": [
+          "hws_core_zervikal_beidseits",
+          "hws_core_zervikal_rechts",
+          "hws_core_zervikal_links"
+        ]
+      },
+      "language": {
+        "variants": [
+          "Begleitend zervikogene Kopfschmerzen.",
+          "Zervikogene Kopfschmerzen als Begleitsymptom."
+        ],
+        "language_code": "de"
+      },
+      "quality": {
+        "score": 0.8,
+        "source": "manual_curation",
+        "validated": true
+      }
+    }
+
+  ]
+}

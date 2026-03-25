@@ -22,6 +22,7 @@ from core.draft_schema import SymptomDraftInput
 from core.prompt_builder import PromptBuilder
 from services.style_library_service import StyleLibraryService
 from services.ai_draft_service import AIDraftService
+from core.ai_draft.draft_pipeline import DraftPipeline
 
 
 SYMPTOM_GROUPS = [
@@ -290,7 +291,17 @@ class ScreenComposer:
 
         # --- AI draft service ---
         _ai_svc = StyleLibraryService()
-        _ai_service = AIDraftService(_ai_svc, PromptBuilder())
+        _ai_service    = AIDraftService(_ai_svc, PromptBuilder())
+        _draft_pipeline = DraftPipeline()
+
+        # --- Kompositionsmodus ---
+        komp_mode = ft.RadioGroup(
+            content=ft.Row(controls=[
+                ft.Radio(value="KI-gestützt",     label="KI-gestützt"),
+                ft.Radio(value="Deterministisch", label="Deterministisch (Pilot)"),
+            ]),
+            value="KI-gestützt",
+        )
 
         # --- AI draft form fields ---
         _cluster_names = _ai_svc.get_cluster_names()
@@ -308,6 +319,27 @@ class ScreenComposer:
         ai_relieving         = ft.TextField(label="Linderung",              hint_text="Wärme, Massage, …",           expand=True)
         ai_func_limitations  = ft.TextField(label="Funktionelle Einschr.", hint_text="Gehstrecke, Sitztoleranz, …", expand=True)
         ai_additional_notes  = ft.TextField(label="Zusatzhinweise",         hint_text="Freier Text",                 expand=True, multiline=True, min_lines=2, max_lines=4)
+        ai_side = ft.Dropdown(
+            label="Seite",
+            hint_text="optional",
+            options=[
+                ft.dropdown.Option("beidseits"),
+                ft.dropdown.Option("rechts"),
+                ft.dropdown.Option("links"),
+            ],
+            expand=True,
+        )
+
+        debug_blocks_field = ft.TextField(
+            label="Blocks used",
+            multiline=True, min_lines=2, max_lines=5,
+            read_only=True, expand=True,
+        )
+        debug_violations_field = ft.TextField(
+            label="Violations",
+            multiline=True, min_lines=2, max_lines=4,
+            read_only=True, expand=True,
+        )
 
         def on_ai_cluster_change(e: ft.ControlEvent) -> None:
             hints = _CLUSTER_HINTS.get(ai_cluster.value or "", _DEFAULT_HINTS)
@@ -344,10 +376,15 @@ class ScreenComposer:
         debug_container = ft.Column(
             controls=[
                 ft.Divider(height=16),
-                ft.Text("Prompt-Debug", weight=ft.FontWeight.BOLD, size=12, color=ft.Colors.GREY_600),
+                ft.Text("Prompt-Debug (KI-gestützt)", weight=ft.FontWeight.BOLD, size=12, color=ft.Colors.GREY_600),
                 debug_system_field,
                 ft.Container(height=8),
                 debug_user_field,
+                ft.Divider(height=12),
+                ft.Text("Pipeline-Debug (Deterministisch)", weight=ft.FontWeight.BOLD, size=12, color=ft.Colors.GREY_600),
+                debug_blocks_field,
+                ft.Container(height=4),
+                debug_violations_field,
             ],
             visible=False,
         )
@@ -365,6 +402,54 @@ class ScreenComposer:
             def split_csv(val: str) -> list[str]:
                 return [x.strip() for x in val.split(",") if x.strip()]
 
+            # ----------------------------------------------------------------
+            # Deterministisch (Pilot) — DraftPipeline
+            # ----------------------------------------------------------------
+            if komp_mode.value == "Deterministisch":
+                input_data: dict = {
+                    "cluster":              ai_cluster.value or _cluster_default,
+                    "character":            split_csv(ai_pain_quality.value),
+                    "radiation":            bool(ai_radiation.value.strip()),
+                    "aggravating_factor":   ai_aggravating.value.strip() or None,
+                    "relieving_factor":     ai_relieving.value.strip() or None,
+                    "functional_limitations": split_csv(ai_func_limitations.value),
+                }
+                side = (ai_side.value or "").strip()
+                if side:
+                    input_data["side"] = side
+
+                try:
+                    det_result = _draft_pipeline.run(input_data)
+                    if det_result.is_valid:
+                        draft_result_field.value    = det_result.draft_text
+                        draft_status.value          = "✓ Deterministisch: OK"
+                        draft_status.color          = ft.Colors.GREEN_700
+                        draft_result_field.border_color = ft.Colors.GREEN_700
+                    else:
+                        draft_result_field.value    = ""
+                        violations_text = "\n".join(
+                            f"✗ {v}" for v in det_result.rule_result.violations
+                        ) or "✗ Pipeline fehlgeschlagen (unbekannter Grund)."
+                        draft_status.value          = violations_text
+                        draft_status.color          = ft.Colors.RED_700
+                        draft_result_field.border_color = ft.Colors.RED_700
+                    if debug_checkbox.value:
+                        debug_blocks_field.value     = "\n".join(
+                            b.id for b in det_result.blocks_used
+                        ) or "(keine)"
+                        debug_violations_field.value = "\n".join(
+                            det_result.rule_result.violations
+                        ) or "(keine)"
+                except Exception as exc:
+                    draft_result_field.value    = ""
+                    draft_status.value          = f"Fehler: {exc}"
+                    draft_status.color          = ft.Colors.RED_700
+                page.update()
+                return
+
+            # ----------------------------------------------------------------
+            # KI-gestützt — bestehende Pipeline, unverändert
+            # ----------------------------------------------------------------
             inp = SymptomDraftInput(
                 cluster             = ai_cluster.value or _cluster_default,
                 duration            = ai_duration.value.strip() or None,
@@ -489,9 +574,11 @@ class ScreenComposer:
 
         ai_draft_container = ft.Column(
             controls=[
-                ft.Row(controls=[ai_cluster, ai_duration],       spacing=12),
-                ft.Row(controls=[ai_pain_quality, ai_radiation], spacing=12),
-                ft.Row(controls=[ai_aggravating, ai_relieving],          spacing=12),
+                komp_mode,
+                ft.Container(height=8),
+                ft.Row(controls=[ai_cluster, ai_side, ai_duration],  spacing=12),
+                ft.Row(controls=[ai_pain_quality, ai_radiation],     spacing=12),
+                ft.Row(controls=[ai_aggravating, ai_relieving],      spacing=12),
                 ft.Row(controls=[ai_func_limitations, ai_additional_notes], spacing=12),
                 ft.Container(height=12),
                 debug_checkbox,
