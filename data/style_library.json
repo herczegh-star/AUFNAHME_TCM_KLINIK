@@ -84,6 +84,108 @@
         "Stechend-brennende Schmerzen lumbosakral, ohne Ausstrahlung in die Extremitäten. Aktuelle Exazerbation seit 10 Tagen nach schwerem Hebevorgang; chronisches Grundleiden seit ca. 12 Jahren bekannt. Schmerzintensität NRS 7–8/10 bei Bewegung, 4/10 in Ruhe. Morgensteifigkeit ca. 20–30 Minuten. Verschlechterung bei allen Rotationsbewegungen sowie bei Kälte. Kein Fieber, keine Blasen- oder Mastdarmstörungen. Funktionell: Ankleiden und Schuhe anziehen erschwert; Gehstrecke auf ca. 15 Minuten reduziert.",
         "Ziehende Schmerzen lumbal rechts betont mit Ausstrahlung in die rechte Oberschenkelrückseite bis zum Knie. MRT 2023: Bandscheibenprotrusion L4/L5 rechts (Patientenangabe, Vorbefund liegt nicht vor). Schmerzintensität NRS 6/10 in Ruhe, 9/10 unter Belastung. Verlauf seit ca. 3 Jahren progredient. Verschlechterung bei längerem Stehen, Treppensteigen und Kälteexposition. Partielle Linderung durch Schmerzmittel (NSAR, bei Bedarf). Funktionell: Berufstätigkeit durch häufige Positionswechsel kompensiert; Freizeitaktivitäten wie Radfahren und Wandern vollständig aufgegeben."
       ]
-    }
+    },
+    "HWS-Syndrom": {
+  "meta": {
+    "cluster_id": "HWS-Syndrom",
+    "icd10": ["M54.82", "M53.1", "M53.0"],
+    "beschreibung": "Zervikales Schmerzsyndrom – klinisch-sachliche Beschreibung von Schmerzcharakter, Ausstrahlung, Verlauf, Begleitsymptomen, Auslösern und funktioneller Einschränkung. Ohne diagnostische Schlussfolgerung, ohne Therapieempfehlung.",
+    "stil": "Verdichtungsstil, klinisch-sachlich, Präsens, passiv wo angemessen"
+  },
+  "rules": [
+    "Schmerz immer mit Seitendominanz und Charakter beschreiben.",
+    "Ausstrahlung explizit angeben oder negieren.",
+    "Verlauf in komprimierter Form: Beginn, Entwicklung, aktueller Status.",
+    "Intensität mit NRS-Wert oder qualitativer Angabe (erträglich / beeinträchtigend / invalidisierend), keine subjektiven Superlative.",
+    "Begleitsymptome wie Nacken-Schulter-Verspannungen, Kopfschmerzen, Schwindel oder Gefühlsstörungen knapp und getrennt formulieren.",
+    "Verschlechterungsfaktoren konkret benennen – nur was der Patient angibt.",
+    "Linderungsfaktoren präzise, ohne Wertung.",
+    "Keine diagnostischen Interpretationen, es sei denn der Patient berichtet von gestellten Diagnosen.",
+    "Funktionelle Einschränkung konkret und alltagsbezogen formulieren.",
+    "Keine Therapieempfehlungen, keine Prognose, kein Ausdruck von Erwartung oder Hoffnung.",
+    "Sätze kurz halten. Hauptaussage pro Satz. Kein Füllwerk."
+  ],
+  "preferred_patterns": [
+    "Zervikalgien {seite} mit {charakter}em Schmerzcharakter.",
+    "Ausstrahlung {ausstrahlung}.",
+    "Erstmanifestation {beginn}.",
+    "{verlauf}.",
+    "{verspannung}.",
+    "{neurologie}.",
+    "{kopfschmerzen}.",
+    "{schwindel}.",
+    "Verschlechterung bei {verschlechterungsfaktoren}.",
+    "Besserung durch {linderungsfaktoren}.",
+    "{kontext_etiologie}.",
+    "Funktionell: {funktionelle_einschraenkung}."
+  ],
+  "preferred_phrases": {
+    "charakter": [
+      "dumpf-drückend",
+      "ziehend",
+      "stechend",
+      "brennend"
+    ],
+    "seite": [
+      "beidseits",
+      "links betont",
+      "rechts betont"
+    ],
+    "ausstrahlung": [
+      "ohne Ausstrahlung",
+      "in die Schulter beidseits",
+      "in die linke Schulter",
+      "in die rechte Schulter",
+      "in den linken Oberarm",
+      "in den rechten Oberarm",
+      "in den linken Arm",
+      "in den rechten Arm",
+      "in den Hinterkopf"
+    ],
+    "verlauf": [
+      "Chronisch-rezidivierender Verlauf",
+      "Progredienter Verlauf",
+      "Fluktuierender Verlauf mit Exazerbationsphasen",
+      "Stabil auf hohem Beschwerdniveau",
+      "Akute Verschlechterung auf chronischem Hintergrund"
+    ],
+    "verspannung": [
+      "Ausgeprägte Verspannungen im Nacken-Schulter-Bereich",
+      "Deutliche muskuläre Verspannungen im Nacken-Schulter-Bereich"
+    ],
+    "neurologie": [
+      "Gelegentlich Gefühlsstörungen"
+    ],
+    "kopfschmerzen": [
+      "Begleitend Kopfschmerzen"
+    ],
+    "schwindel": [
+      "Gelegentlich Schwindel"
+    ],
+    "verschlechterungsfaktoren": [
+      "Fehlhaltung",
+      "längerer statischer Tätigkeit",
+      "körperlicher Belastung",
+      "Stressbelastung"
+    ],
+    "linderungsfaktoren": [
+      "Wärme",
+      "manuelle Therapie",
+      "Massagen",
+      "Schonung"
+    ],
+    "kontext_etiologie": [
+      "Z. n. Bandscheibenvorfall C5/C6",
+      "Degenerative Veränderungen der HWS bekannt",
+      "Z. n. HWS-Distorsion",
+      "Z. n. Schleudertrauma"
+    ]
+  },
+  "examples": [
+    "Zervikalgien links betont mit ziehendem Schmerzcharakter. Ausstrahlung in die linke Schulter und den linken Oberarm. Erstmanifestation vor 10 Jahren. Chronisch-rezidivierender Verlauf. Ausgeprägte Verspannungen im Nacken-Schulter-Bereich. Gelegentlich Gefühlsstörungen. Begleitend Kopfschmerzen. Verschlechterung bei Fehlhaltung. Besserung durch Wärme. Z. n. Bandscheibenvorfall C5/C6.",
+    "Zervikalgien rechts betont mit dumpf-drückendem Schmerzcharakter. Ausstrahlung in den rechten Arm. Erstmanifestation vor 7 Jahren. Progredienter Verlauf. Deutliche muskuläre Verspannungen im Nacken-Schulter-Bereich. Gelegentlich Schwindel. Verschlechterung bei längerer statischer Tätigkeit. Besserung durch manuelle Therapie. Degenerative Veränderungen der HWS bekannt.",
+    "Zervikalgien beidseits mit brennendem Schmerzcharakter. Ausstrahlung in den Hinterkopf. Erstmanifestation vor 12 Jahren. Fluktuierender Verlauf mit Exazerbationsphasen. Ausgeprägte Verspannungen im Nacken-Schulter-Bereich. Begleitend Kopfschmerzen. Verschlechterung bei Stressbelastung. Besserung durch Schonung. Z. n. Schleudertrauma."
+  ]
+}
   }
 }
