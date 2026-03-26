@@ -58,9 +58,7 @@
         "verlauf": [
           "chronisch-rezidivierend",
           "progredient",
-          "fluktuierend mit Exazerbationsphasen",
-          "stabil auf hohem Schmerzniveau",
-          "akute Verschlechterung auf chronischem Hintergrund"
+          "fluktuierend mit Exazerbationsphasen"
         ],
         "verschlechterungsfaktoren": [
           "längerem Stehen",
@@ -145,9 +143,7 @@
     "verlauf": [
       "Chronisch-rezidivierender Verlauf",
       "Progredienter Verlauf",
-      "Fluktuierender Verlauf mit Exazerbationsphasen",
-      "Stabil auf hohem Beschwerdniveau",
-      "Akute Verschlechterung auf chronischem Hintergrund"
+      "Fluktuierender Verlauf mit Exazerbationsphasen"
     ],
     "verspannung": [
       "Ausgeprägte Verspannungen im Nacken-Schulter-Bereich",

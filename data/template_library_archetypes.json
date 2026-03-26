@@ -11,5 +11,22 @@
         "text": "Die Patientin leidet seit ca. 5 Jahren unter intermittierenden Schmerzen im LWS-Bereich mit überwiegend ziehendem, teilweise stechendem Schmerzcharakter. Es besteht eine Ausstrahlung in die Beine, linksbetont, mit zeitweisem Kribbeln in den Zehen. Anamnestisch ist ein Bandscheibenvorfall auf Höhe LWK 5/SWK 1 bekannt, der konservativ behandelt wurde. Eine kurzzeitige Besserung wird durch lokale Wärme, manuelle Therapie sowie Krankengymnastik angegeben. Längeres Sitzen, Stehen, Stress und Kälte führen zu einer Verschlechterung der Symptomatik."
       }
     }
+  },
+  "HWS-Syndrom": {
+  "icd_code": ["M54.82", "M53.1", "M53.0"],
+  "patterns": {
+    "HWS1": {
+      "type": "mechanical",
+      "text": "Zervikalgien links betont mit ziehendem Schmerzcharakter.\nAusstrahlung in die linke Schulter und den linken Oberarm.\nAusgeprägte Verspannungen im Nacken-Schulter-Bereich.\nVerschlechterung bei Fehlhaltung.\nBesserung durch Wärme."
+    },
+    "HWS2": {
+      "type": "neurogenic",
+      "text": "Zervikalgien rechts betont mit dumpf-drückendem Schmerzcharakter.\nAusstrahlung in den rechten Arm.\nGelegentlich Gefühlsstörungen.\nGelegentlich Schwindel.\nBegleitend Kopfschmerzen.\nDeutliche Verspannungen im Nacken-Schulter-Bereich."
+    },
+    "HWS3": {
+      "type": "chronic_complex",
+      "text": "Zervikalgien beidseits mit brennendem Schmerzcharakter.\nAusstrahlung in den Hinterkopf.\nChronisch-rezidivierender Verlauf.\nDegenerative Veränderungen der HWS bekannt.\nAusgeprägte Verspannungen im Nacken-Schulter-Bereich.\nBesserung durch manuelle Therapie."
+    }
+  }
   }
 }
