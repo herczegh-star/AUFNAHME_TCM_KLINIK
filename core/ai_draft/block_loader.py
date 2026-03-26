@@ -31,6 +31,13 @@ from core.ai_draft.block_model import (
     BlockQuality,
     BlockType,
 )
+# Shared pain layer — available as a convenience import for callers
+# that want both cluster blocks and shared modules from a single import.
+from core.ai_draft.shared_pain_loader import (  # noqa: F401  (re-export)
+    get_allowed_modules_with_definitions,
+    get_cluster_family_info,
+    get_family_allowed_modules,
+)
 
 
 class BlockLoaderError(Exception):

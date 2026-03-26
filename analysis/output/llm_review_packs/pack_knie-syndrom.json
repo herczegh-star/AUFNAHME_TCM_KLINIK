@@ -1,0 +1,863 @@
+{
+  "seed_cluster": "Knie-Syndrom",
+  "seed_docs": 487,
+  "seed_examples": [
+    "Knie",
+    "Knieschmerzen",
+    "Gonarthrose"
+  ],
+  "sections": [
+    {
+      "type": "side",
+      "items": [
+        {
+          "canonical": "beidseits",
+          "type": "side",
+          "cluster": null,
+          "docs": 1256,
+          "examples": [
+            "bds",
+            "beidseits",
+            "beidseitig"
+          ]
+        },
+        {
+          "canonical": "rechts",
+          "type": "side",
+          "cluster": null,
+          "docs": 379,
+          "examples": [
+            "rechts",
+            "rechtsbetont",
+            "rechtsseitig"
+          ]
+        },
+        {
+          "canonical": "links",
+          "type": "side",
+          "cluster": null,
+          "docs": 338,
+          "examples": [
+            "links",
+            "linksseitig",
+            "linksbetont"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "character",
+      "items": [
+        {
+          "canonical": "ziehend",
+          "type": "character",
+          "cluster": null,
+          "docs": 489,
+          "examples": [
+            "ziehend",
+            "ziehenden",
+            "ziehender"
+          ]
+        },
+        {
+          "canonical": "stechend",
+          "type": "character",
+          "cluster": null,
+          "docs": 461,
+          "examples": [
+            "stechend",
+            "stechenden",
+            "stechende"
+          ]
+        },
+        {
+          "canonical": "dumpf",
+          "type": "character",
+          "cluster": null,
+          "docs": 257,
+          "examples": [
+            "dumpf",
+            "drückend",
+            "drückende"
+          ]
+        },
+        {
+          "canonical": "brennend",
+          "type": "character",
+          "cluster": null,
+          "docs": 219,
+          "examples": [
+            "brennenden",
+            "brennende",
+            "brennend"
+          ]
+        },
+        {
+          "canonical": "pulsierend",
+          "type": "character",
+          "cluster": null,
+          "docs": 27,
+          "examples": [
+            "pulsierend",
+            "pulsierender",
+            "pulsierende"
+          ]
+        },
+        {
+          "canonical": "bohrend",
+          "type": "character",
+          "cluster": null,
+          "docs": 26,
+          "examples": [
+            "bohrend",
+            "bohrenden",
+            "bohrende"
+          ]
+        },
+        {
+          "canonical": "krampfartig",
+          "type": "character",
+          "cluster": null,
+          "docs": 13,
+          "examples": [
+            "krampfartig",
+            "krampfend"
+          ]
+        },
+        {
+          "canonical": "elektrisierend",
+          "type": "character",
+          "cluster": null,
+          "docs": 9,
+          "examples": [
+            "elektrisierend",
+            "elektrisierende",
+            "elektrisierenden"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "aggravating",
+      "items": [
+        {
+          "canonical": "Kälte",
+          "type": "aggravating",
+          "cluster": null,
+          "docs": 744,
+          "examples": [
+            "kalte",
+            "Kälte"
+          ]
+        },
+        {
+          "canonical": "Stress",
+          "type": "aggravating",
+          "cluster": null,
+          "docs": 291,
+          "examples": [
+            "Stress",
+            "psychischer Belastung",
+            "psychische Belastung"
+          ]
+        },
+        {
+          "canonical": "langes Stehen",
+          "type": "aggravating",
+          "cluster": null,
+          "docs": 232,
+          "examples": [
+            "stehen",
+            "längere Stehen",
+            "längeres Stehen"
+          ]
+        },
+        {
+          "canonical": "langes Sitzen",
+          "type": "aggravating",
+          "cluster": null,
+          "docs": 205,
+          "examples": [
+            "Sitzen",
+            "Langes Sitzen",
+            "längere Sitzen"
+          ]
+        },
+        {
+          "canonical": "Belastung",
+          "type": "aggravating",
+          "cluster": null,
+          "docs": 96,
+          "examples": [
+            "körperlicher Belastung",
+            "körperliche Belastung",
+            "Anstrengung"
+          ]
+        },
+        {
+          "canonical": "Treppensteigen",
+          "type": "aggravating",
+          "cluster": null,
+          "docs": 32,
+          "examples": [
+            "Treppensteigen",
+            "Treppengehen"
+          ]
+        },
+        {
+          "canonical": "längere Bildschirmarbeit",
+          "type": "aggravating",
+          "cluster": null,
+          "docs": 10,
+          "examples": [
+            "Computer",
+            "Bildschirmarbeit",
+            "Computerarbeit"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "relieving",
+      "items": [
+        {
+          "canonical": "Wärme",
+          "type": "relieving",
+          "cluster": null,
+          "docs": 588,
+          "examples": [
+            "warm",
+            "Wärme",
+            "Wärmeanwendung"
+          ]
+        },
+        {
+          "canonical": "Ruhe",
+          "type": "relieving",
+          "cluster": null,
+          "docs": 173,
+          "examples": [
+            "Ruhe",
+            "Ausruhen"
+          ]
+        },
+        {
+          "canonical": "Liegen",
+          "type": "relieving",
+          "cluster": null,
+          "docs": 157,
+          "examples": [
+            "liegen",
+            "hinlegen",
+            "hängt"
+          ]
+        },
+        {
+          "canonical": "Bewegung",
+          "type": "relieving",
+          "cluster": null,
+          "docs": 59,
+          "examples": [
+            "leichte Bewegung",
+            "Spaziergang",
+            "leichter Bewegung"
+          ]
+        },
+        {
+          "canonical": "Massage",
+          "type": "relieving",
+          "cluster": null,
+          "docs": 58,
+          "examples": [
+            "Massagen",
+            "Massage",
+            "Massagetherapie"
+          ]
+        },
+        {
+          "canonical": "Dehnung",
+          "type": "relieving",
+          "cluster": null,
+          "docs": 13,
+          "examples": [
+            "dehnen",
+            "Dehnung",
+            "Strecken"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "radiation",
+      "items": [
+        {
+          "canonical": "Ausstrahlung",
+          "type": "radiation",
+          "cluster": null,
+          "docs": 290,
+          "examples": [
+            "Ausstrahlung",
+            "ausstrahlend",
+            "strahlt in"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "functional",
+      "items": [
+        {
+          "canonical": "sleep_quality",
+          "type": "functional",
+          "cluster": null,
+          "docs": 123,
+          "examples": [
+            "Schlafstörungen",
+            "Schlafqualität",
+            "Schlafstörung"
+          ]
+        },
+        {
+          "canonical": "bending",
+          "type": "functional",
+          "cluster": null,
+          "docs": 25,
+          "examples": [
+            "Bücken",
+            "beugen ist"
+          ]
+        },
+        {
+          "canonical": "walking_distance",
+          "type": "functional",
+          "cluster": null,
+          "docs": 24,
+          "examples": [
+            "Gehstrecke",
+            "langes Gehen",
+            "Gehfähigkeit"
+          ]
+        },
+        {
+          "canonical": "sitting_tolerance",
+          "type": "functional",
+          "cluster": null,
+          "docs": 17,
+          "examples": [
+            "Langes Sitzen",
+            "Lange Sitzen",
+            "Sitzdauer"
+          ]
+        },
+        {
+          "canonical": "lifting",
+          "type": "functional",
+          "cluster": null,
+          "docs": 2,
+          "examples": [
+            "schweres Heben"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "associated",
+      "items": [
+        {
+          "canonical": "schwäche",
+          "type": "associated",
+          "cluster": null,
+          "docs": 1010,
+          "examples": [
+            "Kraft",
+            "Kraftlosigkeit",
+            "Schwäche"
+          ]
+        },
+        {
+          "canonical": "erschöpfung",
+          "type": "associated",
+          "cluster": null,
+          "docs": 611,
+          "examples": [
+            "erschöpft",
+            "Erschöpfung",
+            "müde"
+          ]
+        },
+        {
+          "canonical": "tinnitus",
+          "type": "associated",
+          "cluster": null,
+          "docs": 148,
+          "examples": [
+            "Tinnitus",
+            "Ohrgeräusch",
+            "Ohrgeräusche"
+          ]
+        },
+        {
+          "canonical": "kribbeln",
+          "type": "associated",
+          "cluster": null,
+          "docs": 87,
+          "examples": [
+            "Kribbeln",
+            "Kribbelgefühl",
+            "Parästhesien"
+          ]
+        },
+        {
+          "canonical": "schwindel",
+          "type": "associated",
+          "cluster": null,
+          "docs": 83,
+          "examples": [
+            "Schwindel",
+            "Schwindelgefühl",
+            "Drehschwindel"
+          ]
+        },
+        {
+          "canonical": "taubheit",
+          "type": "associated",
+          "cluster": null,
+          "docs": 73,
+          "examples": [
+            "Taubheit",
+            "Taubheitsgefühl"
+          ]
+        },
+        {
+          "canonical": "morning_stiffness",
+          "type": "associated",
+          "cluster": null,
+          "docs": 62,
+          "examples": [
+            "Morgensteifigkeit",
+            "Steifigkeit morgens",
+            "Morgensteife"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_candidates": [
+    {
+      "canonical": "beidseits",
+      "type": "side",
+      "cluster": null,
+      "docs": 1256,
+      "examples": [
+        "bds",
+        "beidseits",
+        "beidseitig"
+      ]
+    },
+    {
+      "canonical": "rechts",
+      "type": "side",
+      "cluster": null,
+      "docs": 379,
+      "examples": [
+        "rechts",
+        "rechtsbetont",
+        "rechtsseitig"
+      ]
+    },
+    {
+      "canonical": "links",
+      "type": "side",
+      "cluster": null,
+      "docs": 338,
+      "examples": [
+        "links",
+        "linksseitig",
+        "linksbetont"
+      ]
+    },
+    {
+      "canonical": "ziehend",
+      "type": "character",
+      "cluster": null,
+      "docs": 489,
+      "examples": [
+        "ziehend",
+        "ziehenden",
+        "ziehender"
+      ]
+    },
+    {
+      "canonical": "stechend",
+      "type": "character",
+      "cluster": null,
+      "docs": 461,
+      "examples": [
+        "stechend",
+        "stechenden",
+        "stechende"
+      ]
+    },
+    {
+      "canonical": "dumpf",
+      "type": "character",
+      "cluster": null,
+      "docs": 257,
+      "examples": [
+        "dumpf",
+        "drückend",
+        "drückende"
+      ]
+    },
+    {
+      "canonical": "brennend",
+      "type": "character",
+      "cluster": null,
+      "docs": 219,
+      "examples": [
+        "brennenden",
+        "brennende",
+        "brennend"
+      ]
+    },
+    {
+      "canonical": "pulsierend",
+      "type": "character",
+      "cluster": null,
+      "docs": 27,
+      "examples": [
+        "pulsierend",
+        "pulsierender",
+        "pulsierende"
+      ]
+    },
+    {
+      "canonical": "bohrend",
+      "type": "character",
+      "cluster": null,
+      "docs": 26,
+      "examples": [
+        "bohrend",
+        "bohrenden",
+        "bohrende"
+      ]
+    },
+    {
+      "canonical": "krampfartig",
+      "type": "character",
+      "cluster": null,
+      "docs": 13,
+      "examples": [
+        "krampfartig",
+        "krampfend"
+      ]
+    },
+    {
+      "canonical": "elektrisierend",
+      "type": "character",
+      "cluster": null,
+      "docs": 9,
+      "examples": [
+        "elektrisierend",
+        "elektrisierende",
+        "elektrisierenden"
+      ]
+    },
+    {
+      "canonical": "Kälte",
+      "type": "aggravating",
+      "cluster": null,
+      "docs": 744,
+      "examples": [
+        "kalte",
+        "Kälte"
+      ]
+    },
+    {
+      "canonical": "Stress",
+      "type": "aggravating",
+      "cluster": null,
+      "docs": 291,
+      "examples": [
+        "Stress",
+        "psychischer Belastung",
+        "psychische Belastung"
+      ]
+    },
+    {
+      "canonical": "langes Stehen",
+      "type": "aggravating",
+      "cluster": null,
+      "docs": 232,
+      "examples": [
+        "stehen",
+        "längere Stehen",
+        "längeres Stehen"
+      ]
+    },
+    {
+      "canonical": "langes Sitzen",
+      "type": "aggravating",
+      "cluster": null,
+      "docs": 205,
+      "examples": [
+        "Sitzen",
+        "Langes Sitzen",
+        "längere Sitzen"
+      ]
+    },
+    {
+      "canonical": "Belastung",
+      "type": "aggravating",
+      "cluster": null,
+      "docs": 96,
+      "examples": [
+        "körperlicher Belastung",
+        "körperliche Belastung",
+        "Anstrengung"
+      ]
+    },
+    {
+      "canonical": "Treppensteigen",
+      "type": "aggravating",
+      "cluster": null,
+      "docs": 32,
+      "examples": [
+        "Treppensteigen",
+        "Treppengehen"
+      ]
+    },
+    {
+      "canonical": "längere Bildschirmarbeit",
+      "type": "aggravating",
+      "cluster": null,
+      "docs": 10,
+      "examples": [
+        "Computer",
+        "Bildschirmarbeit",
+        "Computerarbeit"
+      ]
+    },
+    {
+      "canonical": "Wärme",
+      "type": "relieving",
+      "cluster": null,
+      "docs": 588,
+      "examples": [
+        "warm",
+        "Wärme",
+        "Wärmeanwendung"
+      ]
+    },
+    {
+      "canonical": "Ruhe",
+      "type": "relieving",
+      "cluster": null,
+      "docs": 173,
+      "examples": [
+        "Ruhe",
+        "Ausruhen"
+      ]
+    },
+    {
+      "canonical": "Liegen",
+      "type": "relieving",
+      "cluster": null,
+      "docs": 157,
+      "examples": [
+        "liegen",
+        "hinlegen",
+        "hängt"
+      ]
+    },
+    {
+      "canonical": "Bewegung",
+      "type": "relieving",
+      "cluster": null,
+      "docs": 59,
+      "examples": [
+        "leichte Bewegung",
+        "Spaziergang",
+        "leichter Bewegung"
+      ]
+    },
+    {
+      "canonical": "Massage",
+      "type": "relieving",
+      "cluster": null,
+      "docs": 58,
+      "examples": [
+        "Massagen",
+        "Massage",
+        "Massagetherapie"
+      ]
+    },
+    {
+      "canonical": "Dehnung",
+      "type": "relieving",
+      "cluster": null,
+      "docs": 13,
+      "examples": [
+        "dehnen",
+        "Dehnung",
+        "Strecken"
+      ]
+    },
+    {
+      "canonical": "Ausstrahlung",
+      "type": "radiation",
+      "cluster": null,
+      "docs": 290,
+      "examples": [
+        "Ausstrahlung",
+        "ausstrahlend",
+        "strahlt in"
+      ]
+    },
+    {
+      "canonical": "sleep_quality",
+      "type": "functional",
+      "cluster": null,
+      "docs": 123,
+      "examples": [
+        "Schlafstörungen",
+        "Schlafqualität",
+        "Schlafstörung"
+      ]
+    },
+    {
+      "canonical": "bending",
+      "type": "functional",
+      "cluster": null,
+      "docs": 25,
+      "examples": [
+        "Bücken",
+        "beugen ist"
+      ]
+    },
+    {
+      "canonical": "walking_distance",
+      "type": "functional",
+      "cluster": null,
+      "docs": 24,
+      "examples": [
+        "Gehstrecke",
+        "langes Gehen",
+        "Gehfähigkeit"
+      ]
+    },
+    {
+      "canonical": "sitting_tolerance",
+      "type": "functional",
+      "cluster": null,
+      "docs": 17,
+      "examples": [
+        "Langes Sitzen",
+        "Lange Sitzen",
+        "Sitzdauer"
+      ]
+    },
+    {
+      "canonical": "lifting",
+      "type": "functional",
+      "cluster": null,
+      "docs": 2,
+      "examples": [
+        "schweres Heben"
+      ]
+    },
+    {
+      "canonical": "schwäche",
+      "type": "associated",
+      "cluster": null,
+      "docs": 1010,
+      "examples": [
+        "Kraft",
+        "Kraftlosigkeit",
+        "Schwäche"
+      ]
+    },
+    {
+      "canonical": "erschöpfung",
+      "type": "associated",
+      "cluster": null,
+      "docs": 611,
+      "examples": [
+        "erschöpft",
+        "Erschöpfung",
+        "müde"
+      ]
+    },
+    {
+      "canonical": "tinnitus",
+      "type": "associated",
+      "cluster": null,
+      "docs": 148,
+      "examples": [
+        "Tinnitus",
+        "Ohrgeräusch",
+        "Ohrgeräusche"
+      ]
+    },
+    {
+      "canonical": "kribbeln",
+      "type": "associated",
+      "cluster": null,
+      "docs": 87,
+      "examples": [
+        "Kribbeln",
+        "Kribbelgefühl",
+        "Parästhesien"
+      ]
+    },
+    {
+      "canonical": "schwindel",
+      "type": "associated",
+      "cluster": null,
+      "docs": 83,
+      "examples": [
+        "Schwindel",
+        "Schwindelgefühl",
+        "Drehschwindel"
+      ]
+    },
+    {
+      "canonical": "taubheit",
+      "type": "associated",
+      "cluster": null,
+      "docs": 73,
+      "examples": [
+        "Taubheit",
+        "Taubheitsgefühl"
+      ]
+    },
+    {
+      "canonical": "morning_stiffness",
+      "type": "associated",
+      "cluster": null,
+      "docs": 62,
+      "examples": [
+        "Morgensteifigkeit",
+        "Steifigkeit morgens",
+        "Morgensteife"
+      ]
+    }
+  ],
+  "cluster_linked_candidates": [],
+  "curator_questions": [
+    "Mají být side hodnoty (beidseits / rechts / links) řešeny samostatnou laterality vrstvou?",
+    "Má být charakter 'ziehend' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?",
+    "Má být charakter 'stechend' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?",
+    "Má být charakter 'dumpf' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?",
+    "Má být charakter 'brennend' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?",
+    "Má být charakter 'pulsierend' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?",
+    "Má být charakter 'bohrend' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?",
+    "Má být charakter 'krampfartig' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?"
+  ],
+  "meta": {
+    "seed_cluster": "Knie-Syndrom",
+    "total_cluster_linked": 0,
+    "total_global_used": 37,
+    "generated_from": "candidates_all.csv"
+  }
+}

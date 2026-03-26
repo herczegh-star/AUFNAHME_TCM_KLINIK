@@ -1,0 +1,9 @@
+canonical,cluster_hint,doc_count,examples,example_docs
+ziehend,,489,ziehend | ziehenden | ziehender | ziehende | zieht,Patient_006.docx | Patient_015.docx | Patient_036.docx | Patient_054.docx | Patient_1154.docx
+stechend,,461,stechend | stechenden | stechende | stechender | sticht,Patient_003.docx | Patient_003.docx | Patient_008.docx | Patient_017.docx | Patient_1518.docx
+dumpf,,257,dumpf | drückend | drückende | drückenden | drückendes,Patient_003.docx | Patient_009.docx | Patient_025.docx | Patient_037.docx | Patient_046.docx
+brennend,,219,brennenden | brennende | brennend | brennender | brennendes,Patient_015.docx | Patient_017.docx | Patient_017.docx | Patient_1013.docx | Patient_1187.docx
+pulsierend,,27,pulsierend | pulsierender | pulsierende | pulsierenden,Patient_013.docx | Patient_1031.docx | Patient_1041.docx | Patient_1874.docx
+bohrend,,26,bohrend | bohrenden | bohrende,Patient_045.docx | Patient_076.docx | Patient_076.docx
+krampfartig,,13,krampfartig | krampfend,Patient_1116.docx | Patient_944.docx
+elektrisierend,,9,elektrisierend | elektrisierende | elektrisierenden | elektrisierendes,Patient_1208.docx | Patient_1784.docx | Patient_2167.docx | Patient_228.docx

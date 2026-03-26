@@ -23,6 +23,11 @@ from typing import Any
 
 from core.ai_draft.block_loader import BlockLoader
 from core.ai_draft.block_model import Block, BlockType
+from core.ai_draft.shared_pain_loader import (
+    get_allowed_modules_with_definitions,
+    get_cluster_family_info,
+)
+from core.ai_draft.shared_pain_selector import SharedPainSelector
 
 
 class BlockSelector:
@@ -280,6 +285,67 @@ class BlockSelector:
                 result.append(block)
             # else: drop — required block absent
         return result
+
+    # ------------------------------------------------------------------
+    # Public: shared pain layer integration (architectural pilot)
+    # ------------------------------------------------------------------
+
+    def select_shared_pain_items(
+        self,
+        cluster_id:       str,
+        normalized_input: dict[str, Any],
+    ) -> dict[str, list[str]]:
+        """
+        Select concrete shared pain item canonicals from normalized_input.
+
+        Delegates to SharedPainSelector — input-driven, no speculative expansion.
+        Overlays only fire when associated_symptoms are present.
+
+        Returns {module_name: [canonical, ...]} for matched modules only.
+        """
+        return SharedPainSelector().select_items(cluster_id, normalized_input)
+
+    def select_shared_pain_modules_for_cluster(
+        self,
+        cluster_id:       str,
+        normalized_input: dict[str, Any],
+    ) -> dict[str, Any]:
+        """
+        Return family-aware shared pain modules available for a cluster.
+
+        This is an architectural pilot — it resolves which shared modules
+        are structurally available for the cluster's pain family + overlays.
+        It does NOT yet map normalized_input onto individual canonical items;
+        that is the next integration step.
+
+        Returns:
+          {
+            "cluster_id":       str,
+            "family_info":      {"primary_family": str, "overlays": [...]} | None,
+            "allowed_modules":  list[str],      # module names, ordered
+            "module_details":   {               # name → {kind, max_select, items/values}
+                "<module_name>": { ... },
+                ...
+            },
+          }
+        """
+        family_info = get_cluster_family_info(cluster_id)
+        modules     = get_allowed_modules_with_definitions(cluster_id)
+
+        # Preserve a stable, readable order: follow allowed_modules declaration order
+        # (union across families loses ordering — re-sort alphabetically for stability)
+        ordered_names = sorted(modules.keys())
+
+        return {
+            "cluster_id":      cluster_id,
+            "family_info":     family_info,
+            "allowed_modules": ordered_names,
+            "module_details":  {name: modules[name] for name in ordered_names},
+        }
+
+    # ------------------------------------------------------------------
+    # Private: constraint enforcement
+    # ------------------------------------------------------------------
 
     def _enforce_forbidden(self, selected: list[Block]) -> list[Block]:
         """

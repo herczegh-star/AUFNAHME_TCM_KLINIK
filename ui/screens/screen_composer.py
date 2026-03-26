@@ -23,6 +23,7 @@ from core.prompt_builder import PromptBuilder
 from services.style_library_service import StyleLibraryService
 from services.ai_draft_service import AIDraftService
 from core.ai_draft.draft_pipeline import DraftPipeline
+from core.ai_draft.archetype_loader import get_archetypes_for_cluster, get_archetype_text
 
 
 SYMPTOM_GROUPS = [
@@ -341,6 +342,85 @@ class ScreenComposer:
             read_only=True, expand=True,
         )
 
+        # --- Archetype selection widgets ---
+        archetype_pattern_row = ft.Row(spacing=8, wrap=True)
+        archetype_preview_field = ft.TextField(
+            label="Vorschau Archetyp-Text (nur Vorschau — kein Entwurf)",
+            multiline=True,
+            min_lines=3,
+            max_lines=8,
+            read_only=True,
+            expand=True,
+            border_color=ft.Colors.BLUE_200,
+        )
+        archetype_use_btn = ft.ElevatedButton(
+            "In Arbeitsfeld übernehmen",
+            disabled=True,
+            icon=ft.Icons.ARROW_DOWNWARD,
+        )
+        archetype_section = ft.Column(
+            controls=[
+                ft.Container(height=4),
+                ft.Text(
+                    "Archetyp-Vorlagen",
+                    size=12,
+                    weight=ft.FontWeight.BOLD,
+                    color=ft.Colors.BLUE_700,
+                ),
+                archetype_pattern_row,
+                ft.Container(height=4),
+                archetype_preview_field,
+                ft.Container(height=4),
+                archetype_use_btn,
+            ],
+            visible=False,
+        )
+
+        def on_archetype_use(e: ft.ControlEvent) -> None:
+            text = archetype_preview_field.value or ""
+            if not text:
+                return
+            draft_result_field.value = text
+            draft_status.value = ""
+            draft_result_field.border_color = None
+            page.update()
+
+        archetype_use_btn.on_click = on_archetype_use
+
+        def _refresh_archetype_section(cluster_id: str) -> None:
+            entry = get_archetypes_for_cluster(cluster_id)
+            if not entry:
+                archetype_section.visible = False
+                archetype_pattern_row.controls.clear()
+                archetype_preview_field.value = ""
+                archetype_use_btn.disabled = True
+                return
+
+            patterns: dict = entry.get("patterns", {})
+            archetype_pattern_row.controls.clear()
+            archetype_preview_field.value = ""
+            archetype_use_btn.disabled = True
+
+            def make_pattern_handler(cid: str, pid: str):
+                def on_select(e: ft.ControlEvent) -> None:
+                    text = get_archetype_text(cid, pid)
+                    archetype_preview_field.value = text or ""
+                    archetype_use_btn.disabled = not bool(text)
+                    page.update()
+                return on_select
+
+            for pid in patterns:
+                ptype = patterns[pid].get("type", "")
+                label = f"{pid}  ({ptype})" if ptype else pid
+                archetype_pattern_row.controls.append(
+                    ft.OutlinedButton(
+                        label,
+                        on_click=make_pattern_handler(cluster_id, pid),
+                    )
+                )
+
+            archetype_section.visible = True
+
         def on_ai_cluster_change(e: ft.ControlEvent) -> None:
             hints = _CLUSTER_HINTS.get(ai_cluster.value or "", _DEFAULT_HINTS)
             ai_pain_quality.hint_text   = hints["pain_quality"]
@@ -348,6 +428,7 @@ class ScreenComposer:
             ai_aggravating.hint_text    = hints["aggravating"]
             ai_relieving.hint_text      = hints["relieving"]
             ai_func_limitations.hint_text = hints["func_limitations"]
+            _refresh_archetype_section(ai_cluster.value or "")
             page.update()
 
         ai_cluster.on_change = on_ai_cluster_change
@@ -577,6 +658,7 @@ class ScreenComposer:
                 komp_mode,
                 ft.Container(height=8),
                 ft.Row(controls=[ai_cluster, ai_side, ai_duration],  spacing=12),
+                archetype_section,
                 ft.Row(controls=[ai_pain_quality, ai_radiation],     spacing=12),
                 ft.Row(controls=[ai_aggravating, ai_relieving],      spacing=12),
                 ft.Row(controls=[ai_func_limitations, ai_additional_notes], spacing=12),

@@ -1,0 +1,6 @@
+canonical,cluster_hint,doc_count,examples,example_docs
+sleep_quality,,123,Schlafstörungen | Schlafqualität | Schlafstörung,Patient_012.docx | Patient_064.docx | Patient_1064.docx
+bending,,25,Bücken | beugen ist,Patient_073.docx | Patient_2111.docx
+walking_distance,,24,Gehstrecke | langes Gehen | Gehfähigkeit,Patient_047.docx | Patient_1242.docx | Patient_1990.docx
+sitting_tolerance,,17,Langes Sitzen | Lange Sitzen | Sitzdauer,Patient_106.docx | Patient_1152.docx | Patient_239.docx
+lifting,,2,schweres Heben,Patient_1775.docx

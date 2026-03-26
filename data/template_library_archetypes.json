@@ -1,0 +1,15 @@
+{
+  "LWS-Syndrom": {
+    "icd_code": "M54.86",
+    "patterns": {
+      "LWS1": {
+        "type": "mechanical",
+        "text": "Der Patient leidet seit mehreren Jahren unter intermittierenden Schmerzen im LWS-Bereich mit überwiegend ziehendem, teilweise stechendem Schmerzcharakter. Eine Besserung wird durch Wärme, Bewegung sowie gelegentlich durch physiotherapeutische Maßnahmen angegeben. Längeres Sitzen, Stehen sowie körperliche Belastung führen zu einer Zunahme der Beschwerden."
+      },
+      "LWS2": {
+        "type": "radicular",
+        "text": "Die Patientin leidet seit ca. 5 Jahren unter intermittierenden Schmerzen im LWS-Bereich mit überwiegend ziehendem, teilweise stechendem Schmerzcharakter. Es besteht eine Ausstrahlung in die Beine, linksbetont, mit zeitweisem Kribbeln in den Zehen. Anamnestisch ist ein Bandscheibenvorfall auf Höhe LWK 5/SWK 1 bekannt, der konservativ behandelt wurde. Eine kurzzeitige Besserung wird durch lokale Wärme, manuelle Therapie sowie Krankengymnastik angegeben. Längeres Sitzen, Stehen, Stress und Kälte führen zu einer Verschlechterung der Symptomatik."
+      }
+    }
+  }
+}

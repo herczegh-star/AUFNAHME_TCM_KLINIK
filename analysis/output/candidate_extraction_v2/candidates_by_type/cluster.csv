@@ -1,0 +1,5 @@
+canonical,cluster_hint,doc_count,examples,example_docs
+LWS-Syndrom,,891,LWS | Rückenschmerzen | LWS-Syndrom | Lendenwirbelsäule | Kreuzschmerzen,Patient_003.docx | Patient_005.docx | Patient_006.docx | Patient_037.docx | Patient_1186.docx
+HWS-Syndrom,,706,HWS | HWS-Syndrom | Halswirbelsäule | Nackenschmerzen | Zervikal,Patient_008.docx | Patient_013.docx | Patient_027.docx | Patient_053.docx | Patient_1091.docx
+Schulter-Syndrom,,699,Schulterschmerzen | Schulter | Schultergelenk | Rotatorenmanschette | periarthritis,Patient_003.docx | Patient_009.docx | Patient_1072.docx | Patient_134.docx | Patient_418.docx
+Knie-Syndrom,,487,Knie | Knieschmerzen | Gonarthrose | Kniegelenk | Knieschmerze,Patient_003.docx | Patient_004.docx | Patient_044.docx | Patient_051.docx | Patient_126.docx

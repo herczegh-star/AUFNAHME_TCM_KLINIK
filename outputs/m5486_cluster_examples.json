@@ -1,0 +1,140 @@
+[
+  {
+    "cluster_id": 0,
+    "size": 106,
+    "examples": [
+      {
+        "source_case_id": "Patient_022",
+        "text_block_excerpt": "Die Patientin wird mit einem komplexen psychosomatischen Beschwerdebild zur stationären Aufnahme vorgestellt. Im Vordergrund stehen ein chronisches Müdigkeitssyndrom sowie eine chronische Schmerzproblematik. Sie berichtet, dass sie sich sehr erschöpft fühle und ihre Belastbarkeitsgrenze sei schneller als vorher erreicht. Ihre Leistungsfähigkeit sowie Antrieb seien eingeschränkt. Sie fühle sich immer wieder energielos. Oft habe sie das Gefühl, dass sie keine Kraft mehr habe. Sie leide unter innere Unruhe. Stimmung sei schwankend, teilweise gedrückt. In den Beziehungen zu anderen sei sie etwas z"
+      },
+      {
+        "source_case_id": "Patient_027",
+        "text_block_excerpt": "Bei Aufnahmegespräch berichtet die Patientin seit 2016 unter zunehmende Müdigkeitssymptomatik zu leiden. Als Hauptgrund nannte die Patientin das relativ plötzliche Auftreten von Schmerzen nach mehreren Operationen an der Halswirbelsäule und das damit verbundene Auftreten und die Entwicklung von chronischer Schmerzsymptomatik. Sie berichtet, dass sie sich sehr erschöpft fühle und ihre Belastbarkeitsgrenze sei viel schneller als vorher erreicht. Ihre Leistungsfähigkeit sowie Antrieb seien stark eingeschränkt. Sie fühle sich häufig energielos. Sie habe das Gefühl, dass sie nur sehr wenig Kraft ha"
+      },
+      {
+        "source_case_id": "Patient_037",
+        "text_block_excerpt": "Bei Aufnahme berichtet die Patientin, vor dem Hintergrund einer im Oktober 2021 durchgemachten COVID-19-Infektion unter anhaltender Müdigkeitssymptomatik zu leiden. Die Patientin klagt über ein ausgeprägtes Erschöpfungsgefühl, ihre Belastungsgrenze sei deutlich schneller erreicht als früher. Leistungsfähigkeit und Antrieb seien merklich reduziert. Zudem schildert sie wiederkehrende „Crash“-Phasen mit abruptem Energieverlust sowie eine persistierende „Brain Fog“-Symptomatik im Sinne einer kognitiven Verlangsamung, Merkfähigkeitsstörungen, Wortfindungsstörung, Konzentrationsstörungen und einem G"
+      },
+      {
+        "source_case_id": "Patient_039",
+        "text_block_excerpt": "Bei Aufnahmegespräch berichtet die Patientin seit vielen Jahren unter zunehmende Erschöpfungssymptomatik zu leiden. Sie berichtet, dass sich aufgrund sowohl beruflicher als auch familiärer Situation ihr psychophysischer Zustand seit sechs Jahren verschlechtert habe. Sie berichtet, dass sie sich sehr erschöpft fühle und ihre Belastbarkeitsgrenze sei schneller als vorher erreicht. Ihre Leistungsfähigkeit sowie Antrieb seien eingeschränkt. Sie fühle sich überwiegend energielos. Oft habe sie das Gefühl, dass sie keine Kraft mehr habe. Es gelingt ihr kaum, Nötigste zu schaffen. Sie leide unter inne"
+      },
+      {
+        "source_case_id": "Patient_042",
+        "text_block_excerpt": "Bei Aufnahmegespräch berichtet die Patientin seit über zwei Jahr unter Erschöpfungssymptomatik zu leiden. Sie berichtet, dass sie sich sehr erschöpft fühle und ihre Belastbarkeitsgrenze sei schneller als vorher erreicht. Ihre Leistungsfähigkeit sowie Antrieb seien stark eingeschränkt. Stimmung sei schwankend, teilweise gedrückt. In den Beziehungen zu anderen sei sie etwas zurückhaltend geworden. Weiterhin berichtet sie über Konzentrations- und Merkfähigkeitsstörungen. Ihr Schlaf sei nicht genug erholsam. Hinsichtlich weiteren somatischer Beschwerden gibt die Patientin chronischen Dorsalgien in"
+      },
+      {
+        "source_case_id": "Patient_056",
+        "text_block_excerpt": "Bei Aufnahmegespräch berichtet der Patient, dass sie auf dem Hintergrund durchgemachten Corona-Infektion im März 2022 unter einer ausgeprägten psychophysischen Erschöpfung zu leiden. Sie berichtet, dass sie sich sehr erschöpft fühle und ihre Belastbarkeitsgrenze sei schneller als vorher erreicht. Ihre Leistungsfähigkeit sei eingeschränkt. Ihre Konzentration sowie Merkfähigkeit seien stark beeinträchtigt. Sie habe oft das Gefühl, dass sie langsam keine Kraft mehr habe. Sie spüre teilweise innere Unruhe und fühle sie sich angespannt sowohl körperlich als auch seelisch. Ihr Schlaf sei von Durchsc"
+      },
+      {
+        "source_case_id": "Patient_060",
+        "text_block_excerpt": "Die Patientin kommt zur stationären Aufnahme mit einem komplexen psychosomatischen Krankheitsbild. Im Vordergrund stehen ein chronisches Müdigkeitssyndrom und eine chronische Schmerzproblematik. Sie berichtet, seit über fünf Jahren unter einer Müdigkeitssymptomatik zu leiden. Sie beschreibt eine deutliche Verminderung des Antriebs sowie der körperlichen Leistungsfähigkeit. Die Patientin berichtet, sich häufig erschöpft zu fühlen und ihre Belastungsgrenze deutlich früher als zuvor zu erreichen. Es bestehe eine innere Unruhe sowie eine verminderte Fähigkeit, abzuschalten und zur Ruhe zu kommen. "
+      },
+      {
+        "source_case_id": "Patient_097",
+        "text_block_excerpt": "Bei Aufnahmegespräch berichtet die Patientin, dass sie auf dem Hintergrund mehreren durchgemachten Corona-Infektionen zwischen Jahren 2023 und 2024 unter einer ausgeprägten psychophysischen Erschöpfung zu leiden. Sie berichtet, dass sie sich sehr erschöpft fühle und ihre Belastbarkeitsgrenze sei schneller als vorher erreicht. Ihre Leistungsfähigkeit sowie Antrieb seien eingeschränkt. Ihre Konzentration sowie Merkfähigkeit seien etwas beeinträchtigt. Sie habe oft das Gefühl, dass sie langsam keine Kraft mehr habe. In den Beziehungen zu anderen sei sie zurückhaltend geworden. Ihre Stimmung sei h"
+      },
+      {
+        "source_case_id": "Patient_101",
+        "text_block_excerpt": "Bei Aufnahmegespräch berichtet die Patientin, dass sich aufgrund familiärer Situation ihr psychophysischer Zustand seit eineinhalb Jahr verschlechtert habe. Sie berichtet, dass sie sich sehr erschöpft fühle und ihre Belastbarkeitsgrenze sei schneller als vorher erreicht. Ihre Leistungsfähigkeit sowie Antrieb seien stark eingeschränkt. Sie fühle sich häufig energielos. Oft habe sie das Gefühl, dass sie langsam keine Kraft mehr habe. Es gelingt ihr kaum, Nötigste zu schaffen. Sie sei häufig gereizt. Stimmung sei schwankend, teilweise gedrückt. Sie berichtet, dass sie keine Lust mehr auf Dinge ha"
+      },
+      {
+        "source_case_id": "Patient_1034",
+        "text_block_excerpt": "Die Patientin wurde zum zweiten Mal bei uns stationär aufgenommen. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Diesmal komme die Patientin aufgrund ihrer Erschöpfung, psychischen Verfassung und chronischen Schmersymptomatik sowie Reizdarmsymptomatik zur stationären Aufnahme. Die Patientin berichtet, dass sich aufgrund einer sehr hohen beruflichen Überlastung ihr psychophysischer Zustand seit einem Jahr deutlich verschlechtert habe. Sie leide unter Erschöpfung mit Freudlosigkeit. Ihr Antrieb sei deutlich red"
+      }
+    ]
+  },
+  {
+    "cluster_id": 1,
+    "size": 166,
+    "examples": [
+      {
+        "source_case_id": "Patient_028",
+        "text_block_excerpt": "Bei Aufnahmegespräch berichtet die Patientin unter seit über sieben Jahren bestehende rezidivierend auftretende Schmerzen in vielen Körperregionen, obere und untere, rechte und linke Körperhälfte zu leiden. Die Patientin fügt hinzu, dass die Schmerzen 2 bis 3 Monate nach Absetzen der hormonellen Verhütung einsetzten. Am schlimmsten seien betroffen Schulter-Nacken-Bereich, der Armen und Ellenbogen, der LWS, Bauchraum, der Leisten sowie der Füße. Die Lokalisation der Schmerzen sei dabei wechselnd. Schmerzverstärkend seien Stress und Kälte. Als lindernd empfinde die Patientin meist Wärme und Ents"
+      },
+      {
+        "source_case_id": "Patient_041",
+        "text_block_excerpt": "Bei Aufnahmegespräch berichtet die Patientin, seit über zehn Jahren unter Zervikobrachialgien zu leiden. Sie gibt an, dass sich die Symptomatik in den letzten 2-3 Jahren deutlich zugespitzt habe. Schmerzen werden als stechend sowie drückend empfunden. Schmerzen werden von häufiger Nacken-Schulter-Verspannung begleitend. In diesem Zusammenhang erwähnt die Patientin Kopfschmerzen, die von Anfang an mit Zervikobrachialgien verbunden waren. Die Patientin gibt an, dass sie fast jede Nacht zwischen 3 und 4 Uhr wegen Kopfschmerzen aufwacht. Diese Kopfschmerzen halten an, bis sie aufsteht und sich zu "
+      },
+      {
+        "source_case_id": "Patient_047",
+        "text_block_excerpt": "Die Patientin gibt an, seit etwas mehr als 6 Jahren an Schmerzen im Bereich des thorakolumbalen Übergangs zu leiden. Damals wurde bei ihr erstmals ein Bandscheibenvorfall (BSV) auf Höhe L5/S1 diagnostiziert, der konservativ behandelt wurde. Anschließend besserten sich die Beschwerden für eine gewisse Zeit, jedoch wurde im Jahr 2022 ein weiterer BSV auf Höhe L4/5 festgestellt. Seitdem bestehen die Beschwerden praktisch dauerhaft, mit wechselnder Intensität. Die Schmerzen werden als ziehend beschrieben, in letzter Zeit mit Ausstrahlung entlang der Rückseite des linken Oberschenkels bis zur Kniek"
+      },
+      {
+        "source_case_id": "Patient_079",
+        "text_block_excerpt": "Bei Aufnahmegespräch berichtet die Patientin seit …….Jahren unter HWS-Schmerzen und schmerzhafte Verspannungen im Nacken-Schulterbereich zu leiden. Diese Schmerzen werden als ziehend sowie stechend empfunden. Zudem werden Gefühlsstörungen im Bereich des Ring- und Mittelfingers sowie des Daumens beidseits angegeben. Die Schmerzsymptomatik sei deutlich von Fehlhaltung sowie von Stress abhängig. Linderung erfahre der Patient durch lokale Wärmetherapie und Massage. Zudem leide der Patient seit über 20 Jahren unter intermittierend zunehmende Schmerzen im LWS-Bereich. Die Schmerzen seien meistens lo"
+      },
+      {
+        "source_case_id": "Patient_092",
+        "text_block_excerpt": "Bei Aufnahmegespräch berichtet die Patientin seit über zwanzig Jahren unter Dorsalgien im LWS-Bereich ohne Ausstrahlung zu leiden. Die Beschwerden haben sich in letztes halbes Jahr deutlich zugespitzt. Schmerzen werden als stechenden empfunden. Es handelt sich um intermittierende Schmerzen, die bei Bewegung deutlich zunehmen. Die Schmerzen werden durch Wärme sowie manuelle Therapie kurzzeitig gelindert. Zudem leide sie seit über dreißig Jahren unter Nackenschmerzen. Schmerzen werden als ziehenden empfunden. In den letzten Jahren haben sich die Schmerzen deutlich zugespitzt. Die Schmerzen strah"
+      },
+      {
+        "source_case_id": "Patient_096",
+        "text_block_excerpt": "Die Patientin gibt an, dass sie seit Ende März und Anfang April 2019 unter Schmerzen im linken Arm leidet, die bis in die Fingerspitze ausstrahlen, hier auch anhaltendes Pelzigkeitsgefühl. Die Schmerzen sind ständig in unterschiedlicher Intensität vorhanden. Schmerzen werden als brennenden empfunden. Nach neurologischer Untersuchung wurde eine Medianusneuritis links als am wahrscheinlichste Ursache der Schmerzen geäußert. Im Laufe der Jahre habe die Patientin viele verschiedene Medikamente eingenommen, die leider keine nennenswerte Schmerzlinderung bewirkt haben. Die Patientin gibt ferner an, "
+      },
+      {
+        "source_case_id": "Patient_1023",
+        "text_block_excerpt": "Immer wieder auftretende LWS-Beschwerden bestehen seit ca. 4-5 Jahren, Unfallverletzungen der Wirbelsäule werden verneint. In den letzten Jahren 1,5 Jahren deutliche Schmerzverstärkung. Die Schmerzen sind meistens lokal, jedoch in letzter Zeit mit Ausstrahlung in beide Beine rechtsbetont. Schmerzen treten überwiegend bei Belastung und nach längerem Sitzen sowie Stehen auf. Die Schmerzen werden von der Patientin als ziehenden, brennenden sowie stechenden empfunden. Wärme würde die Schmerzsymptomatik lindern. Es besteht hier eine gewisse Stressabhängigkeit. Die Schmerzintensität beträgt auf der "
+      },
+      {
+        "source_case_id": "Patient_1042",
+        "text_block_excerpt": "Beim Aufnahmegespräch berichtet die Patientin, seit Mai 2014 unter zunehmenden Missempfindungen erst am rechten Fuß, nach 6 Monaten an beiden Füßen zu leiden. Die Beschwerden seien immer von unterschiedlicher Ausprägung vorhanden. Mittlerweile seien die Missempfindungen an den beiden Händen vorhanden. Abends sein die Beschwerden stärker. Sie habe das Gefühl als ob die Füße aufgeblasen und dicke wären. Tagsüber fühlen sich die Füße kalt an. Wenn sie im Bett liege fühlen sich die Füße heiße. Immer wieder kribbeln die beide Füßen bis zu den Oberschenkel. Seit ca. einem Jahr kommt immer wieder zu "
+      },
+      {
+        "source_case_id": "Patient_1043",
+        "text_block_excerpt": "Aus Schilderung der Patientin und vorliegenden Befundberichten geht folgendes hervor: Die Patientin leidet seit Jahren unter chronischen Schmerzen in unterschiedlichen Körpersystemen. Seit 3 Jahren leide sie unter rezidivierenden Zahnschmerzen nach diversen Zahnbehandlungen. Seit Anfang 2017 gesellten sich noch chronische Schulterschmerzen rechts dazu, bei einer frozen shoulder rechts mit wahrscheinlicher Kalkablagerung, die mehrfach antiphlogitisch und analgetisch infitritiert wurden. Weiterhin wurden bereits 4 Ganglion-OPs des rechten Handgelenks seit 1980 durchgeführt, die letzte 8/17. Hier"
+      },
+      {
+        "source_case_id": "Patient_1066",
+        "text_block_excerpt": "Die Patientin berichtet seit 5 Jahren unter muskelkaterartigen Schmerzen gelitten zu haben. Es handle sich sowohl um schubartige als auch andauernden Schmerzen verschiedenster Qualität. Die Schmerzen seien abwechselnd ziehend, pochend sowie stechend, dies sei ganz unterschiedlich. Einen Hauptschmerz könne die Patientin nicht benennen, da immer verschiedene Probleme in Vordergrund stehen würden. Am schlimmsten seien Füße und Arme sowie Finger betroffen. Wärme würde die Schmerzen kurzzeitig lindern. Schubartig seien die Schmerzen auch in der Nacht vorhanden, was die Patientin wesentlich am Schla"
+      }
+    ]
+  },
+  {
+    "cluster_id": 2,
+    "size": 93,
+    "examples": [
+      {
+        "source_case_id": "Patient_006",
+        "text_block_excerpt": "Die Patientin ist im Hause bekannt, 2023 befand sie sich zum letzten Mal in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Kurz gefasst liegt bei der Patientin seit Jahren ein komplexes psychosomatisches Krankheitsbild vor, bei dem eine chronische Müdigkeits-, Angst- und depressive Symptomatik sowie eine chronische Schmerzproblematik im Vordergrund stehen. Sie berichtet, seit Jahren unter einer Müdigkeitssymptomatik zu leiden. Sie beschreibt eine deutliche Verminderung des Antri"
+      },
+      {
+        "source_case_id": "Patient_007",
+        "text_block_excerpt": "Die Patientin ist im Hause bekannt, 2022 befand sie sich zum letzten Mal in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Bei Aufnahmegespräch berichtet die Patientin seit über 8 Jahren unter zunehmende Müdigkeitssymptomatik zu leiden. Symptomatik hat sich nach einer Covid-19-Erkrankung im November 2023 erheblich verschlechtert. Sie berichtet, dass sie sich sehr erschöpft fühle und ihre Belastbarkeitsgrenze sei viel schneller als vorher erreicht. Ihre Leistungsfähigkeit sowie A"
+      },
+      {
+        "source_case_id": "Patient_015",
+        "text_block_excerpt": "Die Patientin ist im Hause bekannt, 2022 befand sie sich zum letzten Mal in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Bei Aufnahmegespräch berichtet die Patientin seit zehn Jahren unter Müdigkeitssymptomatik zu leiden. Ursächlich hierfür seien sowohl „körperlichen Krankheiten“ als auch eine Überlastungssituation sowohl im familiären Umkreis als auch im beruflichen Bereich. Ihr Antrieb sowie ihre Leistungsfähigkeit seien reduziert, sie fühle sich häufig erschöpft und ihre Be"
+      },
+      {
+        "source_case_id": "Patient_020",
+        "text_block_excerpt": "Die Patientin ist im Hause bekannt, 2014 befand sie sich zum letzten Mal in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Kurz gefasst berichtet die Patientin, seit mehreren Jahren unter Erschöpfung sowie verminderte körperliche Belastbarkeit zu leiden, mit einer deutlichen Verschlechterung im Sommer dieses Jahres. Sie fühle sich häufig sehr erschöpft, und ihre Belastbarkeitsgrenze sei deutlich schneller als früher erreicht. Ihre Leistungsfähigkeit sowie ihr Antrieb seien stark"
+      },
+      {
+        "source_case_id": "Patient_050",
+        "text_block_excerpt": "Die Patientin ist im Hause bekannt, 2019 befand sie sich zum letzten Mal in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Bei Aufnahmegespräch berichtet die Patientin seit über drei Jahren immer wieder unter Müdigkeitssymptomatik zu leiden. Symptomatik hat sich nach einer Covid-19-Erkrankung im April 2022 erheblich verschlechtert. Sie berichtet, dass sie sich sehr erschöpft fühle und ihre Belastbarkeitsgrenze sei viel schneller als vorher erreicht. Ihre Leistungsfähigkeit sowie"
+      },
+      {
+        "source_case_id": "Patient_052",
+        "text_block_excerpt": "Die Patientin ist im Hause bekannt, 2022 befand sie sich zum letzten Mal in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Bei der Aufnahme gibt die Patientin an, seit ca. einem Jahr am Müdigkeitssyndrom zu leiden. Als Ursachen nennt sie unter anderem hormonelle Probleme im Zusammenhang mit der Menopause, Schmerzen nach einem Sturz im April 2023 mit der Entwicklung chronischer Schmerzen im Bereich der Lendenwirbelsäule sowie nicht zuletzt ihre familiären Probleme. Sie berichtet,"
+      },
+      {
+        "source_case_id": "Patient_053",
+        "text_block_excerpt": "Die Patientin ist im Hause bekannt, 2018 befand sie sich zum letzten Mal in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Bei Aufnahmegespräch berichtet die Patientin unter Dorsalgien im LWS-Bereich mit Ausstrahlung in das linke Bein zu leiden. Die Beschwerden haben sich in letzten 3-4 Jahren deutlich zugespitzt. Schmerzen werden als ziehenden, stechenden sowie teilweise „pulsierenden“ empfunden. Sie gibt an, dass die Schmerzen im Stehen deutlich zunehmen. Die Schmerzen werden "
+      },
+      {
+        "source_case_id": "Patient_057",
+        "text_block_excerpt": "Die Patientin ist im Hause bekannt, 2024 befand sie sich zum letzten Mal in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Kurzgefasst leidet die Patientin seit über 15 Jahren unter einem chronischen Erschöpfungszustand mit Konzentrationsstörung und Angstzustände. Sie gibt an, dass der Schlaganfall ihres Mannes im Juli 2024 der Auslöser für die jetzige Verschlimmerung ihrer Symptomatik war. Sie berichtet, dass sie sich sehr erschöpft fühle und ihre Belastbarkeitsgrenze sei viel "
+      },
+      {
+        "source_case_id": "Patient_062",
+        "text_block_excerpt": "Die Patientin ist im Hause bekannt, 2021 befand sie sich zum letzten Mal in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Kurz gefasst berichtet die Patientin seit vielen Jahren unter zunehmende Erschöpfungssymptomatik zu leiden. Sie berichtet, dass sich aufgrund sowohl beruflicher als auch familiärer Situation ihr psychophysischer Zustand seit paar Jahren verschlechtert habe. Sie berichtet, dass sie sich sehr erschöpft fühle und seine Belastbarkeitsgrenze sei schneller als vor"
+      },
+      {
+        "source_case_id": "Patient_063",
+        "text_block_excerpt": "Die Patientin ist im Hause bekannt, 2022 befand sie sich zum letzten Mal in unserer stationären Behandlung. Die ausführliche Vorgeschichte dürfen wir freundlicherweise als bekannt voraussetzen und verweisen auf die entsprechenden Berichte. Kurz gefasst leide der Patient über 15 Jahren unter immer wieder auftretenden HWS-Schmerzen und schmerzhafte Verspannungen im Nacken-Schulterbereich. Diese Schmerzen werden als ziehend sowie stechend empfunden. Zudem werden Gefühlsstörungen im Bereich des Ring- und Mittelfingers sowie des Daumens beidseits angegeben. Die Schmerzsymptomatik sei deutlich von F"
+      }
+    ]
+  }
+]

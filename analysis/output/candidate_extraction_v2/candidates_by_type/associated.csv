@@ -1,0 +1,9 @@
+canonical,cluster_hint,doc_count,examples,example_docs
+schwäche,,1010,Kraft | Kraftlosigkeit | Schwäche | Kraftverlust | schwache,Patient_001.docx | Patient_010.docx | Patient_1004.docx | Patient_1524.docx | Patient_1575.docx
+erschöpfung,,611,erschöpft | Erschöpfung | müde | Müdigkeit,Patient_001.docx | Patient_020.docx | Patient_021.docx | Patient_064.docx
+kopfschmerzen,HWS-Syndrom,359,Kopfschmerzen | Migräne,Patient_009.docx | Patient_013.docx
+tinnitus,,148,Tinnitus | Ohrgeräusch | Ohrgeräusche | Ohrensausen,Patient_006.docx | Patient_1111.docx | Patient_207.docx | Patient_750.docx
+kribbeln,,87,Kribbeln | Kribbelgefühl | Parästhesien | Parästhesie,Patient_008.docx | Patient_033.docx | Patient_049.docx | Patient_2081.docx
+schwindel,,83,Schwindel | Schwindelgefühl | Drehschwindel,Patient_009.docx | Patient_1049.docx | Patient_1200.docx
+taubheit,,73,Taubheit | Taubheitsgefühl,Patient_019.docx | Patient_1085.docx
+morning_stiffness,,62,Morgensteifigkeit | Steifigkeit morgens | Morgensteife,Patient_003.docx | Patient_1978.docx | Patient_1993.docx

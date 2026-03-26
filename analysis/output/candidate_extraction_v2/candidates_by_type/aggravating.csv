@@ -1,0 +1,9 @@
+canonical,cluster_hint,doc_count,examples,example_docs
+Kälte,,744,kalte | Kälte,Patient_001.docx | Patient_008.docx
+Stress,,291,Stress | psychischer Belastung | psychische Belastung | psychischer Stress | psychischen Belastung,Patient_011.docx | Patient_033.docx | Patient_044.docx | Patient_1425.docx | Patient_1727.docx
+langes Stehen,,232,stehen | längere Stehen | längeres Stehen | langes Stehen | lange Stehen,Patient_006.docx | Patient_1416.docx | Patient_1451.docx | Patient_1562.docx | Patient_1674.docx
+langes Sitzen,,205,Sitzen | Langes Sitzen | längere Sitzen | längeres Sitzen | Lange Sitzen,Patient_015.docx | Patient_106.docx | Patient_1065.docx | Patient_108.docx | Patient_1152.docx
+langes Gehen,LWS-Syndrom,190,Gehen | Gehstrecke | langes Gehen | längeres Gehen,Patient_003.docx | Patient_1139.docx | Patient_1242.docx | Patient_1773.docx
+Belastung,,96,körperlicher Belastung | körperliche Belastung | Anstrengung | körperlichen Belastung,Patient_006.docx | Patient_015.docx | Patient_017.docx | Patient_1789.docx
+Treppensteigen,,32,Treppensteigen | Treppengehen,Patient_012.docx | Patient_202.docx
+längere Bildschirmarbeit,,10,Computer | Bildschirmarbeit | Computerarbeit | PC-Arbeit | Bildschirm,Patient_1074.docx | Patient_1187.docx | Patient_1241.docx | Patient_134.docx | Patient_1780.docx

@@ -1,4 +1,4 @@
-﻿{
+{
   "verze": "2.2-hybrid-final",
   "popis": "Nova knihovna symptomovych clusteru pro projekt AUFNAHME_TCM_KLINIK",
   "jazyk_vystupu": "de",
@@ -51,7 +51,6 @@
       },
       "struktur": [
         "dauer",
-        "lokalisation",
         "ausstrahlung",
         "schmerzcharakter",
         "verlauf",
@@ -104,7 +103,6 @@
       },
       "struktur": [
         "dauer",
-        "lokalisation",
         "ausstrahlung",
         "schmerzcharakter",
         "verlauf",

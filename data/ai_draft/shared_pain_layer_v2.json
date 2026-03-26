@@ -1,0 +1,241 @@
+{
+  "version": "2.0",
+  "description": "Shared clinical pain layer with pain-family-aware reusable modules for AI-Draft.",
+  "pain_families": {
+    "mechanical": {
+      "allowed_modules": [
+        "pain_character",
+        "pain_laterality",
+        "pain_radiation",
+        "pain_intensity",
+        "pain_temporality",
+        "aggravating_mechanical",
+        "aggravating_general",
+        "relieving_passive",
+        "relieving_therapy",
+        "functional_mobility",
+        "context"
+      ]
+    },
+    "neurogenic": {
+      "allowed_modules": [
+        "pain_character",
+        "pain_laterality",
+        "pain_radiation",
+        "pain_intensity",
+        "pain_temporality",
+        "neuro_sensory",
+        "functional_general",
+        "context"
+      ]
+    },
+    "visceral": {
+      "allowed_modules": [
+        "pain_character",
+        "pain_intensity",
+        "pain_temporality",
+        "visceral_relations",
+        "relieving_passive",
+        "functional_general",
+        "context"
+      ]
+    },
+    "cephalgic": {
+      "allowed_modules": [
+        "pain_character",
+        "pain_laterality",
+        "pain_intensity",
+        "pain_temporality",
+        "cephalgic_features",
+        "relieving_passive",
+        "context"
+      ]
+    },
+    "pelvic": {
+      "allowed_modules": [
+        "pain_character",
+        "pain_intensity",
+        "pain_temporality",
+        "visceral_relations",
+        "context"
+      ]
+    },
+    "centralized": {
+      "allowed_modules": [
+        "pain_character",
+        "pain_intensity",
+        "pain_temporality",
+        "functional_general",
+        "context"
+      ]
+    },
+    "none": {
+      "allowed_modules": [
+        "context"
+      ]
+    }
+  },
+  "modules": {
+    "pain_character": {
+      "kind": "block_group",
+      "max_select": 2,
+      "items": [
+        { "canonical": "ziehend",        "text": "ziehende Schmerzen",          "priority": "core" },
+        { "canonical": "stechend",       "text": "stechende Schmerzen",         "priority": "core" },
+        { "canonical": "dumpf",          "text": "dumpfe Schmerzen",            "priority": "core" },
+        { "canonical": "brennend",       "text": "brennende Schmerzen",         "priority": "optional" },
+        { "canonical": "krampfartig",    "text": "krampfartige Schmerzen",      "priority": "optional" },
+        { "canonical": "drueckend",      "text": "drückende Schmerzen",         "priority": "optional" },
+        { "canonical": "elektrisierend", "text": "elektrisierende Schmerzen",   "priority": "optional" },
+        { "canonical": "pulsierend",     "text": "pulsierende Schmerzen",       "priority": "optional" }
+      ]
+    },
+    "pain_laterality": {
+      "kind": "slot_group",
+      "slot_name": "laterality",
+      "values": ["links", "rechts", "beidseits"]
+    },
+    "pain_radiation": {
+      "kind": "template_group",
+      "max_select": 1,
+      "items": [
+        {
+          "canonical": "radiation",
+          "template": "Ausstrahlung ins {radiation_target}",
+          "slot_name": "radiation_target",
+          "values": ["Bein", "Gesäß", "Arm", "Schulter", "Leiste", "Unterbauch"]
+        }
+      ]
+    },
+    "pain_intensity": {
+      "kind": "slot_group",
+      "slot_name": "intensity",
+      "values": ["leicht", "mittelgradig", "stark", "ausgeprägt"]
+    },
+    "pain_temporality": {
+      "kind": "block_group",
+      "max_select": 1,
+      "items": [
+        { "canonical": "chronisch",              "text": "chronische Beschwerdesymptomatik",     "priority": "optional" },
+        { "canonical": "intermittierend",        "text": "intermittierender Verlauf",             "priority": "optional" },
+        { "canonical": "belastungsabhaengig",    "text": "belastungsabhängige Beschwerden",       "priority": "core" },
+        { "canonical": "progredient",            "text": "progredienter Verlauf",                 "priority": "optional" }
+      ]
+    },
+    "aggravating_mechanical": {
+      "kind": "block_group",
+      "max_select": 3,
+      "items": [
+        { "canonical": "langes_sitzen",    "text": "Verschlechterung bei längerem Sitzen",           "priority": "core" },
+        { "canonical": "langes_stehen",    "text": "Verschlechterung bei längerem Stehen",           "priority": "core" },
+        { "canonical": "langes_gehen",     "text": "Verschlechterung bei längerem Gehen",            "priority": "core" },
+        { "canonical": "buecken",          "text": "Zunahme der Beschwerden beim Bücken",            "priority": "core" },
+        { "canonical": "treppensteigen",   "text": "Zunahme der Beschwerden beim Treppensteigen",    "priority": "optional" },
+        { "canonical": "belastung",        "text": "Verschlechterung bei körperlicher Belastung",    "priority": "core" }
+      ]
+    },
+    "aggravating_general": {
+      "kind": "block_group",
+      "max_select": 2,
+      "items": [
+        { "canonical": "kaelte", "text": "Verschlechterung bei Kälte",               "priority": "core" },
+        { "canonical": "stress", "text": "Zunahme der Beschwerden unter Stress",     "priority": "optional" }
+      ]
+    },
+    "relieving_passive": {
+      "kind": "block_group",
+      "max_select": 2,
+      "items": [
+        { "canonical": "waerme",   "text": "Besserung durch Wärme",             "priority": "core" },
+        { "canonical": "ruhe",     "text": "Besserung in Ruhe",                 "priority": "core" },
+        { "canonical": "liegen",   "text": "Besserung im Liegen",               "priority": "core" },
+        { "canonical": "bewegung", "text": "Besserung bei leichter Bewegung",   "priority": "optional" }
+      ]
+    },
+    "relieving_therapy": {
+      "kind": "block_group",
+      "max_select": 1,
+      "items": [
+        { "canonical": "krankengymnastik",   "text": "teilweise Besserung unter Krankengymnastik",      "priority": "core" },
+        { "canonical": "manuelle_therapie",  "text": "teilweise Besserung unter manueller Therapie",    "priority": "core" },
+        { "canonical": "massage",            "text": "teilweise Besserung durch Massagen",              "priority": "core" },
+        { "canonical": "dehnung",            "text": "teilweise Besserung durch Dehnung",               "priority": "optional" },
+        { "canonical": "akupunktur",         "text": "teilweise Besserung durch Akupunktur",            "priority": "optional_domain_added" }
+      ]
+    },
+    "functional_mobility": {
+      "kind": "block_group",
+      "max_select": 2,
+      "items": [
+        { "canonical": "sitting_tolerance", "text": "Sitztoleranz eingeschränkt",                      "priority": "core" },
+        { "canonical": "walking_distance",  "text": "Gehstrecke eingeschränkt",                        "priority": "core" },
+        { "canonical": "bending",           "text": "Bücken schmerzbedingt erschwert",                 "priority": "core" },
+        { "canonical": "lifting",           "text": "schweres Heben nur eingeschränkt möglich",        "priority": "optional" }
+      ]
+    },
+    "functional_general": {
+      "kind": "block_group",
+      "max_select": 2,
+      "items": [
+        { "canonical": "sleep_quality",   "text": "Schlafqualität beeinträchtigt",          "priority": "optional" },
+        { "canonical": "daily_function",  "text": "Alltagsbelastbarkeit reduziert",         "priority": "core" },
+        { "canonical": "general_capacity","text": "allgemeine Belastbarkeit eingeschränkt", "priority": "core" }
+      ]
+    },
+    "neuro_sensory": {
+      "kind": "block_group",
+      "max_select": 2,
+      "items": [
+        { "canonical": "kribbeln",      "text": "begleitendes Kribbelgefühl",   "priority": "core" },
+        { "canonical": "taubheit",      "text": "begleitendes Taubheitsgefühl", "priority": "core" },
+        { "canonical": "paraesthesien", "text": "begleitende Parästhesien",     "priority": "core" }
+      ]
+    },
+    "visceral_relations": {
+      "kind": "block_group",
+      "max_select": 2,
+      "items": [
+        { "canonical": "nahrungsbezug",  "text": "Beschwerdezunahme nach Nahrungsaufnahme", "priority": "optional" },
+        { "canonical": "stuhlbezug",     "text": "Zusammenhang mit dem Stuhlgang",          "priority": "core" },
+        { "canonical": "blaehungen",     "text": "begleitende Blähungsneigung",             "priority": "core" },
+        { "canonical": "voellegefuehl",  "text": "begleitendes Völlegefühl",                "priority": "optional" }
+      ]
+    },
+    "cephalgic_features": {
+      "kind": "block_group",
+      "max_select": 2,
+      "items": [
+        { "canonical": "uebelkeit",           "text": "begleitende Übelkeit",            "priority": "core" },
+        { "canonical": "lichtempfindlichkeit","text": "begleitende Lichtempfindlichkeit", "priority": "core" },
+        { "canonical": "laermempfindlichkeit","text": "begleitende Lärmempfindlichkeit",  "priority": "optional" }
+      ]
+    },
+    "context": {
+      "kind": "block_group",
+      "max_select": 3,
+      "items": [
+        { "canonical": "post_op_short_relief",    "text": "postoperativ zunächst kurzzeitige Besserung der Beschwerden",                          "priority": "optional" },
+        { "canonical": "renewed_progression",     "text": "in den letzten Monaten erneute Zunahme von Intensität und Frequenz der Beschwerden",   "priority": "optional" },
+        { "canonical": "no_morphologic_correlate","text": "nach entsprechender Diagnostik kein morphologisches Korrelat der Beschwerden",         "priority": "optional" },
+        { "canonical": "functional_discussion",   "text": "daher Diskussion einer funktionellen Genese der Beschwerdesymptomatik",               "priority": "optional" }
+      ]
+    }
+  },
+  "cluster_family_map": [
+    { "cluster_id": "lws_syndrom",     "primary_family": "mechanical",  "overlays": ["neurogenic"] },
+    { "cluster_id": "hws_syndrom",     "primary_family": "mechanical",  "overlays": ["neurogenic", "cephalgic"] },
+    { "cluster_id": "schulter_syndrom","primary_family": "mechanical",  "overlays": ["neurogenic"] },
+    { "cluster_id": "knie_syndrom",    "primary_family": "mechanical",  "overlays": [] },
+    { "cluster_id": "arthrose",        "primary_family": "mechanical",  "overlays": [] },
+    { "cluster_id": "polyarthritis",   "primary_family": "mechanical",  "overlays": ["centralized"] },
+    { "cluster_id": "fibromyalgie",    "primary_family": "centralized", "overlays": [] },
+    { "cluster_id": "kopfschmerzen",   "primary_family": "cephalgic",   "overlays": [] },
+    { "cluster_id": "migraene",        "primary_family": "cephalgic",   "overlays": [] },
+    { "cluster_id": "reizdarm",        "primary_family": "visceral",    "overlays": [] },
+    { "cluster_id": "ced",             "primary_family": "visceral",    "overlays": [] },
+    { "cluster_id": "polyneuropathie", "primary_family": "neurogenic",  "overlays": [] },
+    { "cluster_id": "endometriose",    "primary_family": "pelvic",      "overlays": ["visceral"] },
+    { "cluster_id": "tinnitus",        "primary_family": "none",        "overlays": [] },
+    { "cluster_id": "muedigkeit",      "primary_family": "none",        "overlays": ["centralized"] }
+  ]
+}

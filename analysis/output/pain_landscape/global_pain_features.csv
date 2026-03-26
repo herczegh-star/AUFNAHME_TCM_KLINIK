@@ -1,0 +1,35 @@
+category,canonical,docs,examples
+character,ziehend,489,ziehend | ziehenden | ziehender
+character,stechend,461,stechend | stechenden | stechende
+character,dumpf,257,dumpf | drückend | drückende
+character,brennend,219,brennenden | brennende | brennend
+character,pulsierend,27,pulsierend | pulsierender | pulsierende
+character,bohrend,26,bohrend | bohrenden | bohrende
+character,krampfartig,13,krampfartig | krampfend
+character,elektrisierend,9,elektrisierend | elektrisierende | elektrisierenden
+aggravating,Kälte,744,kalte | Kälte
+aggravating,Stress,291,Stress | psychischer Belastung | psychische Belastung
+aggravating,langes Stehen,232,stehen | längere Stehen | längeres Stehen
+aggravating,langes Sitzen,205,Sitzen | Langes Sitzen | längere Sitzen
+aggravating,Belastung,96,körperlicher Belastung | körperliche Belastung | Anstrengung
+aggravating,Treppensteigen,32,Treppensteigen | Treppengehen
+aggravating,längere Bildschirmarbeit,10,Computer | Bildschirmarbeit | Computerarbeit
+relieving,Wärme,588,warm | Wärme | Wärmeanwendung
+relieving,Ruhe,173,Ruhe | Ausruhen
+relieving,Liegen,157,liegen | hinlegen | hängt
+relieving,Bewegung,59,leichte Bewegung | Spaziergang | leichter Bewegung
+relieving,Massage,58,Massagen | Massage | Massagetherapie
+relieving,Dehnung,13,dehnen | Dehnung | Strecken
+radiation,Ausstrahlung,290,Ausstrahlung | ausstrahlend | strahlt in
+associated,schwäche,1010,Kraft | Kraftlosigkeit | Schwäche
+associated,erschöpfung,611,erschöpft | Erschöpfung | müde
+associated,tinnitus,148,Tinnitus | Ohrgeräusch | Ohrgeräusche
+associated,kribbeln,87,Kribbeln | Kribbelgefühl | Parästhesien
+associated,schwindel,83,Schwindel | Schwindelgefühl | Drehschwindel
+associated,taubheit,73,Taubheit | Taubheitsgefühl
+associated,morning_stiffness,62,Morgensteifigkeit | Steifigkeit morgens | Morgensteife
+functional,sleep_quality,123,Schlafstörungen | Schlafqualität | Schlafstörung
+functional,bending,25,Bücken | beugen ist
+functional,walking_distance,24,Gehstrecke | langes Gehen | Gehfähigkeit
+functional,sitting_tolerance,17,Langes Sitzen | Lange Sitzen | Sitzdauer
+functional,lifting,2,schweres Heben

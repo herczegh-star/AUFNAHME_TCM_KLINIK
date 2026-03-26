@@ -1,0 +1,48 @@
+canonical,pattern_type,cluster_hint,doc_count,example_1,example_2,example_3,example_docs
+beidseits,side,,1256,bds,beidseits,beidseitig,Patient_001.docx; Patient_016.docx; Patient_072.docx
+schwäche,associated,,1010,Kraft,Kraftlosigkeit,Schwäche,Patient_001.docx; Patient_010.docx; Patient_1004.docx
+LWS-Syndrom,cluster,,891,LWS,Rückenschmerzen,LWS-Syndrom,Patient_003.docx; Patient_005.docx; Patient_006.docx
+Kälte,aggravating,,744,kalte,Kälte,,Patient_001.docx; Patient_008.docx
+HWS-Syndrom,cluster,,706,HWS,HWS-Syndrom,Halswirbelsäule,Patient_008.docx; Patient_013.docx; Patient_027.docx
+Schulter-Syndrom,cluster,,699,Schulterschmerzen,Schulter,Schultergelenk,Patient_003.docx; Patient_009.docx; Patient_1072.docx
+erschöpfung,associated,,611,erschöpft,Erschöpfung,müde,Patient_001.docx; Patient_020.docx; Patient_021.docx
+Wärme,relieving,,588,warm,Wärme,Wärmeanwendung,Patient_003.docx; Patient_006.docx; Patient_020.docx
+ziehend,character,,489,ziehend,ziehenden,ziehender,Patient_006.docx; Patient_015.docx; Patient_036.docx
+Knie-Syndrom,cluster,,487,Knie,Knieschmerzen,Gonarthrose,Patient_003.docx; Patient_004.docx; Patient_044.docx
+stechend,character,,461,stechend,stechenden,stechende,Patient_003.docx; Patient_003.docx; Patient_008.docx
+rechts,side,,379,rechts,rechtsbetont,rechtsseitig,Patient_003.docx; Patient_011.docx; Patient_1435.docx
+kopfschmerzen,associated,HWS-Syndrom,359,Kopfschmerzen,Migräne,,Patient_009.docx; Patient_013.docx
+links,side,,338,links,linksseitig,linksbetont,Patient_006.docx; Patient_016.docx; Patient_017.docx
+Stress,aggravating,,291,Stress,psychischer Belastung,psychische Belastung,Patient_011.docx; Patient_033.docx; Patient_044.docx
+Ausstrahlung,radiation,,290,Ausstrahlung,ausstrahlend,strahlt in,Patient_006.docx; Patient_045.docx; Patient_132.docx
+dumpf,character,,257,dumpf,drückend,drückende,Patient_003.docx; Patient_009.docx; Patient_025.docx
+langes Stehen,aggravating,,232,stehen,längere Stehen,längeres Stehen,Patient_006.docx; Patient_1416.docx; Patient_1451.docx
+brennend,character,,219,brennenden,brennende,brennend,Patient_015.docx; Patient_017.docx; Patient_017.docx
+langes Sitzen,aggravating,,205,Sitzen,Langes Sitzen,längere Sitzen,Patient_015.docx; Patient_106.docx; Patient_1065.docx
+langes Gehen,aggravating,LWS-Syndrom,190,Gehen,Gehstrecke,langes Gehen,Patient_003.docx; Patient_1139.docx; Patient_1242.docx
+Ruhe,relieving,,173,Ruhe,Ausruhen,,Patient_006.docx; Patient_038.docx
+Liegen,relieving,,157,liegen,hinlegen,hängt,Patient_006.docx; Patient_056.docx; Patient_1349.docx
+tinnitus,associated,,148,Tinnitus,Ohrgeräusch,Ohrgeräusche,Patient_006.docx; Patient_1111.docx; Patient_207.docx
+sleep_quality,functional,,123,Schlafstörungen,Schlafqualität,Schlafstörung,Patient_012.docx; Patient_064.docx; Patient_1064.docx
+Belastung,aggravating,,96,körperlicher Belastung,körperliche Belastung,Anstrengung,Patient_006.docx; Patient_015.docx; Patient_017.docx
+kribbeln,associated,,87,Kribbeln,Kribbelgefühl,Parästhesien,Patient_008.docx; Patient_033.docx; Patient_049.docx
+schwindel,associated,,83,Schwindel,Schwindelgefühl,Drehschwindel,Patient_009.docx; Patient_1049.docx; Patient_1200.docx
+taubheit,associated,,73,Taubheit,Taubheitsgefühl,,Patient_019.docx; Patient_1085.docx
+morning_stiffness,associated,,62,Morgensteifigkeit,Steifigkeit morgens,Morgensteife,Patient_003.docx; Patient_1978.docx; Patient_1993.docx
+Bewegung,relieving,,59,leichte Bewegung,Spaziergang,leichter Bewegung,Patient_015.docx; Patient_064.docx; Patient_1279.docx
+Massage,relieving,,58,Massagen,Massage,Massagetherapie,Patient_006.docx; Patient_015.docx; Patient_1172.docx
+Treppensteigen,aggravating,,32,Treppensteigen,Treppengehen,,Patient_012.docx; Patient_202.docx
+Kopf,radiation,HWS-Syndrom,29,ausstrahlenden Schmerzen in den Hinterkopf,ausstrahlend in den Hinterkopf,Ausstrahlung in den Hinterkopf,Patient_029.docx; Patient_045.docx; Patient_1334.docx
+Bein,radiation,LWS-Syndrom,27,Ausstrahlung in beide Hüftregionen sowie Oberschenkel,Ausstrahlung in die rechten Oberschenkel,ausstrahlende Schmerzen im seitlichen Oberschenkel,Patient_037.docx; Patient_1033.docx; Patient_1209.docx
+pulsierend,character,,27,pulsierend,pulsierender,pulsierende,Patient_013.docx; Patient_1031.docx; Patient_1041.docx
+bohrend,character,,26,bohrend,bohrenden,bohrende,Patient_045.docx; Patient_076.docx; Patient_076.docx
+bending,functional,,25,Bücken,beugen ist,,Patient_073.docx; Patient_2111.docx
+Arm,radiation,HWS-Syndrom,24,Ausstrahlung in dem Arm,Ausstrahlung in den Hinterkopf und linken Arm,Ausstrahlung in den Kopf und in linken Arm,Patient_1134.docx; Patient_1334.docx; Patient_1364.docx
+walking_distance,functional,,24,Gehstrecke,langes Gehen,Gehfähigkeit,Patient_047.docx; Patient_1242.docx; Patient_1990.docx
+sitting_tolerance,functional,,17,Langes Sitzen,Lange Sitzen,Sitzdauer,Patient_106.docx; Patient_1152.docx; Patient_239.docx
+Dehnung,relieving,,13,dehnen,Dehnung,Strecken,Patient_038.docx; Patient_1020.docx; Patient_126.docx
+Gesäß,radiation,LWS-Syndrom,13,Ausstrahlung ins rechte Gesäß,Ausstrahlung über das Gesäß,Ausstrahlung ins Gesäß,Patient_122.docx; Patient_1441.docx; Patient_1909.docx
+krampfartig,character,,13,krampfartig,krampfend,,Patient_1116.docx; Patient_944.docx
+längere Bildschirmarbeit,aggravating,,10,Computer,Bildschirmarbeit,Computerarbeit,Patient_1074.docx; Patient_1187.docx; Patient_1241.docx
+elektrisierend,character,,9,elektrisierend,elektrisierende,elektrisierenden,Patient_1208.docx; Patient_1784.docx; Patient_2167.docx
+lifting,functional,,2,schweres Heben,,,Patient_1775.docx

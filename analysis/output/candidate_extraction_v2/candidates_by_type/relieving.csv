@@ -1,0 +1,7 @@
+canonical,cluster_hint,doc_count,examples,example_docs
+Wärme,,588,warm | Wärme | Wärmeanwendung | warme | warmes,Patient_003.docx | Patient_006.docx | Patient_020.docx | Patient_064.docx | Patient_1550.docx
+Ruhe,,173,Ruhe | Ausruhen,Patient_006.docx | Patient_038.docx
+Liegen,,157,liegen | hinlegen | hängt,Patient_006.docx | Patient_056.docx | Patient_1349.docx
+Bewegung,,59,leichte Bewegung | Spaziergang | leichter Bewegung | spazieren | Spaziergehen,Patient_015.docx | Patient_064.docx | Patient_1279.docx | Patient_166.docx | Patient_1780.docx
+Massage,,58,Massagen | Massage | Massagetherapie,Patient_006.docx | Patient_015.docx | Patient_1172.docx
+Dehnung,,13,dehnen | Dehnung | Strecken,Patient_038.docx | Patient_1020.docx | Patient_126.docx

@@ -1,0 +1,4 @@
+canonical,cluster_hint,doc_count,examples,example_docs
+beidseits,,1256,bds | beidseits | beidseitig,Patient_001.docx | Patient_016.docx | Patient_072.docx
+rechts,,379,rechts | rechtsbetont | rechtsseitig,Patient_003.docx | Patient_011.docx | Patient_1435.docx
+links,,338,links | linksseitig | linksbetont,Patient_006.docx | Patient_016.docx | Patient_017.docx

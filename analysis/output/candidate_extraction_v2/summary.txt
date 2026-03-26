@@ -1,0 +1,37 @@
+=== Mining Layer v1 — Extraction Summary ===
+Documents processed : 2311
+Segments found      : 9372
+Raw matches         : 13494
+Aggregated candidates: 47
+
+--- Candidates by type ---
+  aggravating                  8
+  associated                   8
+  character                    8
+  cluster                      4
+  functional                   5
+  radiation                    5
+  relieving                    6
+  side                         3
+
+--- Top 20 candidates by frequency ---
+  1256x  side                  beidseits
+  1010x  associated            schwäche
+   891x  cluster               LWS-Syndrom
+   744x  aggravating           Kälte
+   706x  cluster               HWS-Syndrom
+   699x  cluster               Schulter-Syndrom
+   611x  associated            erschöpfung
+   588x  relieving             Wärme
+   489x  character             ziehend
+   487x  cluster               Knie-Syndrom
+   461x  character             stechend
+   379x  side                  rechts
+   359x  associated            kopfschmerzen [HWS-Syndrom]
+   338x  side                  links
+   291x  aggravating           Stress
+   290x  radiation             Ausstrahlung
+   257x  character             dumpf
+   232x  aggravating           langes Stehen
+   219x  character             brennend
+   205x  aggravating           langes Sitzen

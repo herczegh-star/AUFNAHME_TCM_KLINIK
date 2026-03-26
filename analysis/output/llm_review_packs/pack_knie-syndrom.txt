@@ -1,0 +1,72 @@
+============================================================
+  REVIEW PACK — Knie-Syndrom
+============================================================
+  Seed cluster : Knie-Syndrom
+  Documents    : 487
+  Examples     : Knie, Knieschmerzen, Gonarthrose
+  Generated from: candidates_all.csv
+  Cluster-linked candidates : 0
+  Global candidates used    : 37
+
+── SIDE ──
+   1256x  beidseits                       ex: bds / beidseits / beidseitig
+    379x  rechts                          ex: rechts / rechtsbetont / rechtsseitig
+    338x  links                           ex: links / linksseitig / linksbetont
+
+── CHARACTER ──
+    489x  ziehend                         ex: ziehend / ziehenden / ziehender
+    461x  stechend                        ex: stechend / stechenden / stechende
+    257x  dumpf                           ex: dumpf / drückend / drückende
+    219x  brennend                        ex: brennenden / brennende / brennend
+     27x  pulsierend                      ex: pulsierend / pulsierender / pulsierende
+     26x  bohrend                         ex: bohrend / bohrenden / bohrende
+     13x  krampfartig                     ex: krampfartig / krampfend
+      9x  elektrisierend                  ex: elektrisierend / elektrisierende / elektrisierenden
+
+── AGGRAVATING ──
+    744x  Kälte                           ex: kalte / Kälte
+    291x  Stress                          ex: Stress / psychischer Belastung / psychische Belastung
+    232x  langes Stehen                   ex: stehen / längere Stehen / längeres Stehen
+    205x  langes Sitzen                   ex: Sitzen / Langes Sitzen / längere Sitzen
+     96x  Belastung                       ex: körperlicher Belastung / körperliche Belastung / Anstrengung
+     32x  Treppensteigen                  ex: Treppensteigen / Treppengehen
+     10x  längere Bildschirmarbeit        ex: Computer / Bildschirmarbeit / Computerarbeit
+
+── RELIEVING ──
+    588x  Wärme                           ex: warm / Wärme / Wärmeanwendung
+    173x  Ruhe                            ex: Ruhe / Ausruhen
+    157x  Liegen                          ex: liegen / hinlegen / hängt
+     59x  Bewegung                        ex: leichte Bewegung / Spaziergang / leichter Bewegung
+     58x  Massage                         ex: Massagen / Massage / Massagetherapie
+     13x  Dehnung                         ex: dehnen / Dehnung / Strecken
+
+── RADIATION ──
+    290x  Ausstrahlung                    ex: Ausstrahlung / ausstrahlend / strahlt in
+
+── FUNCTIONAL ──
+    123x  sleep_quality                   ex: Schlafstörungen / Schlafqualität / Schlafstörung
+     25x  bending                         ex: Bücken / beugen ist
+     24x  walking_distance                ex: Gehstrecke / langes Gehen / Gehfähigkeit
+     17x  sitting_tolerance               ex: Langes Sitzen / Lange Sitzen / Sitzdauer
+      2x  lifting                         ex: schweres Heben
+
+── ASSOCIATED ──
+   1010x  schwäche                        ex: Kraft / Kraftlosigkeit / Schwäche
+    611x  erschöpfung                     ex: erschöpft / Erschöpfung / müde
+    148x  tinnitus                        ex: Tinnitus / Ohrgeräusch / Ohrgeräusche
+     87x  kribbeln                        ex: Kribbeln / Kribbelgefühl / Parästhesien
+     83x  schwindel                       ex: Schwindel / Schwindelgefühl / Drehschwindel
+     73x  taubheit                        ex: Taubheit / Taubheitsgefühl
+     62x  morning_stiffness               ex: Morgensteifigkeit / Steifigkeit morgens / Morgensteife
+
+── CURATOR QUESTIONS ──
+  Q01. Mají být side hodnoty (beidseits / rechts / links) řešeny samostatnou laterality vrstvou?
+  Q02. Má být charakter 'ziehend' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?
+  Q03. Má být charakter 'stechend' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?
+  Q04. Má být charakter 'dumpf' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?
+  Q05. Má být charakter 'brennend' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?
+  Q06. Má být charakter 'pulsierend' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?
+  Q07. Má být charakter 'bohrend' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?
+  Q08. Má být charakter 'krampfartig' pro cluster Knie-Syndrom zahrnut jako MODIFIER block?
+
+============================================================
