@@ -8,6 +8,7 @@ No logic changes. No UI changes. Pure structural move.
 """
 
 import flet as ft
+from dataclasses import dataclass, field as dc_field
 
 from core.template_repository import Cluster
 from core.symptom_composer import compose_symptom_text
@@ -24,7 +25,79 @@ from services.style_library_service import StyleLibraryService
 from services.ai_draft_service import AIDraftService
 from core.ai_draft.draft_pipeline import DraftPipeline
 from core.ai_draft.archetype_loader import get_archetypes_for_cluster, get_archetype_text
+from services.agent_mode_service import AgentModeService
 
+
+# ── AI-Agent-Modus: state model ────────────────────────────────────────────
+
+@dataclass
+class _AgentTask:
+    kind:             str   # "haupt" | "neben" | "weitere"
+    index_in_kind:    int
+    source_text:      str
+    raw_draft:        str = ""
+    structured_draft: str = ""
+    final_text:       str = ""
+    status:           str = "pending"
+
+    @property
+    def label(self) -> str:
+        if self.kind == "haupt":
+            return "Hauptbeschwerde"
+        if self.kind == "neben":
+            return f"Nebenbeschwerde {self.index_in_kind}"
+        return f"Weitere Beschwerde {self.index_in_kind}"
+
+
+@dataclass
+class _AgentState:
+    tasks:         list[_AgentTask] = dc_field(default_factory=list)
+    current_index: int = 0
+
+    @property
+    def current(self) -> "_AgentTask | None":
+        if 0 <= self.current_index < len(self.tasks):
+            return self.tasks[self.current_index]
+        return None
+
+    @property
+    def progress(self) -> "tuple[int, int]":
+        done = sum(1 for t in self.tasks if t.status in ("done", "skipped"))
+        return done, len(self.tasks)
+
+    @property
+    def all_done(self) -> bool:
+        return all(t.status in ("done", "skipped") for t in self.tasks)
+
+    def advance(self) -> bool:
+        for i in range(self.current_index + 1, len(self.tasks)):
+            if self.tasks[i].status not in ("done", "skipped"):
+                self.current_index = i
+                return True
+        for i in range(0, self.current_index):
+            if self.tasks[i].status not in ("done", "skipped"):
+                self.current_index = i
+                return True
+        return False
+
+
+def _split_complaint_field(text: str) -> list[str]:
+    text = text.strip()
+    if not text:
+        return []
+    if "\n" in text:
+        items = [x.strip() for x in text.splitlines()]
+    elif ";" in text:
+        items = [x.strip() for x in text.split(";")]
+    elif "," in text:
+        parts = [x.strip() for x in text.split(",")]
+        items = parts if all(len(p) < 60 for p in parts) else [text]
+    else:
+        items = [text]
+    return [i for i in items if i][:5]
+
+
+# ───────────────────────────────────────────────────────────────────────────
 
 SYMPTOM_GROUPS = [
     # structured clusters
@@ -294,6 +367,8 @@ class ScreenComposer:
         _ai_svc = StyleLibraryService()
         _ai_service    = AIDraftService(_ai_svc, PromptBuilder())
         _draft_pipeline = DraftPipeline()
+        _agent_state   = _AgentState()
+        _agent_svc     = AgentModeService()
 
         # --- Kompositionsmodus ---
         komp_mode = ft.RadioGroup(
@@ -478,6 +553,249 @@ class ScreenComposer:
                 page.update(),
             ),
         )
+
+        # ── AI-Agent-Modus widgets ──────────────────────────────────────────
+
+        agent_progress_text    = ft.Text("", size=12, color=ft.Colors.GREY_600)
+        agent_task_label_text  = ft.Text("", size=15, weight=ft.FontWeight.BOLD)
+        agent_source_container = ft.Container(
+            padding=ft.padding.symmetric(horizontal=10, vertical=6),
+            bgcolor=ft.Colors.BLUE_50,
+            border_radius=6,
+            content=ft.Text("", size=12, color=ft.Colors.BLUE_800, selectable=True),
+        )
+
+        agent_raw_field = ft.TextField(
+            label="Raw Draft",
+            multiline=True, min_lines=4, max_lines=10,
+            expand=True,
+            hint_text="Freier Text — schreiben Sie hier den Rohtext.",
+        )
+        agent_structured_field = ft.TextField(
+            label="Structured Draft",
+            multiline=True, min_lines=4, max_lines=10,
+            expand=True,
+        )
+        agent_final_field = ft.TextField(
+            label="Finaler Text (bearbeitbar)",
+            multiline=True, min_lines=4, max_lines=10,
+            expand=True,
+        )
+
+        agent_to_structured_btn = ft.ElevatedButton("In Structured Draft umwandeln", disabled=True)
+        agent_skip_btn          = ft.OutlinedButton("Überspringen", disabled=True)
+        agent_to_final_btn      = ft.ElevatedButton("Finalen Text generieren", disabled=True)
+        agent_uebernehmen_btn   = ft.ElevatedButton("In Bericht übernehmen", disabled=True)
+        agent_status_text       = ft.Text("", size=12)
+        agent_complete_text     = ft.Text(
+            "Alle Aufgaben abgeschlossen.",
+            size=14, weight=ft.FontWeight.BOLD,
+            color=ft.Colors.GREEN_700,
+            visible=False,
+        )
+
+        agent_raw_block = ft.Column(
+            controls=[
+                ft.Text("Raw Draft", weight=ft.FontWeight.BOLD, size=13,
+                        color=ft.Colors.GREY_800),
+                agent_raw_field,
+                ft.Row(controls=[agent_to_structured_btn, agent_skip_btn], spacing=8),
+            ],
+            visible=False,
+        )
+        agent_structured_block = ft.Column(
+            controls=[
+                ft.Divider(height=16),
+                ft.Text("Structured Draft", weight=ft.FontWeight.BOLD, size=13,
+                        color=ft.Colors.GREY_800),
+                agent_structured_field,
+                agent_to_final_btn,
+            ],
+            visible=False,
+        )
+        agent_final_block = ft.Column(
+            controls=[
+                ft.Divider(height=16),
+                ft.Text("Finaler Text", weight=ft.FontWeight.BOLD, size=13,
+                        color=ft.Colors.GREY_800),
+                agent_final_field,
+                agent_uebernehmen_btn,
+            ],
+            visible=False,
+        )
+
+        def _render_current_task() -> None:
+            task = _agent_state.current
+            if task is None:
+                return
+            done, total = _agent_state.progress
+            agent_progress_text.value             = f"Aufgabe {done + 1} von {total}"
+            agent_task_label_text.value           = task.label
+            agent_source_container.content.value  = task.source_text
+
+            agent_raw_field.value        = task.raw_draft
+            agent_structured_field.value = task.structured_draft
+            agent_final_field.value      = task.final_text
+
+            s = task.status
+            agent_raw_block.visible        = s in ("raw", "structured", "final", "done")
+            agent_structured_block.visible = s in ("structured", "final", "done")
+            agent_final_block.visible      = s in ("final", "done")
+
+            agent_raw_field.read_only        = s != "raw"
+            agent_structured_field.read_only = s != "structured"
+            agent_final_field.read_only      = s == "done"
+
+            agent_to_structured_btn.disabled = s != "raw"
+            agent_skip_btn.disabled          = s in ("done", "skipped")
+            agent_to_final_btn.disabled      = s != "structured"
+            agent_uebernehmen_btn.disabled   = s != "final"
+
+            agent_status_text.value     = ""
+            agent_complete_text.visible = False
+
+        def _show_agent_complete() -> None:
+            agent_progress_text.value            = "Alle Aufgaben abgeschlossen."
+            agent_task_label_text.value          = ""
+            agent_source_container.content.value = ""
+            agent_raw_block.visible        = False
+            agent_structured_block.visible = False
+            agent_final_block.visible      = False
+            agent_to_structured_btn.disabled = True
+            agent_skip_btn.disabled          = True
+            agent_to_final_btn.disabled      = True
+            agent_uebernehmen_btn.disabled   = True
+            agent_complete_text.visible = True
+
+        def _init_agent_mode() -> None:
+            if not self._summary:
+                agent_task_label_text.value = "Kein Fall geladen."
+                agent_progress_text.value   = ""
+                page.update()
+                return
+            # guard: neinicializuj pokud workflow already running
+            if _agent_state.tasks and not _agent_state.all_done:
+                _render_current_task()
+                page.update()
+                return
+
+            tasks: list[_AgentTask] = []
+            haupt = self._summary.most_burdensome.strip()
+            if haupt:
+                tasks.append(_AgentTask(kind="haupt", index_in_kind=1, source_text=haupt))
+
+            for i, item in enumerate(_split_complaint_field(self._summary.priority_complaint)[:2], 1):
+                tasks.append(_AgentTask(kind="neben", index_in_kind=i, source_text=item))
+
+            for i, item in enumerate(_split_complaint_field(self._summary.additional_complaints)[:5], 1):
+                tasks.append(_AgentTask(kind="weitere", index_in_kind=i, source_text=item))
+
+            if not tasks:
+                agent_task_label_text.value = "Keine Beschwerden vorhanden."
+                agent_progress_text.value   = ""
+                page.update()
+                return
+
+            _agent_state.tasks = tasks
+            _agent_state.current_index = 0
+            _agent_state.tasks[0].status = "raw"
+            _render_current_task()
+            page.update()
+
+        def on_to_structured(e: ft.ControlEvent) -> None:
+            task = _agent_state.current
+            if task is None:
+                return
+            raw = agent_raw_field.value.strip()
+            if not raw:
+                agent_status_text.value = "Bitte zuerst einen Raw Draft eingeben."
+                agent_status_text.color = ft.Colors.ORANGE_700
+                page.update()
+                return
+            task.raw_draft        = raw
+            task.structured_draft = _agent_svc.raw_to_structured(raw, task.label)
+            task.status           = "structured"
+            _render_current_task()
+            page.update()
+
+        def on_to_final(e: ft.ControlEvent) -> None:
+            task = _agent_state.current
+            if task is None:
+                return
+            structured = agent_structured_field.value.strip()
+            if not structured:
+                agent_status_text.value = "Structured Draft ist leer."
+                agent_status_text.color = ft.Colors.ORANGE_700
+                page.update()
+                return
+            task.structured_draft = structured
+            task.final_text       = structured  # placeholder — LLM 2 folgt später
+            task.status           = "final"
+            _render_current_task()
+            page.update()
+
+        def on_agent_uebernehmen(e: ft.ControlEvent) -> None:
+            task = _agent_state.current
+            if task is None:
+                return
+            final = agent_final_field.value.strip()
+            if not final:
+                agent_status_text.value = "Finaler Text ist leer."
+                agent_status_text.color = ft.Colors.ORANGE_700
+                page.update()
+                return
+            task.final_text = final
+            task.status     = "done"
+            if controller:
+                controller.state.composed_blocks.append(final)
+                refresh_blocks_column()
+            if _agent_state.advance():
+                if _agent_state.current.status == "pending":
+                    _agent_state.current.status = "raw"
+                _render_current_task()
+            else:
+                _show_agent_complete()
+            page.update()
+
+        def on_agent_skip(e: ft.ControlEvent) -> None:
+            task = _agent_state.current
+            if task is None:
+                return
+            task.status = "skipped"
+            if _agent_state.advance():
+                if _agent_state.current.status == "pending":
+                    _agent_state.current.status = "raw"
+                _render_current_task()
+            else:
+                _show_agent_complete()
+            page.update()
+
+        agent_to_structured_btn.on_click = on_to_structured
+        agent_skip_btn.on_click          = on_agent_skip
+        agent_to_final_btn.on_click      = on_to_final
+        agent_uebernehmen_btn.on_click   = on_agent_uebernehmen
+
+        # ── AI-Agent-Modus container ────────────────────────────────────────
+
+        agent_mode_container = ft.Column(
+            controls=[
+                agent_progress_text,
+                ft.Container(height=2),
+                agent_task_label_text,
+                ft.Container(height=4),
+                agent_source_container,
+                ft.Divider(height=16),
+                agent_raw_block,
+                agent_structured_block,
+                agent_final_block,
+                ft.Container(height=8),
+                agent_status_text,
+                agent_complete_text,
+            ],
+            visible=False,
+        )
+
+        # ───────────────────────────────────────────────────────────────────
 
         def on_draft_generate(e: ft.ControlEvent) -> None:
             def split_csv(val: str) -> list[str]:
@@ -678,9 +996,12 @@ class ScreenComposer:
         )
 
         def on_mode_change(e: ft.ControlEvent) -> None:
-            is_ai = mode_selector.value == "AI-Entwurf-Modus"
-            block_mode_container.visible = not is_ai
-            ai_draft_container.visible   = is_ai
+            m = mode_selector.value
+            block_mode_container.visible  = m == "Block-Modus"
+            ai_draft_container.visible    = m == "AI-Entwurf-Modus"
+            agent_mode_container.visible  = m == "AI-Agent-Modus"
+            if m == "AI-Agent-Modus":
+                _init_agent_mode()
             page.update()
 
         mode_selector = ft.Dropdown(
@@ -689,6 +1010,7 @@ class ScreenComposer:
             options=[
                 ft.dropdown.Option("Block-Modus"),
                 ft.dropdown.Option("AI-Entwurf-Modus"),
+                ft.dropdown.Option("AI-Agent-Modus"),
             ],
             width=240,
             on_change=on_mode_change,
@@ -702,6 +1024,7 @@ class ScreenComposer:
                 ft.Container(height=12),
                 block_mode_container,
                 ai_draft_container,
+                agent_mode_container,
             ],
             expand=True,
             scroll=ft.ScrollMode.AUTO,
