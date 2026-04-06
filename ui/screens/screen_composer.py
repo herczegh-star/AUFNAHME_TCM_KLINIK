@@ -1016,11 +1016,18 @@ class ScreenComposer:
             on_change=on_mode_change,
         )
 
+        pilot_btn = ft.OutlinedButton(
+            "Cluster-Pilot →",
+            icon=ft.Icons.SCIENCE_OUTLINED,
+            on_click=lambda _: self._controller.show_cluster_pilot(),
+            tooltip="Neuer Cluster-Pilot-Modus (Unified Cluster Architecture)",
+        )
+
         composer_column = ft.Column(
             controls=[
                 ft.Text("AUFNAHME TCM KLINIK", size=22, weight=ft.FontWeight.BOLD),
                 ft.Container(height=12),
-                mode_selector,
+                ft.Row([mode_selector, ft.Container(expand=True), pilot_btn], vertical_alignment=ft.CrossAxisAlignment.CENTER),
                 ft.Container(height=12),
                 block_mode_container,
                 ai_draft_container,

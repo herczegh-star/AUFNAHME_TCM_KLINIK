@@ -1,0 +1,630 @@
+{
+  "id": "lws_syndrom",
+  "name": "LWS-Syndrom",
+  "aliases": [
+    "Lumbalsyndrom",
+    "Lumbalgie",
+    "lws",
+    "LWS",
+    "Kreuzschmerz",
+    "Rueckenschmerz",
+    "Rueckenschmerzen"
+  ],
+  "status": "pilot",
+  "version": "1.1",
+  "category": "Schmerzsyndrom",
+  "family": "vertebral",
+  "tags": [
+    "schmerz",
+    "wirbelsaeule",
+    "lumbal",
+    "radikulaer"
+  ],
+  "meta": {
+    "icd10": "M54.5",
+    "icd10_label": "Kreuzschmerz",
+    "anatomical_region": "Lendenwirbelsaeule L1-S1",
+    "typical_age_range": "30-70",
+    "tcm_pattern_hints": [
+      "Qi-Stagnation",
+      "Nieren-Mangel",
+      "Kaelte-Bi-Syndrom"
+    ]
+  },
+  "form": {
+    "title": "LWS-Syndrom – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Beschwerdedauer",
+        "type": "text",
+        "placeholder": "z. B. 3 Wochen, seit 2 Jahren",
+        "required": true,
+        "normalization_map": null
+      },
+      {
+        "id": "side",
+        "label": "Lokalisation / Seite",
+        "type": "select",
+        "options": [
+          "links",
+          "rechts",
+          "beidseits",
+          "zentral"
+        ],
+        "required": false,
+        "normalization_map": "side"
+      },
+      {
+        "id": "character",
+        "label": "Schmerzcharakter",
+        "type": "multi_select",
+        "options": [
+          "ziehend",
+          "stechend",
+          "dumpf",
+          "brennend",
+          "krampfartig",
+          "drueckend",
+          "elektrisierend",
+          "pulsierend"
+        ],
+        "required": false,
+        "normalization_map": "character"
+      },
+      {
+        "id": "pain_temporality",
+        "label": "Zeitlicher Verlauf",
+        "type": "select",
+        "options": [
+          "chronisch",
+          "intermittierend",
+          "belastungsabhaengig",
+          "progredient"
+        ],
+        "required": false,
+        "normalization_map": null
+      },
+      {
+        "id": "radiation",
+        "label": "Ausstrahlung",
+        "type": "select",
+        "options": [
+          "keine",
+          "Gesaess",
+          "linkes_bein",
+          "rechtes_bein",
+          "linkes_bein_bis_ferse",
+          "rechtes_bein_bis_ferse",
+          "Leiste",
+          "Unterbauch"
+        ],
+        "required": false,
+        "normalization_map": null
+      },
+      {
+        "id": "aggravating_factor",
+        "label": "Verstaeркende Faktoren",
+        "type": "multi_select",
+        "options": [
+          "langes_sitzen",
+          "langes_stehen",
+          "langes_gehen",
+          "buecken",
+          "treppensteigen",
+          "belastung"
+        ],
+        "required": false,
+        "normalization_map": "aggravating"
+      },
+      {
+        "id": "relieving_factor",
+        "label": "Lindernde Faktoren",
+        "type": "multi_select",
+        "options": [
+          "waerme",
+          "ruhe",
+          "liegen",
+          "bewegung",
+          "massage"
+        ],
+        "required": false,
+        "normalization_map": "relieving"
+      },
+      {
+        "id": "functional_limitations",
+        "label": "Funktionelle Einschraenkungen",
+        "type": "multi_select",
+        "options": [
+          "sitting_tolerance",
+          "walking_distance",
+          "stehen",
+          "treppensteigen",
+          "schlafstoerung"
+        ],
+        "required": false,
+        "normalization_map": "functional"
+      },
+      {
+        "id": "intensity_vas",
+        "label": "Schmerzintensitaet (VAS 0-10)",
+        "type": "number",
+        "min": 0,
+        "max": 10,
+        "required": false,
+        "normalization_map": null
+      },
+      {
+        "id": "onset",
+        "label": "Ausloeser / Beginn",
+        "type": "text",
+        "placeholder": "z. B. nach Heben, schleichend, nach Unfall",
+        "required": false,
+        "normalization_map": null
+      },
+      {
+        "id": "neurological_signs",
+        "label": "Neurologische Zeichen",
+        "type": "multi_select",
+        "options": [
+          "Taubheit",
+          "Kribbeln",
+          "Kraftminderung",
+          "Reflexabschwaechung",
+          "keine"
+        ],
+        "required": false,
+        "normalization_map": null
+      },
+      {
+        "id": "previous_treatment",
+        "label": "Vorbehandlung",
+        "type": "text",
+        "placeholder": "z. B. Physiotherapie, Analgetika, OP",
+        "required": false,
+        "normalization_map": null
+      },
+      {
+        "id": "additional_notes",
+        "label": "Weitere Angaben",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null
+      }
+    ]
+  },
+  "normalization": {
+    "side": {
+      "rechts": "rechts",
+      "rechtsbetont": "rechts",
+      "rechts betont": "rechts",
+      "re.": "rechts",
+      "r.": "rechts",
+      "links": "links",
+      "linksbetont": "links",
+      "links betont": "links",
+      "li.": "links",
+      "l.": "links",
+      "beidseits": "beidseits",
+      "bds.": "beidseits",
+      "beids.": "beidseits",
+      "beidseitig": "beidseits",
+      "bilateral": "beidseits",
+      "zentral": "zentral",
+      "mittig": "zentral"
+    },
+    "character": {
+      "ziehend": "ziehend",
+      "dumpf-ziehend": "ziehend",
+      "zieht": "ziehend",
+      "stechend": "stechend",
+      "teilweise stechend": "stechend",
+      "sticht": "stechend",
+      "dumpf": "dumpf",
+      "dumpf-drueckend": "dumpf",
+      "drueckend": "dumpf",
+      "drückend": "dumpf",
+      "brennend": "brennend",
+      "krampfartig": "krampfartig",
+      "elektrisierend": "elektrisierend",
+      "pulsierend": "pulsierend"
+    },
+    "aggravating": {
+      "sitzen": "langes_sitzen",
+      "sitzdauer": "langes_sitzen",
+      "langes sitzen": "langes_sitzen",
+      "laengeres sitzen": "langes_sitzen",
+      "stehen": "langes_stehen",
+      "langes stehen": "langes_stehen",
+      "gehen": "langes_gehen",
+      "langes gehen": "langes_gehen",
+      "buecken": "buecken",
+      "bücken": "buecken",
+      "treppensteigen": "treppensteigen",
+      "treppe": "treppensteigen",
+      "belastung": "belastung",
+      "koerperliche belastung": "belastung",
+      "sport": "belastung"
+    },
+    "relieving": {
+      "waerme": "waerme",
+      "wärme": "waerme",
+      "wärmeanwendung": "waerme",
+      "waermeanwendung": "waerme",
+      "wärmflasche": "waerme",
+      "warm": "waerme",
+      "ruhe": "ruhe",
+      "ausruhen": "ruhe",
+      "liegen": "liegen",
+      "hinlegen": "liegen",
+      "bewegung": "bewegung",
+      "leichte bewegung": "bewegung",
+      "spazieren": "bewegung",
+      "massage": "massage",
+      "massagen": "massage"
+    },
+    "functional": {
+      "sitzen": "sitting_tolerance",
+      "sitzdauer": "sitting_tolerance",
+      "sitztoleranz": "sitting_tolerance",
+      "sitting_tolerance": "sitting_tolerance",
+      "gehen": "walking_distance",
+      "gehstrecke": "walking_distance",
+      "laufen": "walking_distance",
+      "walking_distance": "walking_distance"
+    }
+  },
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Fuellwoerter, keine Passivkonstruktionen",
+      "Keine Diagnose, keine Therapieempfehlung im Rohtext",
+      "Anatomische Praezision: LWS-Bereich, nicht 'Ruecken' oder 'Koerper'",
+      "Ausstrahlungen explizit benennen wenn vorhanden",
+      "Zeitlicher Verlauf als Adjektiv-Praefix: Chronische / Intermittierende / Belastungsabhaengige Schmerzen",
+      "Schmerzcharakter als Adjektiv-Modifikator: ziehende, stechende, dumpfe Schmerzen",
+      "Verstaeркende Faktoren mit 'verstaerkt bei': verstaerkt bei langem Sitzen",
+      "Lindernde Faktoren mit 'gebessert durch': gebessert durch Waerme",
+      "Funktionelle Einschraenkungen am Satzende oder als separater Satz",
+      "Maximal 2 Saetze pro Hauptbeschwerdeblock"
+    ],
+    "preferred_patterns": [
+      "[Temporalitaet] [Charakter] Schmerzen im LWS-Bereich [Seite] [Ausstrahlung], verstaerkt bei [Faktor], gebessert durch [Faktor].",
+      "[Charakter] Schmerzen im LWS-Bereich [Seite] seit [Dauer].",
+      "Chronische Schmerzen im LWS-Bereich beidseits mit Ausstrahlung ins [Ziel], verstaerkt bei [Faktor].",
+      "Belastungsabhaengige [Charakter] Schmerzen im LWS-Bereich [Seite], gebessert durch [Faktor]."
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Schmerzen im LWS-Bereich"
+      ],
+      "temporality": [
+        "Chronische",
+        "Intermittierende",
+        "Belastungsabhaengige",
+        "Progrediente"
+      ],
+      "character": [
+        "ziehende",
+        "stechende",
+        "dumpfe",
+        "brennende",
+        "krampfartige"
+      ],
+      "aggravating": [
+        "verstaerkt bei langem Sitzen",
+        "verstaerkt bei langem Stehen",
+        "verstaerkt bei Buecken",
+        "verstaerkt bei koerperlicher Belastung"
+      ],
+      "relieving": [
+        "gebessert durch Waerme",
+        "gebessert durch Ruhe",
+        "gebessert durch Liegen",
+        "gebessert durch leichte Bewegung"
+      ],
+      "radiation": [
+        "mit Ausstrahlung ins linke Bein",
+        "mit Ausstrahlung ins rechte Bein",
+        "mit Ausstrahlung ins linke Bein bis zur Ferse",
+        "mit Ausstrahlung ins rechte Bein bis zur Ferse",
+        "mit Ausstrahlung ins Gesaess"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht fuer",
+      "koennte",
+      "moeglicherweise"
+    ],
+    "examples": [
+      {
+        "input": "Chronische ziehende Schmerzen LWS beidseits, VAS 6, verstaerkt bei langem Sitzen, gebessert durch Waerme",
+        "output": "Chronische, ziehende Schmerzen im LWS-Bereich beidseits, verstaerkt bei langem Sitzen, gebessert durch Waerme."
+      },
+      {
+        "input": "Stechende Schmerzen LWS rechts mit Ausstrahlung ins rechte Bein bis zur Ferse, Kribbeln, VAS 7",
+        "output": "Stechende Schmerzen im LWS-Bereich rechts mit Ausstrahlung ins rechte Bein bis zur Ferse."
+      },
+      {
+        "input": "Belastungsabhaengige dumpfe Schmerzen LWS, verstaerkt bei Buecken und Treppensteigen, gebessert durch Ruhe",
+        "output": "Belastungsabhaengige, dumpfe Schmerzen im LWS-Bereich, verstaerkt bei Buecken, gebessert durch Ruhe."
+      }
+    ]
+  },
+  "render_maps": {
+    "character_adjective": {
+      "ziehend": "ziehende",
+      "stechend": "stechende",
+      "dumpf": "dumpfe",
+      "brennend": "brennende",
+      "krampfartig": "krampfartige",
+      "drueckend": "drueckende",
+      "elektrisierend": "elektrisierende",
+      "pulsierend": "pulsierende"
+    },
+    "radiation_phrase": {
+      "Gesaess": "mit Ausstrahlung ins Gesaess",
+      "linkes_bein": "mit Ausstrahlung ins linke Bein",
+      "rechtes_bein": "mit Ausstrahlung ins rechte Bein",
+      "linkes_bein_bis_ferse": "mit Ausstrahlung ins linke Bein bis zur Ferse",
+      "rechtes_bein_bis_ferse": "mit Ausstrahlung ins rechte Bein bis zur Ferse",
+      "gesaess_links": "mit Ausstrahlung ins linke Gesaess",
+      "gesaess_rechts": "mit Ausstrahlung ins rechte Gesaess",
+      "Leiste": "mit Ausstrahlung in die Leiste",
+      "Unterbauch": "mit Ausstrahlung in den Unterbauch"
+    },
+    "aggravating_dative": {
+      "langes_sitzen": "langem Sitzen",
+      "langes_stehen": "langem Stehen",
+      "langes_gehen": "langem Gehen",
+      "buecken": "Buecken",
+      "treppensteigen": "Treppensteigen",
+      "belastung": "koerperlicher Belastung"
+    },
+    "relieving_noun": {
+      "waerme": "Waerme",
+      "ruhe": "Ruhe",
+      "liegen": "Liegen",
+      "bewegung": "leichter Bewegung",
+      "massage": "Massage"
+    },
+    "temporality_adjective": {
+      "chronisch": "Chronische",
+      "intermittierend": "Intermittierende",
+      "belastungsabhaengig": "Belastungsabhaengige",
+      "progredient": "Progrediente"
+    }
+  },
+  "draft_pipeline": {
+    "stages": [
+      {
+        "id": "raw",
+        "label": "Roh-Entwurf",
+        "type": "deterministic",
+        "description": "Deterministische Satzkonstruktion aus Formularfeldern via render_maps",
+        "composer": "lws_narrative_composer.compose_lws_narrative",
+        "validation": {
+          "forbidden_words": true,
+          "max_sentences": 2,
+          "require_anchor": true
+        }
+      },
+      {
+        "id": "refined",
+        "label": "Verfeinerter Entwurf",
+        "type": "llm",
+        "description": "LLM-Bereinigung: Grammatik, Fluss, keine inhaltliche Aenderung",
+        "system_prompt_key": "refine_grammar",
+        "temperature": 0.2,
+        "validation": {
+          "forbidden_words": true,
+          "max_sentences": 2,
+          "require_anchor": true
+        }
+      },
+      {
+        "id": "final",
+        "label": "Final-Entwurf",
+        "type": "llm",
+        "description": "Strikter Verdichtungsstil-Pass: Stil-Regeln + preferred_phrases anwenden",
+        "system_prompt_key": "final_verdichtungsstil",
+        "temperature": 0.1,
+        "validation": {
+          "forbidden_words": true,
+          "max_sentences": 2,
+          "require_anchor": true,
+          "check_preferred_patterns": true
+        }
+      }
+    ],
+    "fallback_on_llm_error": "raw"
+  },
+  "modules": {
+    "variant": "A",
+    "description": "Variante A: Cluster referenziert Block-IDs aus ai_draft_library.json",
+    "shared_modules": [
+      "pain_temporality",
+      "pain_character",
+      "pain_laterality",
+      "pain_radiation",
+      "aggravating_mechanical",
+      "relieving_passive",
+      "functional_impact_mobility",
+      "associated_neurological",
+      "onset_trigger",
+      "intensity_scale",
+      "treatment_history",
+      "sleep_impact"
+    ],
+    "block_refs": {
+      "core_symptom": [
+        "LWS_CORE_mechanical_pain",
+        "LWS_CORE_radicular_pain",
+        "LWS_CORE_chronic_pain"
+      ],
+      "modifier": [
+        "LWS_MOD_radiation",
+        "LWS_MOD_aggravating_sitting",
+        "LWS_MOD_aggravating_loading",
+        "LWS_MOD_relieving_warmth"
+      ],
+      "functional_impact": [
+        "LWS_FUNC_sitting_tolerance",
+        "LWS_FUNC_walking_distance"
+      ],
+      "associated": [
+        "LWS_ASSOC_neurological_signs"
+      ]
+    }
+  },
+  "archetypes": [
+    {
+      "id": "LWS1",
+      "label": "Mechanisches LWS-Syndrom",
+      "description": "Belastungsabhaengige lumbale Schmerzen ohne Ausstrahlung, typisch bei muskulaerer oder degenerativer Genese",
+      "when_to_use": "Schmerzen lokal LWS-Bereich, keine radikulaere Symptomatik, verstaerkt bei Belastung, gebessert durch Ruhe oder Waerme",
+      "template": "Belastungsabhaengige Schmerzen im LWS-Bereich [Seite], verstaerkt bei [Faktor], gebessert durch [Faktor].",
+      "tcm_patterns": [
+        "Qi-Stagnation",
+        "Kaelte-Bi-Syndrom"
+      ]
+    },
+    {
+      "id": "LWS2",
+      "label": "Radikulaeres LWS-Syndrom",
+      "description": "Lumbale Schmerzen mit Ausstrahlung in Bein oder Gesaess, Hinweis auf Nervenwurzelbeteiligung",
+      "when_to_use": "Schmerzen mit Ausstrahlung, neurologische Begleitsymptome (Kribbeln, Taubheit, Kraftminderung) moeglich",
+      "template": "[Charakter] Schmerzen im LWS-Bereich [Seite] mit Ausstrahlung ins [Ziel][, verstaerkt bei Faktor].",
+      "tcm_patterns": [
+        "Wind-Kaelte-Bi",
+        "Nieren-Yang-Mangel"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_lws_basic_mechanical",
+      "description": "Mechanisches LWS-Syndrom beidseits, ziehend, langes Sitzen, Waerme",
+      "input": {
+        "pain_temporality": [
+          "chronisch"
+        ],
+        "pain_character": [
+          "ziehend"
+        ],
+        "pain_laterality": [
+          "beidseits"
+        ],
+        "pain_radiation": [],
+        "aggravating_mechanical": [
+          "langes_sitzen"
+        ],
+        "relieving_passive": [
+          "waerme"
+        ]
+      },
+      "expected_contains": [
+        "Chronische",
+        "ziehende",
+        "LWS-Bereich",
+        "beidseits",
+        "langem Sitzen",
+        "Wärme"
+      ],
+      "expected_not_contains": [
+        "Ausstrahlung"
+      ]
+    },
+    {
+      "id": "test_lws_radicular_right",
+      "description": "Radikulaeres LWS-Syndrom rechts mit Ausstrahlung ins rechte Bein bis Ferse",
+      "input": {
+        "pain_temporality": [],
+        "pain_character": [
+          "stechend"
+        ],
+        "pain_laterality": [
+          "rechts"
+        ],
+        "pain_radiation": [
+          "rechtes_bein_bis_ferse"
+        ],
+        "aggravating_mechanical": [],
+        "relieving_passive": []
+      },
+      "expected_contains": [
+        "Stechende",
+        "LWS-Bereich",
+        "rechts",
+        "rechte Bein bis zur Ferse"
+      ],
+      "expected_not_contains": [
+        "wahrscheinlich",
+        "empfohlen"
+      ]
+    },
+    {
+      "id": "test_lws_no_modifiers",
+      "description": "Minimaleingabe: nur Anker, keine Modifikatoren",
+      "input": {
+        "pain_temporality": [],
+        "pain_character": [],
+        "pain_laterality": [],
+        "pain_radiation": [],
+        "aggravating_mechanical": [],
+        "relieving_passive": []
+      },
+      "expected_contains": [
+        "Schmerzen im LWS-Bereich"
+      ],
+      "expected_not_contains": [
+        "None",
+        "null",
+        "verstaerkt",
+        "gebessert"
+      ]
+    },
+    {
+      "id": "test_lws_full_complex",
+      "description": "Vollstaendige Eingabe: alle Felder belegt",
+      "input": {
+        "pain_temporality": [
+          "intermittierend"
+        ],
+        "pain_character": [
+          "dumpf",
+          "ziehend"
+        ],
+        "pain_laterality": [
+          "links"
+        ],
+        "pain_radiation": [
+          "linkes_bein"
+        ],
+        "aggravating_mechanical": [
+          "buecken"
+        ],
+        "relieving_passive": [
+          "ruhe"
+        ]
+      },
+      "expected_contains": [
+        "Intermittierende",
+        "dumpfe",
+        "LWS-Bereich",
+        "links",
+        "linke Bein",
+        "Bücken",
+        "Ruhe"
+      ],
+      "expected_not_contains": [
+        "wahrscheinlich",
+        "sollte"
+      ]
+    }
+  ]
+}

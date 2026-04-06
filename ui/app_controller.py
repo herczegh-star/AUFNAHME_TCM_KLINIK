@@ -64,3 +64,17 @@ class AppController:
             controller=self,
         ).render()
         self.page.update()
+
+    def show_cluster_pilot(self) -> None:
+        from ui.screens.screen_cluster_pilot import ScreenClusterPilot
+        self.state.current_screen = "cluster_pilot"
+        self.page.controls.clear()
+        ScreenClusterPilot(self.page, self).render()
+        self.page.update()
+
+    def show_cluster_builder(self) -> None:
+        from ui.screens.screen_cluster_builder import ScreenClusterBuilder
+        self.state.current_screen = "cluster_builder"
+        self.page.controls.clear()
+        ScreenClusterBuilder(self.page, self).render()
+        self.page.update()
