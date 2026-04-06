@@ -1,7 +1,28 @@
+# Secrets and local config
 .env
+
+# Python environment
 venv/
 __pycache__/
 *.pyc
 *.pyo
 .cache/
+
+# Windows system files
 desktop.ini
+
+# Local-only data — never commit patient data
+dataset/
+
+# Generated application outputs
+outputs/
+outputs_old/
+
+# Legacy / deprecated analysis artefacts
+analyse_old/
+
+# Analysis pipeline generated outputs (derived data, not source)
+analysis/output/
+
+# Numpy caches
+*.npz

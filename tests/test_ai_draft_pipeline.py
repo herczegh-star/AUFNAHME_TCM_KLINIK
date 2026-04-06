@@ -6,8 +6,12 @@ Smoke test for the deterministic AI-Draft end-to-end pipeline.
 Pipeline: BlockLoader → BlockSelector → RuleEngine → DraftComposer
 
 No AI. No pytest. Pure deterministic flow.
-Run: python test_ai_draft_pipeline.py
+Run from project root: python tests/test_ai_draft_pipeline.py
 """
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from core.ai_draft.draft_pipeline import DraftPipeline
 

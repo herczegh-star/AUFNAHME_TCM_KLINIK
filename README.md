@@ -42,11 +42,18 @@ docs/ARCHITEKTURA.md
 ```
 AUFNAHME_TCM_KLINIK
 │
-├─ core        # application logic
-├─ data        # template database
-├─ ui          # Flet GUI
-├─ docs        # architecture documentation
-└─ main.py
+├─ main.py          # application entrypoint
+├─ run_app.bat      # Windows launcher
+├─ core/            # application logic (NLP, pipeline, draft composers)
+├─ ui/              # Flet GUI (screens, components, controller)
+├─ models/          # data models
+├─ services/        # service layer
+├─ data/            # JSON databases (templates, clusters, style rules)
+├─ templates/       # Word template (Aufnahme-Schablone)
+├─ assets/          # icons
+├─ docs/            # architecture documentation
+├─ tests/           # development smoke tests
+└─ tools/           # utility scripts (ETL, extraction)
 ```
 
 ---
@@ -70,23 +77,24 @@ pip install -r requirements.txt
 Always run from the **project root directory**:
 
 ```bash
-python ui/app.py
+python main.py
 ```
 
 Using the virtual environment (recommended):
 
 ```bash
 venv\Scripts\activate
-python ui/app.py
+python main.py
 ```
 
-> The app prints the active Python executable and version on startup
-> to confirm the correct interpreter is used.
+Windows shortcut:
+
+```bash
+run_app.bat
+```
 
 ---
 
 ## Status
 
-Early MVP stage.
-
-Current focus: **core text generation engine**
+Active development — Cluster-Pilot architecture (unified cluster model v1.1 for LWS-Syndrom).

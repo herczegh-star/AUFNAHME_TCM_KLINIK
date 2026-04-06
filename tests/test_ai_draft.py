@@ -4,8 +4,12 @@ test_ai_draft.py
 Local smoke test for the AI draft pipeline.
 
 No UI. No export. No API calls.
-Run: python test_ai_draft.py
+Run from project root: python tests/test_ai_draft.py
 """
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from core.draft_schema import SymptomDraftInput
 from core.prompt_builder import PromptBuilder

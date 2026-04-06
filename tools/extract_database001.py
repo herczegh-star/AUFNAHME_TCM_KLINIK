@@ -10,21 +10,26 @@ Outputs:
   outputs/database001_extraction_report.md
 
 No AI. No clustering. No semantic interpretation.
+
+Run from anywhere:
+  python tools/extract_database001.py
 """
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent))
+# ROOT = project root, regardless of working directory or script location
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 
 from analysis.database001.extractor import extract_all
 from analysis.database001.exporter import write_csv, write_jsonl, write_report
 
-_DATASET_DIR = Path("dataset/aufnahmeberichte_2312_")
-_OUT_JSONL   = Path("outputs/database001_records.jsonl")
-_OUT_CSV     = Path("outputs/database001_records.csv")
-_OUT_REPORT  = Path("outputs/database001_extraction_report.md")
+_DATASET_DIR = ROOT / "dataset" / "aufnahmeberichte_2312_"
+_OUT_JSONL   = ROOT / "outputs" / "database001_records.jsonl"
+_OUT_CSV     = ROOT / "outputs" / "database001_records.csv"
+_OUT_REPORT  = ROOT / "outputs" / "database001_extraction_report.md"
 
 
 def main() -> None:
