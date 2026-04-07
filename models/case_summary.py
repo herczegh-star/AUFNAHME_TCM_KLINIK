@@ -3,9 +3,8 @@ case_summary.py
 ---------------
 Data models for application state and case summary.
 
-Phase 1: definitions only — not yet integrated into runtime.
-Phase 2: AppState will be instantiated by AppController.
-Phase 3: CaseSummary will be populated by PipelineService.build_summary().
+CaseSummary: collected interview answers (Screen 2), passed to PilotComposer.
+AppState: owned by AppController, shared across all screens.
 """
 
 from __future__ import annotations
