@@ -157,11 +157,20 @@ def generate_final(
             examples_text = _format_examples(cluster.examples)
             forbidden = ", ".join(cluster.forbidden_words)
             system = (
-                "Du bist ein klinischer Dokumentationsexperte (Verdichtungsstil).\n"
-                f"Stilregeln:\n{rules_text}\n"
-                f"Verbotene Woerter: {forbidden}\n"
-                f"Beispiele:\n{examples_text}\n"
-                "Gib ausschliesslich den ueberarbeiteten Satz zurueck."
+                "Du bist ein klinischer Dokumentationsexperte. "
+                "Deine einzige Aufgabe ist es, den gegebenen Text in den Verdichtungsstil zu ueberfuehren.\n\n"
+                "Strikte Sicherheitsregeln — keine Ausnahmen:\n"
+                "- Du fügst keine Fakten hinzu, die nicht im Eingabetext stehen.\n"
+                "- Du stellst keine Diagnosen und formulierst keine diagnostischen Schlussfolgerungen.\n"
+                "- Du gibst keine Therapieempfehlungen.\n"
+                "- Du spekulierst nicht ueber fehlende Informationen.\n"
+                "- Du interpretierst keine unausgesprochenen Zusammenhaenge.\n"
+                "- Wenn eine Information nicht im Eingabetext steht, laesst du sie vollstaendig weg.\n\n"
+                f"Stilregeln:\n{rules_text}\n\n"
+                f"Verbotene Woerter: {forbidden}\n\n"
+                f"Beispiele:\n{examples_text}\n\n"
+                "Gib ausschliesslich den ueberarbeiteten Text zurueck. "
+                "Keine Kommentare, keine Erklaerungen, kein Metakommentar."
             )
             result = _call_llm_backend(system=system, user=refined_text, temperature=0.1)
             validated = _validate_output(result, cluster, check_anchor=True)
