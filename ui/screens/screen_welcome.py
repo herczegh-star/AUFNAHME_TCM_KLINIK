@@ -23,9 +23,23 @@ class ScreenWelcome:
         controller = self._controller
 
         status_text = ft.Text("", size=13, color=ft.Colors.GREEN_700)
-        weiter_button = ft.ElevatedButton(
-            "Weiter zum Interview",
-            on_click=lambda e: controller.show_screen_2(),
+
+        # Navigation buttons — visible only after Schablone is generated
+        nav_row = ft.Row(
+            controls=[
+                ft.ElevatedButton(
+                    "Weiter zum Interview",
+                    icon=ft.Icons.ARROW_FORWARD,
+                    on_click=lambda e: controller.show_screen_2(),
+                ),
+                ft.OutlinedButton(
+                    "Direkt zum Pilot-Composer",
+                    icon=ft.Icons.SCIENCE_OUTLINED,
+                    on_click=lambda e: controller.show_pilot_composer(),
+                    tooltip="Pilot-Composer ohne Interview — Formular direkt ausfüllen",
+                ),
+            ],
+            spacing=12,
             visible=False,
         )
 
@@ -35,7 +49,7 @@ class ScreenWelcome:
                 controller.state.schablone_path = path
                 controller.state.schablone_generated = True
                 status_text.value = f"Schablone wurde generiert und gespeichert:\n{path.name}"
-                weiter_button.visible = True
+                nav_row.visible = True
             except Exception as exc:
                 status_text.value = f"Fehler: {exc}"
                 status_text.color = ft.Colors.RED_700
@@ -53,5 +67,5 @@ class ScreenWelcome:
             ft.Container(height=12),
             status_text,
             ft.Container(height=12),
-            weiter_button,
+            nav_row,
         )

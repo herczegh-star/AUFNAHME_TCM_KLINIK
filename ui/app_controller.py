@@ -3,7 +3,7 @@ app_controller.py
 -----------------
 Central workflow coordinator.
 
-Holds page, AppState and pipeline.
+Holds page and AppState.
 Decides which screen is shown.
 """
 
@@ -12,11 +12,9 @@ from __future__ import annotations
 import flet as ft
 
 from models.case_summary import AppState, CaseSummary
-from services.pipeline_service import PipelineService
 from ui.screens.screen_welcome import ScreenWelcome
 from ui.screens.screen_interview import ScreenInterview
 from ui.screens.screen_summary_review import ScreenSummaryReview
-from ui.screens.screen_composer import ScreenComposer
 
 
 class AppController:
@@ -24,7 +22,6 @@ class AppController:
     def __init__(self, page: ft.Page) -> None:
         self.page = page
         self.state = AppState()
-        self._pipeline = PipelineService().build()
 
         self._setup_page()
         self.show_screen_1()
@@ -53,16 +50,20 @@ class AppController:
         ScreenSummaryReview(self.page, self).render()
         self.page.update()
 
-    def show_screen_3(self, summary: CaseSummary) -> None:
-        self.state.current_screen = 3
-        self.state.summary = summary
+    def show_pilot_composer(self, summary: CaseSummary | None = None) -> None:
+        """
+        Production composer — unified cluster architecture.
+
+        Entry points:
+          a) show_pilot_composer(summary)  — from interview workflow
+          b) show_pilot_composer()         — direct access (no interview)
+        """
+        from ui.screens.screen_pilot_composer import ScreenPilotComposer
+        self.state.current_screen = "pilot_composer"
+        if summary is not None:
+            self.state.summary = summary
         self.page.controls.clear()
-        ScreenComposer(
-            page=self.page,
-            pipeline=self._pipeline,
-            summary=summary,
-            controller=self,
-        ).render()
+        ScreenPilotComposer(self.page, self, summary=summary).render()
         self.page.update()
 
     def show_cluster_pilot(self) -> None:

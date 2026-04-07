@@ -46,14 +46,16 @@ class ScreenSummaryReview:
             for label, attr in _FIELDS
         ]
 
-        def on_weiter(e: ft.ControlEvent) -> None:
-            updated = CaseSummary(
+        def _collect() -> CaseSummary:
+            return CaseSummary(
                 main_complaints       = summary.main_complaints,
                 most_burdensome       = fields[0].value.strip(),
                 priority_complaint    = fields[1].value.strip(),
                 additional_complaints = fields[2].value.strip(),
             )
-            controller.show_screen_3(updated)
+
+        def on_pilot_composer(e: ft.ControlEvent) -> None:
+            controller.show_pilot_composer(_collect())
 
         def on_zurueck(e: ft.ControlEvent) -> None:
             controller.show_screen_2()
@@ -67,9 +69,17 @@ class ScreenSummaryReview:
             ft.Container(height=16),
             ft.Row(
                 controls=[
-                    ft.OutlinedButton("Zurück zum Interview", on_click=on_zurueck),
-                    ft.ElevatedButton("Weiter zum Composer", on_click=on_weiter),
+                    ft.OutlinedButton("← Zurück zum Interview", on_click=on_zurueck),
+                    ft.Container(expand=True),
+                    ft.ElevatedButton(
+                        "Weiter → Pilot-Composer",
+                        icon=ft.Icons.SCIENCE_OUTLINED,
+                        bgcolor=ft.Colors.BLUE_700,
+                        color=ft.Colors.WHITE,
+                        on_click=on_pilot_composer,
+                    ),
                 ],
                 spacing=12,
+                vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),
         )

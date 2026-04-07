@@ -1,26 +1,39 @@
 """
-screen_cluster_pilot.py
------------------------
-Cluster-Pilot screen — production branch of the unified cluster architecture.
+screen_pilot_composer.py
+------------------------
+Production composer screen — built on the unified Cluster-Pilot architecture.
 
-Layout:
-  Left panel  — dynamic form rendered from cluster.form_fields
-  Right panel — 3-stage draft: Raw → Refined → Final
-                + "In Schablone einfuegen" button
+Replaces the legacy ScreenComposer as the default production path.
+Supports two entry modes:
+  a) With CaseSummary: from the interview workflow
+       Welcome → Interview → SummaryReview → here
+     - Shows SummaryPanel (read-only reference)
+     - Prefills additional_notes from interview answers
+     - Back navigates to SummaryReview
+  b) Direct access (no interview): summary=None
+     - Form is empty; no side panel
+     - Back navigates to Welcome
+
+Draft pipeline: 3 stages
+  Stage 1 — Roh-Entwurf   : deterministic (always available)
+  Stage 2 — Verfeinerung  : LLM grammar/flow cleanup
+  Stage 3 — Verdichtung   : LLM Verdichtungsstil pass
+  Stages 2 + 3 are disabled (labelled) when HAS_LLM = False.
+
+Word export: inserts best available draft into the Aufnahme-Schablone.
+  Priority: Final > Refined > Raw
 
 Navigation:
-  AppController.show_cluster_pilot() → this screen  [legacy developer route]
-  "Zurueck" → AppController.show_pilot_composer() (preserves summary if present)
-
-Threading:
-  LLM stages (refined, final) run in background threads.
-  UI updates are scheduled via page.update().
+  Back (with summary)    → AppController.show_screen_2b(summary)
+  Back (without summary) → AppController.show_screen_1()
+  Cluster-Editor button  → AppController.show_cluster_builder()
 """
 
 from __future__ import annotations
 
 import flet as ft
 
+from models.case_summary import CaseSummary
 from models.unified_cluster import UnifiedCluster
 from services.unified_cluster_service import load_lws
 import services.pilot_draft_service as _svc
@@ -28,7 +41,7 @@ from services.pilot_draft_service import HAS_LLM
 
 
 # ---------------------------------------------------------------------------
-# Colour palette (consistent with existing screens)
+# Colour palette — consistent with ScreenClusterPilot and other screens
 # ---------------------------------------------------------------------------
 _C_BORDER   = ft.Colors.BLUE_GREY_200
 _C_ACCENT   = ft.Colors.BLUE_700
@@ -38,16 +51,35 @@ _C_ERR      = ft.Colors.RED_700
 _C_BG_PANEL = ft.Colors.BLUE_GREY_50
 
 
-class ScreenClusterPilot:
+class ScreenPilotComposer:
+    """
+    Production composer screen.
 
-    def __init__(self, page: ft.Page, controller) -> None:
-        self._page = page
-        self._ctrl = controller
+    Parameters
+    ----------
+    page       : Flet Page
+    controller : AppController
+    summary    : CaseSummary or None
+        When provided (interview route): prefills additional_notes,
+        shows SummaryPanel, back → SummaryReview.
+        When None (direct route): empty form, no side panel,
+        back → Welcome.
+    """
+
+    def __init__(
+        self,
+        page: ft.Page,
+        controller,
+        summary: CaseSummary | None = None,
+    ) -> None:
+        self._page    = page
+        self._ctrl    = controller
+        self._summary = summary
         self._cluster: UnifiedCluster = load_lws()
         self._form_widgets: dict[str, ft.Control] = {}
-        self._raw_text   = ""
+        self._raw_text     = ""
         self._refined_text = ""
-        self._final_text = ""
+        self._final_text   = ""
 
     # ------------------------------------------------------------------
     # Public entry point
@@ -57,13 +89,26 @@ class ScreenClusterPilot:
         form_panel  = self._build_form_panel()
         draft_panel = self._build_draft_panel()
 
+        row_controls: list[ft.Control] = [
+            form_panel,
+            ft.VerticalDivider(width=1, color=_C_BORDER),
+            draft_panel,
+        ]
+
+        if self._summary:
+            from ui.components.summary_panel import SummaryPanel
+            row_controls.extend([
+                ft.VerticalDivider(width=1, color=_C_BORDER),
+                SummaryPanel(self._summary).build(),
+            ])
+
         self._page.add(
             ft.Column(
                 controls=[
                     self._build_header(),
                     ft.Divider(height=1, color=_C_BORDER),
                     ft.Row(
-                        controls=[form_panel, ft.VerticalDivider(width=1, color=_C_BORDER), draft_panel],
+                        controls=row_controls,
                         spacing=0,
                         vertical_alignment=ft.CrossAxisAlignment.START,
                         expand=True,
@@ -75,19 +120,18 @@ class ScreenClusterPilot:
         )
 
     # ------------------------------------------------------------------
-    # Header
+    # Header row
     # ------------------------------------------------------------------
 
     def _build_header(self) -> ft.Control:
-        # ScreenClusterPilot is a legacy developer/authoring screen, no longer in normal navigation.
-        # Back navigates to PilotComposer (preserving any existing summary) or Welcome if none.
-        def _on_back(_) -> None:
-            summary = self._ctrl.state.summary
-            self._ctrl.show_pilot_composer(summary if summary and summary.most_burdensome else None)
+        if self._summary is not None:
+            back_fn = lambda _: self._ctrl.show_screen_2b(self._summary)
+        else:
+            back_fn = lambda _: self._ctrl.show_screen_1()
 
-        back_btn = ft.TextButton("← Zurueck", on_click=_on_back)
+        back_btn = ft.TextButton("← Zurück", on_click=back_fn)
         title = ft.Text(
-            f"Cluster-Pilot: {self._cluster.name}",
+            f"Pilot-Composer: {self._cluster.name}",
             size=20,
             weight=ft.FontWeight.BOLD,
         )
@@ -97,7 +141,13 @@ class ScreenClusterPilot:
         )
         return ft.Container(
             content=ft.Row(
-                controls=[back_btn, ft.Container(expand=True), title, ft.Container(expand=True), builder_btn],
+                controls=[
+                    back_btn,
+                    ft.Container(expand=True),
+                    title,
+                    ft.Container(expand=True),
+                    builder_btn,
+                ],
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
             ),
             padding=ft.padding.symmetric(horizontal=16, vertical=10),
@@ -113,10 +163,16 @@ class ScreenClusterPilot:
         for field_def in self._cluster.form_fields:
             widget = self._build_field_widget(field_def)
             if widget is not None:
-                label = ft.Text(field_def["label"], size=12, color=ft.Colors.BLUE_GREY_700)
+                label = ft.Text(
+                    field_def["label"], size=12, color=ft.Colors.BLUE_GREY_700
+                )
                 fields_col.controls.append(
                     ft.Column([label, widget], spacing=4, tight=True)
                 )
+
+        # Prefill from CaseSummary — only after all widgets are created
+        if self._summary is not None:
+            self._prefill_from_summary(self._summary)
 
         generate_btn = ft.ElevatedButton(
             "Roh-Entwurf generieren",
@@ -126,31 +182,42 @@ class ScreenClusterPilot:
             on_click=self._on_generate_raw,
         )
 
-        # Identify which fields feed the draft and which are collected but not yet rendered
-        _active_fields   = {"pain_temporality", "character", "side", "radiation",
-                            "aggravating_factor", "relieving_factor",
-                            "duration", "additional_notes"}
+        # Hint: which form fields are not yet wired into the draft sentence
+        _active_fields = {
+            "pain_temporality", "character", "side", "radiation",
+            "aggravating_factor", "relieving_factor",
+            "duration", "additional_notes",
+        }
         _inactive_fields = [
-            f["label"] for f in self._cluster.form_fields
+            f["label"]
+            for f in self._cluster.form_fields
             if f["id"] not in _active_fields
         ]
         inactive_hint = ft.Container(
-            content=ft.Row([
-                ft.Icon(ft.Icons.INFO_OUTLINE, size=13, color=ft.Colors.BLUE_GREY_400),
-                ft.Text(
-                    f"Noch nicht im Draft: {', '.join(_inactive_fields)}",
-                    size=10,
-                    color=ft.Colors.BLUE_GREY_400,
-                    italic=True,
-                ),
-            ], spacing=4, wrap=True),
+            content=ft.Row(
+                [
+                    ft.Icon(ft.Icons.INFO_OUTLINE, size=13, color=ft.Colors.BLUE_GREY_400),
+                    ft.Text(
+                        f"Noch nicht im Draft: {', '.join(_inactive_fields)}",
+                        size=10,
+                        color=ft.Colors.BLUE_GREY_400,
+                        italic=True,
+                    ),
+                ],
+                spacing=4,
+                wrap=True,
+            ),
             visible=bool(_inactive_fields),
         )
 
         return ft.Container(
             content=ft.Column(
                 controls=[
-                    ft.Text(self._cluster.form_title, size=15, weight=ft.FontWeight.W_600),
+                    ft.Text(
+                        self._cluster.form_title,
+                        size=15,
+                        weight=ft.FontWeight.W_600,
+                    ),
                     ft.Container(height=8),
                     fields_col,
                     ft.Container(height=8),
@@ -167,8 +234,32 @@ class ScreenClusterPilot:
             expand=False,
         )
 
+    def _prefill_from_summary(self, summary: CaseSummary) -> None:
+        """
+        Prefill form fields from CaseSummary interview answers.
+
+        Mapping:
+          additional_notes ← priority_complaint + additional_complaints
+            (the physician's interview notes make natural free-text context)
+
+        Important: no draft is auto-generated here.
+        The physician must click "Roh-Entwurf generieren" explicitly.
+        """
+        parts = [
+            p
+            for p in [summary.priority_complaint, summary.additional_complaints]
+            if p and p.strip()
+        ]
+        note_text = " ".join(parts).strip()
+
+        if note_text:
+            widget = self._form_widgets.get("additional_notes")
+            if isinstance(widget, ft.TextField):
+                widget.value = note_text
+
     def _build_field_widget(self, field_def: dict) -> ft.Control | None:
-        fid  = field_def["id"]
+        """Build a single form widget for field_def and register it in self._form_widgets."""
+        fid   = field_def["id"]
         ftype = field_def.get("type", "text")
 
         if ftype == "text":
@@ -205,11 +296,10 @@ class ScreenClusterPilot:
             return widget
 
         if ftype == "multi_select":
-            # Render as a row of ChoiceChips
             chips_row = ft.Row(wrap=True, spacing=6)
             selected: set[str] = set()
 
-            def _make_toggle(opt: str, row: ft.Row, sel: set):
+            def _make_toggle(opt: str, sel: set):
                 def _toggle(e: ft.ControlEvent):
                     if e.control.selected:
                         sel.add(opt)
@@ -221,11 +311,10 @@ class ScreenClusterPilot:
                 chip = ft.Chip(
                     label=ft.Text(opt, size=11),
                     selected=False,
-                    on_select=_make_toggle(opt, chips_row, selected),
+                    on_select=_make_toggle(opt, selected),
                 )
                 chips_row.controls.append(chip)
 
-            # Store the selected-set reference under fid
             self._form_widgets[fid] = selected  # type: ignore[assignment]
             return chips_row
 
@@ -243,14 +332,13 @@ class ScreenClusterPilot:
         return None  # unknown type — skip silently
 
     # ------------------------------------------------------------------
-    # Right panel: draft stages
+    # Right panel: 3-stage draft
     # ------------------------------------------------------------------
 
     def _build_draft_panel(self) -> ft.Control:
-        # Stage indicators
         self._stage_labels = {
-            "raw":     ft.Text("1. Roh-Entwurf",     size=13, weight=ft.FontWeight.W_600, color=ft.Colors.BLUE_GREY_400),
-            "refined": ft.Text("2. Verfeinerung",     size=13, weight=ft.FontWeight.W_600, color=ft.Colors.BLUE_GREY_400),
+            "raw":     ft.Text("1. Roh-Entwurf",      size=13, weight=ft.FontWeight.W_600, color=ft.Colors.BLUE_GREY_400),
+            "refined": ft.Text("2. Verfeinerung",      size=13, weight=ft.FontWeight.W_600, color=ft.Colors.BLUE_GREY_400),
             "final":   ft.Text("3. Final-Verdichtung", size=13, weight=ft.FontWeight.W_600, color=ft.Colors.BLUE_GREY_400),
         }
 
@@ -274,9 +362,14 @@ class ScreenClusterPilot:
         )
         self._status_text = ft.Text("", size=12, color=ft.Colors.BLUE_GREY_500)
 
-        # LLM-dependent button labels — honest about capability
-        _refine_label = "Verfeinern (LLM)" if HAS_LLM else "Verfeinern (kein LLM konfiguriert)"
-        _final_label  = "Final verdichten (LLM)" if HAS_LLM else "Final verdichten (kein LLM konfiguriert)"
+        _refine_label = (
+            "Verfeinern (LLM)" if HAS_LLM
+            else "Verfeinern (kein LLM konfiguriert)"
+        )
+        _final_label = (
+            "Final verdichten (LLM)" if HAS_LLM
+            else "Final verdichten (kein LLM konfiguriert)"
+        )
 
         self._refine_btn = ft.OutlinedButton(
             _refine_label,
@@ -291,7 +384,7 @@ class ScreenClusterPilot:
             disabled=True,
         )
         self._insert_btn = ft.ElevatedButton(
-            "In Schablone einfuegen",
+            "In Schablone einfügen",
             icon=ft.Icons.ADD_TO_PHOTOS,
             bgcolor=_C_OK,
             color=ft.Colors.WHITE,
@@ -299,17 +392,19 @@ class ScreenClusterPilot:
             disabled=True,
         )
 
-        # No-LLM info banner — shown only when LLM is not configured
         no_llm_banner = ft.Container(
-            content=ft.Row([
-                ft.Icon(ft.Icons.INFO_OUTLINE, color=_C_WARN, size=16),
-                ft.Text(
-                    "Stufen 2 und 3 sind ohne LLM-Konfiguration nicht aktiv. "
-                    "Die Ausgabe entspricht dem Roh-Entwurf.",
-                    size=11,
-                    color=_C_WARN,
-                ),
-            ], spacing=6),
+            content=ft.Row(
+                [
+                    ft.Icon(ft.Icons.INFO_OUTLINE, color=_C_WARN, size=16),
+                    ft.Text(
+                        "Stufen 2 und 3 sind ohne LLM-Konfiguration nicht aktiv. "
+                        "Die Ausgabe entspricht dem Roh-Entwurf.",
+                        size=11,
+                        color=_C_WARN,
+                    ),
+                ],
+                spacing=6,
+            ),
             padding=ft.padding.symmetric(horizontal=8, vertical=6),
             bgcolor=ft.Colors.ORANGE_50,
             border_radius=4,
@@ -346,13 +441,13 @@ class ScreenClusterPilot:
         )
 
     # ------------------------------------------------------------------
-    # Event handlers
+    # Form data collection
     # ------------------------------------------------------------------
 
     def _collect_form_data(self) -> dict:
         result = {}
         for field_def in self._cluster.form_fields:
-            fid = field_def["id"]
+            fid    = field_def["id"]
             widget = self._form_widgets.get(fid)
             if widget is None:
                 continue
@@ -367,6 +462,10 @@ class ScreenClusterPilot:
             else:
                 result[fid] = None
         return result
+
+    # ------------------------------------------------------------------
+    # Event handlers
+    # ------------------------------------------------------------------
 
     def _on_generate_raw(self, e) -> None:
         form_data = self._collect_form_data()
@@ -416,7 +515,7 @@ class ScreenClusterPilot:
         text = self._refined_field.value or self._raw_field.value or self._raw_text
         if not text.strip():
             return
-        self._status_text.value = "Final-Verdichtung laeuft..."
+        self._status_text.value = "Final-Verdichtung läuft..."
         self._status_text.color = ft.Colors.BLUE_700
         self._final_btn.disabled = True
         self._page.update()
@@ -440,7 +539,11 @@ class ScreenClusterPilot:
         _svc.generate_final(self._cluster, text, on_done=_done, on_error=_err)
 
     def _on_insert(self, e) -> None:
-        """Append the best available draft text to controller.state.composed_blocks."""
+        """
+        Insert the best available draft into the Aufnahme-Schablone.
+        Priority: Final > Refined > Raw.
+        Also appends to controller.state.composed_blocks.
+        """
         text = (
             self._final_field.value
             or self._refined_field.value
@@ -452,13 +555,12 @@ class ScreenClusterPilot:
 
         self._ctrl.state.composed_blocks.append(text)
 
-        # Try to export via document_service if schablone path is known
         path = self._ctrl.state.schablone_path
         if path:
             try:
                 from services.document_service import insert_blocks_into_section
                 insert_blocks_into_section(path, [text])
-                self._status_text.value = "Text in Schablone eingefuegt."
+                self._status_text.value = "Text in Schablone eingefügt."
                 self._status_text.color = _C_OK
             except Exception as exc:
                 self._status_text.value = f"Export-Fehler: {exc}"
