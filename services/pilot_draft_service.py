@@ -32,7 +32,7 @@ try:
 except ImportError:
     _HAS_LLM = False
 
-#: Public flag — read by ScreenClusterPilot to show/hide LLM capability in UI.
+#: Public flag — read by ScreenPilotComposer to show honest LLM capability labels in UI.
 HAS_LLM: bool = _HAS_LLM
 
 

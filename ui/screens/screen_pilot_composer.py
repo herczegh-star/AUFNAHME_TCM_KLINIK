@@ -41,7 +41,7 @@ from services.pilot_draft_service import HAS_LLM
 
 
 # ---------------------------------------------------------------------------
-# Colour palette — consistent with ScreenClusterPilot and other screens
+# Colour palette — consistent across production screens
 # ---------------------------------------------------------------------------
 _C_BORDER   = ft.Colors.BLUE_GREY_200
 _C_ACCENT   = ft.Colors.BLUE_700

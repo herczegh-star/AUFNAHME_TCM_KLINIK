@@ -11,7 +11,7 @@ Tabs:
   5. Formular-Vorschau — read-only preview of form field definitions
 
 Saves to <cluster_id>.edited.json via unified_cluster_service.save_edited().
-Navigation: "Zurueck" → AppController.show_cluster_pilot()
+Navigation: "Zurueck" → AppController.show_pilot_composer()
 """
 
 from __future__ import annotations
@@ -98,7 +98,7 @@ class ScreenClusterBuilder:
                 controls=[
                     ft.TextButton(
                         "← Zurueck",
-                        on_click=lambda _: self._ctrl.show_cluster_pilot(),
+                        on_click=lambda _: self._ctrl.show_pilot_composer(),
                     ),
                     ft.Container(expand=True),
                     ft.Text(
