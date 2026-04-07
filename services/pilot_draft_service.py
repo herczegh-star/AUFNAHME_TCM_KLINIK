@@ -3,7 +3,7 @@ pilot_draft_service.py
 ----------------------
 3-stage draft pipeline for the Cluster-Pilot screen.
 
-Stage 1 — raw      : deterministic, uses lws_narrative_composer
+Stage 1 — raw      : deterministic, cluster-agnostic via narrative_dispatcher
 Stage 2 — refined  : LLM grammar/flow cleanup (no content changes)
 Stage 3 — final    : strict Verdichtungsstil LLM pass
 
@@ -23,6 +23,7 @@ import threading
 from typing import Callable
 
 from models.unified_cluster import UnifiedCluster
+from core.ai_draft.narrative_dispatcher import compose_narrative
 
 # Try to import the project LLM client; fall back to a no-op stub.
 # HAS_LLM is intentionally public so the UI can show honest labels.
@@ -43,8 +44,8 @@ HAS_LLM: bool = _HAS_LLM
 def generate_raw(cluster: UnifiedCluster, form_data: dict) -> str:
     """
     Stage 1: deterministic sentence construction from form_data (UI form keys).
-    Uses lws_narrative_composer (cluster-specific composer lookup planned
-    for future clusters; LWS is hardcoded for the pilot).
+    Dispatches to the cluster-specific narrative composer via narrative_dispatcher.
+    Raises ValueError if no composer is registered for cluster.id.
 
     Fields that feed the main sentence (via shared_items):
       pain_temporality, character, side, radiation,
@@ -56,19 +57,27 @@ def generate_raw(cluster: UnifiedCluster, form_data: dict) -> str:
 
     All other form fields are not yet rendered (see TODO in _form_data_to_shared_items).
     """
-    from core.ai_draft.lws_narrative_composer import compose_lws_narrative
-
     shared_items = _form_data_to_shared_items(cluster, form_data)
-    core_sentence = compose_lws_narrative(shared_items)
+    core_sentence = compose_narrative(cluster.id, shared_items)
+    if core_sentence is None:
+        raise ValueError(
+            f"Kein Narrative-Composer fuer Cluster '{cluster.id}' registriert."
+        )
     validated = _validate_output(core_sentence, cluster)
 
-    # --- duration prefix ---
+    # --- duration suffix — inserted into the FIRST sentence only ---
+    # When the composer produces two sentences (e.g. main clause + functional
+    # impact), duration must attach to the first sentence, not the last.
+    # We find the first period and insert before it.
     duration = (form_data.get("duration") or "").strip()
     if duration:
-        # Insert "seit <duration>" at the end of the core sentence (before period)
-        # e.g. "Chronische Schmerzen im LWS-Bereich, seit 3 Wochen."
-        if validated.endswith("."):
-            validated = validated[:-1] + f", seit {duration}."
+        first_dot = validated.find(".")
+        if first_dot >= 0:
+            validated = (
+                validated[:first_dot]
+                + f", seit {duration}."
+                + validated[first_dot + 1:]
+            )
         else:
             validated = validated + f", seit {duration}."
 
@@ -85,10 +94,13 @@ def generate_raw_from_shared_items(cluster: UnifiedCluster, shared_items: dict) 
     """
     Stage 1 variant: accepts shared_items dict directly (composer key format).
     Used by the cluster test runner so tests can specify shared_items directly.
+    Raises ValueError if no composer is registered for cluster.id.
     """
-    from core.ai_draft.lws_narrative_composer import compose_lws_narrative
-
-    raw = compose_lws_narrative(shared_items)
+    raw = compose_narrative(cluster.id, shared_items)
+    if raw is None:
+        raise ValueError(
+            f"Kein Narrative-Composer fuer Cluster '{cluster.id}' registriert."
+        )
     return _validate_output(raw, cluster)
 
 
@@ -208,16 +220,16 @@ def _form_data_to_shared_items(
     # resolved here dynamically.
     #
     # Fields NOT mapped here (not yet rendered in the core sentence):
-    #   intensity_vas, onset, neurological_signs, previous_treatment,
-    #   functional_limitations
+    #   intensity_vas, onset, neurological_signs, previous_treatment
     # duration and additional_notes are handled as plain-text suffix in generate_raw().
     return {
-        "pain_temporality":   _normalize("", form_data.get("pain_temporality")),
-        "pain_character":     _normalize("character", form_data.get("character")),
-        "pain_laterality":    _normalize("side", form_data.get("side")),
-        "pain_radiation":     _to_list(form_data.get("radiation")),
+        "pain_temporality":       _normalize("pain_temporality", form_data.get("pain_temporality")),
+        "pain_character":         _normalize("character", form_data.get("character")),
+        "pain_laterality":        _normalize("side", form_data.get("side")),
+        "pain_radiation":         _to_list(form_data.get("radiation")),
         "aggravating_mechanical": _normalize("aggravating", form_data.get("aggravating_factor")),
-        "relieving_passive":  _normalize("relieving", form_data.get("relieving_factor")),
+        "relieving_passive":      _normalize("relieving", form_data.get("relieving_factor")),
+        "functional_impact":      _normalize("functional", form_data.get("functional_limitations")),
     }
 
 

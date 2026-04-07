@@ -186,7 +186,7 @@ class ScreenPilotComposer:
         _active_fields = {
             "pain_temporality", "character", "side", "radiation",
             "aggravating_factor", "relieving_factor",
-            "duration", "additional_notes",
+            "duration", "additional_notes", "functional_limitations",
         }
         _inactive_fields = [
             f["label"]

@@ -40,6 +40,8 @@ class ScreenClusterBuilder:
         self._ctrl = controller
         self._cluster: UnifiedCluster = load_lws()
         self._status = ft.Text("", size=12, color=ft.Colors.BLUE_GREY_500)
+        # render_maps editor: {section_name: {key: TextField}}
+        self._render_map_fields: dict[str, dict[str, ft.TextField]] = {}
 
     # ------------------------------------------------------------------
     # Public entry point
@@ -54,10 +56,11 @@ class ScreenClusterBuilder:
                     ft.Container(
                         content=ft.Tabs(
                             tabs=[
-                                ft.Tab(text="Meta",           content=self._build_tab_meta()),
-                                ft.Tab(text="Stil-Regeln",    content=self._build_tab_style()),
-                                ft.Tab(text="Archetypen",     content=self._build_tab_archetypes()),
-                                ft.Tab(text="Tests",          content=self._build_tab_tests()),
+                                ft.Tab(text="Meta",             content=self._build_tab_meta()),
+                                ft.Tab(text="Stil-Regeln",      content=self._build_tab_style()),
+                                ft.Tab(text="Archetypen",       content=self._build_tab_archetypes()),
+                                ft.Tab(text="Tests",            content=self._build_tab_tests()),
+                                ft.Tab(text="Render-Phrasen",   content=self._build_tab_render_maps()),
                                 ft.Tab(text="Formular-Vorschau", content=self._build_tab_form_preview()),
                             ],
                             expand=True,
@@ -306,7 +309,103 @@ class ScreenClusterBuilder:
         self._page.update()
 
     # ------------------------------------------------------------------
-    # Tab 5: Formular-Vorschau
+    # Tab 5: Render-Phrasen
+    # ------------------------------------------------------------------
+
+    # Human-readable section labels for the UI
+    _RENDER_SECTION_LABELS: dict[str, str] = {
+        "character_adjective":   "Schmerzcharakter-Adjektive  (canonical → Adjektiv)",
+        "radiation_phrase":      "Ausstrahlung-Phrasen  (canonical → vollständige Phrase)",
+        "aggravating_dative":    "Verstärkende Faktoren  (canonical → Dativobjekt nach \"verstärkt bei\")",
+        "relieving_noun":        "Lindernde Faktoren  (canonical → Substantiv nach \"gebessert durch\")",
+        "temporality_adjective": "Temporalität-Adjektive  (canonical → Adjektiv)",
+        "functional_phrase":     "Funktionelle Einschränkungen  (canonical → Satzfragment)",
+    }
+
+    def _build_tab_render_maps(self) -> ft.Control:
+        """
+        Editor for cluster.render_maps — each section rendered as a block
+        of key (read-only label) + value (editable TextField) rows.
+        """
+        render_maps = self._cluster.render_maps
+        sections: list[ft.Control] = []
+
+        for section_key, label in self._RENDER_SECTION_LABELS.items():
+            section_data = render_maps.get(section_key, {})
+            self._render_map_fields[section_key] = {}
+
+            rows: list[ft.Control] = []
+            for canonical, phrase in section_data.items():
+                tf = ft.TextField(
+                    value=phrase,
+                    border_color=_C_BORDER,
+                    dense=True,
+                    expand=True,
+                )
+                self._render_map_fields[section_key][canonical] = tf
+                rows.append(
+                    ft.Row(
+                        controls=[
+                            ft.Text(
+                                canonical,
+                                size=11,
+                                width=220,
+                                color=ft.Colors.BLUE_700,
+                                weight=ft.FontWeight.W_500,
+                            ),
+                            tf,
+                        ],
+                        spacing=8,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                    )
+                )
+
+            sections.append(
+                ft.Container(
+                    content=ft.Column(
+                        controls=[
+                            ft.Text(
+                                label,
+                                size=12,
+                                weight=ft.FontWeight.W_600,
+                                color=ft.Colors.BLUE_GREY_700,
+                            ),
+                            ft.Divider(height=1, color=_C_BORDER),
+                            *rows,
+                        ],
+                        spacing=6,
+                    ),
+                    padding=ft.padding.only(bottom=20),
+                )
+            )
+
+        return ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Container(
+                        content=ft.Row([
+                            ft.Icon(ft.Icons.INFO_OUTLINE, size=14, color=ft.Colors.BLUE_GREY_400),
+                            ft.Text(
+                                "Nur Phrasen-Werte editieren. Canonical-Keys sind fix.",
+                                size=11,
+                                color=ft.Colors.BLUE_GREY_400,
+                                italic=True,
+                            ),
+                        ], spacing=6),
+                    ),
+                    ft.Container(height=8),
+                    *sections,
+                ],
+                spacing=0,
+                scroll=ft.ScrollMode.AUTO,
+                expand=True,
+            ),
+            padding=16,
+            expand=True,
+        )
+
+    # ------------------------------------------------------------------
+    # Tab 6: Formular-Vorschau
     # ------------------------------------------------------------------
 
     def _build_tab_form_preview(self) -> ft.Control:
@@ -376,7 +475,25 @@ class ScreenClusterBuilder:
                 w.strip() for w in self._tf_forbidden.value.split(",") if w.strip()
             ]
 
+            # Apply edits from Render-Phrasen tab
+            d.setdefault("render_maps", {})
+            for section_key, field_map in self._render_map_fields.items():
+                d["render_maps"][section_key] = {
+                    canonical: tf.value.strip()
+                    for canonical, tf in field_map.items()
+                    if tf.value and tf.value.strip()
+                }
+
             path = save_edited(self._cluster)
+
+            # Invalidate composer render_maps cache so PilotComposer
+            # picks up the new phrases on its next load_lws() call.
+            try:
+                from core.ai_draft.lws_narrative_composer import _invalidate_render_maps_cache
+                _invalidate_render_maps_cache()
+            except Exception:
+                pass  # non-critical — next app restart will reload
+
             self._status.value  = f"Gespeichert: {path.name}"
             self._status.color  = _C_OK
         except Exception as exc:

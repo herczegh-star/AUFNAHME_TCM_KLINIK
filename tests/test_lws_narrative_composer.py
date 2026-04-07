@@ -137,11 +137,11 @@ def test_edge_cases() -> int:
     if not ok: failures += 1
 
     ok = check(
-        "Standard radiation target — Gesäß",
+        "Standard radiation target — Gesaess (form canonical)",
         {
             "pain_character":  ["stechend"],
             "pain_laterality": ["rechts"],
-            "pain_radiation":  ["Gesäß"],
+            "pain_radiation":  ["Gesaess"],
         },
         "Stechende Schmerzen im LWS-Bereich rechts mit Ausstrahlung ins Gesäß.",
     )
@@ -162,12 +162,12 @@ def test_edge_cases() -> int:
             "aggravating_mechanical": ["langes_sitzen"],
             "pain_character":         ["ziehend"],
             "pain_laterality":        ["beidseits"],
-            "pain_radiation":         ["Bein"],
+            "pain_radiation":         ["rechtes_bein"],
             "pain_temporality":       ["chronisch"],
             "relieving_passive":      ["waerme"],
         },
         "Chronische, ziehende Schmerzen im LWS-Bereich beidseits "
-        "mit Ausstrahlung ins Bein, verstärkt bei langem Sitzen, gebessert durch Wärme.",
+        "mit Ausstrahlung ins rechte Bein, verstärkt bei langem Sitzen, gebessert durch Wärme.",
     )
     if not ok: failures += 1
 
@@ -241,6 +241,57 @@ def test_pipeline_isolation() -> int:
 
 
 # ---------------------------------------------------------------------------
+# Render maps source-of-truth test
+# ---------------------------------------------------------------------------
+
+def test_render_maps_control_output() -> int:
+    """
+    Verify that cluster.render_maps is the actual runtime source of truth.
+
+    Strategy: temporarily patch the loaded render_maps cache with a modified
+    dict (custom phrase), run the composer, verify the custom phrase appears
+    in the output, then restore the real cache.
+
+    This test would FAIL if the composer fell back to hardcoded Python dicts.
+    """
+    from core.ai_draft import lws_narrative_composer as _mod
+
+    failures = 0
+    print()
+    print("=== render_maps controls output ===")
+
+    # Capture real render_maps first (loads from JSON if not cached)
+    real_maps = dict(_mod._get_render_maps())
+
+    # Patch: replace relieving_noun with a custom phrase
+    patched = {k: dict(v) for k, v in real_maps.items()}
+    patched["relieving_noun"] = {"waerme": "CUSTOM_WAERME_PHRASE"}
+    _mod._render_maps = patched
+
+    result = compose_lws_narrative({"relieving_passive": ["waerme"]})
+    ok = "CUSTOM_WAERME_PHRASE" in result
+    status = "PASS" if ok else "FAIL"
+    print(f"  [{status}] patched render value appears in output")
+    if not ok:
+        print(f"         got: {result!r} (expected CUSTOM_WAERME_PHRASE)")
+        failures += 1
+
+    # Restore: invalidate so next call reloads from JSON
+    _mod._invalidate_render_maps_cache()
+
+    # Verify restoration: real JSON value is back
+    result2 = compose_lws_narrative({"relieving_passive": ["waerme"]})
+    ok2 = "Wärme" in result2
+    status2 = "PASS" if ok2 else "FAIL"
+    print(f"  [{status2}] real JSON value restored after cache invalidation")
+    if not ok2:
+        print(f"         got: {result2!r} (expected Wärme)")
+        failures += 1
+
+    return failures
+
+
+# ---------------------------------------------------------------------------
 # Runner
 # ---------------------------------------------------------------------------
 
@@ -249,6 +300,7 @@ if __name__ == "__main__":
     total_failures += test_specified_cases()
     total_failures += test_edge_cases()
     total_failures += test_pipeline_isolation()
+    total_failures += test_render_maps_control_output()
 
     print()
     if total_failures == 0:

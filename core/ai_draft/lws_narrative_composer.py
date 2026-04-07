@@ -8,9 +8,28 @@ Verdichtungsstil — short, structured, no diagnostic inference.
 
 Supported modules:
   pain_temporality, pain_character, pain_laterality,
-  pain_radiation, aggravating_mechanical, relieving_passive
+  pain_radiation, aggravating_mechanical, relieving_passive,
+  functional_impact
 
 All other modules are silently ignored.
+
+RENDER MAPS
+-----------
+All phrase lookups are driven by cluster.render_maps loaded from
+data/unified_clusters/lws_syndrom_v1_1.json (or its .edited.json override).
+The Python code contains only structural/ordering logic — no German phrases.
+
+Sections used from render_maps:
+  character_adjective   — canonical → adjective form ("ziehend" → "ziehende")
+  radiation_phrase      — canonical → prepositional phrase
+  aggravating_dative    — canonical → dative object after "verstärkt bei"
+  relieving_noun        — canonical → noun after "gebessert durch"
+  temporality_adjective — canonical → adjective prefix
+  functional_phrase     — canonical → functional sentence fragment
+
+Missing section: all items in that module silently produce no output (empty map).
+Missing key within a section: that specific canonical is silently skipped.
+This is intentional — unknown canonicals are always silent no-ops.
 
 ORDERING PRINCIPLE
 ------------------
@@ -23,6 +42,7 @@ This composer applies clinical narrative order regardless of input key order:
   5. radiation     (prepositional phrase, no comma)
   6. aggravating   ("verstärkt bei ...")
   7. relieving     ("gebessert durch ...")
+  8. functional    (second sentence: "Sitztoleranz eingeschränkt." etc.)
 
 API
 ---
@@ -39,65 +59,33 @@ No side effects on draft_text or blocks_used.
 from __future__ import annotations
 
 # ---------------------------------------------------------------------------
-# Render maps  (canonical id → German phrase fragment)
+# Render maps — loaded lazily from the LWS unified cluster JSON.
+# All phrase output is driven from cluster.render_maps, not from Python dicts.
 # ---------------------------------------------------------------------------
 
-# Adjective forms for pain character (agrees with "Schmerzen", nominative plural)
-_CHARACTER_ADJECTIVE: dict[str, str] = {
-    "ziehend":        "ziehende",
-    "stechend":       "stechende",
-    "dumpf":          "dumpfe",
-    "brennend":       "brennende",
-    "krampfartig":    "krampfartige",
-    "drueckend":      "drückende",
-    "elektrisierend": "elektrisierende",
-    "pulsierend":     "pulsierende",
-}
+_render_maps: dict | None = None
 
-# Radiation: full prepositional phrase
-_RADIATION_PHRASE: dict[str, str] = {
-    "radiation":             "mit Ausstrahlung",
-    "Bein":                  "mit Ausstrahlung ins Bein",
-    "Gesäß":                 "mit Ausstrahlung ins Gesäß",
-    "Arm":                   "mit Ausstrahlung in den Arm",
-    "Schulter":              "mit Ausstrahlung in die Schulter",
-    "Leiste":                "mit Ausstrahlung in die Leiste",
-    "Unterbauch":            "mit Ausstrahlung in den Unterbauch",
-    # LWS-specific extended targets
-    "linkes_bein_bis_ferse": "mit Ausstrahlung ins linke Bein bis zur Ferse",
-    "rechtes_bein_bis_ferse":"mit Ausstrahlung ins rechte Bein bis zur Ferse",
-    "linkes_bein":           "mit Ausstrahlung ins linke Bein",
-    "rechtes_bein":          "mit Ausstrahlung ins rechte Bein",
-    "gesaess_links":         "mit Ausstrahlung ins linke Gesäß",
-    "gesaess_rechts":        "mit Ausstrahlung ins rechte Gesäß",
-}
 
-# Aggravating mechanical: dative object after "verstärkt bei ..."
-_AGG_MECH_DATIVE: dict[str, str] = {
-    "langes_sitzen":   "langem Sitzen",
-    "langes_stehen":   "langem Stehen",
-    "langes_gehen":    "langem Gehen",
-    "buecken":         "Bücken",
-    "treppensteigen":  "Treppensteigen",
-    "belastung":       "körperlicher Belastung",
-}
+def _get_render_maps() -> dict:
+    """
+    Return the render_maps dict from the LWS unified cluster.
+    Loaded on first call; cached for the process lifetime.
+    Bust the cache by calling _invalidate_render_maps_cache() (tests only).
+    """
+    global _render_maps
+    if _render_maps is None:
+        from services.unified_cluster_service import load_lws
+        _render_maps = load_lws().render_maps
+    return _render_maps
 
-# Relieving passive: noun after "gebessert durch ..."
-_RELIEVING_NOUN: dict[str, str] = {
-    "waerme":    "Wärme",
-    "ruhe":      "Ruhe",
-    "liegen":    "Liegen",
-    "bewegung":  "leichter Bewegung",
-}
 
-# Temporality: adjective prefix (agrees with "Schmerzen", nominative plural)
-_TEMPORALITY_ADJECTIVE: dict[str, str] = {
-    "chronisch":           "Chronische",
-    "intermittierend":     "Intermittierende",
-    "belastungsabhaengig": "Belastungsabhängige",
-    "progredient":         "Progrediente",
-}
+def _invalidate_render_maps_cache() -> None:
+    """Force render_maps reload on next call. For tests only."""
+    global _render_maps
+    _render_maps = None
 
+
+# Anchor is the stable clinical identity of this cluster — not a render phrase.
 _ANCHOR = "Schmerzen im LWS-Bereich"
 
 
@@ -110,57 +98,85 @@ def compose_lws_narrative(shared_items: dict[str, list[str]]) -> str:
     Render shared_pain_items_selected into a single German clinical sentence.
 
     Input: dict with alpha-sorted keys and values (selector convention).
-    Output: one sentence, Verdichtungsstil, ending with '.'.
+    Output: one or two sentences, Verdichtungsstil, ending with '.'.
 
     Unknown canonicals in any module are silently skipped.
     Returns the anchor sentence "Schmerzen im LWS-Bereich." if no items match.
     """
+    rm = _get_render_maps()
+
     # ── 1. Temporality ───────────────────────────────────────────────────
-    temporality_adj = _resolve_temporality(shared_items.get("pain_temporality", []))
+    temporality_adj = _resolve_temporality(
+        shared_items.get("pain_temporality", []),
+        rm.get("temporality_adjective", {}),
+    )
 
     # ── 2. Character adjectives ──────────────────────────────────────────
-    char_adjs = _resolve_character(shared_items.get("pain_character", []))
+    char_adjs = _resolve_character(
+        shared_items.get("pain_character", []),
+        rm.get("character_adjective", {}),
+    )
 
     # ── 3+4. Anchor noun phrase (character + anchor + laterality) ────────
-    noun_phrase = _build_noun_phrase(temporality_adj, char_adjs, shared_items.get("pain_laterality", []))
+    noun_phrase = _build_noun_phrase(
+        temporality_adj, char_adjs, shared_items.get("pain_laterality", [])
+    )
 
     # ── 5. Radiation ─────────────────────────────────────────────────────
-    radiation_phrase = _resolve_radiation(shared_items.get("pain_radiation", []))
+    radiation_phrase = _resolve_radiation(
+        shared_items.get("pain_radiation", []),
+        rm.get("radiation_phrase", {}),
+    )
 
     # ── 6. Aggravating ───────────────────────────────────────────────────
-    agg_phrase = _resolve_aggravating(shared_items.get("aggravating_mechanical", []))
+    agg_phrase = _resolve_aggravating(
+        shared_items.get("aggravating_mechanical", []),
+        rm.get("aggravating_dative", {}),
+    )
 
     # ── 7. Relieving ─────────────────────────────────────────────────────
-    rel_phrase = _resolve_relieving(shared_items.get("relieving_passive", []))
+    rel_phrase = _resolve_relieving(
+        shared_items.get("relieving_passive", []),
+        rm.get("relieving_noun", {}),
+    )
+
+    # ── 8. Functional impact ─────────────────────────────────────────────
+    functional_sentence = _resolve_functional(
+        shared_items.get("functional_impact", []),
+        rm.get("functional_phrase", {}),
+    )
 
     # ── Assemble ─────────────────────────────────────────────────────────
-    return _assemble(noun_phrase, radiation_phrase, agg_phrase, rel_phrase)
+    result = _assemble(noun_phrase, radiation_phrase, agg_phrase, rel_phrase)
+    if functional_sentence:
+        result = result + " " + functional_sentence
+    return result
 
 
 # ---------------------------------------------------------------------------
 # Private: segment resolvers
 # ---------------------------------------------------------------------------
 
-def _resolve_temporality(items: list[str]) -> str | None:
+def _resolve_temporality(items: list[str], map_: dict[str, str]) -> str | None:
     """Return adjective form of the first recognised temporality item, or None."""
     for item in items:
-        adj = _TEMPORALITY_ADJECTIVE.get(item)
+        adj = map_.get(item)
         if adj:
             return adj
     return None
 
 
-def _resolve_character(items: list[str]) -> list[str]:
+def _resolve_character(items: list[str], map_: dict[str, str]) -> list[str]:
     """Return adjective forms for recognised character items (max 2)."""
     result: list[str] = []
     for item in items[:2]:
-        adj = _CHARACTER_ADJECTIVE.get(item)
+        adj = map_.get(item)
         if adj:
             result.append(adj)
     return result
 
 
-def _resolve_radiation(items: list[str]) -> str | None:
+def _resolve_radiation(items: list[str], map_: dict[str, str]) -> str | None:
     """Return the radiation prepositional phrase, or None.
 
     The bare canonical 'radiation' (no specific anatomical target) is
@@ -170,28 +186,47 @@ def _resolve_radiation(items: list[str]) -> str | None:
     for item in items[:1]:
         if item == "radiation":
             return None  # no specific target — suppress
-        phrase = _RADIATION_PHRASE.get(item)
+        phrase = map_.get(item)
         if phrase:
             return phrase
     return None
 
 
-def _resolve_aggravating(items: list[str]) -> str | None:
+def _resolve_aggravating(items: list[str], map_: dict[str, str]) -> str | None:
     """Return 'verstärkt bei <dative>' for the first recognised item, or None."""
     for item in items[:1]:
-        dative = _AGG_MECH_DATIVE.get(item)
+        dative = map_.get(item)
         if dative:
             return f"verstärkt bei {dative}"
     return None
 
 
-def _resolve_relieving(items: list[str]) -> str | None:
+def _resolve_relieving(items: list[str], map_: dict[str, str]) -> str | None:
     """Return 'gebessert durch <noun>' for the first recognised item, or None."""
     for item in items[:1]:
-        noun = _RELIEVING_NOUN.get(item)
+        noun = map_.get(item)
         if noun:
             return f"gebessert durch {noun}"
     return None
+
+
+def _resolve_functional(items: list[str], map_: dict[str, str]) -> str | None:
+    """
+    Return a second sentence fragment for up to 2 functional limitations.
+    Unknown canonicals are silently skipped.
+
+    Examples:
+      ["sitting_tolerance"]                     → "Sitztoleranz eingeschränkt."
+      ["sitting_tolerance", "walking_distance"]  → "Sitztoleranz eingeschränkt, Gehstrecke eingeschränkt."
+    """
+    phrases: list[str] = []
+    for item in items[:2]:
+        phrase = map_.get(item)
+        if phrase:
+            phrases.append(phrase)
+    if not phrases:
+        return None
+    return ", ".join(phrases) + "."
 
 
 # ---------------------------------------------------------------------------
@@ -208,7 +243,7 @@ def _build_noun_phrase(
       [Temporality, ][Character ]Schmerzen im LWS-Bereich[ laterality]
 
     Temporality and character are adjective modifiers on "Schmerzen":
-      - with both:    "Chronische, ziehende Schmerzen im LWS-Bereich"
+      - with both:        "Chronische, ziehende Schmerzen im LWS-Bereich"
       - temporality only: "Chronische Schmerzen im LWS-Bereich"
       - character only:   "Ziehende Schmerzen im LWS-Bereich"
       - neither:          "Schmerzen im LWS-Bereich"
