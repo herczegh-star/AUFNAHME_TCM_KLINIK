@@ -41,7 +41,8 @@
         "placeholder": "z. B. 3 Wochen, seit 2 Jahren",
         "required": true,
         "normalization_map": null,
-        "shared_items_key": null
+        "shared_items_key": null,
+        "active_in_draft": true
       },
       {
         "id": "character",
@@ -189,7 +190,8 @@
         "placeholder": "Freitext",
         "required": false,
         "normalization_map": null,
-        "shared_items_key": null
+        "shared_items_key": null,
+        "active_in_draft": true
       }
     ]
   },

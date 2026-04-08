@@ -182,16 +182,13 @@ class ScreenPilotComposer:
             on_click=self._on_generate_raw,
         )
 
-        # Hint: which form fields are not yet wired into the draft sentence
-        _active_fields = {
-            "pain_temporality", "character", "side", "radiation",
-            "aggravating_factor", "relieving_factor",
-            "duration", "additional_notes", "functional_limitations",
-        }
+        # Hint: which form fields are not yet wired into the draft sentence.
+        # Driven by cluster JSON: field.active_in_draft (explicit bool) or
+        # inferred from shared_items_key != null when the flag is absent.
         _inactive_fields = [
             f["label"]
             for f in self._cluster.form_fields
-            if f["id"] not in _active_fields
+            if not f.get("active_in_draft", f.get("shared_items_key") is not None)
         ]
         inactive_hint = ft.Container(
             content=ft.Row(
