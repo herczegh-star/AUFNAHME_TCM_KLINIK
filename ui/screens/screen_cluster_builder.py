@@ -44,6 +44,9 @@ class ScreenClusterBuilder:
         self._status = ft.Text("", size=12, color=ft.Colors.BLUE_GREY_500)
         # render_maps editor: {section_name: {key: TextField}}
         self._render_map_fields: dict[str, dict[str, ft.TextField]] = {}
+        # form fields editor: list of row-state dicts; populated in _build_tab_form_fields()
+        self._field_rows: list[dict] = []
+        self._field_list_col: ft.Column | None = None
 
     # ------------------------------------------------------------------
     # Public entry point
@@ -63,7 +66,7 @@ class ScreenClusterBuilder:
                                 ft.Tab(text="Archetypen",       content=self._build_tab_archetypes()),
                                 ft.Tab(text="Tests",            content=self._build_tab_tests()),
                                 ft.Tab(text="Render-Phrasen",   content=self._build_tab_render_maps()),
-                                ft.Tab(text="Formular-Vorschau", content=self._build_tab_form_preview()),
+                                ft.Tab(text="Formular-Felder",   content=self._build_tab_form_fields()),
                             ],
                             expand=True,
                         ),
@@ -489,52 +492,169 @@ class ScreenClusterBuilder:
         )
 
     # ------------------------------------------------------------------
-    # Tab 6: Formular-Vorschau
+    # Tab 6: Formular-Felder (editor)
     # ------------------------------------------------------------------
 
-    def _build_tab_form_preview(self) -> ft.Control:
-        rows: list[ft.Control] = []
-        for f in self._cluster.form_fields:
-            rows.append(
-                ft.Container(
-                    content=ft.Row([
-                        ft.Text(f["id"], size=11, width=180, color=ft.Colors.BLUE_700, weight=ft.FontWeight.W_600),
-                        ft.Text(f["label"], size=12, width=200),
-                        ft.Text(f["type"], size=11, width=100, color=ft.Colors.BLUE_GREY_500),
-                        ft.Text("*" if f.get("required") else "", size=11, color=_C_ERR, width=20),
-                        ft.Text(
-                            ", ".join(f["options"]) if "options" in f else f.get("placeholder", ""),
-                            size=11,
-                            color=ft.Colors.BLUE_GREY_400,
-                            expand=True,
-                        ),
-                    ], spacing=4),
-                    padding=ft.padding.symmetric(vertical=4, horizontal=8),
-                    border=ft.border.all(1, _C_BORDER),
-                    border_radius=4,
-                )
-            )
+    _FIELD_TYPES = ["text", "textarea", "number", "select", "multi_select"]
+    # Keys handled explicitly by the editor — all others preserved as-is on save
+    _FIELD_KNOWN_KEYS = {
+        "id", "label", "type", "options", "placeholder",
+        "required", "normalization_map", "shared_items_key",
+    }
+
+    def _build_tab_form_fields(self) -> ft.Control:
+        self._field_rows = []
+        self._field_list_col = ft.Column(spacing=8, scroll=ft.ScrollMode.AUTO, expand=True)
+
+        for field in self._cluster.form_fields:
+            row = self._build_field_row(field)
+            self._field_rows.append(row)
+            self._field_list_col.controls.append(row["container"])
+
+        add_btn = ft.OutlinedButton(
+            "+ Neues Feld",
+            icon=ft.Icons.ADD,
+            on_click=self._on_add_field,
+            style=ft.ButtonStyle(color=_C_ACCENT, side=ft.BorderSide(1, _C_ACCENT)),
+        )
 
         return ft.Container(
             content=ft.Column(
                 controls=[
-                    ft.Row([
-                        ft.Text("id",         size=11, width=180, weight=ft.FontWeight.BOLD),
-                        ft.Text("label",      size=11, width=200, weight=ft.FontWeight.BOLD),
-                        ft.Text("type",       size=11, width=100, weight=ft.FontWeight.BOLD),
-                        ft.Text("req",        size=11, width=20,  weight=ft.FontWeight.BOLD),
-                        ft.Text("options/placeholder", size=11,   weight=ft.FontWeight.BOLD),
-                    ], spacing=4),
+                    ft.Row([add_btn]),
                     ft.Divider(height=1, color=_C_BORDER),
-                    *rows,
+                    self._field_list_col,
                 ],
-                spacing=4,
-                scroll=ft.ScrollMode.AUTO,
+                spacing=8,
                 expand=True,
             ),
             padding=16,
             expand=True,
         )
+
+    def _build_field_row(self, field: dict | None = None) -> dict:
+        """
+        Build one editable field row.  field=None means a new empty row.
+        Returns a dict with widget refs and the rendered container.
+        Extra keys not handled by the editor are preserved in '_extra'.
+        """
+        f = field or {}
+        extra = {k: v for k, v in f.items() if k not in self._FIELD_KNOWN_KEYS}
+
+        tf_id = ft.TextField(
+            value=f.get("id", ""),
+            label="id",
+            border_color=_C_BORDER,
+            width=160,
+            dense=True,
+        )
+        dd_type = ft.Dropdown(
+            value=f.get("type", "text") if f.get("type") in self._FIELD_TYPES else "text",
+            options=[ft.dropdown.Option(t) for t in self._FIELD_TYPES],
+            border_color=_C_BORDER,
+            width=140,
+            dense=True,
+            content_padding=ft.padding.symmetric(horizontal=8, vertical=2),
+        )
+        cb_required = ft.Checkbox(
+            label="req.",
+            value=bool(f.get("required", False)),
+        )
+        tf_label = ft.TextField(
+            value=f.get("label", ""),
+            label="label",
+            border_color=_C_BORDER,
+            expand=True,
+            dense=True,
+        )
+        tf_sik = ft.TextField(
+            value=f.get("shared_items_key") or "",
+            label="shared_items_key",
+            hint_text="z. B. pain_character  (leer = null)",
+            border_color=_C_BORDER,
+            expand=True,
+            dense=True,
+        )
+        tf_norm = ft.TextField(
+            value=f.get("normalization_map") or "",
+            label="normalization_map",
+            hint_text="z. B. character  (leer = null)",
+            border_color=_C_BORDER,
+            expand=True,
+            dense=True,
+        )
+        tf_options = ft.TextField(
+            value=", ".join(f["options"]) if "options" in f else "",
+            label="options",
+            hint_text="kommagetrennt — für select / multi_select",
+            border_color=_C_BORDER,
+            expand=True,
+            dense=True,
+        )
+        tf_placeholder = ft.TextField(
+            value=f.get("placeholder", ""),
+            label="placeholder",
+            hint_text="für text / textarea",
+            border_color=_C_BORDER,
+            expand=True,
+            dense=True,
+        )
+
+        row_data: dict = {
+            "tf_id":          tf_id,
+            "dd_type":        dd_type,
+            "cb_required":    cb_required,
+            "tf_label":       tf_label,
+            "tf_sik":         tf_sik,
+            "tf_norm":        tf_norm,
+            "tf_options":     tf_options,
+            "tf_placeholder": tf_placeholder,
+            "_extra":         extra,
+            "container":      None,  # filled below
+        }
+
+        delete_btn = ft.IconButton(
+            icon=ft.Icons.DELETE_OUTLINE,
+            icon_color=_C_ERR,
+            icon_size=18,
+            tooltip="Feld entfernen",
+            on_click=lambda e, rd=row_data: self._on_delete_field(rd, e),
+        )
+
+        container = ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Row(
+                        controls=[tf_id, dd_type, cb_required,
+                                  ft.Container(expand=True), delete_btn],
+                        spacing=8,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                    ),
+                    tf_label,
+                    ft.Row(controls=[tf_sik, tf_norm], spacing=8),
+                    ft.Row(controls=[tf_options, tf_placeholder], spacing=8),
+                ],
+                spacing=6,
+            ),
+            padding=ft.padding.symmetric(horizontal=10, vertical=8),
+            border=ft.border.all(1, _C_BORDER),
+            border_radius=6,
+        )
+        row_data["container"] = container
+        return row_data
+
+    def _on_add_field(self, e) -> None:
+        row = self._build_field_row(None)
+        self._field_rows.append(row)
+        self._field_list_col.controls.append(row["container"])
+        self._page.update()
+
+    def _on_delete_field(self, row_data: dict, e) -> None:
+        if row_data in self._field_rows:
+            self._field_rows.remove(row_data)
+        if row_data["container"] in self._field_list_col.controls:
+            self._field_list_col.controls.remove(row_data["container"])
+        self._page.update()
 
     # ------------------------------------------------------------------
     # Save handler
@@ -558,6 +678,31 @@ class ScreenClusterBuilder:
             d["style"]["forbidden_words"] = [
                 w.strip() for w in self._tf_forbidden.value.split(",") if w.strip()
             ]
+
+            # Apply edits from Formular-Felder tab
+            new_fields: list[dict] = []
+            for row in self._field_rows:
+                fid = row["tf_id"].value.strip()
+                if not fid:
+                    continue  # skip rows without an id
+                ftype = row["dd_type"].value or "text"
+                field_dict: dict = {
+                    **row["_extra"],   # preserve unknown keys (e.g. min/max)
+                    "id":               fid,
+                    "label":            row["tf_label"].value.strip(),
+                    "type":             ftype,
+                    "required":         bool(row["cb_required"].value),
+                    "normalization_map": row["tf_norm"].value.strip() or None,
+                    "shared_items_key":  row["tf_sik"].value.strip() or None,
+                }
+                if ftype in ("select", "multi_select"):
+                    raw = row["tf_options"].value or ""
+                    field_dict["options"] = [o.strip() for o in raw.split(",") if o.strip()]
+                placeholder = row["tf_placeholder"].value.strip()
+                if placeholder:
+                    field_dict["placeholder"] = placeholder
+                new_fields.append(field_dict)
+            d.setdefault("form", {})["fields"] = new_fields
 
             # Apply edits from Render-Phrasen tab
             d.setdefault("render_maps", {})
