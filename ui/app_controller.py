@@ -66,9 +66,9 @@ class AppController:
         ScreenPilotComposer(self.page, self, summary=summary).render()
         self.page.update()
 
-    def show_cluster_builder(self) -> None:
+    def show_cluster_builder(self, storage_key: str | None = None) -> None:
         from ui.screens.screen_cluster_builder import ScreenClusterBuilder
         self.state.current_screen = "cluster_builder"
         self.page.controls.clear()
-        ScreenClusterBuilder(self.page, self).render()
+        ScreenClusterBuilder(self.page, self, storage_key=storage_key).render()
         self.page.update()

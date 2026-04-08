@@ -21,7 +21,7 @@ import json
 import flet as ft
 
 from models.unified_cluster import UnifiedCluster
-from services.unified_cluster_service import load_lws, save_edited
+from services.unified_cluster_service import load, save_edited, list_available
 import services.pilot_draft_service as _svc
 
 
@@ -35,10 +35,12 @@ _C_BG       = ft.Colors.GREY_50
 
 class ScreenClusterBuilder:
 
-    def __init__(self, page: ft.Page, controller) -> None:
+    def __init__(self, page: ft.Page, controller, storage_key: str | None = None) -> None:
         self._page = page
         self._ctrl = controller
-        self._cluster: UnifiedCluster = load_lws()
+        available = list_available()
+        key = storage_key if (storage_key and storage_key in available) else (available[0] if available else "lws_syndrom_v1_1")
+        self._cluster: UnifiedCluster = load(key)
         self._status = ft.Text("", size=12, color=ft.Colors.BLUE_GREY_500)
         # render_maps editor: {section_name: {key: TextField}}
         self._render_map_fields: dict[str, dict[str, ft.TextField]] = {}
@@ -96,6 +98,16 @@ class ScreenClusterBuilder:
     # ------------------------------------------------------------------
 
     def _build_header(self) -> ft.Control:
+        available = list_available()
+        cluster_dropdown = ft.Dropdown(
+            value=self._cluster.storage_key,
+            options=[ft.dropdown.Option(key=k, text=k) for k in available],
+            on_change=self._on_cluster_change,
+            width=260,
+            dense=True,
+            border_color=_C_BORDER,
+            content_padding=ft.padding.symmetric(horizontal=10, vertical=4),
+        )
         return ft.Container(
             content=ft.Row(
                 controls=[
@@ -103,10 +115,12 @@ class ScreenClusterBuilder:
                         "← Zurueck",
                         on_click=lambda _: self._ctrl.show_pilot_composer(),
                     ),
+                    ft.Text("Cluster:", size=13, color=ft.Colors.BLUE_GREY_600),
+                    cluster_dropdown,
                     ft.Container(expand=True),
                     ft.Text(
                         f"Cluster-Editor: {self._cluster.name}  v{self._cluster.version}",
-                        size=18,
+                        size=16,
                         weight=ft.FontWeight.BOLD,
                     ),
                     ft.Container(expand=True),
@@ -117,9 +131,15 @@ class ScreenClusterBuilder:
                     ),
                 ],
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                spacing=10,
             ),
             padding=ft.padding.symmetric(horizontal=16, vertical=10),
         )
+
+    def _on_cluster_change(self, e) -> None:
+        selected_key = e.control.value
+        if selected_key and selected_key != self._cluster.storage_key:
+            self._ctrl.show_cluster_builder(storage_key=selected_key)
 
     # ------------------------------------------------------------------
     # Tab 1: Meta
