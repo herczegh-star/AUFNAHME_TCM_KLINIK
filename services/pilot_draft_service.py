@@ -192,16 +192,17 @@ def _form_data_to_shared_items(
     cluster: UnifiedCluster, form_data: dict
 ) -> dict[str, list[str]]:
     """
-    Convert flat form_data dict into the shared_items dict expected by
-    lws_narrative_composer.compose_lws_narrative().
+    Convert flat form_data dict into the shared_items dict expected by the
+    narrative composer.
 
-    Field mapping (form field id → shared_items key):
-      pain_temporality  → pain_temporality
-      character         → pain_character
-      side              → pain_laterality
-      radiation         → pain_radiation
-      aggravating_factor → aggravating_mechanical
-      relieving_factor   → relieving_passive
+    Mapping is driven entirely by form.fields[*].shared_items_key in the cluster
+    JSON — no hardcoded field names here.  Fields with shared_items_key=null are
+    skipped (duration and additional_notes are handled as plain-text suffix in
+    generate_raw(); intensity_vas, onset, neurological_signs, previous_treatment
+    are not yet part of the draft sentence).
+
+    Normalization is applied when form.fields[*].normalization_map is set —
+    the value is a key into cluster.normalization_maps.
     """
     def _to_list(val) -> list[str]:
         if val is None:
@@ -223,22 +224,16 @@ def _form_data_to_shared_items(
             result.append(canonical)
         return result
 
-    # TODO (next sprint): the field→shared_items key mapping below is currently
-    # hardcoded for LWS.  For generalisation across clusters, this mapping should
-    # be declared in the cluster JSON (e.g. form.fields[*].shared_items_key) and
-    # resolved here dynamically.
-    #
-    # Fields NOT mapped here (not yet rendered in the core sentence):
-    #   intensity_vas, onset, neurological_signs, previous_treatment
-    # duration and additional_notes are handled as plain-text suffix in generate_raw().
-    return {
-        "pain_temporality":       _normalize("pain_temporality", form_data.get("pain_temporality")),
-        "pain_character":         _normalize("character", form_data.get("character")),
-        "pain_radiation":         _to_list(form_data.get("radiation")),
-        "aggravating_mechanical": _normalize("aggravating", form_data.get("aggravating_factor")),
-        "relieving_passive":      _normalize("relieving", form_data.get("relieving_factor")),
-        "functional_impact":      _normalize("functional", form_data.get("functional_limitations")),
-    }
+    result: dict[str, list[str]] = {}
+    for field in cluster.form_fields:
+        sik = field.get("shared_items_key")
+        if not sik:
+            continue
+        fid      = field["id"]
+        norm_key = field.get("normalization_map")
+        val      = form_data.get(fid)
+        result[sik] = _normalize(norm_key, val) if norm_key else _to_list(val)
+    return result
 
 
 def _validate_output(

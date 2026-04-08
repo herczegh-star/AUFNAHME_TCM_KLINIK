@@ -40,7 +40,8 @@
         "type": "text",
         "placeholder": "z. B. 3 Wochen, seit 2 Jahren",
         "required": true,
-        "normalization_map": null
+        "normalization_map": null,
+        "shared_items_key": null
       },
       {
         "id": "character",
@@ -57,7 +58,8 @@
           "pulsierend"
         ],
         "required": false,
-        "normalization_map": "character"
+        "normalization_map": "character",
+        "shared_items_key": "pain_character"
       },
       {
         "id": "pain_temporality",
@@ -70,7 +72,8 @@
           "progredient"
         ],
         "required": false,
-        "normalization_map": null
+        "normalization_map": null,
+        "shared_items_key": "pain_temporality"
       },
       {
         "id": "radiation",
@@ -87,7 +90,8 @@
           "Unterbauch"
         ],
         "required": false,
-        "normalization_map": null
+        "normalization_map": null,
+        "shared_items_key": "pain_radiation"
       },
       {
         "id": "aggravating_factor",
@@ -102,7 +106,8 @@
           "belastung"
         ],
         "required": false,
-        "normalization_map": "aggravating"
+        "normalization_map": "aggravating",
+        "shared_items_key": "aggravating_mechanical"
       },
       {
         "id": "relieving_factor",
@@ -116,7 +121,8 @@
           "massage"
         ],
         "required": false,
-        "normalization_map": "relieving"
+        "normalization_map": "relieving",
+        "shared_items_key": "relieving_passive"
       },
       {
         "id": "functional_limitations",
@@ -130,7 +136,8 @@
           "schlafstoerung"
         ],
         "required": false,
-        "normalization_map": "functional"
+        "normalization_map": "functional",
+        "shared_items_key": "functional_impact"
       },
       {
         "id": "intensity_vas",
@@ -139,7 +146,8 @@
         "min": 0,
         "max": 10,
         "required": false,
-        "normalization_map": null
+        "normalization_map": null,
+        "shared_items_key": null
       },
       {
         "id": "onset",
@@ -147,7 +155,8 @@
         "type": "text",
         "placeholder": "z. B. nach Heben, schleichend, nach Unfall",
         "required": false,
-        "normalization_map": null
+        "normalization_map": null,
+        "shared_items_key": null
       },
       {
         "id": "neurological_signs",
@@ -161,7 +170,8 @@
           "keine"
         ],
         "required": false,
-        "normalization_map": null
+        "normalization_map": null,
+        "shared_items_key": null
       },
       {
         "id": "previous_treatment",
@@ -169,7 +179,8 @@
         "type": "text",
         "placeholder": "z. B. Physiotherapie, Analgetika, OP",
         "required": false,
-        "normalization_map": null
+        "normalization_map": null,
+        "shared_items_key": null
       },
       {
         "id": "additional_notes",
@@ -177,7 +188,8 @@
         "type": "textarea",
         "placeholder": "Freitext",
         "required": false,
-        "normalization_map": null
+        "normalization_map": null,
+        "shared_items_key": null
       }
     ]
   },
