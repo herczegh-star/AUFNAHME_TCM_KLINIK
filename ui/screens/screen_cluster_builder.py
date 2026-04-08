@@ -21,7 +21,7 @@ import json
 import flet as ft
 
 from models.unified_cluster import UnifiedCluster
-from services.unified_cluster_service import load, save_edited, list_available
+from services.unified_cluster_service import load, save_edited, list_available, create_cluster
 import services.pilot_draft_service as _svc
 
 
@@ -117,6 +117,14 @@ class ScreenClusterBuilder:
                     ),
                     ft.Text("Cluster:", size=13, color=ft.Colors.BLUE_GREY_600),
                     cluster_dropdown,
+                    ft.OutlinedButton(
+                        "+ Neuer Cluster",
+                        on_click=self._on_new_cluster_click,
+                        style=ft.ButtonStyle(
+                            color=_C_ACCENT,
+                            side=ft.BorderSide(1, _C_ACCENT),
+                        ),
+                    ),
                     ft.Container(expand=True),
                     ft.Text(
                         f"Cluster-Editor: {self._cluster.name}  v{self._cluster.version}",
@@ -140,6 +148,62 @@ class ScreenClusterBuilder:
         selected_key = e.control.value
         if selected_key and selected_key != self._cluster.storage_key:
             self._ctrl.show_cluster_builder(storage_key=selected_key)
+
+    def _on_new_cluster_click(self, e) -> None:
+        tf_id   = ft.TextField(
+            label="Cluster-ID",
+            hint_text="z. B. schulter_syndrom",
+            border_color=_C_BORDER,
+            autofocus=True,
+        )
+        tf_name = ft.TextField(
+            label="Anzeigename",
+            hint_text="z. B. Schulter-Syndrom",
+            border_color=_C_BORDER,
+        )
+        err_text = ft.Text("", color=_C_ERR, size=11)
+
+        def _close(e2) -> None:
+            dlg.open = False
+            self._page.update()
+
+        def _create(e2) -> None:
+            raw_id   = (tf_id.value or "").strip()
+            raw_name = (tf_name.value or "").strip()
+            cluster_id = raw_id.lower().replace(" ", "_").replace("-", "_")
+            try:
+                new_cluster = create_cluster(cluster_id, raw_name)
+            except ValueError as exc:
+                err_text.value = str(exc)
+                self._page.update()
+                return
+            dlg.open = False
+            self._page.update()
+            self._ctrl.show_cluster_builder(storage_key=new_cluster.storage_key)
+
+        dlg = ft.AlertDialog(
+            modal=True,
+            title=ft.Text("Neuer Cluster"),
+            content=ft.Column(
+                controls=[tf_id, tf_name, err_text],
+                tight=True,
+                spacing=10,
+                width=360,
+            ),
+            actions=[
+                ft.TextButton("Abbrechen", on_click=_close),
+                ft.ElevatedButton(
+                    "Erstellen",
+                    bgcolor=_C_ACCENT,
+                    color=ft.Colors.WHITE,
+                    on_click=_create,
+                ),
+            ],
+            actions_alignment=ft.MainAxisAlignment.END,
+        )
+        self._page.overlay.append(dlg)
+        dlg.open = True
+        self._page.update()
 
     # ------------------------------------------------------------------
     # Tab 1: Meta

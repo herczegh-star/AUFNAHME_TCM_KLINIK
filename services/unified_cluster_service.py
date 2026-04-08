@@ -77,10 +77,99 @@ def save_edited(cluster: UnifiedCluster) -> Path:
 
 
 def list_available() -> list[str]:
-    """Return ids of all cluster files found in the cluster directory."""
+    """Return storage_keys of all cluster files found in the cluster directory."""
     ids: list[str] = []
     for p in sorted(_CLUSTER_DIR.glob("*.json")):
         if p.stem.endswith(".edited"):
             continue  # skip edited copies from the list
         ids.append(p.stem)
     return ids
+
+
+def create_cluster(cluster_id: str, display_name: str) -> UnifiedCluster:
+    """
+    Create a new cluster scaffold and save as data/unified_clusters/<cluster_id>_v1_0.json.
+
+    The scaffold is a minimal valid cluster structure compatible with:
+      - P1: form.fields with shared_items_key
+      - P2: render_maps + preferred_phrases.anchor for generic composer
+      - Builder: all keys expected by load/save/tabs are present
+
+    Parameters
+    ----------
+    cluster_id :
+        Canonical clinical id, lowercase letters, digits, underscores.
+        e.g. "schulter_syndrom"
+    display_name :
+        Human-readable name, e.g. "Schulter-Syndrom"
+
+    Returns
+    -------
+    UnifiedCluster
+        Loaded cluster with storage_key set.
+
+    Raises
+    ------
+    ValueError
+        If cluster_id is invalid or the target file already exists.
+    """
+    if not cluster_id:
+        raise ValueError("cluster_id darf nicht leer sein.")
+    if not all(c.isalnum() or c == "_" for c in cluster_id) or not cluster_id[0].isalpha():
+        raise ValueError(
+            f"Ungueltige cluster_id {cluster_id!r}. "
+            "Nur Kleinbuchstaben, Ziffern und Unterstriche erlaubt; muss mit Buchstabe beginnen."
+        )
+    if not display_name:
+        raise ValueError("display_name darf nicht leer sein.")
+
+    storage_key = f"{cluster_id}_v1_0"
+    target = _CLUSTER_DIR / f"{storage_key}.json"
+    if target.exists():
+        raise ValueError(
+            f"Cluster-Datei existiert bereits: {target.name}"
+        )
+
+    scaffold: dict = {
+        "id": cluster_id,
+        "name": display_name,
+        "aliases": [],
+        "status": "draft",
+        "version": "1.0",
+        "category": "",
+        "family": "",
+        "tags": [],
+        "meta": {
+            "icd10": "",
+            "icd10_label": "",
+            "anatomical_region": "",
+            "typical_age_range": "",
+            "tcm_pattern_hints": []
+        },
+        "form": {
+            "title": f"{display_name} \u2013 Anamnese",
+            "fields": []
+        },
+        "normalization": {},
+        "style": {
+            "rules": [],
+            "preferred_phrases": {
+                "anchor": [f"Beschwerden im {display_name}-Bereich"]
+            },
+            "forbidden_words": [],
+            "examples": []
+        },
+        "render_maps": {},
+        "archetypes": [],
+        "tests": [],
+        "draft_pipeline": {
+            "stages": [],
+            "fallback_on_llm_error": "raw"
+        }
+    }
+
+    target.write_text(
+        json.dumps(scaffold, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    return load(storage_key, bust_cache=True)
