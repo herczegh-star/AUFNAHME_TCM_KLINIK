@@ -5,11 +5,11 @@ Cluster-aware dispatcher for narrative composers.
 
 Provides a single entry point:
 
-    compose_narrative(cluster_id, shared_items) -> str | None
+    compose_narrative(cluster_id, shared_items, *, cluster=None) -> str
 
 Dispatches to the appropriate pilot composer based on cluster_id.
-Returns None for clusters without a composer yet — callers can decide
-whether to log, skip, or fall back to draft_text.
+Falls back to generic_narrative_composer when no dedicated composer is
+registered. Never returns None.
 
 IMPORTANT: Not yet integrated into DraftPipeline. This module is a
 design stub. Integration will be done in a separate step after all
@@ -20,19 +20,25 @@ Cluster ID normalisation:
   Normalisation: lowercased, spaces and hyphens collapsed to underscores.
 
 Currently registered composers:
-  lws_syndrom   -> compose_lws_narrative
-  hws_syndrom   -> compose_hws_narrative
+  lws_syndrom   -> compose_lws_narrative   (dedicated, render_maps from JSON)
+  hws_syndrom   -> compose_hws_narrative   (dedicated, hardcoded maps)
 
-Clusters without a composer (returns None):
-  All other cluster_ids.
+Clusters without a dedicated composer:
+  Falls back to generic_narrative_composer using cluster.render_maps.
+  Requires caller to pass cluster= keyword argument.
+  If cluster is not provided, returns a minimal anchor-only sentence.
 """
 
 from __future__ import annotations
 
-from typing import Callable
+from typing import TYPE_CHECKING, Callable
 
 from core.ai_draft.lws_narrative_composer import compose_lws_narrative
 from core.ai_draft.hws_narrative_composer import compose_hws_narrative
+from core.ai_draft.generic_narrative_composer import compose_generic_narrative
+
+if TYPE_CHECKING:
+    from models.unified_cluster import UnifiedCluster
 
 
 # ---------------------------------------------------------------------------
@@ -49,6 +55,12 @@ def _normalise_cluster_id(cluster_id: str) -> str:
       "HWS Syndrom"  -> "hws_syndrom"
     """
     return cluster_id.lower().replace("-", "_").replace(" ", "_")
+
+
+def _get_anchor(cluster: UnifiedCluster) -> str:
+    """Return the anchor phrase for a cluster (preferred_phrases or name fallback)."""
+    anchors = cluster.preferred_phrases.get("anchor", [])
+    return anchors[0] if anchors else cluster.name
 
 
 # ---------------------------------------------------------------------------
@@ -69,7 +81,9 @@ _REGISTRY: dict[str, Callable[[dict[str, list[str]]], str]] = {
 def compose_narrative(
     cluster_id:   str,
     shared_items: dict[str, list[str]],
-) -> str | None:
+    *,
+    cluster: UnifiedCluster | None = None,
+) -> str:
     """
     Dispatch to the appropriate narrative composer for the given cluster.
 
@@ -80,20 +94,28 @@ def compose_narrative(
         ("lws_syndrom"). Normalised internally.
     shared_items :
         Dict of selected shared pain items (alpha-sorted, selector convention).
-        Same structure as DraftPipelineResult.shared_pain_items_selected.
+    cluster :
+        UnifiedCluster instance.  Required for the generic fallback composer.
+        Ignored when a dedicated composer is registered for cluster_id.
 
     Returns
     -------
     str
         Rendered German clinical sentence, ending with '.'.
-    None
-        If no composer is registered for this cluster.
+        Never None — falls back to generic composer or anchor-only sentence.
     """
     key = _normalise_cluster_id(cluster_id)
     composer = _REGISTRY.get(key)
-    if composer is None:
-        return None
-    return composer(shared_items)
+    if composer is not None:
+        return composer(shared_items)
+
+    # No dedicated composer — use generic data-driven fallback.
+    if cluster is not None:
+        anchor = _get_anchor(cluster)
+        return compose_generic_narrative(shared_items, cluster.render_maps, anchor)
+
+    # Last resort: cluster object not provided — return safe placeholder.
+    return f"Beschwerden ({cluster_id})."
 
 
 def registered_clusters() -> list[str]:

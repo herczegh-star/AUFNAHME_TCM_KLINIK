@@ -45,7 +45,7 @@ def generate_raw(cluster: UnifiedCluster, form_data: dict) -> str:
     """
     Stage 1: deterministic sentence construction from form_data (UI form keys).
     Dispatches to the cluster-specific narrative composer via narrative_dispatcher.
-    Raises ValueError if no composer is registered for cluster.id.
+    Falls back to generic_narrative_composer for clusters without a dedicated one.
 
     Fields that feed the main sentence (via shared_items):
       pain_temporality, character, side, radiation,
@@ -58,11 +58,7 @@ def generate_raw(cluster: UnifiedCluster, form_data: dict) -> str:
     All other form fields are not yet rendered (see TODO in _form_data_to_shared_items).
     """
     shared_items = _form_data_to_shared_items(cluster, form_data)
-    core_sentence = compose_narrative(cluster.id, shared_items)
-    if core_sentence is None:
-        raise ValueError(
-            f"Kein Narrative-Composer fuer Cluster '{cluster.id}' registriert."
-        )
+    core_sentence = compose_narrative(cluster.id, shared_items, cluster=cluster)
     validated = _validate_output(core_sentence, cluster)
 
     # --- duration suffix — inserted into the FIRST sentence only ---
@@ -94,13 +90,8 @@ def generate_raw_from_shared_items(cluster: UnifiedCluster, shared_items: dict) 
     """
     Stage 1 variant: accepts shared_items dict directly (composer key format).
     Used by the cluster test runner so tests can specify shared_items directly.
-    Raises ValueError if no composer is registered for cluster.id.
     """
-    raw = compose_narrative(cluster.id, shared_items)
-    if raw is None:
-        raise ValueError(
-            f"Kein Narrative-Composer fuer Cluster '{cluster.id}' registriert."
-        )
+    raw = compose_narrative(cluster.id, shared_items, cluster=cluster)
     return _validate_output(raw, cluster)
 
 
