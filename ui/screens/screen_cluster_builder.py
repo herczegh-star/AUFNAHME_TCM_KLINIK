@@ -47,6 +47,9 @@ class ScreenClusterBuilder:
         # form fields editor: list of row-state dicts; populated in _build_tab_form_fields()
         self._field_rows: list[dict] = []
         self._field_list_col: ft.Column | None = None
+        # normalization editor: section_key → {pairs, col, container}
+        self._norm_sections: dict[str, dict] = {}
+        self._norm_outer_col: ft.Column | None = None
 
     # ------------------------------------------------------------------
     # Public entry point
@@ -67,6 +70,7 @@ class ScreenClusterBuilder:
                                 ft.Tab(text="Tests",            content=self._build_tab_tests()),
                                 ft.Tab(text="Render-Phrasen",   content=self._build_tab_render_maps()),
                                 ft.Tab(text="Formular-Felder",   content=self._build_tab_form_fields()),
+                                ft.Tab(text="Normalisierung",    content=self._build_tab_normalization()),
                             ],
                             expand=True,
                         ),
@@ -657,6 +661,188 @@ class ScreenClusterBuilder:
         self._page.update()
 
     # ------------------------------------------------------------------
+    # Tab 7: Normalisierung (editor)
+    # ------------------------------------------------------------------
+
+    def _build_tab_normalization(self) -> ft.Control:
+        self._norm_sections = {}
+        self._norm_outer_col = ft.Column(spacing=10, scroll=ft.ScrollMode.AUTO, expand=True)
+
+        for section_key, pairs_dict in self._cluster.normalization_maps.items():
+            sd = self._build_norm_section(section_key, pairs_dict)
+            self._norm_sections[section_key] = sd
+            self._norm_outer_col.controls.append(sd["container"])
+
+        add_section_btn = ft.OutlinedButton(
+            "+ Neue Sektion",
+            icon=ft.Icons.ADD,
+            on_click=self._on_add_norm_section,
+            style=ft.ButtonStyle(color=_C_ACCENT, side=ft.BorderSide(1, _C_ACCENT)),
+        )
+
+        return ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Row([add_section_btn]),
+                    ft.Divider(height=1, color=_C_BORDER),
+                    self._norm_outer_col,
+                ],
+                spacing=8,
+                expand=True,
+            ),
+            padding=16,
+            expand=True,
+        )
+
+    def _build_norm_section(self, section_key: str, pairs_dict: dict) -> dict:
+        """Build one normalization section block with its pair rows."""
+        pairs: list[dict] = []
+        pairs_col = ft.Column(spacing=4)
+
+        for alias, canonical in pairs_dict.items():
+            pr = self._build_norm_pair_row(alias, canonical, section_key)
+            pairs.append(pr)
+            pairs_col.controls.append(pr["container"])
+
+        add_pair_btn = ft.TextButton(
+            "+ Alias",
+            icon=ft.Icons.ADD,
+            on_click=lambda e, sk=section_key: self._on_add_norm_pair(sk, e),
+            style=ft.ButtonStyle(color=ft.Colors.BLUE_GREY_600),
+        )
+
+        section_data: dict = {"pairs": pairs, "col": pairs_col, "container": None}
+
+        section_data["container"] = ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Row([
+                        ft.Text(
+                            section_key,
+                            size=12,
+                            weight=ft.FontWeight.W_600,
+                            color=ft.Colors.BLUE_700,
+                            expand=True,
+                        ),
+                    ]),
+                    ft.Divider(height=1, color=_C_BORDER),
+                    pairs_col,
+                    ft.Row([add_pair_btn]),
+                ],
+                spacing=6,
+            ),
+            padding=ft.padding.symmetric(horizontal=12, vertical=10),
+            border=ft.border.all(1, _C_BORDER),
+            border_radius=6,
+        )
+        return section_data
+
+    def _build_norm_pair_row(self, alias: str, canonical: str, section_key: str) -> dict:
+        """Build one alias → canonical pair row."""
+        tf_alias = ft.TextField(
+            value=alias,
+            label="alias",
+            border_color=_C_BORDER,
+            dense=True,
+            expand=True,
+        )
+        tf_canonical = ft.TextField(
+            value=canonical,
+            label="canonical",
+            border_color=_C_BORDER,
+            dense=True,
+            expand=True,
+        )
+        pair_data: dict = {"tf_alias": tf_alias, "tf_canonical": tf_canonical, "container": None}
+
+        del_btn = ft.IconButton(
+            icon=ft.Icons.REMOVE_CIRCLE_OUTLINE,
+            icon_color=_C_ERR,
+            icon_size=16,
+            tooltip="Alias entfernen",
+            on_click=lambda e, sk=section_key, pd=pair_data: self._on_delete_norm_pair(sk, pd, e),
+        )
+        pair_data["container"] = ft.Row(
+            controls=[
+                tf_alias,
+                ft.Text("→", size=12, color=ft.Colors.BLUE_GREY_500, width=20),
+                tf_canonical,
+                del_btn,
+            ],
+            spacing=6,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+        )
+        return pair_data
+
+    def _on_add_norm_pair(self, section_key: str, e) -> None:
+        sd = self._norm_sections[section_key]
+        pr = self._build_norm_pair_row("", "", section_key)
+        sd["pairs"].append(pr)
+        sd["col"].controls.append(pr["container"])
+        self._page.update()
+
+    def _on_delete_norm_pair(self, section_key: str, pair_data: dict, e) -> None:
+        sd = self._norm_sections[section_key]
+        if pair_data in sd["pairs"]:
+            sd["pairs"].remove(pair_data)
+        if pair_data["container"] in sd["col"].controls:
+            sd["col"].controls.remove(pair_data["container"])
+        self._page.update()
+
+    def _on_add_norm_section(self, e) -> None:
+        tf_key   = ft.TextField(
+            label="Sektions-Name",
+            hint_text="z. B. aggravating",
+            border_color=_C_BORDER,
+            autofocus=True,
+        )
+        err_text = ft.Text("", color=_C_ERR, size=11)
+
+        def _close(e2) -> None:
+            dlg.open = False
+            self._page.update()
+
+        def _create(e2) -> None:
+            new_key = (tf_key.value or "").strip()
+            if not new_key:
+                err_text.value = "Sektions-Name darf nicht leer sein."
+                self._page.update()
+                return
+            if new_key in self._norm_sections:
+                err_text.value = f"Sektion '{new_key}' existiert bereits."
+                self._page.update()
+                return
+            sd = self._build_norm_section(new_key, {})
+            self._norm_sections[new_key] = sd
+            self._norm_outer_col.controls.append(sd["container"])
+            dlg.open = False
+            self._page.update()
+
+        dlg = ft.AlertDialog(
+            modal=True,
+            title=ft.Text("Neue Normalisierungs-Sektion"),
+            content=ft.Column(
+                controls=[tf_key, err_text],
+                tight=True,
+                spacing=8,
+                width=320,
+            ),
+            actions=[
+                ft.TextButton("Abbrechen", on_click=_close),
+                ft.ElevatedButton(
+                    "Hinzufügen",
+                    bgcolor=_C_ACCENT,
+                    color=ft.Colors.WHITE,
+                    on_click=_create,
+                ),
+            ],
+            actions_alignment=ft.MainAxisAlignment.END,
+        )
+        self._page.overlay.append(dlg)
+        dlg.open = True
+        self._page.update()
+
+    # ------------------------------------------------------------------
     # Save handler
     # ------------------------------------------------------------------
 
@@ -703,6 +889,18 @@ class ScreenClusterBuilder:
                     field_dict["placeholder"] = placeholder
                 new_fields.append(field_dict)
             d.setdefault("form", {})["fields"] = new_fields
+
+            # Apply edits from Normalisierung tab
+            new_norm: dict = {}
+            for section_key, sd in self._norm_sections.items():
+                section_dict: dict = {}
+                for pair in sd["pairs"]:
+                    alias     = pair["tf_alias"].value.strip()
+                    canonical = pair["tf_canonical"].value.strip()
+                    if alias and canonical:
+                        section_dict[alias] = canonical
+                new_norm[section_key] = section_dict  # preserve even if empty
+            d["normalization"] = new_norm
 
             # Apply edits from Render-Phrasen tab
             d.setdefault("render_maps", {})
