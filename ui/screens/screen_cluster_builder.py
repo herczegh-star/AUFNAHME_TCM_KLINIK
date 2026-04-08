@@ -42,8 +42,9 @@ class ScreenClusterBuilder:
         key = storage_key if (storage_key and storage_key in available) else (available[0] if available else "lws_syndrom_v1_1")
         self._cluster: UnifiedCluster = load(key)
         self._status = ft.Text("", size=12, color=ft.Colors.BLUE_GREY_500)
-        # render_maps editor: {section_name: {key: TextField}}
-        self._render_map_fields: dict[str, dict[str, ft.TextField]] = {}
+        # render_maps editor: section_key → {entries: list[dict], col: Column, container: Control}
+        self._rm_sections: dict[str, dict] = {}
+        self._rm_outer_col: ft.Column | None = None
         # form fields editor: list of row-state dicts; populated in _build_tab_form_fields()
         self._field_rows: list[dict] = []
         self._field_list_col: ft.Column | None = None
@@ -403,97 +404,189 @@ class ScreenClusterBuilder:
     # Tab 5: Render-Phrasen
     # ------------------------------------------------------------------
 
-    # Human-readable section labels for the UI
-    _RENDER_SECTION_LABELS: dict[str, str] = {
-        "character_adjective":   "Schmerzcharakter-Adjektive  (canonical → Adjektiv)",
-        "radiation_phrase":      "Ausstrahlung-Phrasen  (canonical → vollständige Phrase)",
-        "aggravating_dative":    "Verstärkende Faktoren  (canonical → Dativobjekt nach \"verstärkt bei\")",
-        "relieving_noun":        "Lindernde Faktoren  (canonical → Substantiv nach \"gebessert durch\")",
-        "temporality_adjective": "Temporalität-Adjektive  (canonical → Adjektiv)",
-        "functional_phrase":     "Funktionelle Einschränkungen  (canonical → Satzfragment)",
-    }
-
     def _build_tab_render_maps(self) -> ft.Control:
         """
-        Editor for cluster.render_maps — each section rendered as a block
-        of key (read-only label) + value (editable TextField) rows.
+        Editor for cluster.render_maps — dynamic sections from cluster JSON.
+        Each section: editable canonical key + editable phrase value + delete.
         """
-        render_maps = self._cluster.render_maps
-        sections: list[ft.Control] = []
+        self._rm_sections = {}
+        self._rm_outer_col = ft.Column(spacing=10, scroll=ft.ScrollMode.AUTO, expand=True)
 
-        for section_key, label in self._RENDER_SECTION_LABELS.items():
-            section_data = render_maps.get(section_key, {})
-            self._render_map_fields[section_key] = {}
+        for section_key, section_dict in self._cluster.render_maps.items():
+            sd = self._build_rm_section(section_key, section_dict)
+            self._rm_sections[section_key] = sd
+            self._rm_outer_col.controls.append(sd["container"])
 
-            rows: list[ft.Control] = []
-            for canonical, phrase in section_data.items():
-                tf = ft.TextField(
-                    value=phrase,
-                    border_color=_C_BORDER,
-                    dense=True,
-                    expand=True,
-                )
-                self._render_map_fields[section_key][canonical] = tf
-                rows.append(
-                    ft.Row(
-                        controls=[
-                            ft.Text(
-                                canonical,
-                                size=11,
-                                width=220,
-                                color=ft.Colors.BLUE_700,
-                                weight=ft.FontWeight.W_500,
-                            ),
-                            tf,
-                        ],
-                        spacing=8,
-                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                    )
-                )
-
-            sections.append(
-                ft.Container(
-                    content=ft.Column(
-                        controls=[
-                            ft.Text(
-                                label,
-                                size=12,
-                                weight=ft.FontWeight.W_600,
-                                color=ft.Colors.BLUE_GREY_700,
-                            ),
-                            ft.Divider(height=1, color=_C_BORDER),
-                            *rows,
-                        ],
-                        spacing=6,
-                    ),
-                    padding=ft.padding.only(bottom=20),
-                )
-            )
+        add_section_btn = ft.OutlinedButton(
+            "+ Neue Sektion",
+            icon=ft.Icons.ADD,
+            on_click=self._on_add_rm_section,
+            style=ft.ButtonStyle(color=_C_ACCENT, side=ft.BorderSide(1, _C_ACCENT)),
+        )
 
         return ft.Container(
             content=ft.Column(
                 controls=[
-                    ft.Container(
-                        content=ft.Row([
-                            ft.Icon(ft.Icons.INFO_OUTLINE, size=14, color=ft.Colors.BLUE_GREY_400),
-                            ft.Text(
-                                "Nur Phrasen-Werte editieren. Canonical-Keys sind fix.",
-                                size=11,
-                                color=ft.Colors.BLUE_GREY_400,
-                                italic=True,
-                            ),
-                        ], spacing=6),
-                    ),
-                    ft.Container(height=8),
-                    *sections,
+                    ft.Row([add_section_btn]),
+                    ft.Divider(height=1, color=_C_BORDER),
+                    self._rm_outer_col,
                 ],
-                spacing=0,
-                scroll=ft.ScrollMode.AUTO,
+                spacing=8,
                 expand=True,
             ),
             padding=16,
             expand=True,
         )
+
+    def _build_rm_section(self, section_key: str, section_dict: dict) -> dict:
+        """Build one render_maps section block."""
+        entries: list[dict] = []
+        entries_col = ft.Column(spacing=4)
+
+        for canonical, phrase in section_dict.items():
+            er = self._build_rm_entry_row(canonical, phrase, section_key)
+            entries.append(er)
+            entries_col.controls.append(er["container"])
+
+        add_entry_btn = ft.TextButton(
+            "+ Eintrag",
+            icon=ft.Icons.ADD,
+            on_click=lambda e, sk=section_key: self._on_add_rm_entry(sk, e),
+            style=ft.ButtonStyle(color=ft.Colors.BLUE_GREY_600),
+        )
+
+        sd: dict = {"entries": entries, "col": entries_col, "container": None}
+        sd["container"] = ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Row([
+                        ft.Text(
+                            section_key,
+                            size=12,
+                            weight=ft.FontWeight.W_600,
+                            color=ft.Colors.BLUE_700,
+                            expand=True,
+                        ),
+                    ]),
+                    ft.Divider(height=1, color=_C_BORDER),
+                    entries_col,
+                    ft.Row([add_entry_btn]),
+                ],
+                spacing=6,
+            ),
+            padding=ft.padding.symmetric(horizontal=12, vertical=10),
+            border=ft.border.all(1, _C_BORDER),
+            border_radius=6,
+        )
+        return sd
+
+    def _build_rm_entry_row(self, canonical: str, phrase: str, section_key: str) -> dict:
+        """Build one canonical → phrase entry row."""
+        tf_canonical = ft.TextField(
+            value=canonical,
+            label="canonical",
+            border_color=_C_BORDER,
+            dense=True,
+            expand=True,
+        )
+        tf_phrase = ft.TextField(
+            value=phrase,
+            label="Phrase",
+            border_color=_C_BORDER,
+            dense=True,
+            expand=True,
+        )
+        entry_data: dict = {
+            "tf_canonical": tf_canonical,
+            "tf_phrase":    tf_phrase,
+            "container":    None,
+        }
+        del_btn = ft.IconButton(
+            icon=ft.Icons.REMOVE_CIRCLE_OUTLINE,
+            icon_color=_C_ERR,
+            icon_size=16,
+            tooltip="Eintrag entfernen",
+            on_click=lambda e, sk=section_key, ed=entry_data: self._on_delete_rm_entry(sk, ed, e),
+        )
+        entry_data["container"] = ft.Row(
+            controls=[
+                tf_canonical,
+                ft.Text("→", size=12, color=ft.Colors.BLUE_GREY_500, width=20),
+                tf_phrase,
+                del_btn,
+            ],
+            spacing=6,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+        )
+        return entry_data
+
+    def _on_add_rm_entry(self, section_key: str, e) -> None:
+        sd = self._rm_sections[section_key]
+        er = self._build_rm_entry_row("", "", section_key)
+        sd["entries"].append(er)
+        sd["col"].controls.append(er["container"])
+        self._page.update()
+
+    def _on_delete_rm_entry(self, section_key: str, entry_data: dict, e) -> None:
+        sd = self._rm_sections[section_key]
+        if entry_data in sd["entries"]:
+            sd["entries"].remove(entry_data)
+        if entry_data["container"] in sd["col"].controls:
+            sd["col"].controls.remove(entry_data["container"])
+        self._page.update()
+
+    def _on_add_rm_section(self, e) -> None:
+        tf_key   = ft.TextField(
+            label="Sektions-Name",
+            hint_text="z. B. pain_character",
+            border_color=_C_BORDER,
+            autofocus=True,
+        )
+        err_text = ft.Text("", color=_C_ERR, size=11)
+
+        def _close(e2) -> None:
+            dlg.open = False
+            self._page.update()
+
+        def _create(e2) -> None:
+            new_key = (tf_key.value or "").strip()
+            if not new_key:
+                err_text.value = "Sektions-Name darf nicht leer sein."
+                self._page.update()
+                return
+            if new_key in self._rm_sections:
+                err_text.value = f"Sektion '{new_key}' existiert bereits."
+                self._page.update()
+                return
+            sd = self._build_rm_section(new_key, {})
+            self._rm_sections[new_key] = sd
+            self._rm_outer_col.controls.append(sd["container"])
+            dlg.open = False
+            self._page.update()
+
+        dlg = ft.AlertDialog(
+            modal=True,
+            title=ft.Text("Neue Render-Maps-Sektion"),
+            content=ft.Column(
+                controls=[tf_key, err_text],
+                tight=True,
+                spacing=8,
+                width=320,
+            ),
+            actions=[
+                ft.TextButton("Abbrechen", on_click=_close),
+                ft.ElevatedButton(
+                    "Hinzufügen",
+                    bgcolor=_C_ACCENT,
+                    color=ft.Colors.WHITE,
+                    on_click=_create,
+                ),
+            ],
+            actions_alignment=ft.MainAxisAlignment.END,
+        )
+        self._page.overlay.append(dlg)
+        dlg.open = True
+        self._page.update()
 
     # ------------------------------------------------------------------
     # Tab 6: Formular-Felder (editor)
@@ -903,13 +996,16 @@ class ScreenClusterBuilder:
             d["normalization"] = new_norm
 
             # Apply edits from Render-Phrasen tab
-            d.setdefault("render_maps", {})
-            for section_key, field_map in self._render_map_fields.items():
-                d["render_maps"][section_key] = {
-                    canonical: tf.value.strip()
-                    for canonical, tf in field_map.items()
-                    if tf.value and tf.value.strip()
-                }
+            new_rm: dict = {}
+            for section_key, sd in self._rm_sections.items():
+                section_dict: dict = {}
+                for entry in sd["entries"]:
+                    canonical = entry["tf_canonical"].value.strip()
+                    phrase    = entry["tf_phrase"].value.strip()
+                    if canonical and phrase:
+                        section_dict[canonical] = phrase
+                new_rm[section_key] = section_dict  # preserve even if empty
+            d["render_maps"] = new_rm
 
             path = save_edited(self._cluster)
 
