@@ -234,7 +234,6 @@ def _form_data_to_shared_items(
     return {
         "pain_temporality":       _normalize("pain_temporality", form_data.get("pain_temporality")),
         "pain_character":         _normalize("character", form_data.get("character")),
-        "pain_laterality":        _normalize("side", form_data.get("side")),
         "pain_radiation":         _to_list(form_data.get("radiation")),
         "aggravating_mechanical": _normalize("aggravating", form_data.get("aggravating_factor")),
         "relieving_passive":      _normalize("relieving", form_data.get("relieving_factor")),

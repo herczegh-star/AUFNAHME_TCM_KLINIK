@@ -43,19 +43,6 @@
         "normalization_map": null
       },
       {
-        "id": "side",
-        "label": "Lokalisation / Seite",
-        "type": "select",
-        "options": [
-          "links",
-          "rechts",
-          "beidseits",
-          "zentral"
-        ],
-        "required": false,
-        "normalization_map": "side"
-      },
-      {
         "id": "character",
         "label": "Schmerzcharakter",
         "type": "multi_select",
