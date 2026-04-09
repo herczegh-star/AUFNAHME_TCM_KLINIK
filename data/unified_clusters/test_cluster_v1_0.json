@@ -1,0 +1,39 @@
+{
+  "id": "test_cluster",
+  "name": "Test-Cluster",
+  "aliases": [],
+  "status": "draft",
+  "version": "1.0",
+  "category": "",
+  "family": "",
+  "tags": [],
+  "meta": {
+    "icd10": "",
+    "icd10_label": "",
+    "anatomical_region": "",
+    "typical_age_range": "",
+    "tcm_pattern_hints": []
+  },
+  "form": {
+    "title": "Test-Cluster – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [],
+    "preferred_phrases": {
+      "anchor": [
+        "Beschwerden im Test-Cluster-Bereich"
+      ]
+    },
+    "forbidden_words": [],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  }
+}
