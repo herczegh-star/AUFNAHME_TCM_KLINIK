@@ -63,23 +63,22 @@ class ScreenClusterBuilder:
                 controls=[
                     self._build_header(),
                     ft.Divider(height=1, color=_C_BORDER),
-                    ft.Container(
-                        content=ft.Tabs(
-                            tabs=[
-                                ft.Tab(text="Meta",             content=self._build_tab_meta()),
-                                ft.Tab(text="Stil-Regeln",      content=self._build_tab_style()),
-                                ft.Tab(text="Archetypen",       content=self._build_tab_archetypes()),
-                                ft.Tab(text="Tests",            content=self._build_tab_tests()),
-                                ft.Tab(text="Render-Phrasen",   content=self._build_tab_render_maps()),
-                                ft.Tab(text="Formular-Felder",   content=self._build_tab_form_fields()),
-                                ft.Tab(text="Normalisierung",    content=self._build_tab_normalization()),
-                            ],
-                            expand=True,
-                        ),
-                        expand=True,
-                        padding=ft.padding.only(top=8),
+                    # Tab area: expand=1 so it takes all space not claimed by
+                    # the fixed header and fixed bottom action row.
+                    ft.Tabs(
+                        tabs=[
+                            ft.Tab(text="Meta",            content=self._build_tab_meta()),
+                            ft.Tab(text="Stil-Regeln",     content=self._build_tab_style()),
+                            ft.Tab(text="Archetypen",      content=self._build_tab_archetypes()),
+                            ft.Tab(text="Tests",           content=self._build_tab_tests()),
+                            ft.Tab(text="Render-Phrasen",  content=self._build_tab_render_maps()),
+                            ft.Tab(text="Formular-Felder", content=self._build_tab_form_fields()),
+                            ft.Tab(text="Normalisierung",  content=self._build_tab_normalization()),
+                        ],
+                        expand=1,
                     ),
                     ft.Divider(height=1, color=_C_BORDER),
+                    # Bottom action row: no expand — always stays at natural height.
                     ft.Container(
                         content=ft.Row(
                             controls=[
