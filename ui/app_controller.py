@@ -50,20 +50,34 @@ class AppController:
         ScreenSummaryReview(self.page, self).render()
         self.page.update()
 
-    def show_pilot_composer(self, summary: CaseSummary | None = None) -> None:
+    def show_pilot_composer(
+        self,
+        summary: CaseSummary | None = None,
+        storage_key: str | None = None,
+    ) -> None:
         """
         Production composer — unified cluster architecture.
 
         Entry points:
-          a) show_pilot_composer(summary)  — from interview workflow
-          b) show_pilot_composer()         — direct access (no interview)
+          a) show_pilot_composer(summary, storage_key=...)  — from SummaryReview
+          b) show_pilot_composer()                          — direct access (no interview)
+
+        storage_key is stored in state.selected_cluster_id and passed to
+        ScreenPilotComposer.  When None, the composer falls back to the
+        previously selected cluster or LWS (direct-access path only).
         """
         from ui.screens.screen_pilot_composer import ScreenPilotComposer
         self.state.current_screen = "pilot_composer"
         if summary is not None:
             self.state.summary = summary
+        if storage_key:
+            self.state.selected_cluster_id = storage_key
         self.page.controls.clear()
-        ScreenPilotComposer(self.page, self, summary=summary).render()
+        ScreenPilotComposer(
+            self.page, self,
+            summary=summary,
+            storage_key=self.state.selected_cluster_id or None,
+        ).render()
         self.page.update()
 
     def show_cluster_builder(self, storage_key: str | None = None) -> None:

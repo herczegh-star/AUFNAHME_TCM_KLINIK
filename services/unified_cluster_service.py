@@ -88,6 +88,22 @@ def list_available() -> list[str]:
     return ids
 
 
+def list_available_with_names() -> list[tuple[str, str]]:
+    """
+    Return list of (storage_key, display_name) for all available clusters.
+    display_name is read from the cluster's 'name' field.
+    Falls back to storage_key as display_name if the file cannot be read.
+    """
+    result: list[tuple[str, str]] = []
+    for storage_key in list_available():
+        try:
+            cluster = load(storage_key)
+            result.append((storage_key, cluster.name))
+        except Exception:
+            result.append((storage_key, storage_key))
+    return result
+
+
 def slugify_cluster_id(name: str) -> str:
     """
     Convert a human-readable cluster name to a valid cluster_id slug.

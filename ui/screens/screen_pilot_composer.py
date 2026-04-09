@@ -35,7 +35,7 @@ import flet as ft
 
 from models.case_summary import CaseSummary
 from models.unified_cluster import UnifiedCluster
-from services.unified_cluster_service import load_lws
+from services.unified_cluster_service import load, load_lws
 import services.pilot_draft_service as _svc
 from services.pilot_draft_service import HAS_LLM
 
@@ -71,11 +71,17 @@ class ScreenPilotComposer:
         page: ft.Page,
         controller,
         summary: CaseSummary | None = None,
+        storage_key: str | None = None,
     ) -> None:
         self._page    = page
         self._ctrl    = controller
         self._summary = summary
-        self._cluster: UnifiedCluster = load_lws()
+        # Load the explicitly selected cluster when provided.
+        # Fall back to LWS only for the direct-access path (no cluster selected yet).
+        if storage_key:
+            self._cluster: UnifiedCluster = load(storage_key)
+        else:
+            self._cluster = load_lws()
         self._form_widgets: dict[str, ft.Control] = {}
         self._raw_text     = ""
         self._refined_text = ""
