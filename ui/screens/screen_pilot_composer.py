@@ -143,7 +143,9 @@ class ScreenPilotComposer:
         )
         builder_btn = ft.OutlinedButton(
             "Cluster-Editor →",
-            on_click=lambda _: self._ctrl.show_cluster_builder(),
+            on_click=lambda _: self._ctrl.show_cluster_builder(
+                storage_key=self._cluster.storage_key
+            ),
         )
         return ft.Container(
             content=ft.Row(

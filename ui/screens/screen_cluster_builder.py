@@ -101,7 +101,9 @@ class ScreenClusterBuilder:
                 controls=[
                     ft.TextButton(
                         "← Zurueck",
-                        on_click=lambda _: self._ctrl.show_pilot_composer(),
+                        on_click=lambda _: self._ctrl.show_pilot_composer(
+                            storage_key=self._cluster.storage_key
+                        ),
                     ),
                     ft.Text("Cluster:", size=13, color=ft.Colors.BLUE_GREY_600),
                     cluster_dropdown,
@@ -226,6 +228,13 @@ class ScreenClusterBuilder:
             value=", ".join(d.get("aliases", [])),
             border_color=_C_BORDER,
         )
+        _anchor_list = d.get("style", {}).get("preferred_phrases", {}).get("anchor", [])
+        self._tf_anchor = ft.TextField(
+            label="Anker-Phrase (anchor[0])",
+            hint_text="z. B. Beschwerden im LWS-Bereich",
+            value=_anchor_list[0] if _anchor_list else "",
+            border_color=_C_BORDER,
+        )
 
         return ft.Container(
             content=ft.Column(
@@ -233,6 +242,7 @@ class ScreenClusterBuilder:
                     self._tf_name,
                     ft.Row([self._tf_icd10, self._tf_version, self._tf_status], spacing=12),
                     self._tf_aliases,
+                    self._tf_anchor,
                 ],
                 spacing=12,
             ),
@@ -951,6 +961,10 @@ class ScreenClusterBuilder:
             d["status"]  = self._tf_status.value.strip()
             d["aliases"] = [a.strip() for a in self._tf_aliases.value.split(",") if a.strip()]
             d.setdefault("meta", {})["icd10"] = self._tf_icd10.value.strip()
+            anchor_val = self._tf_anchor.value.strip()
+            d.setdefault("style", {}).setdefault("preferred_phrases", {})["anchor"] = (
+                [anchor_val] if anchor_val else []
+            )
 
             # Apply edits from Style tab
             d["style"]["rules"] = [
