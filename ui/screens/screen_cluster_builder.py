@@ -21,7 +21,8 @@ import json
 import flet as ft
 
 from models.unified_cluster import UnifiedCluster
-from services.unified_cluster_service import load, save_edited, list_available, create_cluster
+from services.unified_cluster_service import load, save_edited, list_available, create_cluster, slugify_cluster_id
+from services.cluster_validator import validate_cluster_dict
 import services.pilot_draft_service as _svc
 
 
@@ -158,27 +159,34 @@ class ScreenClusterBuilder:
             self._ctrl.show_cluster_builder(storage_key=selected_key)
 
     def _on_new_cluster_click(self, e) -> None:
-        tf_id   = ft.TextField(
-            label="Cluster-ID",
-            hint_text="z. B. schulter_syndrom",
-            border_color=_C_BORDER,
-            autofocus=True,
+        id_preview = ft.Text(
+            "Cluster-ID: —",
+            size=11,
+            color=ft.Colors.BLUE_GREY_500,
+            italic=True,
         )
+        err_text = ft.Text("", color=_C_ERR, size=11)
+
+        def _update_preview(ev) -> None:
+            slug = slugify_cluster_id((tf_name.value or "").strip())
+            id_preview.value = f"Cluster-ID: {slug}" if slug else "Cluster-ID: —"
+            self._page.update()
+
         tf_name = ft.TextField(
             label="Anzeigename",
             hint_text="z. B. Schulter-Syndrom",
             border_color=_C_BORDER,
+            autofocus=True,
+            on_change=_update_preview,
         )
-        err_text = ft.Text("", color=_C_ERR, size=11)
 
         def _close(e2) -> None:
             dlg.open = False
             self._page.update()
 
         def _create(e2) -> None:
-            raw_id   = (tf_id.value or "").strip()
-            raw_name = (tf_name.value or "").strip()
-            cluster_id = raw_id.lower().replace(" ", "_").replace("-", "_")
+            raw_name   = (tf_name.value or "").strip()
+            cluster_id = slugify_cluster_id(raw_name)
             try:
                 new_cluster = create_cluster(cluster_id, raw_name)
             except ValueError as exc:
@@ -193,9 +201,9 @@ class ScreenClusterBuilder:
             modal=True,
             title=ft.Text("Neuer Cluster"),
             content=ft.Column(
-                controls=[tf_id, tf_name, err_text],
+                controls=[tf_name, id_preview, err_text],
                 tight=True,
-                spacing=10,
+                spacing=8,
                 width=360,
             ),
             actions=[
@@ -597,6 +605,7 @@ class ScreenClusterBuilder:
     _FIELD_KNOWN_KEYS = {
         "id", "label", "type", "options", "placeholder",
         "required", "normalization_map", "shared_items_key",
+        "active_in_draft",
     }
 
     def _build_tab_form_fields(self) -> ft.Control:
@@ -657,6 +666,10 @@ class ScreenClusterBuilder:
             label="req.",
             value=bool(f.get("required", False)),
         )
+        cb_active = ft.Checkbox(
+            label="aktiv im Draft",
+            value=bool(f.get("active_in_draft", False)),
+        )
         tf_label = ft.TextField(
             value=f.get("label", ""),
             label="label",
@@ -701,6 +714,7 @@ class ScreenClusterBuilder:
             "tf_id":          tf_id,
             "dd_type":        dd_type,
             "cb_required":    cb_required,
+            "cb_active":      cb_active,
             "tf_label":       tf_label,
             "tf_sik":         tf_sik,
             "tf_norm":        tf_norm,
@@ -722,7 +736,7 @@ class ScreenClusterBuilder:
             content=ft.Column(
                 controls=[
                     ft.Row(
-                        controls=[tf_id, dd_type, cb_required,
+                        controls=[tf_id, dd_type, cb_required, cb_active,
                                   ft.Container(expand=True), delete_btn],
                         spacing=8,
                         vertical_alignment=ft.CrossAxisAlignment.CENTER,
@@ -959,18 +973,19 @@ class ScreenClusterBuilder:
             ]
 
             # Apply edits from Formular-Felder tab
+            # NOTE: blank-id rows are included in the dict so INV-01 can fire.
+            # They are excluded from the saved list only after validation passes.
             new_fields: list[dict] = []
             for row in self._field_rows:
                 fid = row["tf_id"].value.strip()
-                if not fid:
-                    continue  # skip rows without an id
                 ftype = row["dd_type"].value or "text"
                 field_dict: dict = {
-                    **row["_extra"],   # preserve unknown keys (e.g. min/max)
-                    "id":               fid,
-                    "label":            row["tf_label"].value.strip(),
-                    "type":             ftype,
-                    "required":         bool(row["cb_required"].value),
+                    **row["_extra"],
+                    "id":                fid,
+                    "label":             row["tf_label"].value.strip(),
+                    "type":              ftype,
+                    "required":          bool(row["cb_required"].value),
+                    "active_in_draft":   bool(row["cb_active"].value),
                     "normalization_map": row["tf_norm"].value.strip() or None,
                     "shared_items_key":  row["tf_sik"].value.strip() or None,
                 }
@@ -1007,6 +1022,26 @@ class ScreenClusterBuilder:
                 new_rm[section_key] = section_dict  # preserve even if empty
             d["render_maps"] = new_rm
 
+            # --- Validation ---
+            issues = validate_cluster_dict(d)
+            errors   = [i for i in issues if i.severity == "ERROR"]
+            warnings = [i for i in issues if i.severity == "WARNING"]
+            infos    = [i for i in issues if i.severity == "INFO"]
+
+            if errors:
+                lines = ["Nicht gespeichert:"]
+                for i in errors:
+                    lines.append(f"ERROR [{i.code}] {i.message}")
+                self._status.value = "  |  ".join(lines)
+                self._status.color = _C_ERR
+                self._page.update()
+                return
+
+            # --- Persist ---
+            # Strip blank-id rows now that validation has passed (none exist
+            # if errors were absent, but guard defensively).
+            d["form"]["fields"] = [f for f in new_fields if f.get("id", "").strip()]
+
             path = save_edited(self._cluster)
 
             # Invalidate composer render_maps cache so PilotComposer
@@ -1017,8 +1052,18 @@ class ScreenClusterBuilder:
             except Exception:
                 pass  # non-critical — next app restart will reload
 
-            self._status.value  = f"Gespeichert: {path.name}"
-            self._status.color  = _C_OK
+            if warnings or infos:
+                hint_lines = [f"Gespeichert: {path.name}"]
+                for i in warnings:
+                    hint_lines.append(f"WARNING [{i.code}] {i.message}")
+                for i in infos:
+                    hint_lines.append(f"INFO [{i.code}] {i.message}")
+                self._status.value = "  |  ".join(hint_lines)
+                self._status.color = _C_WARN
+            else:
+                self._status.value = f"Gespeichert: {path.name}"
+                self._status.color = _C_OK
+
         except Exception as exc:
             self._status.value  = f"Fehler: {exc}"
             self._status.color  = _C_ERR

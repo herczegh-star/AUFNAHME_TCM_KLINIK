@@ -10,6 +10,8 @@ the originals are never overwritten by the author tool.
 from __future__ import annotations
 
 import json
+import re
+import unicodedata
 from pathlib import Path
 from typing import Any
 
@@ -84,6 +86,35 @@ def list_available() -> list[str]:
             continue  # skip edited copies from the list
         ids.append(p.stem)
     return ids
+
+
+def slugify_cluster_id(name: str) -> str:
+    """
+    Convert a human-readable cluster name to a valid cluster_id slug.
+
+    Rules:
+      - German umlauts expanded (ä→ae, ö→oe, ü→ue, ß→ss)
+      - Other diacritics stripped via NFD decomposition
+      - Lowercase
+      - Spaces and hyphens → underscore
+      - All non-[a-z0-9_] characters removed
+      - Consecutive underscores collapsed
+      - Leading/trailing underscores stripped
+
+    Example: "Schulter-Syndrom" → "schulter_syndrom"
+             "HWS Syndrom (chronisch)" → "hws_syndrom_chronisch"
+    """
+    _UMLAUTS = {"ä": "ae", "ö": "oe", "ü": "ue", "ß": "ss",
+                "Ä": "ae", "Ö": "oe", "Ü": "ue"}
+    for char, repl in _UMLAUTS.items():
+        name = name.replace(char, repl)
+    name = unicodedata.normalize("NFD", name)
+    name = "".join(c for c in name if unicodedata.category(c) != "Mn")
+    name = name.lower()
+    name = re.sub(r"[\s\-]+", "_", name)
+    name = re.sub(r"[^a-z0-9_]", "", name)
+    name = re.sub(r"_+", "_", name)
+    return name.strip("_")
 
 
 def create_cluster(cluster_id: str, display_name: str) -> UnifiedCluster:
