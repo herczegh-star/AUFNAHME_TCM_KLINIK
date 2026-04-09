@@ -63,8 +63,6 @@ class ScreenClusterBuilder:
                 controls=[
                     self._build_header(),
                     ft.Divider(height=1, color=_C_BORDER),
-                    # Tab area: expand=1 so it takes all space not claimed by
-                    # the fixed header and fixed bottom action row.
                     ft.Tabs(
                         tabs=[
                             ft.Tab(text="Meta",            content=self._build_tab_meta()),
@@ -75,25 +73,7 @@ class ScreenClusterBuilder:
                             ft.Tab(text="Formular-Felder", content=self._build_tab_form_fields()),
                             ft.Tab(text="Normalisierung",  content=self._build_tab_normalization()),
                         ],
-                        expand=1,
-                    ),
-                    ft.Divider(height=1, color=_C_BORDER),
-                    # Bottom action row: no expand — always stays at natural height.
-                    ft.Container(
-                        content=ft.Row(
-                            controls=[
-                                self._status,
-                                ft.Container(expand=True),
-                                ft.ElevatedButton(
-                                    "Speichern (.edited.json)",
-                                    icon=ft.Icons.SAVE,
-                                    bgcolor=_C_ACCENT,
-                                    color=ft.Colors.WHITE,
-                                    on_click=self._on_save,
-                                ),
-                            ],
-                        ),
-                        padding=ft.padding.symmetric(horizontal=16, vertical=8),
+                        expand=True,
                     ),
                 ],
                 expand=True,
@@ -144,6 +124,15 @@ class ScreenClusterBuilder:
                         f"Status: {self._cluster.status}",
                         size=12,
                         color=ft.Colors.BLUE_GREY_500,
+                    ),
+                    ft.VerticalDivider(width=1, color=_C_BORDER),
+                    self._status,
+                    ft.ElevatedButton(
+                        "Speichern",
+                        icon=ft.Icons.SAVE,
+                        bgcolor=_C_ACCENT,
+                        color=ft.Colors.WHITE,
+                        on_click=self._on_save,
                     ),
                 ],
                 vertical_alignment=ft.CrossAxisAlignment.CENTER,
