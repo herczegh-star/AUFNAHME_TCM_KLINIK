@@ -162,7 +162,7 @@
         ],
         "required": false,
         "normalization_map": null,
-        "shared_items_key": null
+        "shared_items_key": "functional_impact"
       },
       {
         "id": "intensity_vas",

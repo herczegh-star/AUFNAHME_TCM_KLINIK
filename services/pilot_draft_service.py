@@ -67,6 +67,9 @@ def generate_raw(cluster: UnifiedCluster, form_data: dict) -> str:
     # We find the first period and insert before it.
     duration = (form_data.get("duration") or "").strip()
     if duration and duration.lower() != "keine":
+        # Apply German dative correction: plural time units after "seit" need -n
+        # "2 Jahre" → "2 Jahren", "6 Monate" → "6 Monaten", "10 Tage" → "10 Tagen"
+        duration = re.sub(r"\b(Jahr|Monat|Tag)e\b", r"\1en", duration)
         first_dot = validated.find(".")
         if first_dot > 0:
             # Normal case: "Schmerzen." → "Schmerzen, seit 3 Wochen."

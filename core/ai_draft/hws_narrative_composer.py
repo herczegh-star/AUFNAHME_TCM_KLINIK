@@ -214,7 +214,16 @@ def compose_hws_narrative(shared_items: dict[str, list[str]]) -> str:
     )
 
     # ── Assemble ─────────────────────────────────────────────────────────
-    return _assemble(noun_phrase, radiation_phrase, agg_phrase, rel_phrase, overlay_segment)
+    main = _assemble(noun_phrase, radiation_phrase, agg_phrase, rel_phrase, overlay_segment)
+
+    # ── 10. Functional impact — terse second sentence ─────────────────────
+    func_items = [v for v in shared_items.get("functional_impact", []) if v and v != "keine"]
+    if func_items:
+        phrase = func_items[0].strip()
+        func_sentence = phrase[0].upper() + phrase[1:] + ("" if phrase.endswith(".") else ".")
+        return main + " " + func_sentence
+
+    return main
 
 
 # ---------------------------------------------------------------------------
