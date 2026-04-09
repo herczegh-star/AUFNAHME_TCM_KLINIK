@@ -66,20 +66,24 @@ def generate_raw(cluster: UnifiedCluster, form_data: dict) -> str:
     # impact), duration must attach to the first sentence, not the last.
     # We find the first period and insert before it.
     duration = (form_data.get("duration") or "").strip()
-    if duration:
+    if duration and duration.lower() != "keine":
         first_dot = validated.find(".")
-        if first_dot >= 0:
+        if first_dot > 0:
+            # Normal case: "Schmerzen." → "Schmerzen, seit 3 Wochen."
             validated = (
                 validated[:first_dot]
                 + f", seit {duration}."
                 + validated[first_dot + 1:]
             )
+        elif first_dot == 0:
+            # Degenerate: validated is just "." — avoid leading comma
+            validated = f"Seit {duration}." + validated[1:]
         else:
             validated = validated + f", seit {duration}."
 
     # --- additional_notes as a second sentence ---
     notes = (form_data.get("additional_notes") or "").strip()
-    if notes:
+    if notes and notes.lower() != "keine":
         suffix = notes if notes.endswith(".") else notes + "."
         validated = validated + " " + suffix
 

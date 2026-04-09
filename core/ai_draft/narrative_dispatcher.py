@@ -58,9 +58,19 @@ def _normalise_cluster_id(cluster_id: str) -> str:
 
 
 def _get_anchor(cluster: UnifiedCluster) -> str:
-    """Return the anchor phrase for a cluster (preferred_phrases or name fallback)."""
+    """Return the anchor phrase for a cluster (preferred_phrases or name fallback).
+
+    Priority:
+      1. preferred_phrases["anchor"][0] if non-empty
+      2. cluster.name if non-empty
+      3. "Beschwerden" as ultimate safe fallback (prevents empty-anchor output)
+    """
     anchors = cluster.preferred_phrases.get("anchor", [])
-    return anchors[0] if anchors else cluster.name
+    if anchors and anchors[0].strip():
+        return anchors[0].strip()
+    if cluster.name.strip():
+        return cluster.name.strip()
+    return "Beschwerden"
 
 
 # ---------------------------------------------------------------------------
