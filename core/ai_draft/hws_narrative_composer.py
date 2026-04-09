@@ -58,14 +58,15 @@ from __future__ import annotations
 # ---------------------------------------------------------------------------
 
 _CHARACTER_ADJECTIVE: dict[str, str] = {
-    "ziehend":        "ziehende",
-    "stechend":       "stechende",
-    "dumpf":          "dumpfe",
-    "brennend":       "brennende",
-    "krampfartig":    "krampfartige",
-    "drueckend":      "drückende",
-    "elektrisierend": "elektrisierende",
-    "pulsierend":     "pulsierende",
+    "ziehend":           "ziehende",
+    "stechend":          "stechende",
+    "dumpf":             "dumpfe",
+    "brennend":          "brennende",
+    "krampfartig":       "krampfartige",
+    "drueckend":         "drückende",
+    "elektrisierend":    "elektrisierende",
+    "pulsierend":        "pulsierende",
+    "verspannungsartig": "verspannungsartige",
 }
 
 _TEMPORALITY_ADJECTIVE: dict[str, str] = {
@@ -92,6 +93,7 @@ _RADIATION_PHRASE: dict[str, str] = {
     "linker_arm":           "mit Ausstrahlung in den linken Arm",
     "rechte_hand":          "mit Ausstrahlung in die rechte Hand",
     "linke_hand":           "mit Ausstrahlung in die linke Hand",
+    "bis_in_die_finger":    "mit Ausstrahlung bis in die Finger",
     "hinterkopf":           "mit Ausstrahlung in den Hinterkopf",
     "Hinterkopf":           "mit Ausstrahlung in den Hinterkopf",
     "okziput":              "mit Ausstrahlung in die okzipitale Region",
@@ -106,18 +108,23 @@ _AGG_MECH_DATIVE: dict[str, str] = {
     "treppensteigen":  "Treppensteigen",
     "belastung":       "körperlicher Belastung",
     # HWS-specific
-    "rotation":        "Rotation",
-    "kopfrotation":    "Kopfrotation",
-    "bildschirm":      "Bildschirmarbeit",
+    "rotation":         "Rotation",
+    "kopfrotation":     "Kopfrotation",
+    "kopfbewegungen":   "Kopfbewegungen",
+    "fehlhaltung":      "Fehlhaltung",
+    "bildschirm":       "Bildschirmarbeit",
     "bildschirmarbeit": "Bildschirmarbeit",
 }
 
 # Noun after "gebessert durch ..."
 _RELIEVING_NOUN: dict[str, str] = {
-    "waerme":    "Wärme",
-    "ruhe":      "Ruhe",
-    "liegen":    "Liegen",
-    "bewegung":  "leichter Bewegung",
+    "waerme":         "Wärme",
+    "ruhe":           "Ruhe",
+    "liegen":         "Liegen",
+    "bewegung":       "leichter Bewegung",
+    "massage":        "Massage",
+    "physiotherapie": "Physiotherapie",
+    "analgetika":     "Analgetika",
 }
 
 # ---------------------------------------------------------------------------

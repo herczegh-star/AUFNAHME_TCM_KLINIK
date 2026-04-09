@@ -1,0 +1,383 @@
+{
+  "id": "hws_syndrom",
+  "name": "HWS-Syndrom",
+  "aliases": [
+    "HWS",
+    "Zervikalsyndrom",
+    "Nackenschmerzen",
+    "Halswirbelschmerzen",
+    "zervikaler Schmerz"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Schmerzsyndrom",
+  "family": "vertebral",
+  "tags": [
+    "schmerz",
+    "wirbelsaeule",
+    "zervikal",
+    "radikulaer"
+  ],
+  "meta": {
+    "icd10": "M54.2",
+    "icd10_label": "Zervikalgie",
+    "anatomical_region": "Halswirbelsäule C1-C7",
+    "typical_age_range": "30-65",
+    "tcm_pattern_hints": [
+      "Qi-Stagnation",
+      "Wind-Kaelte-Bi",
+      "Nieren-Mangel"
+    ]
+  },
+  "form": {
+    "title": "HWS-Syndrom – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Beschwerdedauer",
+        "type": "text",
+        "placeholder": "z. B. 3 Wochen, seit 2 Jahren",
+        "required": true,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "character",
+        "label": "Schmerzcharakter",
+        "type": "multi_select",
+        "options": [
+          "ziehend",
+          "dumpf",
+          "stechend",
+          "drückend",
+          "brennend",
+          "verspannungsartig"
+        ],
+        "required": false,
+        "normalization_map": "character",
+        "shared_items_key": "pain_character"
+      },
+      {
+        "id": "pain_temporality",
+        "label": "Zeitlicher Verlauf",
+        "type": "select",
+        "options": [
+          "chronisch",
+          "intermittierend",
+          "belastungsabhaengig",
+          "progredient"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_temporality"
+      },
+      {
+        "id": "side",
+        "label": "Seite",
+        "type": "select",
+        "options": [
+          "beidseits",
+          "rechts",
+          "links"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_laterality"
+      },
+      {
+        "id": "radiation",
+        "label": "Ausstrahlung",
+        "type": "select",
+        "options": [
+          "keine",
+          "rechte Schulter",
+          "linke Schulter",
+          "rechter Arm",
+          "linker Arm",
+          "bis in die Hand rechts",
+          "bis in die Hand links",
+          "bis in die Finger"
+        ],
+        "required": false,
+        "normalization_map": "radiation",
+        "shared_items_key": "pain_radiation"
+      },
+      {
+        "id": "aggravating_factor",
+        "label": "Verstärkende Faktoren",
+        "type": "multi_select",
+        "options": [
+          "Kopfbewegungen",
+          "Rotation",
+          "langes Sitzen",
+          "Computerarbeit",
+          "Fehlhaltung",
+          "körperliche Belastung"
+        ],
+        "required": false,
+        "normalization_map": "aggravating",
+        "shared_items_key": "aggravating_mechanical"
+      },
+      {
+        "id": "relieving_factor",
+        "label": "Lindernde Faktoren",
+        "type": "multi_select",
+        "options": [
+          "Ruhe",
+          "Wärme",
+          "Bewegung",
+          "Massage",
+          "Physiotherapie",
+          "Analgetika"
+        ],
+        "required": false,
+        "normalization_map": "relieving",
+        "shared_items_key": "relieving_passive"
+      },
+      {
+        "id": "neurological_signs",
+        "label": "Neurologische Begleitsymptome",
+        "type": "multi_select",
+        "options": [
+          "keine",
+          "Kribbeln",
+          "Taubheitsgefühl",
+          "Parästhesien in Arm/Hand/Fingern"
+        ],
+        "required": false,
+        "normalization_map": "neuro_sensory",
+        "shared_items_key": "neuro_sensory"
+      },
+      {
+        "id": "functional_limitations",
+        "label": "Funktionelle Einschränkungen",
+        "type": "multi_select",
+        "options": [
+          "eingeschränkte Kopfrotation",
+          "eingeschränkte Seitneigung",
+          "Schlaf beeinträchtigt",
+          "langes Sitzen erschwert",
+          "Bildschirmarbeit erschwert"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null
+      },
+      {
+        "id": "intensity_vas",
+        "label": "Schmerzintensität (VAS 0-10)",
+        "type": "number",
+        "min": 0,
+        "max": 10,
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null
+      },
+      {
+        "id": "additional_notes",
+        "label": "Weitere Angaben",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {
+    "character": {
+      "ziehend": "ziehend",
+      "dumpf": "dumpf",
+      "stechend": "stechend",
+      "drückend": "drueckend",
+      "druckend": "drueckend",
+      "brennend": "brennend",
+      "verspannungsartig": "verspannungsartig",
+      "verspannt": "verspannungsartig"
+    },
+    "radiation": {
+      "rechte schulter": "rechte_schulter",
+      "linke schulter": "linke_schulter",
+      "rechter arm": "rechter_arm",
+      "linker arm": "linker_arm",
+      "bis in die hand rechts": "rechte_hand",
+      "bis in die hand links": "linke_hand",
+      "bis in die finger": "bis_in_die_finger"
+    },
+    "aggravating": {
+      "kopfbewegungen": "kopfbewegungen",
+      "rotation": "rotation",
+      "langes sitzen": "langes_sitzen",
+      "langes_sitzen": "langes_sitzen",
+      "computerarbeit": "bildschirmarbeit",
+      "bildschirmarbeit": "bildschirmarbeit",
+      "fehlhaltung": "fehlhaltung",
+      "körperliche belastung": "belastung",
+      "belastung": "belastung"
+    },
+    "relieving": {
+      "ruhe": "ruhe",
+      "wärme": "waerme",
+      "waerme": "waerme",
+      "bewegung": "bewegung",
+      "massage": "massage",
+      "physiotherapie": "physiotherapie",
+      "analgetika": "analgetika"
+    },
+    "neuro_sensory": {
+      "kribbeln": "kribbeln",
+      "taubheitsgefühl": "taubheit",
+      "taubheit": "taubheit",
+      "parästhesien in arm/hand/fingern": "paraesthesien",
+      "parästhesien": "paraesthesien"
+    }
+  },
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose, keine Therapieempfehlung im Rohtext",
+      "Anatomische Präzision: HWS-Bereich / Halswirbelsäule, nicht 'Nacken' oder 'Hals' allein",
+      "Ausstrahlungen explizit benennen wenn vorhanden",
+      "Zeitlicher Verlauf als Adjektiv-Präfix: Chronische / Intermittierende / Belastungsabhängige Schmerzen",
+      "Schmerzcharakter als Adjektiv-Modifikator: ziehende, stechende, dumpfe, verspannungsartige Schmerzen",
+      "Verstärkende Faktoren mit 'verstärkt bei'",
+      "Lindernde Faktoren mit 'gebessert durch'",
+      "Maximal 2 Sätze pro Hauptbeschwerdeblock"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Schmerzen im HWS-Bereich"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise"
+    ],
+    "examples": [
+      {
+        "input": "Chronische verspannungsartige Schmerzen HWS beidseits, VAS 5, verstärkt bei langem Sitzen, gebessert durch Wärme",
+        "output": "Chronische, verspannungsartige Schmerzen im HWS-Bereich beidseits, verstärkt bei langem Sitzen, gebessert durch Wärme."
+      },
+      {
+        "input": "Stechende Schmerzen HWS rechts mit Ausstrahlung in den rechten Arm, Kribbeln in Fingern",
+        "output": "Stechende Schmerzen im HWS-Bereich rechts mit Ausstrahlung in den rechten Arm, begleitet von Kribbeln."
+      },
+      {
+        "input": "Ziehende Schmerzen HWS, verstärkt bei Computerarbeit, gebessert durch Massage",
+        "output": "Ziehende Schmerzen im HWS-Bereich, verstärkt bei Computerarbeit, gebessert durch Massage."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "HWS1",
+      "label": "Mechanisches HWS-Syndrom",
+      "description": "Verspannungsbedingte zervikale Schmerzen ohne Ausstrahlung, typisch bei muskulärer oder degenerativer Genese",
+      "when_to_use": "Schmerzen lokal HWS-Bereich, keine radikuläre Symptomatik, verstärkt bei Kopfbewegungen oder langem Sitzen",
+      "template": "[Charakter] Schmerzen im HWS-Bereich [Seite], verstärkt bei [Faktor], gebessert durch [Faktor].",
+      "tcm_patterns": [
+        "Qi-Stagnation",
+        "Kaelte-Bi-Syndrom"
+      ]
+    },
+    {
+      "id": "HWS2",
+      "label": "Radikuläres HWS-Syndrom",
+      "description": "Zervikale Schmerzen mit Ausstrahlung in Schulter/Arm/Hand, Hinweis auf Nervenwurzelbeteiligung C4-C8",
+      "when_to_use": "Schmerzen mit Ausstrahlung, neurologische Begleitsymptome (Kribbeln, Taubheit in Arm/Hand/Fingern) möglich",
+      "template": "[Charakter] Schmerzen im HWS-Bereich [Seite] mit Ausstrahlung in [Ziel][, verstärkt bei Faktor].",
+      "tcm_patterns": [
+        "Wind-Kaelte-Bi",
+        "Nieren-Yang-Mangel"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_hws_mechanical_basic",
+      "description": "Mechanisches HWS-Syndrom: verspannungsartig, chronisch, Computerarbeit, Wärme",
+      "input": {
+        "pain_character": ["verspannungsartig"],
+        "pain_temporality": ["chronisch"],
+        "pain_laterality": [],
+        "pain_radiation": [],
+        "aggravating_mechanical": ["bildschirmarbeit"],
+        "relieving_passive": ["waerme"]
+      },
+      "expected_contains": [
+        "Chronische",
+        "verspannungsartige",
+        "HWS-Bereich",
+        "Bildschirmarbeit",
+        "Wärme"
+      ],
+      "expected_not_contains": ["Ausstrahlung"]
+    },
+    {
+      "id": "test_hws_radicular_right_arm",
+      "description": "Radikuläres HWS-Syndrom: stechend, rechts, Ausstrahlung rechter Arm",
+      "input": {
+        "pain_character": ["stechend"],
+        "pain_temporality": [],
+        "pain_laterality": ["rechts"],
+        "pain_radiation": ["rechter_arm"],
+        "aggravating_mechanical": [],
+        "relieving_passive": []
+      },
+      "expected_contains": [
+        "Stechende",
+        "HWS-Bereich",
+        "rechts",
+        "rechten Arm"
+      ],
+      "expected_not_contains": ["wahrscheinlich"]
+    },
+    {
+      "id": "test_hws_with_neuro",
+      "description": "HWS mit neurologischer Begleitsymptomatik: ziehend, linker Arm, Kribbeln",
+      "input": {
+        "pain_character": ["ziehend"],
+        "pain_temporality": [],
+        "pain_laterality": ["links"],
+        "pain_radiation": ["linker_arm"],
+        "aggravating_mechanical": [],
+        "relieving_passive": [],
+        "neuro_sensory": ["kribbeln"]
+      },
+      "expected_contains": [
+        "Ziehende",
+        "HWS-Bereich",
+        "links",
+        "linken Arm",
+        "Kribbeln"
+      ],
+      "expected_not_contains": ["wahrscheinlich"]
+    },
+    {
+      "id": "test_hws_no_modifiers",
+      "description": "Minimaleingabe: nur Anker, keine Modifikatoren",
+      "input": {
+        "pain_character": [],
+        "pain_temporality": [],
+        "pain_laterality": [],
+        "pain_radiation": [],
+        "aggravating_mechanical": [],
+        "relieving_passive": []
+      },
+      "expected_contains": ["Schmerzen im HWS-Bereich"],
+      "expected_not_contains": ["None", "null", "verstärkt", "gebessert"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  }
+}
