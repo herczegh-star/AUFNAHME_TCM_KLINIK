@@ -235,6 +235,15 @@ class ScreenClusterBuilder:
             value=_anchor_list[0] if _anchor_list else "",
             border_color=_C_BORDER,
         )
+        self._tf_ideal_text = ft.TextField(
+            label="Idealer klinischer Referenztext",
+            hint_text="Kurze klinische Musterbeschreibung des Symptomkomplexes",
+            value=d.get("clinical_reference", {}).get("ideal_text", ""),
+            multiline=True,
+            min_lines=4,
+            max_lines=10,
+            border_color=_C_BORDER,
+        )
 
         return ft.Container(
             content=ft.Column(
@@ -243,6 +252,7 @@ class ScreenClusterBuilder:
                     ft.Row([self._tf_icd10, self._tf_version, self._tf_status], spacing=12),
                     self._tf_aliases,
                     self._tf_anchor,
+                    self._tf_ideal_text,
                 ],
                 spacing=12,
             ),
@@ -964,6 +974,9 @@ class ScreenClusterBuilder:
             anchor_val = self._tf_anchor.value.strip()
             d.setdefault("style", {}).setdefault("preferred_phrases", {})["anchor"] = (
                 [anchor_val] if anchor_val else []
+            )
+            d.setdefault("clinical_reference", {})["ideal_text"] = (
+                self._tf_ideal_text.value.strip()
             )
 
             # Apply edits from Style tab

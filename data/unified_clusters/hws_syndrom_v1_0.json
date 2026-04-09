@@ -379,5 +379,8 @@
   "draft_pipeline": {
     "stages": [],
     "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "ideal_text": "Chronische, verspannungsartige Schmerzen im HWS-Bereich beidseits, verstärkt bei Kopfbewegungen und Computerarbeit, gebessert durch Wärme und Massage. Keine Ausstrahlung. Kopfrotation leicht eingeschränkt."
   }
 }

@@ -631,5 +631,8 @@
         "sollte"
       ]
     }
-  ]
+  ],
+  "clinical_reference": {
+    "ideal_text": "Chronische, ziehende Schmerzen im LWS-Bereich beidseits, verstärkt bei langem Sitzen und Bücken, gebessert durch Wärme und Ruhe. Keine Ausstrahlung. Sitztoleranz eingeschränkt."
+  }
 }
