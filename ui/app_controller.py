@@ -33,7 +33,7 @@ class AppController:
         self.page.decoration = ft.BoxDecoration(
             bgcolor=ft.Colors.WHITE,
             image=ft.DecorationImage(
-                src="images/pozadí_bambus.png",
+                src="images/pozadi_bambus.png",
                 fit=ft.ImageFit.COVER,
                 opacity=0.15,
             ),
