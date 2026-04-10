@@ -17,7 +17,7 @@ from ui.screens.screen_interview import ScreenInterview
 from ui.screens.screen_summary_review import ScreenSummaryReview
 
 _BG_IMAGE_SRC = "images/pozadi_bambus.png"
-_BG_OPACITY   = 0.15
+_BG_OPACITY   = 0.20
 _PAGE_PADDING = 24
 
 
