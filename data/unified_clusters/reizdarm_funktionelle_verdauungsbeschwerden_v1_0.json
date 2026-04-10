@@ -1,0 +1,324 @@
+{
+  "id": "reizdarm_funktionelle_verdauungsbeschwerden",
+  "name": "Reizdarm / funktionelle Verdauungsbeschwerden",
+  "aliases": [
+    "Reizdarmsyndrom",
+    "IBS",
+    "funktionelle Dyspepsie",
+    "funktionelle Magen-Darm-Beschwerden",
+    "Colon irritabile"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Funktionelles Syndrom",
+  "family": "gastroenterologisch",
+  "tags": [
+    "verdauung",
+    "funktionell",
+    "reizdarm",
+    "bauchschmerzen",
+    "stuhl"
+  ],
+  "meta": {
+    "icd10": "K58.9",
+    "icd10_label": "Reizdarmsyndrom ohne Diarrhoe",
+    "anatomical_region": "Abdomen, Kolon, Dünndarm",
+    "typical_age_range": "20-60",
+    "tcm_pattern_hints": [
+      "Leber-Qi-Stagnation mit Milz-Schwäche",
+      "Milz-Yang-Mangel",
+      "Kälte-Feuchte im mittleren Jiao"
+    ]
+  },
+  "form": {
+    "title": "Reizdarm / funktionelle Verdauungsbeschwerden – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Dauer / Verlauf",
+        "type": "text",
+        "placeholder": "z. B. seit mehreren Jahren, seit 5 Jahren",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "abdominal_location_pattern",
+        "label": "Lokalisation / Typ der Bauchbeschwerden",
+        "type": "multi_select",
+        "options": [
+          "diffuser Bauch",
+          "Unterbauch",
+          "Oberbauch",
+          "rechtsseitig",
+          "linksseitig",
+          "postprandial betont"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "abdominal_location_pattern"
+      },
+      {
+        "id": "pain_character",
+        "label": "Schmerzcharakter",
+        "type": "multi_select",
+        "options": [
+          "krampfartig",
+          "drückend",
+          "ziehend",
+          "stechend",
+          "dumpf",
+          "kolikartig"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_character"
+      },
+      {
+        "id": "gi_associated_symptoms",
+        "label": "Begleitsymptome Verdauung",
+        "type": "multi_select",
+        "options": [
+          "Übelkeit",
+          "Blähungen",
+          "Völlegefühl",
+          "Aufstoßen",
+          "Sodbrennen"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "gi_associated_symptoms"
+      },
+      {
+        "id": "bowel_pattern",
+        "label": "Stuhlveränderungen",
+        "type": "multi_select",
+        "options": [
+          "weicher Stuhl",
+          "breiiger Stuhl",
+          "wechselhafte Stuhlkonsistenz",
+          "erhöhte Stuhlfrequenz",
+          "Diarrhoeneigung",
+          "Verstopfungsneigung"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "bowel_pattern"
+      },
+      {
+        "id": "gi_course_frequency",
+        "label": "Häufigkeit / Schubcharakter",
+        "type": "multi_select",
+        "options": [
+          "unregelmäßig",
+          "häufig",
+          "schubartig",
+          "phasenweise",
+          "3–4× täglich",
+          "über Wochen anhaltende Schübe"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "gi_course_frequency"
+      },
+      {
+        "id": "food_relation",
+        "label": "Nahrungsbezug / postprandial",
+        "type": "multi_select",
+        "options": [
+          "postprandial",
+          "nahrungsabhängig",
+          "keine klare Nahrungsabhängigkeit"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "food_relation"
+      },
+      {
+        "id": "relieving_factors",
+        "label": "Lindernde Faktoren",
+        "type": "multi_select",
+        "options": [
+          "Ruhe",
+          "Wärme",
+          "Schonung",
+          "nach Stuhlgang",
+          "Nahrungskarenz",
+          "Entspannung"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "relieving_factors"
+      },
+      {
+        "id": "functional_impact",
+        "label": "Funktionelle Einschränkung",
+        "type": "multi_select",
+        "options": [
+          "eingeschränkte Alltagsfähigkeit",
+          "Schlaf beeinträchtigt",
+          "Arbeitsfähigkeit beeinträchtigt",
+          "sozialer Rückzug"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "functional_impact"
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Funktionellen Charakter betonen: kein entzündliches, kein CED-Muster",
+      "Schubcharakter und Nahrungsbezug wenn vorhanden explizit benennen",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Maximal 5–6 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "funktionelle Verdauungsbeschwerden"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise",
+      "Colitis",
+      "Morbus Crohn",
+      "entzündlich"
+    ],
+    "examples": [
+      {
+        "input": "diffuser Bauch, krampfartig drückend, Blähungen Völlegefühl, wechselhafte Stuhlkonsistenz, schubartig, postprandial, Ruhe Wärme",
+        "output": "Funktionelle Verdauungsbeschwerden im Bereich des Abdomens, diffus, von krampfartigem und drückendem Charakter. Begleitend bestehen Blähungen und Völlegefühl. Zudem bestehen wechselnde Stuhlgewohnheiten. Die Beschwerden zeigen einen schubartigen Verlauf; teilweise treten sie postprandial verstärkt auf. Linderung bringen Ruhe und Wärme."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "REIZ1",
+      "label": "Klassisches Reizdarmsyndrom",
+      "description": "Diffuse Bauchbeschwerden, wechselhafte Stuhlgewohnheiten, schubartiger Verlauf",
+      "when_to_use": "Diffuse Beschwerden, Stuhlveränderungen vorhanden, kein entzündlicher Hinweis",
+      "template": "Funktionelle Verdauungsbeschwerden, diffus, von [Charakter] Qualität, mit wechselnden Stuhlgewohnheiten.",
+      "tcm_patterns": [
+        "Leber-Qi-Stagnation",
+        "Milz-Yang-Mangel"
+      ]
+    },
+    {
+      "id": "REIZ2",
+      "label": "Postprandiales funktionelles Syndrom",
+      "description": "Bauchbeschwerden mit klarem Nahrungsbezug, postprandiale Verstärkung",
+      "when_to_use": "Postprandiale Zunahme im Vordergrund, Völlegefühl, Blähungen",
+      "template": "Funktionelle Verdauungsbeschwerden [Lokalisation], postprandial betont, mit [Begleitsymptome].",
+      "tcm_patterns": [
+        "Milz-Yang-Mangel",
+        "Kälte-Feuchte im mittleren Jiao"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_reizdarm_diffus_krampfartig",
+      "description": "Diffuse krampfartige Bauchbeschwerden mit Blähungen und Übelkeit",
+      "input": {
+        "abdominal_location_pattern": ["diffuser Bauch"],
+        "pain_character": ["krampfartig", "drückend"],
+        "gi_associated_symptoms": ["Blähungen", "Übelkeit"],
+        "bowel_pattern": [],
+        "gi_course_frequency": ["schubartig"],
+        "food_relation": [],
+        "relieving_factors": ["Wärme"],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "funktionelle Verdauungsbeschwerden",
+        "diffus",
+        "krampfartig",
+        "Blähungen",
+        "Übelkeit",
+        "schubartig",
+        "Wärme"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Colitis", "None", "null"]
+    },
+    {
+      "id": "test_reizdarm_stuhlmuster",
+      "description": "Stuhlmuster-dominantes Bild mit wechselhafter Konsistenz und erhöhter Frequenz",
+      "input": {
+        "abdominal_location_pattern": ["Unterbauch"],
+        "pain_character": ["drückend"],
+        "gi_associated_symptoms": ["Blähungen", "Völlegefühl"],
+        "bowel_pattern": ["wechselhafte Stuhlkonsistenz", "erhöhte Stuhlfrequenz"],
+        "gi_course_frequency": ["phasenweise"],
+        "food_relation": [],
+        "relieving_factors": ["nach Stuhlgang"],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "funktionelle Verdauungsbeschwerden",
+        "Unterbauch",
+        "Stuhlgewohnheiten",
+        "wechselhafte",
+        "Blähungen",
+        "phasenweise",
+        "Stuhlgang"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Colitis"]
+    },
+    {
+      "id": "test_reizdarm_postprandial",
+      "description": "Postprandiale funktionelle Verdauungsbeschwerden mit Nahrungsbezug",
+      "input": {
+        "abdominal_location_pattern": ["Oberbauch"],
+        "pain_character": ["dumpf"],
+        "gi_associated_symptoms": ["Völlegefühl", "Aufstoßen"],
+        "bowel_pattern": [],
+        "gi_course_frequency": ["unregelmäßig"],
+        "food_relation": ["postprandial", "nahrungsabhängig"],
+        "relieving_factors": ["Nahrungskarenz"],
+        "functional_impact": ["eingeschränkte Alltagsfähigkeit"]
+      },
+      "expected_contains": [
+        "funktionelle Verdauungsbeschwerden",
+        "Oberbauch",
+        "Völlegefühl",
+        "postprandial",
+        "Nahrungskarenz",
+        "Alltagsfähigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Colitis"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Hinsichtlich somatischer Beschwerden berichtet der Patient seit über fünf Jahren über funktionelle Verdauungsbeschwerden. Diese äußern sich in diffusen, teils krampfartigen Bauchschmerzen, Übelkeit, vermehrten Blähungen, Völlegefühl, Aufstoßen sowie Sodbrennen. Zudem bestehen wechselnde Stuhlgewohnheiten mit phasenweise weichem bis breiigem Stuhlgang, teils mehrfach täglich. Die Beschwerden zeigen einen eher schubartigen Verlauf und halten in ausgeprägteren Phasen über mehrere Wochen bis Monate an. Es wurde ein Reizdarmsyndrom vermutet.",
+      "Darüber hinaus berichtet die Patientin seit mehreren Jahren über wiederkehrende Magen-Darm-Beschwerden im Sinne funktioneller Verdauungsstörungen. Im Vordergrund stehen drückende, teils krampfartige Bauchschmerzen, vermehrte Blähungen, Übelkeit sowie eine wechselhafte Stuhlkonsistenz und Stuhlfrequenz. Teilweise treten die Beschwerden postprandial verstärkt auf. Klinisch wurde ein Reizdarmsyndrom vermutet.",
+      ""
+    ],
+    "ideal_text": "Hinsichtlich somatischer Beschwerden berichtet der Patient seit über fünf Jahren über funktionelle Verdauungsbeschwerden. Diese äußern sich in diffusen, teils krampfartigen Bauchschmerzen, Übelkeit, vermehrten Blähungen, Völlegefühl, Aufstoßen sowie Sodbrennen. Zudem bestehen wechselnde Stuhlgewohnheiten mit phasenweise weichem bis breiigem Stuhlgang, teils mehrfach täglich. Die Beschwerden zeigen einen eher schubartigen Verlauf und halten in ausgeprägteren Phasen über mehrere Wochen bis Monate an. Es wurde ein Reizdarmsyndrom vermutet."
+  }
+}

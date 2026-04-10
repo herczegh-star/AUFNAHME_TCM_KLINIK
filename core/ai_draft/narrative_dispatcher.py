@@ -25,6 +25,7 @@ Currently registered composers:
   kopfschmerzen  -> compose_kopfschmerzen_narrative   (dedicated, hardcoded maps)
   migraene                   -> compose_migraene_narrative             (dedicated, hardcoded maps)
   gelenkbeschwerden_arthrose -> compose_gelenkbeschwerden_narrative    (dedicated, hardcoded maps)
+  reizdarm_funktionelle_verdauungsbeschwerden -> compose_reizdarm_narrative (dedicated, hardcoded maps)
 
 Clusters without a dedicated composer:
   Falls back to generic_narrative_composer using cluster.render_maps.
@@ -41,6 +42,7 @@ from core.ai_draft.hws_narrative_composer import compose_hws_narrative
 from core.ai_draft.kopfschmerzen_narrative_composer import compose_kopfschmerzen_narrative
 from core.ai_draft.migraene_narrative_composer import compose_migraene_narrative
 from core.ai_draft.gelenkbeschwerden_narrative_composer import compose_gelenkbeschwerden_narrative
+from core.ai_draft.reizdarm_narrative_composer import compose_reizdarm_narrative
 from core.ai_draft.generic_narrative_composer import compose_generic_narrative
 
 if TYPE_CHECKING:
@@ -89,7 +91,8 @@ _REGISTRY: dict[str, Callable[[dict[str, list[str]]], str]] = {
     "hws_syndrom":    compose_hws_narrative,
     "kopfschmerzen":  compose_kopfschmerzen_narrative,
     "migraene":                    compose_migraene_narrative,
-    "gelenkbeschwerden_arthrose":  compose_gelenkbeschwerden_narrative,
+    "gelenkbeschwerden_arthrose":                    compose_gelenkbeschwerden_narrative,
+    "reizdarm_funktionelle_verdauungsbeschwerden":   compose_reizdarm_narrative,
 }
 
 
