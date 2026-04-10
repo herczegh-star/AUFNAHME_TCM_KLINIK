@@ -29,6 +29,7 @@ Currently registered composers:
   muedigkeitssymptomatik_chronische_erschoepfung -> compose_muedigkeitssymptomatik_narrative (dedicated, hardcoded maps)
   post_covid_syndrom             -> compose_post_covid_narrative             (dedicated, hardcoded maps)
   fibromyalgie_ganzkoerperschmerzen -> compose_fibromyalgie_narrative        (dedicated, hardcoded maps)
+  polyneuropathische_beschwerden_polyneuropathie -> compose_polyneuropathie_narrative (dedicated, hardcoded maps)
 
 Clusters without a dedicated composer:
   Falls back to generic_narrative_composer using cluster.render_maps.
@@ -49,6 +50,7 @@ from core.ai_draft.reizdarm_narrative_composer import compose_reizdarm_narrative
 from core.ai_draft.muedigkeitssymptomatik_narrative_composer import compose_muedigkeitssymptomatik_narrative
 from core.ai_draft.post_covid_narrative_composer import compose_post_covid_narrative
 from core.ai_draft.fibromyalgie_narrative_composer import compose_fibromyalgie_narrative
+from core.ai_draft.polyneuropathie_narrative_composer import compose_polyneuropathie_narrative
 from core.ai_draft.generic_narrative_composer import compose_generic_narrative
 
 if TYPE_CHECKING:
@@ -102,6 +104,7 @@ _REGISTRY: dict[str, Callable[[dict[str, list[str]]], str]] = {
     "muedigkeitssymptomatik_chronische_erschoepfung":     compose_muedigkeitssymptomatik_narrative,
     "post_covid_syndrom":                                 compose_post_covid_narrative,
     "fibromyalgie_ganzkoerperschmerzen":                  compose_fibromyalgie_narrative,
+    "polyneuropathische_beschwerden_polyneuropathie":     compose_polyneuropathie_narrative,
 }
 
 

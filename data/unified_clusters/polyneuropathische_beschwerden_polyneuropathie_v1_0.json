@@ -1,0 +1,333 @@
+{
+  "id": "polyneuropathische_beschwerden_polyneuropathie",
+  "name": "Polyneuropathische Beschwerden / Polyneuropathie",
+  "aliases": [
+    "Polyneuropathie",
+    "PNP",
+    "sensible Polyneuropathie",
+    "periphere Neuropathie",
+    "neuropathische Beschwerden"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Neurologisches Syndrom",
+  "family": "neurologisch-peripher",
+  "tags": [
+    "polyneuropathie",
+    "neuropathie",
+    "sensibel",
+    "parästhesien",
+    "taubheit",
+    "brennen"
+  ],
+  "meta": {
+    "icd10": "G62.9",
+    "icd10_label": "Polyneuropathie, nicht näher bezeichnet",
+    "anatomical_region": "periphere Nerven, untere Extremitäten, distal",
+    "typical_age_range": "45-80",
+    "tcm_pattern_hints": [
+      "Blut-Mangel (mangelnde Nährung der Leitbahnen)",
+      "Qi-Stagnation / Blut-Stase (periphere Leitbahnen)",
+      "Nieren-Yang-Mangel",
+      "Feuchtigkeit-Kälte in den Leitbahnen"
+    ]
+  },
+  "form": {
+    "title": "Polyneuropathische Beschwerden / Polyneuropathie – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Dauer / Verlauf",
+        "type": "text",
+        "placeholder": "z. B. seit mehreren Jahren, seit 5 Jahren",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "neuropathy_distribution",
+        "label": "Verteilung / Ausbreitung",
+        "type": "multi_select",
+        "options": [
+          "Zehen / Füße",
+          "Unterschenkel",
+          "bis unterhalb der Knie",
+          "aufsteigend",
+          "Hände mitbetroffen",
+          "linksbetont",
+          "beidseits"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "neuropathy_distribution"
+      },
+      {
+        "id": "neuropathy_sensory_symptoms",
+        "label": "Sensorische Symptome",
+        "type": "multi_select",
+        "options": [
+          "Kribbelparästhesien",
+          "Dysästhesien",
+          "Taubheitsgefühl",
+          "Wattegefühl",
+          "Strumpfgefühl",
+          "elektrisierende Missempfindungen",
+          "Engegefühl",
+          "Kältegefühl"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "neuropathy_sensory_symptoms"
+      },
+      {
+        "id": "neuropathy_pain_quality",
+        "label": "Schmerzqualität",
+        "type": "multi_select",
+        "options": [
+          "brennend",
+          "stechend",
+          "elektrisierend",
+          "belastungsabhängig brennend"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "neuropathy_pain_quality"
+      },
+      {
+        "id": "neuropathy_gait_motor",
+        "label": "Motorik / Gang",
+        "type": "multi_select",
+        "options": [
+          "Gangunsicherheit",
+          "Stolpern",
+          "unsicheres Gehen",
+          "schweres Gefühl in den Beinen",
+          "Gehen erschwert"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "neuropathy_gait_motor"
+      },
+      {
+        "id": "neuropathy_night_sleep",
+        "label": "Nachtbezug / Schlaf",
+        "type": "multi_select",
+        "options": [
+          "nachts verstärkt",
+          "unruhige Beine nachts",
+          "Schlafunterbrechungen",
+          "schlafstörend"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "neuropathy_night_sleep"
+      },
+      {
+        "id": "neuropathy_progression",
+        "label": "Progredienz",
+        "type": "multi_select",
+        "options": [
+          "schleichend progredient",
+          "zunehmende Beschwerden",
+          "aufsteigende Ausbreitung",
+          "Trend zur Verschlechterung"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "neuropathy_progression"
+      },
+      {
+        "id": "relieving_factors",
+        "label": "Lindernde Faktoren",
+        "type": "multi_select",
+        "options": [
+          "Ruhe",
+          "Wärme",
+          "Kühlung",
+          "Hochlagerung",
+          "Wasserbad",
+          "Schonung"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "relieving_factors"
+      },
+      {
+        "id": "functional_impact",
+        "label": "Funktionelle Einschränkung",
+        "type": "multi_select",
+        "options": [
+          "eingeschränkte Gehfähigkeit",
+          "eingeschränkte Alltagsfähigkeit",
+          "Sturzgefahr",
+          "Arbeitsfähigkeit beeinträchtigt"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "functional_impact"
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Distale / aufsteigende Verteilung klar benennen",
+      "Sensorische Symptome als Hauptentität benennen",
+      "Nachtbezug und Progredienz wenn vorhanden explizit nennen",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Maximal 6–7 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "polyneuropathische Beschwerden"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise",
+      "Diabetes",
+      "diabetisch",
+      "alkoholisch",
+      "medikamentös"
+    ],
+    "examples": [
+      {
+        "input": "Zehen Füße aufsteigend beidseits, brennend Kribbelparästhesien Taubheitsgefühl, Gangunsicherheit, nachts verstärkt, schleichend progredient",
+        "output": "Polyneuropathische Beschwerden im Bereich der Zehen und Füße, aufsteigend, beidseits. Im Vordergrund stehen brennende Schmerzen, Kribbelparästhesien und Taubheitsgefühle. Nachts ist der Schlaf durch Missempfindungen beeinträchtigt. Zudem bestehen Gangunsicherheit. Die Symptomatik zeigt einen schleichend progredienten Verlauf."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "PNP1",
+      "label": "Sensible aufsteigende Polyneuropathie",
+      "description": "Distal beginnende aufsteigende sensible Symptomatik mit Parästhesien und Taubheitsgefühl",
+      "when_to_use": "Klassisches Sockenmuster, aufsteigend, Parästhesien dominant",
+      "template": "Polyneuropathische Beschwerden im Bereich der Zehen und Füße, aufsteigend, beidseits. Im Vordergrund stehen brennende Schmerzen und Kribbelparästhesien.",
+      "tcm_patterns": [
+        "Blut-Mangel (Leitbahnen)",
+        "Feuchtigkeit-Kälte peripher"
+      ]
+    },
+    {
+      "id": "PNP2",
+      "label": "Polyneuropathie mit Schlaf- und Gangbeeinträchtigung",
+      "description": "PNP mit Gangunsicherheit und nachtbezogener Schlafstörung",
+      "when_to_use": "Gangunsicherheit + Schlafstörungen durch Missempfindungen",
+      "template": "Polyneuropathische Beschwerden mit Gangunsicherheit und nachtbezogenen Schlafstörungen.",
+      "tcm_patterns": [
+        "Qi-Stagnation / Blut-Stase",
+        "Nieren-Yang-Mangel"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_pnp_distal_aufsteigend",
+      "description": "Distal aufsteigende Polyneuropathie mit brennenden Schmerzen und Parästhesien",
+      "input": {
+        "neuropathy_distribution": ["Zehen / Füße", "Unterschenkel", "aufsteigend", "beidseits"],
+        "neuropathy_sensory_symptoms": ["Kribbelparästhesien", "Dysästhesien", "Taubheitsgefühl"],
+        "neuropathy_pain_quality": ["brennend", "stechend"],
+        "neuropathy_gait_motor": ["Gangunsicherheit"],
+        "neuropathy_night_sleep": ["nachts verstärkt"],
+        "neuropathy_progression": ["schleichend progredient"],
+        "relieving_factors": [],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "polyneuropathische Beschwerden",
+        "Zehen",
+        "aufsteigend",
+        "beidseits",
+        "brennend",
+        "Kribbelparästhesien",
+        "Taubheitsgefühl",
+        "nachts",
+        "Gangunsicherheit",
+        "progredienten"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Diabetes", "None", "null"]
+    },
+    {
+      "id": "test_pnp_watte_strumpf_gang",
+      "description": "Watte-/Strumpfgefühl mit Gangunsicherheit und Hände mitbetroffen",
+      "input": {
+        "neuropathy_distribution": ["Zehen / Füße", "bis unterhalb der Knie", "Hände mitbetroffen", "beidseits"],
+        "neuropathy_sensory_symptoms": ["Wattegefühl", "Strumpfgefühl", "Taubheitsgefühl"],
+        "neuropathy_pain_quality": ["brennend"],
+        "neuropathy_gait_motor": ["Gangunsicherheit", "Stolpern", "unsicheres Gehen"],
+        "neuropathy_night_sleep": [],
+        "neuropathy_progression": ["zunehmende Beschwerden"],
+        "relieving_factors": ["Wasserbad"],
+        "functional_impact": ["Sturzgefahr"]
+      },
+      "expected_contains": [
+        "polyneuropathische Beschwerden",
+        "Kniegelenke",
+        "Hände",
+        "Watte",
+        "Strumpf",
+        "Gangunsicherheit",
+        "Sturzgefahr"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Diabetes"]
+    },
+    {
+      "id": "test_pnp_nacht_progredienz",
+      "description": "Nachtbezogene Schlafstörungen durch Missempfindungen + Progredienz",
+      "input": {
+        "neuropathy_distribution": ["Zehen / Füße", "aufsteigend", "linksbetont"],
+        "neuropathy_sensory_symptoms": ["Kribbelparästhesien", "Engegefühl", "Kältegefühl"],
+        "neuropathy_pain_quality": ["elektrisierend"],
+        "neuropathy_gait_motor": [],
+        "neuropathy_night_sleep": ["unruhige Beine nachts", "Schlafunterbrechungen"],
+        "neuropathy_progression": ["schleichend progredient", "aufsteigende Ausbreitung"],
+        "relieving_factors": ["Hochlagerung"],
+        "functional_impact": ["eingeschränkte Alltagsfähigkeit"]
+      },
+      "expected_contains": [
+        "polyneuropathische Beschwerden",
+        "Kribbelparästhesien",
+        "elektrisier",
+        "unruhige Beine",
+        "Schlafunterbrechungen",
+        "progredienten",
+        "Hochlagerung",
+        "Alltagsfähigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Diabetes"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Bei Aufnahme berichtet die Patientin seit mehreren Jahren über polyneuropathische Beschwerden an den unteren Extremitäten. Die Symptomatik begann im Bereich der Zehen und Füße und breitete sich im Verlauf aufsteigend bis unterhalb der Kniegelenke beidseits aus; inzwischen sind teilweise auch die Hände mitbetroffen. Im Vordergrund stehen brennende Schmerzen, Kribbelparästhesien, Dysästhesien sowie Taubheitsgefühle. Teilweise beschreibt die Patientin ein Watte- bzw. Strumpfgefühl an den Füßen. Die Beschwerden nehmen schleichend zu. Nachts ist der Schlaf durch Missempfindungen und unruhige Beine beeinträchtigt. Zudem bestehen Gangunsicherheit, Stolperneigung und funktionelle Einschränkungen beim Gehen.",
+      "Seit längerer Zeit bestehen aufsteigende sensible Missempfindungen an beiden Beinen im Sinne polyneuropathischer Beschwerden. Beschrieben werden brennende und elektrisierende Schmerzen, Kribbelparästhesien, Dysästhesien, Taubheitsgefühle sowie phasenweise ein Enge- oder Kältegefühl. Die Symptomatik zeigt eine progrediente Tendenz und beeinträchtigt insbesondere das sichere Gehen. Nachts kommt es wiederholt zu Schlafunterbrechungen durch die Beschwerden. Teilweise besteht Linderung durch lokale Maßnahmen wie ein Wasserbad.",
+      ""
+    ],
+    "ideal_text": "Bei Aufnahme berichtet die Patientin seit mehreren Jahren über polyneuropathische Beschwerden an den unteren Extremitäten. Die Symptomatik begann im Bereich der Zehen und Füße und breitete sich im Verlauf aufsteigend bis unterhalb der Kniegelenke beidseits aus; inzwischen sind teilweise auch die Hände mitbetroffen. Im Vordergrund stehen brennende Schmerzen, Kribbelparästhesien, Dysästhesien sowie Taubheitsgefühle. Teilweise beschreibt die Patientin ein Watte- bzw. Strumpfgefühl an den Füßen. Die Beschwerden nehmen schleichend zu. Nachts ist der Schlaf durch Missempfindungen und unruhige Beine beeinträchtigt. Zudem bestehen Gangunsicherheit, Stolperneigung und funktionelle Einschränkungen beim Gehen."
+  }
+}
