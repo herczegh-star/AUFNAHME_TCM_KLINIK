@@ -1,0 +1,365 @@
+{
+  "id": "neurodermitis_atopisches_ekzem",
+  "name": "Neurodermitis / atopisches Ekzem",
+  "aliases": [
+    "Neurodermitis",
+    "atopisches Ekzem",
+    "Atopie",
+    "atopische Dermatitis",
+    "endogenes Ekzem"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Dermatologisches Syndrom",
+  "family": "dermatologisch-atopisch",
+  "tags": [
+    "neurodermitis",
+    "ekzem",
+    "atopie",
+    "juckreiz",
+    "haut",
+    "schubweise"
+  ],
+  "meta": {
+    "icd10": "L20.9",
+    "icd10_label": "Atopisches Ekzem, nicht näher bezeichnet",
+    "anatomical_region": "Hände, Arme, Gesicht, Kopfhaut, Rücken, Dekolleté",
+    "typical_age_range": "5-50",
+    "tcm_pattern_hints": [
+      "Wind-Hitze in der Oberfläche",
+      "Feuchte-Hitze in der Haut",
+      "Blut-Hitze",
+      "Yin-Mangel mit Trockenheit"
+    ]
+  },
+  "form": {
+    "title": "Neurodermitis / atopisches Ekzem – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Dauer / Verlauf",
+        "type": "text",
+        "placeholder": "z. B. seit vielen Jahren, seit der Kindheit",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "eczema_course",
+        "label": "Grundmuster / Verlauf",
+        "type": "multi_select",
+        "options": [
+          "Neurodermitis",
+          "atopisches Ekzem",
+          "schubförmig",
+          "Exazerbation",
+          "Besserungstendenz",
+          "Verschlechterungstendenz"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "eczema_course"
+      },
+      {
+        "id": "eczema_locations",
+        "label": "Befallene Hautareale",
+        "type": "multi_select",
+        "options": [
+          "Hände",
+          "Arme",
+          "Gesicht",
+          "Kopfhaut",
+          "oberer Rücken",
+          "Dekolleté / Brust",
+          "mehrere Areale"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "eczema_locations"
+      },
+      {
+        "id": "eczema_pruritus",
+        "label": "Juckreiz",
+        "type": "multi_select",
+        "options": [
+          "stark ausgeprägter Juckreiz",
+          "anfallsartiger Juckreiz",
+          "abendbetont",
+          "nachtbetont",
+          "stechend",
+          "brennend"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "eczema_pruritus"
+      },
+      {
+        "id": "eczema_skin_findings",
+        "label": "Hautbefund",
+        "type": "multi_select",
+        "options": [
+          "gerötet",
+          "entzündet",
+          "offene Stellen",
+          "trockene Haut",
+          "Schuppung",
+          "Kratzspuren",
+          "Bläschenbildung",
+          "verdickte Haut"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "eczema_skin_findings"
+      },
+      {
+        "id": "eczema_aggravating_factors",
+        "label": "Verstärker",
+        "type": "multi_select",
+        "options": [
+          "Wärme",
+          "Überforderung",
+          "Müdigkeit",
+          "Stress",
+          "Herbst / Winter"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "eczema_aggravating_factors"
+      },
+      {
+        "id": "eczema_sleep_impact",
+        "label": "Schlafbezug",
+        "type": "multi_select",
+        "options": [
+          "Nachtschlaf beeinträchtigt",
+          "nächtliches Kratzen",
+          "Einschlafstörung durch Juckreiz",
+          "Durchschlafstörung durch Juckreiz"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "eczema_sleep_impact"
+      },
+      {
+        "id": "eczema_associated_features",
+        "label": "Begleitsymptome / Zusatzhautphänomene",
+        "type": "multi_select",
+        "options": [
+          "Gesichtsschwellungen",
+          "Hitzegefühl im Gesicht",
+          "psychisch belastend"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "eczema_associated_features"
+      },
+      {
+        "id": "relieving_factors",
+        "label": "Lindernde Faktoren",
+        "type": "multi_select",
+        "options": [
+          "Kühlung",
+          "Ruhe",
+          "Schonung",
+          "Wärme",
+          "Feuchtigkeitspflege"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "relieving_factors"
+      },
+      {
+        "id": "functional_impact",
+        "label": "Funktionelle Einschränkung",
+        "type": "multi_select",
+        "options": [
+          "eingeschränkte Alltagsfähigkeit",
+          "Arbeitsfähigkeit beeinträchtigt",
+          "sozialer Rückzug",
+          "Schlaf beeinträchtigt"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "functional_impact"
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Juckreiz als führendes Symptom benennen",
+      "Abend- und Nachtbetonung des Juckreizes explizit nennen wenn vorhanden",
+      "Hautbefund phänomenologisch beschreiben: gerötet, entzündet, trocken, schuppend",
+      "Schlafbeeinträchtigung explizit nennen wenn vorhanden",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Maximal 6–7 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Neurodermitis"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise",
+      "Kortison",
+      "Biologika",
+      "Dupilumab",
+      "Histologie",
+      "Biopsie"
+    ],
+    "examples": [
+      {
+        "input": "Neurodermitis schubförmig, Hände Arme Gesicht Kopfhaut, stark ausgeprägter Juckreiz abendbetont nachtbetont, gerötet entzündet offene Stellen trockene Haut Kratzspuren, Nachtschlaf beeinträchtigt nächtliches Kratzen, Wärme Überforderung",
+        "output": "Seit vielen Jahren besteht eine Neurodermitis mit schubförmigem Verlauf. Im Vordergrund steht ein stark ausgeprägter Juckreiz, der vor allem abends und nachts auftritt. Betroffen sind insbesondere Hände, Arme, Gesicht und Kopfhaut. Begleitend bestehen gerötete, entzündete und teils offene Hautveränderungen mit trockener Haut und Kratzspuren. Der Nachtschlaf ist durch Juckreiz und nächtliches Kratzen beeinträchtigt. Die Beschwerden werden durch Wärme und Überforderung verstärkt."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "NEU1",
+      "label": "Neurodermitis – schubförmig, nachtbetonter Juckreiz",
+      "description": "Klassische Neurodermitis mit schubförmigem Verlauf, nachtbetontem Juckreiz und Schlafbeeinträchtigung",
+      "when_to_use": "Neurodermitis mit typischem abend-/nachtbetontem Juckreiz und Schlafstörung",
+      "template": "Seit vielen Jahren besteht eine Neurodermitis mit schubförmigem Verlauf. Im Vordergrund steht ein stark ausgeprägter Juckreiz, der vor allem abends und nachts auftritt.",
+      "tcm_patterns": [
+        "Wind-Hitze in der Oberfläche",
+        "Blut-Hitze"
+      ]
+    },
+    {
+      "id": "NEU2",
+      "label": "Atopisches Ekzem – Exazerbation mit Entzündungszeichen",
+      "description": "Akute Exazerbation mit geröteten, entzündeten Hautveränderungen und Juckreiz",
+      "when_to_use": "Atopisches Ekzem in Exazerbationsphase mit entzündlichen Hautveränderungen",
+      "template": "Es besteht eine Exazerbation des atopischen Ekzems. Im Vordergrund stehen gerötete und entzündete Hautveränderungen sowie ausgeprägter Juckreiz.",
+      "tcm_patterns": [
+        "Feuchte-Hitze in der Haut",
+        "Yin-Mangel mit Trockenheit"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_neu_nachtjuckreiz_schubfoermig",
+      "description": "Neurodermitis schubförmig, nachtbetonter Juckreiz, Hände/Arme/Gesicht/Kopfhaut, Schlaf beeinträchtigt",
+      "input": {
+        "eczema_course": ["Neurodermitis", "schubförmig"],
+        "eczema_locations": ["Hände", "Arme", "Gesicht", "Kopfhaut"],
+        "eczema_pruritus": ["stark ausgeprägter Juckreiz", "abendbetont", "nachtbetont"],
+        "eczema_skin_findings": ["gerötet", "entzündet", "offene Stellen", "trockene Haut", "Kratzspuren"],
+        "eczema_aggravating_factors": ["Wärme", "Überforderung", "Müdigkeit"],
+        "eczema_sleep_impact": ["Nachtschlaf beeinträchtigt", "nächtliches Kratzen"],
+        "eczema_associated_features": [],
+        "relieving_factors": [],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "Neurodermitis",
+        "schubförmig",
+        "Juckreiz",
+        "abends",
+        "nachts",
+        "Hände",
+        "Gesicht",
+        "gerötet",
+        "entzündet",
+        "Kratzspuren",
+        "Nachtschlaf",
+        "Wärme"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Kortison", "None", "null"]
+    },
+    {
+      "id": "test_neu_haende_gesicht_hautbefund",
+      "description": "Atopisches Ekzem, Hände/Gesicht/oberer Rücken, Hautbefund mit Schuppung und Bläschen",
+      "input": {
+        "eczema_course": ["atopisches Ekzem", "Exazerbation"],
+        "eczema_locations": ["Hände", "Gesicht", "oberer Rücken"],
+        "eczema_pruritus": ["stark ausgeprägter Juckreiz", "stechend", "brennend"],
+        "eczema_skin_findings": ["gerötet", "trockene Haut", "Schuppung", "Bläschenbildung"],
+        "eczema_aggravating_factors": ["Stress"],
+        "eczema_sleep_impact": [],
+        "eczema_associated_features": ["Gesichtsschwellungen"],
+        "relieving_factors": ["Kühlung"],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "atopisches Ekzem",
+        "Exazerbation",
+        "Juckreiz",
+        "stechend",
+        "brennend",
+        "Hände",
+        "Gesicht",
+        "trockene",
+        "Schuppung",
+        "Bläschen",
+        "Gesichtsschwellungen",
+        "Kühlung"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Kortison"]
+    },
+    {
+      "id": "test_neu_schlaf_stress_kaelte",
+      "description": "Neurodermitis mit Schlafbeeinträchtigung, Stress und Herbst/Winter als Verstärker",
+      "input": {
+        "eczema_course": ["Neurodermitis", "schubförmig"],
+        "eczema_locations": ["Arme", "Dekolleté / Brust", "Kopfhaut"],
+        "eczema_pruritus": ["stark ausgeprägter Juckreiz", "nachtbetont"],
+        "eczema_skin_findings": ["gerötet", "verdickte Haut", "Kratzspuren"],
+        "eczema_aggravating_factors": ["Stress", "Herbst / Winter"],
+        "eczema_sleep_impact": ["Einschlafstörung durch Juckreiz", "Durchschlafstörung durch Juckreiz"],
+        "eczema_associated_features": ["psychisch belastend"],
+        "relieving_factors": ["Feuchtigkeitspflege", "Ruhe"],
+        "functional_impact": ["eingeschränkte Alltagsfähigkeit"]
+      },
+      "expected_contains": [
+        "Neurodermitis",
+        "Juckreiz",
+        "nachts",
+        "Arme",
+        "Kopfhaut",
+        "verdickte",
+        "Einschlafstörung",
+        "Durchschlafstörung",
+        "Stress",
+        "Winter",
+        "psychisch",
+        "Alltagsfähigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Kortison"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Seit vielen Jahren besteht eine Neurodermitis mit schubförmigem Verlauf. Im Vordergrund steht ein ausgeprägter Juckreiz, der vor allem abends und nachts auftritt und den Schlaf deutlich beeinträchtigt. Betroffen sind insbesondere Hände, Arme, Gesicht, Kopfhaut und oberer Rücken. Begleitend bestehen gerötete, entzündete und teils offene Hautveränderungen bei trockener, schuppender Haut; teilweise zeigen sich Kratzspuren und Bläschen. Die Beschwerden werden durch Wärme, Überforderung und Müdigkeit verstärkt.",
+      "Seit der Kindheit besteht ein atopisches Ekzem mit rezidivierenden Exazerbationen. Die Patientin berichtet über starken Juckreiz sowie wiederkehrende Hautausschläge an Händen, Armen, Gesicht und Brustbereich. Teilweise bestehen trockene, verdickte Hautareale mit Kratzspuren und entzündlichen Veränderungen. Der Nachtschlaf ist durch Juckreiz und nächtliches Kratzen beeinträchtigt. Eine Verschlechterung zeigt sich vor allem in den kälteren Jahreszeiten.",
+      "Seit längerer Zeit besteht eine Exazerbation der Neurodermitis mit starkem, teils stechend und brennend empfundenem Juckreiz. Betroffen sind Gesicht, Hände, Ober- und Unterarme, Dekolleté, oberer Rücken sowie die Kopfhaut. Zusätzlich bestehen gerötete, entzündete und teils offene Hautstellen, trockene Haut, Schuppung und gelegentliche Gesichtsschwellungen. Der Juckreiz ist häufig abend- und nachtbetont und beeinträchtigt den Schlaf."
+    ],
+    "ideal_text": "Seit vielen Jahren besteht eine Neurodermitis mit schubförmigem Verlauf. Im Vordergrund steht ein ausgeprägter Juckreiz, der vor allem abends und nachts auftritt und den Schlaf deutlich beeinträchtigt. Betroffen sind insbesondere Hände, Arme, Gesicht, Kopfhaut und oberer Rücken. Begleitend bestehen gerötete, entzündete und teils offene Hautveränderungen bei trockener, schuppender Haut; teilweise zeigen sich Kratzspuren und Bläschen. Die Beschwerden werden durch Wärme, Überforderung und Müdigkeit verstärkt."
+  }
+}

@@ -32,6 +32,7 @@ Currently registered composers:
   polyneuropathische_beschwerden_polyneuropathie -> compose_polyneuropathie_narrative (dedicated, hardcoded maps)
   ced_ibd_morbus_crohn_colitis_ulcerosa          -> compose_ced_ibd_narrative          (dedicated, hardcoded maps)
   entzuendlich_rheumatologische_gelenkbeschwerden_polyarthritis -> compose_rheuma_narrative (dedicated, hardcoded maps)
+  neurodermitis_atopisches_ekzem                 -> compose_neurodermitis_narrative    (dedicated, hardcoded maps)
 
 Clusters without a dedicated composer:
   Falls back to generic_narrative_composer using cluster.render_maps.
@@ -55,6 +56,7 @@ from core.ai_draft.fibromyalgie_narrative_composer import compose_fibromyalgie_n
 from core.ai_draft.polyneuropathie_narrative_composer import compose_polyneuropathie_narrative
 from core.ai_draft.ced_ibd_narrative_composer import compose_ced_ibd_narrative
 from core.ai_draft.rheuma_narrative_composer import compose_rheuma_narrative
+from core.ai_draft.neurodermitis_narrative_composer import compose_neurodermitis_narrative
 from core.ai_draft.generic_narrative_composer import compose_generic_narrative
 
 if TYPE_CHECKING:
@@ -111,6 +113,7 @@ _REGISTRY: dict[str, Callable[[dict[str, list[str]]], str]] = {
     "polyneuropathische_beschwerden_polyneuropathie":     compose_polyneuropathie_narrative,
     "ced_ibd_morbus_crohn_colitis_ulcerosa":              compose_ced_ibd_narrative,
     "entzuendlich_rheumatologische_gelenkbeschwerden_polyarthritis": compose_rheuma_narrative,
+    "neurodermitis_atopisches_ekzem":                                compose_neurodermitis_narrative,
 }
 
 
