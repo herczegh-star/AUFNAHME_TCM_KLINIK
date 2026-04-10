@@ -35,7 +35,7 @@ class AppController:
             image=ft.DecorationImage(
                 src="images/pozadí_bambus.png",
                 fit=ft.ImageFit.COVER,
-                opacity=0.07,
+                opacity=0.15,
             ),
         )
 
