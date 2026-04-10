@@ -1,0 +1,331 @@
+{
+  "id": "ced_ibd_morbus_crohn_colitis_ulcerosa",
+  "name": "CED / IBD (Morbus Crohn / Colitis ulcerosa)",
+  "aliases": [
+    "Morbus Crohn",
+    "Colitis ulcerosa",
+    "chronisch-entzündliche Darmerkrankung",
+    "CED",
+    "IBD"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Entzündliches Syndrom",
+  "family": "gastroenterologisch",
+  "tags": [
+    "ced",
+    "ibd",
+    "morbus-crohn",
+    "colitis",
+    "darm",
+    "entzuendlich"
+  ],
+  "meta": {
+    "icd10": "K50.9",
+    "icd10_label": "Morbus Crohn, nicht näher bezeichnet / K51.9 Colitis ulcerosa",
+    "anatomical_region": "Dünndarm, Dickdarm, Colon",
+    "typical_age_range": "20-55",
+    "tcm_pattern_hints": [
+      "Feuchte-Hitze im Dickdarm",
+      "Milz-Yang-Mangel mit Feuchtigkeitsansammlung",
+      "Leber-Qi-Stagnation übergreifend auf Milz",
+      "Kälte-Feuchte im mittleren Jiao"
+    ]
+  },
+  "form": {
+    "title": "CED / IBD (Morbus Crohn / Colitis ulcerosa) – Anamnese",
+    "fields": [
+      {
+        "id": "ibd_type_background",
+        "label": "CED-Typ / Hintergrund",
+        "type": "multi_select",
+        "options": [
+          "Morbus Crohn",
+          "Colitis ulcerosa",
+          "chronisch-aktiver Verlauf",
+          "schubweiser Verlauf"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "ibd_type_background"
+      },
+      {
+        "id": "duration",
+        "label": "Dauer / Verlauf",
+        "type": "text",
+        "placeholder": "z. B. seit mehreren Jahren, seit 8 Jahren",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "ibd_pain_location",
+        "label": "Bauchschmerzen / Lokalisation",
+        "type": "multi_select",
+        "options": [
+          "Oberbauch",
+          "rechter Unterbauch",
+          "diffuser Bauch"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "ibd_pain_location"
+      },
+      {
+        "id": "pain_character",
+        "label": "Schmerzcharakter",
+        "type": "multi_select",
+        "options": [
+          "drückend",
+          "krampfartig",
+          "dumpf",
+          "stechend",
+          "ziehend",
+          "kolikartig"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_character"
+      },
+      {
+        "id": "ibd_bowel_pattern",
+        "label": "Stuhlverhalten / Stuhlfrequenz",
+        "type": "multi_select",
+        "options": [
+          "1–2× täglich",
+          "2–3× täglich",
+          "4–5× täglich",
+          "breiiger Stuhl",
+          "fester Stuhl"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "ibd_bowel_pattern"
+      },
+      {
+        "id": "ibd_blood_mucus",
+        "label": "Blut / Schleim",
+        "type": "multi_select",
+        "options": [
+          "keine Blutbeimengungen",
+          "keine Schleimbeimengungen",
+          "selten Schleim",
+          "Blutbeimengungen",
+          "Schleimbeimengungen"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "ibd_blood_mucus"
+      },
+      {
+        "id": "ibd_associated_symptoms",
+        "label": "Begleitsymptome",
+        "type": "multi_select",
+        "options": [
+          "Blähungen",
+          "Übelkeit",
+          "Erbrechen",
+          "Druckgefühl im Oberbauch"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "ibd_associated_symptoms"
+      },
+      {
+        "id": "ibd_trigger_pattern",
+        "label": "Nahrungsbezug / Tageszeit / Schubmuster",
+        "type": "multi_select",
+        "options": [
+          "nach Mahlzeiten",
+          "nach Verdauung",
+          "gegen Abend",
+          "nach längerem Sitzen",
+          "beim Bücken",
+          "beim Laufen",
+          "stressbedingt",
+          "schubweise",
+          "zufällig auftretende Schübe"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "ibd_trigger_pattern"
+      },
+      {
+        "id": "functional_impact",
+        "label": "Funktionelle Einschränkung",
+        "type": "multi_select",
+        "options": [
+          "eingeschränkte Alltagsfähigkeit",
+          "Arbeitsfähigkeit beeinträchtigt",
+          "sozialer Rückzug",
+          "Schlaf beeinträchtigt"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "functional_impact"
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "CED-Hintergrund in Eröffnungssatz klar benennen",
+      "Stuhldaten (Frequenz, Konsistenz, Blut/Schleim) klar und präzise",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Maximal 5–7 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "chronisch-entzündliche Darmerkrankung"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise",
+      "funktionell",
+      "Reizdarmsyndrom"
+    ],
+    "examples": [
+      {
+        "input": "Morbus Crohn, rechter Unterbauch, dumpf drückend krampfartig, 2–3× täglich breiig, keine Blutbeimengungen, Blähungen, nach Mahlzeiten",
+        "output": "Bei der Patientin ist ein Morbus Crohn bekannt. Im Vordergrund stehen Bauchschmerzen, vorwiegend im rechten Unterbauch, von dumpfer, drückender und krampfartiger Qualität. Aktuell bestehen 2–3 breiige Stuhlgänge täglich. Es bestehen keine Blutbeimengungen. Begleitend bestehen Blähungen. Die Beschwerden treten vor allem nach Mahlzeiten auf."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "CED1",
+      "label": "Morbus Crohn – aktiv",
+      "description": "Rechtsbetonter Unterbauchschmerz, breiiger Stuhlgang, postprandiale Zunahme",
+      "when_to_use": "Morbus Crohn mit typischer rechtsbetonter Schmerzsymptomatik",
+      "template": "Bei der Patientin ist ein Morbus Crohn bekannt. Im Vordergrund stehen Bauchschmerzen im rechten Unterbauch von [Charakter] Qualität.",
+      "tcm_patterns": [
+        "Feuchte-Hitze im Dickdarm",
+        "Leber-Qi-Stagnation"
+      ]
+    },
+    {
+      "id": "CED2",
+      "label": "Colitis ulcerosa – aktiv",
+      "description": "Erhöhte Stuhlfrequenz, teils Blut/Schleim, linksbetonter oder diffuser Schmerz",
+      "when_to_use": "Colitis ulcerosa mit Stuhldrang und erhöhter Frequenz",
+      "template": "Bei der Patientin ist eine Colitis ulcerosa bekannt. Aktuell bestehen [freq] Stuhlgänge täglich.",
+      "tcm_patterns": [
+        "Feuchte-Hitze",
+        "Milz-Yang-Mangel"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_ced_crohn_unterbauch_breiig",
+      "description": "Morbus Crohn mit Unterbauchschmerz, breiigem Stuhl, ohne Blutbeimengungen",
+      "input": {
+        "ibd_type_background": ["Morbus Crohn"],
+        "ibd_pain_location": ["rechter Unterbauch"],
+        "pain_character": ["dumpf", "drückend", "krampfartig"],
+        "ibd_bowel_pattern": ["2–3× täglich", "breiiger Stuhl"],
+        "ibd_blood_mucus": ["keine Blutbeimengungen"],
+        "ibd_associated_symptoms": ["Blähungen"],
+        "ibd_trigger_pattern": ["nach Mahlzeiten"],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "Morbus Crohn",
+        "Unterbauch",
+        "dumpf",
+        "krampfartig",
+        "2–3",
+        "breiige",
+        "Blutbeimengungen",
+        "Blähungen",
+        "Mahlzeiten"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Reizdarmsyndrom", "None", "null"]
+    },
+    {
+      "id": "test_ced_crohn_oberbauch_uebelkeit",
+      "description": "Morbus Crohn mit Oberbauchschmerz, fester Stuhl, Übelkeit und Erbrechen",
+      "input": {
+        "ibd_type_background": ["Morbus Crohn", "chronisch-aktiver Verlauf"],
+        "ibd_pain_location": ["Oberbauch"],
+        "pain_character": ["drückend", "krampfartig"],
+        "ibd_bowel_pattern": ["1–2× täglich", "fester Stuhl"],
+        "ibd_blood_mucus": ["keine Blutbeimengungen", "keine Schleimbeimengungen"],
+        "ibd_associated_symptoms": ["Übelkeit", "Erbrechen"],
+        "ibd_trigger_pattern": ["nach Mahlzeiten", "gegen Abend"],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "Morbus Crohn",
+        "chronisch",
+        "Oberbauch",
+        "drückend",
+        "1–2",
+        "feste",
+        "Blut",
+        "Schleim",
+        "Übelkeit",
+        "Erbrechen",
+        "Mahlzeiten"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Reizdarmsyndrom"]
+    },
+    {
+      "id": "test_ced_colitis_stuhlfrequenz",
+      "description": "Colitis ulcerosa mit erhöhter Stuhlfrequenz und Blähungen und stressbedingten Schüben",
+      "input": {
+        "ibd_type_background": ["Colitis ulcerosa", "schubweiser Verlauf"],
+        "ibd_pain_location": ["diffuser Bauch"],
+        "pain_character": ["drückend"],
+        "ibd_bowel_pattern": ["4–5× täglich"],
+        "ibd_blood_mucus": ["keine Blutbeimengungen", "selten Schleim"],
+        "ibd_associated_symptoms": ["Blähungen"],
+        "ibd_trigger_pattern": ["stressbedingt", "schubweise"],
+        "functional_impact": ["eingeschränkte Alltagsfähigkeit"]
+      },
+      "expected_contains": [
+        "Colitis ulcerosa",
+        "schubweise",
+        "4–5",
+        "Blutbeimengungen",
+        "Schleim",
+        "Blähungen",
+        "stressbedingt",
+        "Alltagsfähigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Reizdarmsyndrom"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Bei der Patientin ist seit mehreren Jahren ein Morbus Crohn bekannt. Aktuell berichtet sie über wiederkehrende Bauchschmerzen unterschiedlicher Intensität, vorwiegend im rechten Unterbauch, teils auch im Oberbauch, die als dumpf, drückend und krampfartig beschrieben werden. Die Beschwerden verstärken sich nach der Verdauung bzw. nach Mahlzeiten. Zudem bestehen 2–3 breiige Stuhlgänge täglich ohne Blutbeimengungen und mit nur wenig Schleim. Begleitend werden Blähungen berichtet.",
+      "Bei dem Patienten besteht seit Jahren eine chronisch-entzündliche Darmerkrankung im Sinne eines Morbus Crohn. Im Vordergrund stehen intermittierende, meist nach Mahlzeiten und gegen Abend auftretende Oberbauchschmerzen von drückender, teilweise krampfartiger Qualität. Begleitend bestehen phasenweise Übelkeit und Erbrechen. Die Stuhlfrequenz liegt aktuell bei 1–2 täglichen festen Stuhlgängen ohne Blut- oder Schleimbeimengungen.",
+      "Bei der Patientin ist seit Jahren eine Colitis ulcerosa bekannt. Aktuell berichtet sie über 4–5 Stuhlgänge täglich ohne Blutbeimengungen und nur seltenem Schleim. Begleitend bestehen intermittierende Bauchschmerzen sowie vermehrte Blähungen. Schübe werden von der Patientin teilweise als stressbedingt beschrieben."
+    ],
+    "ideal_text": "Bei der Patientin ist seit mehreren Jahren ein Morbus Crohn bekannt. Aktuell berichtet sie über wiederkehrende Bauchschmerzen unterschiedlicher Intensität, vorwiegend im rechten Unterbauch, teils auch im Oberbauch, die als dumpf, drückend und krampfartig beschrieben werden. Die Beschwerden verstärken sich nach der Verdauung bzw. nach Mahlzeiten. Zudem bestehen 2–3 breiige Stuhlgänge täglich ohne Blutbeimengungen und mit nur wenig Schleim. Begleitend werden Blähungen berichtet."
+  }
+}
