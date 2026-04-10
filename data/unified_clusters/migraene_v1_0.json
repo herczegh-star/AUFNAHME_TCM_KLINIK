@@ -1,0 +1,365 @@
+{
+  "id": "migraene",
+  "name": "Migräne",
+  "aliases": [
+    "Migraine",
+    "Hemikranie",
+    "Hemikraniale Kopfschmerzen"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Schmerzsyndrom",
+  "family": "neurologisch",
+  "tags": [
+    "schmerz",
+    "kopf",
+    "neurologisch",
+    "anfallsartig",
+    "migraene"
+  ],
+  "meta": {
+    "icd10": "G43.9",
+    "icd10_label": "Migräne, nicht näher bezeichnet",
+    "anatomical_region": "Schläfen, Stirn, Okziput",
+    "typical_age_range": "15-55",
+    "tcm_pattern_hints": [
+      "Leber-Yang-Hochschlagen",
+      "Leber-Qi-Stagnation",
+      "Blut-Mangel"
+    ]
+  },
+  "form": {
+    "title": "Migräne – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Dauer / Verlauf",
+        "type": "text",
+        "placeholder": "z. B. seit dem 6. Lebensjahr, seit 5 Jahren",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "pain_location",
+        "label": "Lokalisation",
+        "type": "multi_select",
+        "options": [
+          "temporal",
+          "einseitig rechts",
+          "einseitig links",
+          "wechselnd rechts / links",
+          "beidseits",
+          "frontal",
+          "okzipital",
+          "diffus"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_location"
+      },
+      {
+        "id": "pain_character",
+        "label": "Schmerzcharakter",
+        "type": "multi_select",
+        "options": [
+          "pochend",
+          "pulsierend",
+          "stechend",
+          "drückend",
+          "dumpf",
+          "ziehend"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_character"
+      },
+      {
+        "id": "pain_intensity",
+        "label": "Intensität",
+        "type": "multi_select",
+        "options": [
+          "leicht",
+          "mittelstark",
+          "stark",
+          "sehr stark"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_intensity"
+      },
+      {
+        "id": "migraine_frequency",
+        "label": "Häufigkeit / Migränetage",
+        "type": "multi_select",
+        "options": [
+          "1–2× monatlich",
+          "3–4× monatlich",
+          "wöchentlich",
+          "mehrmals wöchentlich",
+          "nahezu täglich",
+          "1–3 Migränetage/Monat",
+          "3–6 Migränetage/Monat",
+          "7–14 Migränetage/Monat",
+          ">15 Migränetage/Monat"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "migraine_frequency"
+      },
+      {
+        "id": "migraine_attack_duration",
+        "label": "Attackendauer",
+        "type": "multi_select",
+        "options": [
+          "wenige Stunden",
+          "mehrere Stunden",
+          "einen Tag lang",
+          "1–2 Tage",
+          "bis zu 3 Tage"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "migraine_attack_duration"
+      },
+      {
+        "id": "migraine_associated_symptoms",
+        "label": "Begleitsymptome",
+        "type": "multi_select",
+        "options": [
+          "Übelkeit",
+          "Erbrechen",
+          "Lichtempfindlichkeit",
+          "Geräuschempfindlichkeit"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "migraine_associated_symptoms"
+      },
+      {
+        "id": "migraine_aura",
+        "label": "Aura",
+        "type": "select",
+        "options": [
+          "keine",
+          "visuelle Aura",
+          "sensible Aura",
+          "andere Aura"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "migraine_aura"
+      },
+      {
+        "id": "aggravating_factors",
+        "label": "Auslöser / Verstärker",
+        "type": "multi_select",
+        "options": [
+          "körperliche Aktivität",
+          "Stress",
+          "Schlafmangel",
+          "Lärm",
+          "helles Licht",
+          "Hormonschwankungen",
+          "Wetteränderungen",
+          "Alkohol",
+          "Hunger"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "aggravating_factors"
+      },
+      {
+        "id": "relieving_factors",
+        "label": "Lindernde Faktoren",
+        "type": "multi_select",
+        "options": [
+          "Ruhe",
+          "Dunkelheit",
+          "Schlaf",
+          "Rückzug",
+          "Analgetika",
+          "Triptane",
+          "Wärme",
+          "Kälte"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "relieving_factors"
+      },
+      {
+        "id": "functional_impact",
+        "label": "Funktionelle Einschränkung",
+        "type": "multi_select",
+        "options": [
+          "Rückzug erforderlich",
+          "Arbeitsunfähigkeit während Attacken",
+          "eingeschränkte Alltagsfähigkeit",
+          "Bettruhe notwendig"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "functional_impact"
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Attackencharakter betonen: anfallsartig, episodisch",
+      "Begleitsymptome explizit benennen wenn vorhanden",
+      "Aura nur erwähnen wenn angegeben",
+      "Maximal 5–7 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Migränebeschwerden"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise"
+    ],
+    "examples": [
+      {
+        "input": "temporal wechselnd, pochend, 1–2× monatlich, einen Tag lang, Übelkeit, Lichtempfindlichkeit",
+        "output": "Anfallsartige Migränebeschwerden temporal, wechselnd rechts/links, von pochender Qualität. Die Attacken treten 1–2× monatlich auf. Die Attacken dauern jeweils etwa einen Tag an. Begleitend bestehen Übelkeit und Lichtempfindlichkeit."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "MIG1",
+      "label": "Episodische Migräne",
+      "description": "Anfallsartige Kopfschmerzen unter 15 Tage/Monat mit migränetypischen Begleiterscheinungen",
+      "when_to_use": "Attacken 1–14 Mal pro Monat, Begleitsymptome vorhanden, nicht chronisch",
+      "template": "Anfallsartige Migränebeschwerden [Lokalisation] von [Charakter] Qualität. Die Attacken treten [Häufigkeit] auf.",
+      "tcm_patterns": [
+        "Leber-Yang-Hochschlagen",
+        "Leber-Qi-Stagnation"
+      ]
+    },
+    {
+      "id": "MIG2",
+      "label": "Chronische Migräne",
+      "description": "Kopfschmerzen an 15 oder mehr Tagen pro Monat, davon mindestens 8 mit Migränecharakter",
+      "when_to_use": "Mehr als 15 Migränetage pro Monat",
+      "template": "Anfallsartige Migränebeschwerden [Lokalisation]. Es bestehen etwa [X] Migränetage pro Monat.",
+      "tcm_patterns": [
+        "Leber-Qi-Stagnation",
+        "Blut-Mangel",
+        "Nieren-Yin-Mangel"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_migraene_ohne_aura",
+      "description": "Migräne ohne Aura: temporal wechselnd, pochend, 1–2× monatlich, einen Tag, Übelkeit + Lichtempfindlichkeit",
+      "input": {
+        "pain_location": ["temporal", "wechselnd rechts / links"],
+        "pain_character": ["pochend"],
+        "pain_intensity": [],
+        "migraine_frequency": ["1–2× monatlich"],
+        "migraine_attack_duration": ["einen Tag lang"],
+        "migraine_associated_symptoms": ["Übelkeit", "Lichtempfindlichkeit"],
+        "migraine_aura": [],
+        "aggravating_factors": [],
+        "relieving_factors": [],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "Migränebeschwerden",
+        "temporal",
+        "pochend",
+        "monatlich",
+        "Tag",
+        "Übelkeit",
+        "Lichtempfindlichkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "None", "null", "Aura"]
+    },
+    {
+      "id": "test_migraene_migränetage",
+      "description": "Migräne mit Migränetage-Angabe: 3–6 Migränetage/Monat — muss als Migränetage, nicht als Attacken-Frequenz gerendert werden",
+      "input": {
+        "pain_location": [],
+        "pain_character": ["pulsierend"],
+        "pain_intensity": ["stark"],
+        "migraine_frequency": ["3–6 Migränetage/Monat"],
+        "migraine_attack_duration": ["mehrere Stunden"],
+        "migraine_associated_symptoms": ["Übelkeit"],
+        "migraine_aura": [],
+        "aggravating_factors": [],
+        "relieving_factors": [],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "Migränebeschwerden",
+        "Migränetage",
+        "pro Monat",
+        "Stunden",
+        "Übelkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "treten 3–6 Migränetage"]
+    },
+    {
+      "id": "test_migraene_mit_aura",
+      "description": "Migräne mit visueller Aura und funktioneller Einschränkung",
+      "input": {
+        "pain_location": ["temporal"],
+        "pain_character": ["pochend", "pulsierend"],
+        "pain_intensity": ["stark"],
+        "migraine_frequency": ["1–2× monatlich"],
+        "migraine_attack_duration": ["einen Tag lang"],
+        "migraine_associated_symptoms": ["Übelkeit", "Lichtempfindlichkeit"],
+        "migraine_aura": ["visuelle Aura"],
+        "aggravating_factors": [],
+        "relieving_factors": [],
+        "functional_impact": ["Rückzug erforderlich"]
+      },
+      "expected_contains": [
+        "Migränebeschwerden",
+        "temporal",
+        "pochend",
+        "monatlich",
+        "Übelkeit",
+        "Aura",
+        "Rückzug"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "None"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Darüber hinaus leidet die Patientin seit dem 6. Lebensjahr unter Migräne. Die Attacken treten derzeit mindestens zweimal pro Monat auf und dauern jeweils etwa einen Tag an. Die Schmerzen sind temporo-parietal lokalisiert; sie beginnen stets einseitig, mal rechts, mal links, und breiten sich im Verlauf auch auf die Gegenseite aus. Die pochenden Schmerzen werden von Übelkeit, Erbrechen sowie Geräusche- und Lichtempfindlichkeit, gelegentlich auch von Durchfällen, begleitet. Während der Attacken zieht sich die Patientin in einen abgedunkelten Raum zurück und benötigt außerdem eine Wärmflasche, da sie friert.",
+      "",
+      ""
+    ],
+    "ideal_text": "Darüber hinaus leidet die Patientin seit dem 6. Lebensjahr unter Migräne. Die Attacken treten derzeit mindestens zweimal pro Monat auf und dauern jeweils etwa einen Tag an. Die Schmerzen sind temporo-parietal lokalisiert; sie beginnen stets einseitig, mal rechts, mal links, und breiten sich im Verlauf auch auf die Gegenseite aus. Die pochenden Schmerzen werden von Übelkeit, Erbrechen sowie Geräusche- und Lichtempfindlichkeit, gelegentlich auch von Durchfällen, begleitet. Während der Attacken zieht sich die Patientin in einen abgedunkelten Raum zurück und benötigt außerdem eine Wärmflasche, da sie friert."
+  }
+}
