@@ -416,33 +416,90 @@ class ScreenPilotComposer:
             visible=not HAS_LLM,
         )
 
+        ref_section = self._build_ref_texts_section()
+
+        draft_controls: list[ft.Control] = [
+            ft.Row([
+                self._stage_labels["raw"],
+                ft.Container(width=16),
+                self._stage_labels["refined"],
+                ft.Container(width=16),
+                self._stage_labels["final"],
+            ]),
+            no_llm_banner,
+            ft.Container(height=4),
+            self._raw_field,
+            ft.Row([self._refine_btn], alignment=ft.MainAxisAlignment.END),
+            self._refined_field,
+            ft.Row([self._final_btn], alignment=ft.MainAxisAlignment.END),
+            self._final_field,
+            ft.Container(height=8),
+            self._status_text,
+            ft.Row([self._insert_btn], alignment=ft.MainAxisAlignment.END),
+        ]
+        if ref_section is not None:
+            draft_controls.append(ref_section)
+
         return ft.Container(
             content=ft.Column(
-                controls=[
-                    ft.Row([
-                        self._stage_labels["raw"],
-                        ft.Container(width=16),
-                        self._stage_labels["refined"],
-                        ft.Container(width=16),
-                        self._stage_labels["final"],
-                    ]),
-                    no_llm_banner,
-                    ft.Container(height=4),
-                    self._raw_field,
-                    ft.Row([self._refine_btn], alignment=ft.MainAxisAlignment.END),
-                    self._refined_field,
-                    ft.Row([self._final_btn], alignment=ft.MainAxisAlignment.END),
-                    self._final_field,
-                    ft.Container(height=8),
-                    self._status_text,
-                    ft.Row([self._insert_btn], alignment=ft.MainAxisAlignment.END),
-                ],
+                controls=draft_controls,
                 scroll=ft.ScrollMode.AUTO,
                 expand=True,
                 spacing=8,
             ),
             padding=16,
             expand=True,
+        )
+
+    # ------------------------------------------------------------------
+    # Reference texts section (below insert button)
+    # ------------------------------------------------------------------
+
+    def _build_ref_texts_section(self) -> ft.Control | None:
+        """
+        Build a helper section showing up to 3 physician-authored reference texts.
+
+        Returns None (and shows nothing) when all 3 slots are empty.
+        Only non-empty slots are rendered.
+        Each text is shown in a read-only but selectable/copyable TextField.
+        """
+        texts = self._cluster.reference_texts  # always a 3-item list
+        labels = ["Referenztext 1", "Referenztext 2", "Referenztext 3"]
+        non_empty = [(lbl, txt) for lbl, txt in zip(labels, texts) if txt.strip()]
+        if not non_empty:
+            return None
+
+        rows: list[ft.Control] = []
+        for lbl, txt in non_empty:
+            rows.append(
+                ft.TextField(
+                    label=lbl,
+                    value=txt,
+                    multiline=True,
+                    min_lines=2,
+                    max_lines=6,
+                    read_only=True,
+                    border_color=_C_BORDER,
+                    bgcolor=ft.Colors.GREY_50,
+                )
+            )
+
+        return ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Divider(height=1, color=_C_BORDER),
+                    ft.Container(height=4),
+                    ft.Text(
+                        "Referenztexte",
+                        size=12,
+                        weight=ft.FontWeight.W_600,
+                        color=ft.Colors.BLUE_GREY_600,
+                    ),
+                    *rows,
+                ],
+                spacing=8,
+            ),
+            padding=ft.padding.only(top=8),
         )
 
     # ------------------------------------------------------------------

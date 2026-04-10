@@ -235,13 +235,32 @@ class ScreenClusterBuilder:
             value=_anchor_list[0] if _anchor_list else "",
             border_color=_C_BORDER,
         )
-        self._tf_ideal_text = ft.TextField(
-            label="Idealer klinischer Referenztext",
-            hint_text="Kurze klinische Musterbeschreibung des Symptomkomplexes",
-            value=d.get("clinical_reference", {}).get("ideal_text", ""),
+        ref_texts = self._cluster.reference_texts  # always 3 items
+        self._tf_ref_1 = ft.TextField(
+            label="Referenztext 1",
+            hint_text="Klinischer Referenztext (Slot 1)",
+            value=ref_texts[0],
             multiline=True,
-            min_lines=4,
-            max_lines=10,
+            min_lines=3,
+            max_lines=8,
+            border_color=_C_BORDER,
+        )
+        self._tf_ref_2 = ft.TextField(
+            label="Referenztext 2",
+            hint_text="Klinischer Referenztext (Slot 2, optional)",
+            value=ref_texts[1],
+            multiline=True,
+            min_lines=3,
+            max_lines=8,
+            border_color=_C_BORDER,
+        )
+        self._tf_ref_3 = ft.TextField(
+            label="Referenztext 3",
+            hint_text="Klinischer Referenztext (Slot 3, optional)",
+            value=ref_texts[2],
+            multiline=True,
+            min_lines=3,
+            max_lines=8,
             border_color=_C_BORDER,
         )
 
@@ -252,11 +271,16 @@ class ScreenClusterBuilder:
                     ft.Row([self._tf_icd10, self._tf_version, self._tf_status], spacing=12),
                     self._tf_aliases,
                     self._tf_anchor,
-                    self._tf_ideal_text,
+                    ft.Text("Referenztexte", size=12, color=ft.Colors.BLUE_GREY_600, weight=ft.FontWeight.W_600),
+                    self._tf_ref_1,
+                    self._tf_ref_2,
+                    self._tf_ref_3,
                 ],
                 spacing=12,
+                scroll=ft.ScrollMode.AUTO,
             ),
             padding=16,
+            expand=True,
         )
 
     # ------------------------------------------------------------------
@@ -975,9 +999,15 @@ class ScreenClusterBuilder:
             d.setdefault("style", {}).setdefault("preferred_phrases", {})["anchor"] = (
                 [anchor_val] if anchor_val else []
             )
-            d.setdefault("clinical_reference", {})["ideal_text"] = (
-                self._tf_ideal_text.value.strip()
-            )
+            _ref_texts = [
+                self._tf_ref_1.value.strip(),
+                self._tf_ref_2.value.strip(),
+                self._tf_ref_3.value.strip(),
+            ]
+            cr = d.setdefault("clinical_reference", {})
+            cr["reference_texts"] = _ref_texts
+            # Mirror slot 1 into legacy key for backward compatibility.
+            cr["ideal_text"] = _ref_texts[0]
 
             # Apply edits from Style tab
             d["style"]["rules"] = [

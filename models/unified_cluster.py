@@ -147,6 +147,30 @@ class UnifiedCluster:
         return self._data.get("tests", [])
 
     # ------------------------------------------------------------------
+    # Clinical reference texts
+    # ------------------------------------------------------------------
+
+    @property
+    def reference_texts(self) -> list[str]:
+        """
+        Return the 3 physician-authored reference text slots as a list of 3 strings.
+
+        Backward-compat loading order:
+          1. clinical_reference.reference_texts list (new schema) — padded/trimmed to 3
+          2. clinical_reference.ideal_text (legacy single field) → slot 0, rest empty
+          3. All empty strings if neither key exists
+        """
+        cr = self._data.get("clinical_reference", {})
+        if "reference_texts" in cr:
+            texts = list(cr["reference_texts"])
+            # Normalise to exactly 3 slots
+            while len(texts) < 3:
+                texts.append("")
+            return texts[:3]
+        legacy = cr.get("ideal_text", "")
+        return [legacy, "", ""]
+
+    # ------------------------------------------------------------------
     # Raw access (for editor / serialisation)
     # ------------------------------------------------------------------
 
