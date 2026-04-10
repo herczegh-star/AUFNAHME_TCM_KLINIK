@@ -18,6 +18,7 @@ from ui.screens.screen_summary_review import ScreenSummaryReview
 
 _BG_IMAGE_SRC = "images/pozadi_bambus.png"
 _BG_OPACITY   = 0.15
+_PAGE_PADDING = 24
 
 
 class AppController:
@@ -31,28 +32,40 @@ class AppController:
 
     def _setup_page(self) -> None:
         self.page.title = "AUFNAHME TCM KLINIK"
-        self.page.padding = 24
-        self.page.scroll = ft.ScrollMode.AUTO
+        # Padding and scroll are managed at the wrapper level so the background
+        # Container can fill the full window unobstructed.
+        self.page.padding = 0
+        self.page.scroll = None
 
     def _wrap_with_background(self) -> None:
         """
-        Wrap whatever the current screen added to page.controls in a
-        full-size Container that renders the bamboo image as a background.
+        Wrap the screen content in a full-window Container with the bamboo
+        background image.
 
-        Called after every screen render(), before page.update().
-        Uses ft.Container.image (BoxDecoration on the Flutter Container
-        widget) which renders reliably — unlike page.decoration which
-        is overridden by the Scaffold in desktop Flet builds.
+        Why page.padding=0 + page.scroll=None here:
+          - scroll=AUTO places content in a ScrollView; expand=True inside a
+            ScrollView only grows to content height, not window height.
+            Removing page-level scroll lets expand=True fill the full window.
+            All complex screens already scroll internally.
+          - padding=0 on the page lets the background Container reach the window
+            edges. The original 24px page padding is applied as padding on the
+            inner content wrapper instead, so visual layout is unchanged.
         """
         controls = list(self.page.controls)
         if not controls:
             return
-        # All screens add exactly one expand=True Column; use it directly.
-        content = controls[0] if len(controls) == 1 else ft.Column(controls, expand=True, spacing=0)
+        # Screens add one root control (a Column).
+        # Welcome adds several flat controls — wrap those in a Column.
+        content = (
+            controls[0]
+            if len(controls) == 1
+            else ft.Column(controls, spacing=0)
+        )
         self.page.controls.clear()
         self.page.controls.append(
             ft.Container(
-                content=content,
+                # Inner wrapper restores the original 24px page padding.
+                content=ft.Container(content=content, padding=_PAGE_PADDING),
                 image=ft.DecorationImage(
                     src=_BG_IMAGE_SRC,
                     fit=ft.ImageFit.COVER,
