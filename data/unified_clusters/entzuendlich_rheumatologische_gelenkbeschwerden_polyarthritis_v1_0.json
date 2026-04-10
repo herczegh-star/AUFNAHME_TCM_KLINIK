@@ -1,0 +1,367 @@
+{
+  "id": "entzuendlich_rheumatologische_gelenkbeschwerden_polyarthritis",
+  "name": "entzündlich-rheumatologische Gelenkbeschwerden / Polyarthritis",
+  "aliases": [
+    "rheumatoide Arthritis",
+    "Polyarthritis",
+    "entzündliche Gelenkbeschwerden",
+    "Psoriasis-Arthritis",
+    "rheumatische Beschwerden"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Entzündliches Syndrom",
+  "family": "muskuloskeletal-rheumatologisch",
+  "tags": [
+    "rheuma",
+    "polyarthritis",
+    "entzuendlich",
+    "gelenk",
+    "morgensteifigkeit",
+    "schubweise"
+  ],
+  "meta": {
+    "icd10": "M06.9",
+    "icd10_label": "Rheumatoide Arthritis, nicht näher bezeichnet",
+    "anatomical_region": "Hand- und Fingergelenke, Fuß- und Zehengelenke, Schulter, Hüfte",
+    "typical_age_range": "30-70",
+    "tcm_pattern_hints": [
+      "Wind-Feuchte-Hitze Bi-Syndrom",
+      "Feuchte-Hitze in den Leitbahnen",
+      "Leber-Yin-Mangel mit Hitze",
+      "Qi-Stagnation / Blut-Stase"
+    ]
+  },
+  "form": {
+    "title": "entzündlich-rheumatologische Gelenkbeschwerden / Polyarthritis – Anamnese",
+    "fields": [
+      {
+        "id": "rheuma_background",
+        "label": "Rheumatologischer Hintergrund",
+        "type": "multi_select",
+        "options": [
+          "rheumatoide Arthritis",
+          "chronische Polyarthritis",
+          "Psoriasis-Arthritis",
+          "HLA-B27-assoziiert"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "rheuma_background"
+      },
+      {
+        "id": "duration",
+        "label": "Dauer / Verlauf",
+        "type": "text",
+        "placeholder": "z. B. seit mehreren Jahren, seit 8 Jahren",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "rheuma_joint_distribution",
+        "label": "Befallene Gelenke",
+        "type": "multi_select",
+        "options": [
+          "Hand- und Fingergelenke",
+          "Fuß- und Zehengelenke",
+          "Schultergelenke",
+          "Hüftgelenke",
+          "beidseits"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "rheuma_joint_distribution"
+      },
+      {
+        "id": "pain_character",
+        "label": "Schmerzcharakter",
+        "type": "multi_select",
+        "options": [
+          "stechend",
+          "ziehend",
+          "drückend",
+          "brennend",
+          "dumpf",
+          "messerstichartig"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_character"
+      },
+      {
+        "id": "rheuma_flare_pattern",
+        "label": "Schubmuster",
+        "type": "multi_select",
+        "options": [
+          "schubförmig",
+          "Schübe über Tage",
+          "Schübe über Wochen",
+          "mehrmals täglich kurz einschießend"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "rheuma_flare_pattern"
+      },
+      {
+        "id": "rheuma_inflammatory_signs",
+        "label": "Entzündliche Zeichen",
+        "type": "multi_select",
+        "options": [
+          "geschwollen",
+          "überwärmt",
+          "druckschmerzhaft",
+          "schmerzhaft"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "rheuma_inflammatory_signs"
+      },
+      {
+        "id": "rheuma_morning_stiffness",
+        "label": "Morgensteifigkeit / Anlaufschwierigkeiten",
+        "type": "multi_select",
+        "options": [
+          "Morgensteifigkeit wenige Minuten",
+          "Morgensteifigkeit ca. 45 Minuten",
+          "Anlaufschwierigkeiten",
+          "morgendliches Steifigkeitsgefühl"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "rheuma_morning_stiffness"
+      },
+      {
+        "id": "rheuma_function_specific",
+        "label": "Funktionell spezifische Einschränkung",
+        "type": "multi_select",
+        "options": [
+          "eingeschränkte Geschicklichkeit",
+          "Bewegungsblockierung",
+          "eingeschränkte Handfunktion"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "rheuma_function_specific"
+      },
+      {
+        "id": "rheuma_aggravating_factors",
+        "label": "Verstärker",
+        "type": "multi_select",
+        "options": [
+          "Belastung",
+          "Kälte",
+          "Nässe"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "rheuma_aggravating_factors"
+      },
+      {
+        "id": "relieving_factors",
+        "label": "Lindernde Faktoren",
+        "type": "multi_select",
+        "options": [
+          "Wärme",
+          "Ruhe",
+          "Schonung",
+          "Kühlung",
+          "Physiotherapie"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "relieving_factors"
+      },
+      {
+        "id": "functional_impact",
+        "label": "Funktionelle Einschränkung",
+        "type": "multi_select",
+        "options": [
+          "eingeschränkte Alltagsfähigkeit",
+          "Arbeitsfähigkeit beeinträchtigt",
+          "sozialer Rückzug",
+          "Schlaf beeinträchtigt"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "functional_impact"
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Entzündlich-rheumatologisches Muster klar benennen: Schubhaftigkeit, Schwellung, Überwärmung",
+      "Klar von mechanisch-degenerativer Arthrose abheben",
+      "Morgensteifigkeit und Anlaufschwierigkeiten explizit nennen wenn vorhanden",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Maximal 6–8 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "entzündlich-rheumatologische Gelenkbeschwerden"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise",
+      "Arthrose",
+      "degenerativ",
+      "Methotrexat",
+      "Biologika",
+      "Steroid",
+      "Kortison"
+    ],
+    "examples": [
+      {
+        "input": "rheumatoide Arthritis, Hand- und Fingergelenke beidseits, stechend ziehend, schubförmig Schübe über Wochen, geschwollen überwärmt, Morgensteifigkeit ca. 45 Minuten, Wärme lindert, Kälte Nässe verschlechtern",
+        "output": "Bei der Patientin ist eine rheumatoide Arthritis bekannt. Betroffen sind vor allem die Hand- und Fingergelenke beidseits. Die Schmerzen sind stechend und ziehend. Der Verlauf ist schubförmig; Schübe halten teils mehrere Wochen an. In Schubphasen sind die betroffenen Gelenke geschwollen und überwärmt. Begleitend bestehen Morgensteifigkeit von ca. 45 Minuten und Anlaufschwierigkeiten. Wärme lindert die Beschwerden; Kälte und Nässe führen zu einer Verschlechterung."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "RHEUMA1",
+      "label": "Rheumatoide Arthritis – schubförmig",
+      "description": "Polyarthritische Handbeschwerden beidseits, schubförmig, Morgensteifigkeit",
+      "when_to_use": "RA mit typischer Handbeteiligung, Schüben und Morgensteifigkeit",
+      "template": "Bei der Patientin ist eine rheumatoide Arthritis bekannt. Betroffen sind vor allem die Hand- und Fingergelenke beidseits.",
+      "tcm_patterns": [
+        "Wind-Feuchte-Hitze Bi-Syndrom",
+        "Feuchte-Hitze in den Leitbahnen"
+      ]
+    },
+    {
+      "id": "RHEUMA2",
+      "label": "Polyarthritis – Schübe mit Entzündungszeichen",
+      "description": "Mehrere Gelenke betroffen, Schübe mit Schwellung und Überwärmung",
+      "when_to_use": "Polyarthritis mit deutlichen Entzündungszeichen in Schubphasen",
+      "template": "Bei der Patientin bestehen chronische Gelenkbeschwerden im Rahmen einer Polyarthritis. In Schubphasen sind die betroffenen Gelenke geschwollen, überwärmt und schmerzhaft.",
+      "tcm_patterns": [
+        "Qi-Stagnation / Blut-Stase",
+        "Leber-Yin-Mangel mit Hitze"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_rheuma_ra_haende_schuebe",
+      "description": "RA mit Hand-/Fingergelenken beidseits, schubförmig, geschwollen/überwärmt, Morgensteifigkeit",
+      "input": {
+        "rheuma_background": ["rheumatoide Arthritis"],
+        "rheuma_joint_distribution": ["Hand- und Fingergelenke", "Fuß- und Zehengelenke", "beidseits"],
+        "pain_character": ["stechend", "ziehend"],
+        "rheuma_flare_pattern": ["schubförmig", "Schübe über Wochen"],
+        "rheuma_inflammatory_signs": ["geschwollen", "überwärmt", "schmerzhaft"],
+        "rheuma_morning_stiffness": ["Morgensteifigkeit ca. 45 Minuten", "Anlaufschwierigkeiten"],
+        "rheuma_function_specific": ["eingeschränkte Geschicklichkeit"],
+        "rheuma_aggravating_factors": ["Kälte", "Nässe"],
+        "relieving_factors": ["Wärme"],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "rheumatoide Arthritis",
+        "Hand",
+        "beidseits",
+        "stechend",
+        "schubförmig",
+        "geschwollen",
+        "überwärmt",
+        "Morgensteifigkeit",
+        "Geschicklichkeit",
+        "Wärme"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Arthrose", "None", "null"]
+    },
+    {
+      "id": "test_rheuma_entzuendungszeichen_steifigkeit",
+      "description": "Chronische Polyarthritis mit Entzündungszeichen und Morgensteifigkeit",
+      "input": {
+        "rheuma_background": ["chronische Polyarthritis"],
+        "rheuma_joint_distribution": ["Hand- und Fingergelenke", "Schultergelenke"],
+        "pain_character": ["drückend", "dumpf"],
+        "rheuma_flare_pattern": ["schubförmig", "Schübe über Tage"],
+        "rheuma_inflammatory_signs": ["geschwollen", "druckschmerzhaft"],
+        "rheuma_morning_stiffness": ["Morgensteifigkeit wenige Minuten", "morgendliches Steifigkeitsgefühl"],
+        "rheuma_function_specific": [],
+        "rheuma_aggravating_factors": ["Belastung"],
+        "relieving_factors": ["Ruhe", "Wärme"],
+        "functional_impact": ["eingeschränkte Alltagsfähigkeit"]
+      },
+      "expected_contains": [
+        "Polyarthritis",
+        "Hand",
+        "Schulter",
+        "drückend",
+        "schubförmig",
+        "geschwollen",
+        "Morgensteifigkeit",
+        "Ruhe",
+        "Wärme",
+        "Alltagsfähigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Arthrose"]
+    },
+    {
+      "id": "test_rheuma_waerme_kaelte_funktion",
+      "description": "Polyarthritis mit Wärme lindert / Kälte+Nässe verschlechtern + Handfunktion eingeschränkt",
+      "input": {
+        "rheuma_background": ["chronische Polyarthritis"],
+        "rheuma_joint_distribution": ["Hand- und Fingergelenke", "beidseits"],
+        "pain_character": ["ziehend", "brennend"],
+        "rheuma_flare_pattern": ["schubförmig"],
+        "rheuma_inflammatory_signs": ["überwärmt", "schmerzhaft"],
+        "rheuma_morning_stiffness": ["Anlaufschwierigkeiten"],
+        "rheuma_function_specific": ["eingeschränkte Handfunktion"],
+        "rheuma_aggravating_factors": ["Kälte", "Nässe"],
+        "relieving_factors": ["Wärme", "Ruhe"],
+        "functional_impact": ["Arbeitsfähigkeit beeinträchtigt"]
+      },
+      "expected_contains": [
+        "Polyarthritis",
+        "Hand",
+        "beidseits",
+        "ziehend",
+        "schubförmig",
+        "Anlaufschwierigkeiten",
+        "Handfunktion",
+        "Kälte",
+        "Nässe",
+        "Wärme",
+        "Arbeitsfähigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Arthrose"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Bei der Patientin ist seit mehreren Jahren eine rheumatoide Arthritis mit chronischen polyarthritischen Gelenkbeschwerden bekannt. Betroffen sind vor allem die Hand- und Fingergelenke sowie die Fuß- und Zehengelenke beidseits. Der Verlauf ist schubförmig; Schübe halten teils mehrere Tage bis Wochen an. In diesen Phasen sind die betroffenen Gelenke geschwollen, überwärmt und schmerzhaft. Begleitend bestehen Morgensteifigkeit und morgendliche Anlaufschwierigkeiten. Zudem berichtet die Patientin über eine eingeschränkte Geschicklichkeit der Hände.",
+      "Im Rahmen einer chronischen Polyarthritis bestehen seit Jahren entzündlich-rheumatologische Gelenkbeschwerden. Im Vordergrund stehen Schmerzen an Händen, Füßen sowie teilweise auch an Schulter- und Hüftgelenken. Die Schmerzen werden als stechend, ziehend bzw. messerstichartig beschrieben. Der Verlauf ist schubförmig mit zeitweiser Schwellung und Überwärmung der betroffenen Gelenke. Wärme wirkt lindernd, während Kälte und Nässe zu einer Verschlechterung führen.",
+      "Bei bekannter Polyarthritis bestehen anhaltende Beschwerden insbesondere im Bereich der Fingergelenke beidseits. Die Schmerzschübe dauern stundenweise bis tageweise an. Zusätzlich bestehen morgendliches Steifigkeitsgefühl der Hände sowie Anlaufschwierigkeiten."
+    ],
+    "ideal_text": "Bei der Patientin ist seit mehreren Jahren eine rheumatoide Arthritis mit chronischen polyarthritischen Gelenkbeschwerden bekannt. Betroffen sind vor allem die Hand- und Fingergelenke sowie die Fuß- und Zehengelenke beidseits. Der Verlauf ist schubförmig; Schübe halten teils mehrere Tage bis Wochen an. In diesen Phasen sind die betroffenen Gelenke geschwollen, überwärmt und schmerzhaft. Begleitend bestehen Morgensteifigkeit und morgendliche Anlaufschwierigkeiten. Zudem berichtet die Patientin über eine eingeschränkte Geschicklichkeit der Hände."
+  }
+}
