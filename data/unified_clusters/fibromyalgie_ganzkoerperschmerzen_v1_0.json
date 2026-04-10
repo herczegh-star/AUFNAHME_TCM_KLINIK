@@ -1,0 +1,357 @@
+{
+  "id": "fibromyalgie_ganzkoerperschmerzen",
+  "name": "Fibromyalgie / Ganzkörperschmerzen",
+  "aliases": [
+    "Fibromyalgie",
+    "Fibromyalgiesyndrom",
+    "Ganzkörperschmerzen",
+    "multilokuläre Schmerzsymptomatik",
+    "generalisierter Schmerz"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Schmerzsyndrom",
+  "family": "muskuloskeletal-funktionell",
+  "tags": [
+    "schmerz",
+    "fibromyalgie",
+    "ganzkörper",
+    "multilokulär",
+    "chronisch",
+    "druckschmerz"
+  ],
+  "meta": {
+    "icd10": "M79.7",
+    "icd10_label": "Fibromyalgie",
+    "anatomical_region": "generalisiert / gesamter Bewegungsapparat",
+    "typical_age_range": "30-60",
+    "tcm_pattern_hints": [
+      "Qi-Stagnation / Blut-Stagnation (diffus)",
+      "Nieren-Yang-Mangel",
+      "Milz-Qi-Mangel",
+      "Bi-Syndrom (Wind-Kaelte-Feuchte generalisiert)"
+    ]
+  },
+  "form": {
+    "title": "Fibromyalgie / Ganzkörperschmerzen – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Dauer / Verlauf",
+        "type": "text",
+        "placeholder": "z. B. seit vielen Jahren, seit 10 Jahren",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "pain_distribution_fibro",
+        "label": "Schmerzverteilung",
+        "type": "multi_select",
+        "options": [
+          "diffuse Schmerzen",
+          "multilokulär",
+          "Ganzkörperschmerzen",
+          "wechselnde Schmerzlokalisation",
+          "kein Hauptschmerz"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_distribution_fibro"
+      },
+      {
+        "id": "fibro_main_areas",
+        "label": "Hauptschmerzareale",
+        "type": "multi_select",
+        "options": [
+          "gesamte Wirbelsäule",
+          "Schultern / Arme",
+          "Oberschenkel",
+          "Beine",
+          "Knie",
+          "Füße / Mittelfußbereich"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fibro_main_areas"
+      },
+      {
+        "id": "pain_character",
+        "label": "Schmerzcharakter",
+        "type": "multi_select",
+        "options": [
+          "brennend",
+          "stechend",
+          "drückend",
+          "ziehend",
+          "dumpf",
+          "bohrend",
+          "krampfartig"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_character"
+      },
+      {
+        "id": "fibro_pain_pattern",
+        "label": "Schmerzmodus / Muster",
+        "type": "multi_select",
+        "options": [
+          "dauerhaft",
+          "attackenartig",
+          "wechselnde Schmerzqualität",
+          "Muskelkatergefühl"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fibro_pain_pattern"
+      },
+      {
+        "id": "fibro_tenderness",
+        "label": "Druckempfindlichkeit",
+        "type": "multi_select",
+        "options": [
+          "ausgeprägte Druckempfindlichkeit der Muskulatur",
+          "generalisierte Druckschmerzhaftigkeit"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fibro_tenderness"
+      },
+      {
+        "id": "fibro_aggravating_factors",
+        "label": "Verstärker",
+        "type": "multi_select",
+        "options": [
+          "dynamische Belastung",
+          "längeres Gehen",
+          "längeres Sitzen",
+          "unveränderte Körperposition",
+          "Kälte"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fibro_aggravating_factors"
+      },
+      {
+        "id": "relieving_factors",
+        "label": "Lindernde Faktoren",
+        "type": "multi_select",
+        "options": [
+          "Wärme",
+          "Ruhe",
+          "Schonung",
+          "Bewegung",
+          "Physiotherapie",
+          "Entspannung"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "relieving_factors"
+      },
+      {
+        "id": "fibro_stiffness",
+        "label": "Steifigkeit",
+        "type": "multi_select",
+        "options": [
+          "Morgensteifigkeit",
+          "Steifigkeit nach längerem Sitzen",
+          "Steifigkeit nach Inaktivität"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fibro_stiffness"
+      },
+      {
+        "id": "fibro_seasonality",
+        "label": "Jahreszeitliche Schwankung",
+        "type": "select",
+        "options": [
+          "in warmer Jahreszeit milder",
+          "in kalter Jahreszeit stärker"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fibro_seasonality"
+      },
+      {
+        "id": "functional_impact",
+        "label": "Funktionelle Einschränkung",
+        "type": "multi_select",
+        "options": [
+          "eingeschränkte Alltagsfähigkeit",
+          "Arbeitsfähigkeit beeinträchtigt",
+          "Schlaf beeinträchtigt",
+          "sozialer Rückzug"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "functional_impact"
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Diffuse / multilokuläre Natur der Schmerzen betonen",
+      "Druckempfindlichkeit als eigene Einheit benennen wenn vorhanden",
+      "Wärme/Kälte-Muster klar benennen wenn vorhanden",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Maximal 6–7 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Ganzkörperschmerzen"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise",
+      "rheumatisch",
+      "entzündlich",
+      "Arthritis"
+    ],
+    "examples": [
+      {
+        "input": "diffuse multilokulär Ganzkörperschmerzen kein Hauptschmerz, brennend stechend, dauerhaft attackenartig, Wirbelsäule Schultern, Druckempfindlichkeit, Kälte Belastung, Wärme, Morgensteifigkeit",
+        "output": "Diffuse, multilokuläre Ganzkörperschmerzen. Ein führender Einzelschmerz lässt sich nicht benennen. Die Schmerzen sind von brennender und stechender Qualität und treten dauerhaft sowie attackenartig auf. Besonders betroffen sind die gesamte Wirbelsäule und die Schultern und Arme. Es besteht eine ausgeprägte Druckempfindlichkeit der Muskulatur. Die Beschwerden verstärken sich bei Kälte und Belastung; Linderung bringt Wärme. Begleitend besteht Morgensteifigkeit."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "FIBRO1",
+      "label": "Klassische Fibromyalgie",
+      "description": "Diffuse multilokuläre Schmerzen, Druckempfindlichkeit, Morgensteifigkeit, Wärme/Kälte-Muster",
+      "when_to_use": "Vollbild mit Ganzkörperschmerzen, Druckschmerz und typischem Muster",
+      "template": "Diffuse, multilokuläre Ganzkörperschmerzen von [Charakter] Qualität. Es besteht eine ausgeprägte Druckempfindlichkeit der Muskulatur.",
+      "tcm_patterns": [
+        "Bi-Syndrom (generalisiert)",
+        "Nieren-Yang-Mangel"
+      ]
+    },
+    {
+      "id": "FIBRO2",
+      "label": "Fibromyalgie mit wechselndem Muster",
+      "description": "Wechselnde Schmerzlokalisation, kein Hauptschmerz, temperaturabhängig",
+      "when_to_use": "Wechselnde Lokalisation, kein Hauptschmerz benennbar, klimaabhängig",
+      "template": "Multilokuläre Ganzkörperschmerzen wechselnder Lokalisation, kein führender Einzelschmerz benennbar.",
+      "tcm_patterns": [
+        "Wind-Bi-Syndrom",
+        "Milz-Qi-Mangel"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_fibro_diffus_kein_hauptschmerz",
+      "description": "Diffuse Ganzkörperschmerzen ohne klar benennbaren Hauptschmerz",
+      "input": {
+        "pain_distribution_fibro": ["diffuse Schmerzen", "multilokulär", "kein Hauptschmerz"],
+        "fibro_main_areas": ["gesamte Wirbelsäule", "Schultern / Arme"],
+        "pain_character": ["brennend", "stechend"],
+        "fibro_pain_pattern": ["dauerhaft", "attackenartig"],
+        "fibro_tenderness": ["ausgeprägte Druckempfindlichkeit der Muskulatur"],
+        "fibro_aggravating_factors": ["Kälte", "dynamische Belastung"],
+        "relieving_factors": ["Wärme"],
+        "fibro_stiffness": ["Morgensteifigkeit"],
+        "fibro_seasonality": [],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "Ganzkörperschmerzen",
+        "Einzelschmerz",
+        "brennend",
+        "Wirbelsäule",
+        "Druckempfindlichkeit",
+        "Kälte",
+        "Wärme",
+        "Morgensteifigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "entzündlich", "None", "null"]
+    },
+    {
+      "id": "test_fibro_druckempfindlichkeit_waerme_kaelte",
+      "description": "Druckempfindlichkeit + Wärme/Kälte-Muster + Steifigkeit",
+      "input": {
+        "pain_distribution_fibro": ["Ganzkörperschmerzen"],
+        "fibro_main_areas": ["Oberschenkel", "Beine", "Knie"],
+        "pain_character": ["drückend", "dumpf"],
+        "fibro_pain_pattern": ["dauerhaft"],
+        "fibro_tenderness": ["generalisierte Druckschmerzhaftigkeit"],
+        "fibro_aggravating_factors": ["Kälte", "längeres Sitzen"],
+        "relieving_factors": ["Wärme", "Bewegung"],
+        "fibro_stiffness": ["Morgensteifigkeit", "Steifigkeit nach Inaktivität"],
+        "fibro_seasonality": ["in kalter Jahreszeit stärker"],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "Ganzkörperschmerzen",
+        "Oberschenkel",
+        "Druckschmerzhaftigkeit",
+        "Kälte",
+        "Wärme",
+        "Morgensteifigkeit",
+        "Inaktivität",
+        "kalter Jahreszeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Arthritis"]
+    },
+    {
+      "id": "test_fibro_steifigkeit_funktionseinschraenkung",
+      "description": "Steifigkeit + jahreszeitliche Schwankung + funktionelle Einschränkung",
+      "input": {
+        "pain_distribution_fibro": ["multilokulär", "wechselnde Schmerzlokalisation"],
+        "fibro_main_areas": ["gesamte Wirbelsäule", "Füße / Mittelfußbereich"],
+        "pain_character": ["ziehend"],
+        "fibro_pain_pattern": ["wechselnde Schmerzqualität"],
+        "fibro_tenderness": [],
+        "fibro_aggravating_factors": ["längeres Gehen", "unveränderte Körperposition"],
+        "relieving_factors": ["Ruhe", "Wärme"],
+        "fibro_stiffness": ["Morgensteifigkeit", "Steifigkeit nach längerem Sitzen"],
+        "fibro_seasonality": ["in warmer Jahreszeit milder"],
+        "functional_impact": ["eingeschränkte Alltagsfähigkeit"]
+      },
+      "expected_contains": [
+        "Ganzkörperschmerzen",
+        "Wirbelsäule",
+        "Morgensteifigkeit",
+        "Sitzen",
+        "warmer Jahreszeit",
+        "Alltagsfähigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "entzündlich"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Die Patientin berichtet seit vielen Jahren über diffuse, multilokuläre Ganzkörperschmerzen im Rahmen einer bekannten Fibromyalgie. Es handelt sich um dauerhafte sowie phasenweise attackenartig auftretende Schmerzen wechselnder Qualität; beschrieben werden unter anderem brennende, stechende, drückende und ziehende Beschwerden. Einen eindeutigen Hauptschmerz kann die Patientin nicht benennen, wobei insbesondere die gesamte Wirbelsäule, beide Schultern und Arme sowie beide Oberschenkel und Knie betroffen sind. Es besteht eine ausgeprägte Druckempfindlichkeit der Muskulatur am gesamten Körper. Die Beschwerden verstärken sich bei Belastung, längerem Gehen, längerem Sitzen sowie bei Kälte; Wärme führt dagegen zu kurzfristiger Besserung. Begleitend bestehen Morgensteifigkeit sowie Steifigkeit nach längerer Inaktivität.",
+      "Im Rahmen einer Fibromyalgie besteht eine chronische multilokuläre Schmerzsymptomatik mit Ganzkörperschmerzen wechselnder Intensität und Qualität. Die Schmerzen treten dauerhaft, teilweise auch attackenartig auf; ein führender Einzelschmerz lässt sich nicht sicher benennen. Besonders betroffen sind die gesamte Wirbelsäule, die Arme, die Oberschenkel sowie zeitweise die Beine. Zudem besteht eine generalisierte Druckempfindlichkeit der Muskulatur. Wärme lindert die Beschwerden kurzfristig, während Kälte, Belastung und längere unveränderte Körperpositionen zu einer Verschlechterung führen. Die Schmerzen gehen teilweise mit Morgensteifigkeit und funktionellen Einschränkungen im Alltag einher.",
+      ""
+    ],
+    "ideal_text": "Die Patientin berichtet seit vielen Jahren über diffuse, multilokuläre Ganzkörperschmerzen im Rahmen einer bekannten Fibromyalgie. Es handelt sich um dauerhafte sowie phasenweise attackenartig auftretende Schmerzen wechselnder Qualität; beschrieben werden unter anderem brennende, stechende, drückende und ziehende Beschwerden. Einen eindeutigen Hauptschmerz kann die Patientin nicht benennen, wobei insbesondere die gesamte Wirbelsäule, beide Schultern und Arme sowie beide Oberschenkel und Knie betroffen sind. Es besteht eine ausgeprägte Druckempfindlichkeit der Muskulatur am gesamten Körper. Die Beschwerden verstärken sich bei Belastung, längerem Gehen, längerem Sitzen sowie bei Kälte; Wärme führt dagegen zu kurzfristiger Besserung. Begleitend bestehen Morgensteifigkeit sowie Steifigkeit nach längerer Inaktivität."
+  }
+}
