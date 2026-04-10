@@ -16,6 +16,9 @@ from ui.screens.screen_welcome import ScreenWelcome
 from ui.screens.screen_interview import ScreenInterview
 from ui.screens.screen_summary_review import ScreenSummaryReview
 
+_BG_IMAGE_SRC = "images/pozadi_bambus.png"
+_BG_OPACITY   = 0.15
+
 
 class AppController:
 
@@ -30,25 +33,48 @@ class AppController:
         self.page.title = "AUFNAHME TCM KLINIK"
         self.page.padding = 24
         self.page.scroll = ft.ScrollMode.AUTO
-        self.page.decoration = ft.BoxDecoration(
-            bgcolor=ft.Colors.WHITE,
-            image=ft.DecorationImage(
-                src="images/pozadi_bambus.png",
-                fit=ft.ImageFit.COVER,
-                opacity=0.15,
-            ),
+
+    def _wrap_with_background(self) -> None:
+        """
+        Wrap whatever the current screen added to page.controls in a
+        full-size Container that renders the bamboo image as a background.
+
+        Called after every screen render(), before page.update().
+        Uses ft.Container.image (BoxDecoration on the Flutter Container
+        widget) which renders reliably — unlike page.decoration which
+        is overridden by the Scaffold in desktop Flet builds.
+        """
+        controls = list(self.page.controls)
+        if not controls:
+            return
+        # All screens add exactly one expand=True Column; use it directly.
+        content = controls[0] if len(controls) == 1 else ft.Column(controls, expand=True, spacing=0)
+        self.page.controls.clear()
+        self.page.controls.append(
+            ft.Container(
+                content=content,
+                image=ft.DecorationImage(
+                    src=_BG_IMAGE_SRC,
+                    fit=ft.ImageFit.COVER,
+                    opacity=_BG_OPACITY,
+                ),
+                bgcolor=ft.Colors.WHITE,
+                expand=True,
+            )
         )
 
     def show_screen_1(self) -> None:
         self.state.current_screen = 1
         self.page.controls.clear()
         ScreenWelcome(self.page, self).render()
+        self._wrap_with_background()
         self.page.update()
 
     def show_screen_2(self) -> None:
         self.state.current_screen = 2
         self.page.controls.clear()
         ScreenInterview(self.page, self, prefill=self.state.summary).render()
+        self._wrap_with_background()
         self.page.update()
 
     def show_screen_2b(self, summary: CaseSummary) -> None:
@@ -56,6 +82,7 @@ class AppController:
         self.state.summary = summary
         self.page.controls.clear()
         ScreenSummaryReview(self.page, self).render()
+        self._wrap_with_background()
         self.page.update()
 
     def show_pilot_composer(
@@ -86,6 +113,7 @@ class AppController:
             summary=summary,
             storage_key=self.state.selected_cluster_id or None,
         ).render()
+        self._wrap_with_background()
         self.page.update()
 
     def show_cluster_builder(self, storage_key: str | None = None) -> None:
@@ -93,4 +121,5 @@ class AppController:
         self.state.current_screen = "cluster_builder"
         self.page.controls.clear()
         ScreenClusterBuilder(self.page, self, storage_key=storage_key).render()
+        self._wrap_with_background()
         self.page.update()
