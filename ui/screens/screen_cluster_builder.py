@@ -43,6 +43,7 @@ class ScreenClusterBuilder:
         key = storage_key if (storage_key and storage_key in available) else (available[0] if available else "lws_syndrom_v1_1")
         self._cluster: UnifiedCluster = load(key)
         self._status = ft.Text("", size=12, color=ft.Colors.BLUE_GREY_500)
+        self._status_row: ft.Container | None = None
         # render_maps editor: section_key → {entries: list[dict], col: Column, container: Control}
         self._rm_sections: dict[str, dict] = {}
         self._rm_outer_col: ft.Column | None = None
@@ -52,6 +53,16 @@ class ScreenClusterBuilder:
         # normalization editor: section_key → {pairs, col, container}
         self._norm_sections: dict[str, dict] = {}
         self._norm_outer_col: ft.Column | None = None
+
+    # ------------------------------------------------------------------
+    # Status helpers
+    # ------------------------------------------------------------------
+
+    def _set_status(self, message: str, color: str) -> None:
+        self._status.value = message
+        self._status.color = color
+        if self._status_row is not None:
+            self._status_row.visible = bool(message)
 
     # ------------------------------------------------------------------
     # Public entry point
@@ -96,51 +107,59 @@ class ScreenClusterBuilder:
             border_color=_C_BORDER,
             content_padding=ft.padding.symmetric(horizontal=10, vertical=4),
         )
+        nav_row = ft.Row(
+            controls=[
+                ft.TextButton(
+                    "← Zurueck",
+                    on_click=lambda _: self._ctrl.show_pilot_composer(
+                        storage_key=self._cluster.storage_key
+                    ),
+                ),
+                ft.Text("Cluster:", size=13, color=ft.Colors.BLUE_GREY_600),
+                cluster_dropdown,
+                ft.OutlinedButton(
+                    "+ Neuer Cluster",
+                    on_click=self._on_new_cluster_click,
+                    style=ft.ButtonStyle(
+                        color=_C_ACCENT,
+                        side=ft.BorderSide(1, _C_ACCENT),
+                    ),
+                ),
+                ft.Container(expand=True),
+                ft.Text(
+                    f"Cluster-Editor: {self._cluster.name}  v{self._cluster.version}",
+                    size=16,
+                    weight=ft.FontWeight.BOLD,
+                ),
+                ft.Container(expand=True),
+                ft.Text(
+                    f"Status: {self._cluster.status}",
+                    size=12,
+                    color=ft.Colors.BLUE_GREY_500,
+                ),
+                ft.ElevatedButton(
+                    "Speichern",
+                    icon=ft.Icons.SAVE,
+                    bgcolor=_C_ACCENT,
+                    color=ft.Colors.WHITE,
+                    on_click=self._on_save,
+                ),
+            ],
+            vertical_alignment=ft.CrossAxisAlignment.CENTER,
+            spacing=10,
+        )
+        # Status bar: shown below nav row after save/validation
+        self._status_row = ft.Container(
+            content=self._status,
+            padding=ft.padding.only(left=4, bottom=2),
+            visible=False,
+        )
         return ft.Container(
-            content=ft.Row(
-                controls=[
-                    ft.TextButton(
-                        "← Zurueck",
-                        on_click=lambda _: self._ctrl.show_pilot_composer(
-                            storage_key=self._cluster.storage_key
-                        ),
-                    ),
-                    ft.Text("Cluster:", size=13, color=ft.Colors.BLUE_GREY_600),
-                    cluster_dropdown,
-                    ft.OutlinedButton(
-                        "+ Neuer Cluster",
-                        on_click=self._on_new_cluster_click,
-                        style=ft.ButtonStyle(
-                            color=_C_ACCENT,
-                            side=ft.BorderSide(1, _C_ACCENT),
-                        ),
-                    ),
-                    ft.Container(expand=True),
-                    ft.Text(
-                        f"Cluster-Editor: {self._cluster.name}  v{self._cluster.version}",
-                        size=16,
-                        weight=ft.FontWeight.BOLD,
-                    ),
-                    ft.Container(expand=True),
-                    ft.Text(
-                        f"Status: {self._cluster.status}",
-                        size=12,
-                        color=ft.Colors.BLUE_GREY_500,
-                    ),
-                    ft.VerticalDivider(width=1, color=_C_BORDER),
-                    self._status,
-                    ft.ElevatedButton(
-                        "Speichern",
-                        icon=ft.Icons.SAVE,
-                        bgcolor=_C_ACCENT,
-                        color=ft.Colors.WHITE,
-                        on_click=self._on_save,
-                    ),
-                ],
-                vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                spacing=10,
+            content=ft.Column(
+                controls=[nav_row, self._status_row],
+                spacing=2,
             ),
-            padding=ft.padding.symmetric(horizontal=16, vertical=10),
+            padding=ft.padding.symmetric(horizontal=16, vertical=8),
         )
 
     def _on_cluster_change(self, e) -> None:
@@ -1077,8 +1096,7 @@ class ScreenClusterBuilder:
                 lines = ["Nicht gespeichert:"]
                 for i in errors:
                     lines.append(f"ERROR [{i.code}] {i.message}")
-                self._status.value = "  |  ".join(lines)
-                self._status.color = _C_ERR
+                self._set_status("  |  ".join(lines), _C_ERR)
                 self._page.update()
                 return
 
@@ -1103,14 +1121,11 @@ class ScreenClusterBuilder:
                     hint_lines.append(f"WARNING [{i.code}] {i.message}")
                 for i in infos:
                     hint_lines.append(f"INFO [{i.code}] {i.message}")
-                self._status.value = "  |  ".join(hint_lines)
-                self._status.color = _C_WARN
+                self._set_status("  |  ".join(hint_lines), _C_WARN)
             else:
-                self._status.value = f"Gespeichert: {path.name}"
-                self._status.color = _C_OK
+                self._set_status(f"Gespeichert: {path.name}", _C_OK)
 
         except Exception as exc:
-            self._status.value  = f"Fehler: {exc}"
-            self._status.color  = _C_ERR
+            self._set_status(f"Fehler: {exc}", _C_ERR)
 
         self._page.update()
