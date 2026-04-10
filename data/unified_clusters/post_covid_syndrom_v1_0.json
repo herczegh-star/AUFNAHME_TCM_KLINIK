@@ -1,0 +1,336 @@
+{
+  "id": "post_covid_syndrom",
+  "name": "Post-COVID-Syndrom",
+  "aliases": [
+    "Long COVID",
+    "Post-COVID",
+    "Post-COVID-Symptomatik",
+    "persistierende COVID-Folgesymptomatik"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Funktionelles Syndrom",
+  "family": "infektiös-funktionell",
+  "tags": [
+    "post-covid",
+    "long-covid",
+    "fatigue",
+    "brain-fog",
+    "erschoepfung",
+    "post-infektioees"
+  ],
+  "meta": {
+    "icd10": "U09.9",
+    "icd10_label": "Post-COVID-19-Zustand, nicht näher bezeichnet",
+    "anatomical_region": "systemisch",
+    "typical_age_range": "20-65",
+    "tcm_pattern_hints": [
+      "Qi-Mangel nach Feuchtigkeit-Hitze-Invasion",
+      "Lungen-Qi-Mangel",
+      "Nieren-Jing-Mangel",
+      "Herz-Qi-Stagnation"
+    ]
+  },
+  "form": {
+    "title": "Post-COVID-Syndrom – Anamnese",
+    "fields": [
+      {
+        "id": "post_covid_course",
+        "label": "COVID-Bezug / Verlauf",
+        "type": "select",
+        "options": [
+          "nach COVID-19-Infektion",
+          "seit COVID-19-Infektion",
+          "nach mehreren COVID-19-Infektionen"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "post_covid_course"
+      },
+      {
+        "id": "duration",
+        "label": "Dauer / Verlauf",
+        "type": "text",
+        "placeholder": "z. B. seit mehreren Monaten, seit 1,5 Jahren",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "fatigue_core",
+        "label": "Erschöpfung / Belastbarkeit",
+        "type": "multi_select",
+        "options": [
+          "erschöpft",
+          "energielos",
+          "rasch erschöpfbar",
+          "chronisch erschöpft"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fatigue_core"
+      },
+      {
+        "id": "fatigue_capacity",
+        "label": "Leistungsfähigkeit / Antrieb",
+        "type": "multi_select",
+        "options": [
+          "reduzierte Belastbarkeit",
+          "verminderte Leistungsfähigkeit",
+          "Belastungsgrenze schneller erreicht",
+          "verminderter Antrieb"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fatigue_capacity"
+      },
+      {
+        "id": "post_exertional_worsening",
+        "label": "Postbelastungsverschlechterung / Crashs",
+        "type": "multi_select",
+        "options": [
+          "Crash-Phasen",
+          "postbelastungsinduzierte Verschlechterung",
+          "starke Leistungseinbrüche nach Belastung",
+          "Erschöpfung nach körperlicher Aktivität",
+          "Erschöpfung nach geistiger Aktivität"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "post_exertional_worsening"
+      },
+      {
+        "id": "brain_fog_symptoms",
+        "label": "Kognitive Symptome / Brain Fog",
+        "type": "multi_select",
+        "options": [
+          "kognitive Verlangsamung",
+          "Konzentrationsstörungen",
+          "Merkfähigkeitsstörungen",
+          "Wortfindungsstörungen",
+          "geistige Benommenheit",
+          "verminderte Aufmerksamkeit"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "brain_fog_symptoms"
+      },
+      {
+        "id": "sleep_nonrestorative",
+        "label": "Schlafbezug",
+        "type": "multi_select",
+        "options": [
+          "Durchschlafstörungen",
+          "nicht erholsamer Schlaf",
+          "morgens wie gerädert",
+          "erschöpftes Erwachen"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "sleep_nonrestorative"
+      },
+      {
+        "id": "post_covid_sensory_emotional",
+        "label": "Emotionale / sensorische Überempfindlichkeit",
+        "type": "multi_select",
+        "options": [
+          "emotionale Empfindlichkeit",
+          "Reizüberflutung",
+          "Geräuschsensibilität",
+          "innere Unruhe"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "post_covid_sensory_emotional"
+      },
+      {
+        "id": "post_covid_vegetative",
+        "label": "Vegetative / körperliche Begleitsymptome",
+        "type": "multi_select",
+        "options": [
+          "Kälteempfindlichkeit",
+          "Herzrasen",
+          "Schwindel",
+          "Übelkeit",
+          "verschleimt nach Belastung"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "post_covid_vegetative"
+      },
+      {
+        "id": "functional_impact",
+        "label": "Funktionelle Einschränkung",
+        "type": "multi_select",
+        "options": [
+          "eingeschränkte Alltagsfähigkeit",
+          "Arbeitsfähigkeit beeinträchtigt",
+          "sozialer Rückzug",
+          "kaum alltagsfähig"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "functional_impact"
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Post-COVID-Kontext in Eröffnungssatz klar etablieren",
+      "Postbelastungsverschlechterung (PEM/Crash) als eigene Einheit benennen wenn vorhanden",
+      "Brain Fog als eigene Einheit benennen wenn vorhanden",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Maximal 6–8 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Post-COVID-Symptomatik"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise",
+      "Depression",
+      "depressiv",
+      "ME/CFS"
+    ],
+    "examples": [
+      {
+        "input": "nach COVID-19-Infektion, erschöpft, reduzierte Belastbarkeit, Crash-Phasen, Konzentrationsstörungen Brain-Fog, nicht erholsamer Schlaf, Reizüberflutung",
+        "output": "Vor dem Hintergrund einer durchgemachten COVID-19-Infektion besteht eine persistierende Post-COVID-Symptomatik. Es bestehen ausgeprägter Erschöpfbarkeit und verminderter Belastbarkeit. Zudem kommt es zu Crash-Phasen. Weiterhin besteht eine Brain-Fog-Symptomatik mit Konzentrationsstörungen. Der Schlaf ist nicht erholsam. Begleitend bestehen Reizüberflutung."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "PCOV1",
+      "label": "Post-COVID mit Fatigue und Brain Fog",
+      "description": "Persistierende Erschöpfung, reduzierte Belastbarkeit, Brain Fog nach COVID-19",
+      "when_to_use": "Fatigue + kognitive Symptome als Hauptbeschwerden",
+      "template": "Vor dem Hintergrund einer durchgemachten COVID-19-Infektion besteht eine persistierende Post-COVID-Symptomatik mit [Erschöpfung] und [Belastbarkeit]. Weiterhin besteht eine Brain-Fog-Symptomatik.",
+      "tcm_patterns": [
+        "Qi-Mangel (Lunge, Milz)",
+        "Nieren-Jing-Mangel"
+      ]
+    },
+    {
+      "id": "PCOV2",
+      "label": "Post-COVID mit Crash-Phasen",
+      "description": "Postbelastungsinduzierte Verschlechterungen im Vordergrund",
+      "when_to_use": "PEM/Crash-Phasen prominent, klassisches ME/CFS-ähnliches Muster",
+      "template": "Persistierende Post-COVID-Symptomatik mit deutlicher Belastungsintoleranz und Crash-Phasen.",
+      "tcm_patterns": [
+        "Nieren-Jing-Mangel",
+        "Herz-Qi-Stagnation"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_postcovid_fatigue_crash",
+      "description": "Post-COVID mit Fatigue, Crash-Phasen, Brain Fog",
+      "input": {
+        "post_covid_course": ["nach COVID-19-Infektion"],
+        "fatigue_core": ["rasch erschöpfbar", "energielos"],
+        "fatigue_capacity": ["reduzierte Belastbarkeit", "verminderte Leistungsfähigkeit"],
+        "post_exertional_worsening": ["Crash-Phasen", "postbelastungsinduzierte Verschlechterung"],
+        "brain_fog_symptoms": ["Konzentrationsstörungen", "kognitive Verlangsamung"],
+        "sleep_nonrestorative": ["nicht erholsamer Schlaf"],
+        "post_covid_sensory_emotional": [],
+        "post_covid_vegetative": [],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "Post-COVID",
+        "COVID-19",
+        "Erschöpf",
+        "Crash",
+        "Brain-Fog",
+        "Konzentrationsstörungen",
+        "Schlaf"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Depression", "None", "null"]
+    },
+    {
+      "id": "test_postcovid_brain_fog_dominant",
+      "description": "Brain-Fog-dominantes Bild mit Wortfindungs- und Merkfähigkeitsstörungen",
+      "input": {
+        "post_covid_course": ["seit COVID-19-Infektion"],
+        "fatigue_core": ["erschöpft"],
+        "fatigue_capacity": ["verminderte Leistungsfähigkeit"],
+        "post_exertional_worsening": [],
+        "brain_fog_symptoms": ["kognitive Verlangsamung", "Wortfindungsstörungen", "Merkfähigkeitsstörungen", "geistige Benommenheit"],
+        "sleep_nonrestorative": ["Durchschlafstörungen", "morgens wie gerädert"],
+        "post_covid_sensory_emotional": [],
+        "post_covid_vegetative": [],
+        "functional_impact": ["Arbeitsfähigkeit beeinträchtigt"]
+      },
+      "expected_contains": [
+        "Post-COVID",
+        "Brain-Fog",
+        "Wortfindungsstörungen",
+        "Merkfähigkeitsstörungen",
+        "gerädert",
+        "Arbeitsfähigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "ME/CFS"]
+    },
+    {
+      "id": "test_postcovid_sensorisch_vegetativ",
+      "description": "Post-COVID mit sensorischer Überempfindlichkeit und vegetativen Begleitsymptomen",
+      "input": {
+        "post_covid_course": ["nach COVID-19-Infektion"],
+        "fatigue_core": ["chronisch erschöpft"],
+        "fatigue_capacity": ["Belastungsgrenze schneller erreicht"],
+        "post_exertional_worsening": ["Erschöpfung nach körperlicher Aktivität"],
+        "brain_fog_symptoms": ["Konzentrationsstörungen"],
+        "sleep_nonrestorative": [],
+        "post_covid_sensory_emotional": ["Reizüberflutung", "Geräuschsensibilität"],
+        "post_covid_vegetative": ["Herzrasen", "Kälteempfindlichkeit"],
+        "functional_impact": ["eingeschränkte Alltagsfähigkeit"]
+      },
+      "expected_contains": [
+        "Post-COVID",
+        "Erschöpf",
+        "Reizüberflutung",
+        "Geräuschsensibilität",
+        "Herzrasen",
+        "Kälteempfindlichkeit",
+        "Alltagsfähigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Depression"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Bei Aufnahme berichtet die Patientin, seit einer durchgemachten COVID-19-Infektion unter einer anhaltenden Erschöpfungssymptomatik zu leiden. Es bestehen eine deutlich verminderte Belastbarkeit, reduzierte Leistungsfähigkeit und ein verminderter Antrieb. Zudem kommt es zu wiederkehrenden Crash-Phasen im Sinne postbelastungsinduzierter Verschlechterungen mit ausgeprägtem Energieverlust nach körperlicher oder geistiger Aktivität. Weiterhin besteht eine Brain-Fog-Symptomatik mit kognitiver Verlangsamung, Konzentrations-, Merkfähigkeits- und Wortfindungsstörungen sowie einem Gefühl geistiger Benommenheit. Der Schlaf ist nicht erholsam und durch Ein- und Durchschlafstörungen beeinträchtigt; morgens erwacht die Patientin häufig wie gerädert. Begleitend bestehen eine erhöhte emotionale und sensorische Empfindlichkeit mit Reizüberflutung und Geräuschsensibilität.",
+      "Vor dem Hintergrund einer durchgemachten COVID-19-Infektion berichtet der Patient über eine persistierende Müdigkeits- und Erschöpfungssymptomatik. Die Belastungsgrenze ist deutlich schneller erreicht als früher, Leistungsfähigkeit und Antrieb sind reduziert. Wiederholt treten Crash-Phasen mit Leistungseinbrüchen nach Belastung auf. Zusätzlich besteht eine Brain-Fog-Symptomatik mit Konzentrationsstörungen, kognitiver Verlangsamung und verminderter Aufmerksamkeit. Der Schlaf ist gestört und wenig erholsam. Begleitend bestehen phasenweise innere Unruhe sowie vegetative Beschwerden.",
+      ""
+    ],
+    "ideal_text": "Bei Aufnahme berichtet die Patientin, seit einer durchgemachten COVID-19-Infektion unter einer anhaltenden Erschöpfungssymptomatik zu leiden. Es bestehen eine deutlich verminderte Belastbarkeit, reduzierte Leistungsfähigkeit und ein verminderter Antrieb. Zudem kommt es zu wiederkehrenden Crash-Phasen im Sinne postbelastungsinduzierter Verschlechterungen mit ausgeprägtem Energieverlust nach körperlicher oder geistiger Aktivität. Weiterhin besteht eine Brain-Fog-Symptomatik mit kognitiver Verlangsamung, Konzentrations-, Merkfähigkeits- und Wortfindungsstörungen sowie einem Gefühl geistiger Benommenheit. Der Schlaf ist nicht erholsam und durch Ein- und Durchschlafstörungen beeinträchtigt; morgens erwacht die Patientin häufig wie gerädert. Begleitend bestehen eine erhöhte emotionale und sensorische Empfindlichkeit mit Reizüberflutung und Geräuschsensibilität."
+  }
+}

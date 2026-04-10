@@ -27,6 +27,7 @@ Currently registered composers:
   gelenkbeschwerden_arthrose -> compose_gelenkbeschwerden_narrative    (dedicated, hardcoded maps)
   reizdarm_funktionelle_verdauungsbeschwerden -> compose_reizdarm_narrative (dedicated, hardcoded maps)
   muedigkeitssymptomatik_chronische_erschoepfung -> compose_muedigkeitssymptomatik_narrative (dedicated, hardcoded maps)
+  post_covid_syndrom             -> compose_post_covid_narrative             (dedicated, hardcoded maps)
 
 Clusters without a dedicated composer:
   Falls back to generic_narrative_composer using cluster.render_maps.
@@ -45,6 +46,7 @@ from core.ai_draft.migraene_narrative_composer import compose_migraene_narrative
 from core.ai_draft.gelenkbeschwerden_narrative_composer import compose_gelenkbeschwerden_narrative
 from core.ai_draft.reizdarm_narrative_composer import compose_reizdarm_narrative
 from core.ai_draft.muedigkeitssymptomatik_narrative_composer import compose_muedigkeitssymptomatik_narrative
+from core.ai_draft.post_covid_narrative_composer import compose_post_covid_narrative
 from core.ai_draft.generic_narrative_composer import compose_generic_narrative
 
 if TYPE_CHECKING:
@@ -96,6 +98,7 @@ _REGISTRY: dict[str, Callable[[dict[str, list[str]]], str]] = {
     "gelenkbeschwerden_arthrose":                    compose_gelenkbeschwerden_narrative,
     "reizdarm_funktionelle_verdauungsbeschwerden":        compose_reizdarm_narrative,
     "muedigkeitssymptomatik_chronische_erschoepfung":     compose_muedigkeitssymptomatik_narrative,
+    "post_covid_syndrom":                                 compose_post_covid_narrative,
 }
 
 
