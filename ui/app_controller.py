@@ -30,6 +30,14 @@ class AppController:
         self.page.title = "AUFNAHME TCM KLINIK"
         self.page.padding = 24
         self.page.scroll = ft.ScrollMode.AUTO
+        self.page.decoration = ft.BoxDecoration(
+            bgcolor=ft.Colors.WHITE,
+            image=ft.DecorationImage(
+                src="images/pozadí_bambus.png",
+                fit=ft.ImageFit.COVER,
+                opacity=0.07,
+            ),
+        )
 
     def show_screen_1(self) -> None:
         self.state.current_screen = 1
