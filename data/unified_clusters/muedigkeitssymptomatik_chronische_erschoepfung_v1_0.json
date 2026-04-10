@@ -1,0 +1,311 @@
+{
+  "id": "muedigkeitssymptomatik_chronische_erschoepfung",
+  "name": "Müdigkeitssymptomatik / chronische Erschöpfung",
+  "aliases": [
+    "chronische Müdigkeit",
+    "Erschöpfungssyndrom",
+    "Fatigue",
+    "Burnout-Symptomatik",
+    "verminderte Leistungsfähigkeit"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Funktionelles Syndrom",
+  "family": "psychosomatisch-funktionell",
+  "tags": [
+    "muedigkeit",
+    "erschoepfung",
+    "fatigue",
+    "antrieb",
+    "schlaf",
+    "kognition"
+  ],
+  "meta": {
+    "icd10": "R53",
+    "icd10_label": "Unwohlsein und Erschöpfung",
+    "anatomical_region": "systemisch",
+    "typical_age_range": "25-65",
+    "tcm_pattern_hints": [
+      "Qi-Mangel (Milz, Lunge, Niere)",
+      "Nieren-Jing-Mangel",
+      "Herz-Blut-Mangel",
+      "Leber-Qi-Stagnation"
+    ]
+  },
+  "form": {
+    "title": "Müdigkeitssymptomatik / chronische Erschöpfung – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Dauer / Verlauf",
+        "type": "text",
+        "placeholder": "z. B. seit mehreren Jahren, seit 2 Jahren",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "fatigue_core",
+        "label": "Ausprägung der Erschöpfung",
+        "type": "multi_select",
+        "options": [
+          "erschöpft",
+          "müde",
+          "energielos",
+          "rasch erschöpfbar",
+          "chronisch erschöpft"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fatigue_core"
+      },
+      {
+        "id": "fatigue_capacity",
+        "label": "Belastbarkeit / Leistungsfähigkeit",
+        "type": "multi_select",
+        "options": [
+          "reduzierte Belastbarkeit",
+          "verminderte Leistungsfähigkeit",
+          "Belastungsgrenze schneller erreicht",
+          "kaum alltagsfähig",
+          "schafft nur das Nötigste"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fatigue_capacity"
+      },
+      {
+        "id": "drive_reduction",
+        "label": "Antrieb",
+        "type": "multi_select",
+        "options": [
+          "verminderter Antrieb",
+          "antriebslos",
+          "erschwerte Aktivierung"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "drive_reduction"
+      },
+      {
+        "id": "fatigue_cognition",
+        "label": "Kognition",
+        "type": "multi_select",
+        "options": [
+          "Konzentrationsstörungen",
+          "Merkfähigkeitsstörungen",
+          "kognitive Verlangsamung"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fatigue_cognition"
+      },
+      {
+        "id": "sleep_nonrestorative",
+        "label": "Schlafbezug",
+        "type": "multi_select",
+        "options": [
+          "Durchschlafstörungen",
+          "nicht erholsamer Schlaf",
+          "morgens wie gerädert",
+          "erschöpftes Erwachen"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "sleep_nonrestorative"
+      },
+      {
+        "id": "fatigue_emotional_overlay",
+        "label": "Emotionale Begleitkomponente",
+        "type": "multi_select",
+        "options": [
+          "innere Unruhe",
+          "emotionale Instabilität",
+          "Abschalten erschwert",
+          "gedrückte Stimmung",
+          "schwankende Stimmung"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fatigue_emotional_overlay"
+      },
+      {
+        "id": "functional_impact",
+        "label": "Sozialer / funktioneller Rückzug",
+        "type": "multi_select",
+        "options": [
+          "eingeschränkte Alltagsfähigkeit",
+          "sozialer Rückzug",
+          "Arbeitsfähigkeit beeinträchtigt",
+          "Freizeitaktivitäten aufgegeben"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "functional_impact"
+      },
+      {
+        "id": "fatigue_vegetative",
+        "label": "Vegetative Begleitsymptome",
+        "type": "multi_select",
+        "options": [
+          "Herzrasen",
+          "Schwindel",
+          "Übelkeit"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "fatigue_vegetative"
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Erschöpfungscharakter betonen: nicht psychiatrisch, nicht CFS/ME-Diagnose",
+      "Emotionale Begleitkomponente nur kurz und begleitend — kein psychiatrisches Hauptbild",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Maximal 5–6 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Müdigkeitssymptomatik"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise",
+      "ME/CFS",
+      "Post-COVID",
+      "Depression",
+      "depressiv"
+    ],
+    "examples": [
+      {
+        "input": "chronisch erschöpft, verminderte Leistungsfähigkeit, verminderter Antrieb, Konzentrationsstörungen, nicht erholsamer Schlaf, innere Unruhe",
+        "output": "Chronische Müdigkeitssymptomatik mit chronischer Erschöpfung, verminderter Leistungsfähigkeit und vermindertem Antrieb. Zudem bestehen Konzentrationsstörungen. Der Schlaf ist nicht erholsam. Begleitend bestehen innere Unruhe."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "MUED1",
+      "label": "Klassische chronische Erschöpfung",
+      "description": "Erschöpfbarkeit, verminderte Leistungsfähigkeit, reduzierter Antrieb, nicht erholsamer Schlaf",
+      "when_to_use": "Vollbild Müdigkeitssymptomatik ohne dominante depressive Komponente",
+      "template": "Chronische Müdigkeitssymptomatik mit [Erschöpfung], [Leistungseinschränkung] und [Antriebsminderung].",
+      "tcm_patterns": [
+        "Qi-Mangel (Milz, Niere)",
+        "Nieren-Jing-Mangel"
+      ]
+    },
+    {
+      "id": "MUED2",
+      "label": "Erschöpfung mit kognitiver Beeinträchtigung",
+      "description": "Fatigue + Konzentrations- und Merkfähigkeitsstörungen im Vordergrund",
+      "when_to_use": "Kognitive Symptome prominent neben Erschöpfung",
+      "template": "Chronische Müdigkeitssymptomatik mit [Erschöpfung]. Zudem bestehen Konzentrations- und Merkfähigkeitsstörungen.",
+      "tcm_patterns": [
+        "Herz-Blut-Mangel",
+        "Milz-Qi-Mangel"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_muedigkeit_kernbild",
+      "description": "Klassisches Erschöpfungsbild: Kernerschöpfung + Leistungsminderung + Antriebsminderung",
+      "input": {
+        "fatigue_core": ["chronisch erschöpft", "energielos"],
+        "fatigue_capacity": ["verminderte Leistungsfähigkeit", "reduzierte Belastbarkeit"],
+        "drive_reduction": ["verminderter Antrieb"],
+        "fatigue_cognition": [],
+        "sleep_nonrestorative": [],
+        "fatigue_emotional_overlay": [],
+        "functional_impact": [],
+        "fatigue_vegetative": []
+      },
+      "expected_contains": [
+        "Müdigkeitssymptomatik",
+        "Erschöpfung",
+        "Leistungsfähigkeit",
+        "Antrieb"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Depression", "None", "null"]
+    },
+    {
+      "id": "test_muedigkeit_kognition_schlaf",
+      "description": "Erschöpfung mit Kognitionsstörungen und nicht erholsamem Schlaf",
+      "input": {
+        "fatigue_core": ["rasch erschöpfbar"],
+        "fatigue_capacity": ["verminderte Leistungsfähigkeit"],
+        "drive_reduction": [],
+        "fatigue_cognition": ["Konzentrationsstörungen", "Merkfähigkeitsstörungen"],
+        "sleep_nonrestorative": ["nicht erholsamer Schlaf", "Durchschlafstörungen"],
+        "fatigue_emotional_overlay": [],
+        "functional_impact": [],
+        "fatigue_vegetative": []
+      },
+      "expected_contains": [
+        "Müdigkeitssymptomatik",
+        "Konzentrationsstörungen",
+        "Merkfähigkeitsstörungen",
+        "Schlaf",
+        "Durchschlafstörungen"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Depression"]
+    },
+    {
+      "id": "test_muedigkeit_emotional_vegetativ",
+      "description": "Erschöpfung mit emotionaler Begleitkomponente und vegetativen Symptomen",
+      "input": {
+        "fatigue_core": ["erschöpft"],
+        "fatigue_capacity": ["reduzierte Belastbarkeit"],
+        "drive_reduction": ["erschwerte Aktivierung"],
+        "fatigue_cognition": [],
+        "sleep_nonrestorative": ["morgens wie gerädert"],
+        "fatigue_emotional_overlay": ["innere Unruhe", "emotionale Instabilität"],
+        "functional_impact": ["eingeschränkte Alltagsfähigkeit"],
+        "fatigue_vegetative": ["Herzrasen", "Schwindel"]
+      },
+      "expected_contains": [
+        "Müdigkeitssymptomatik",
+        "gerädert",
+        "Unruhe",
+        "Herzrasen",
+        "Alltagsfähigkeit"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "Depression", "ME/CFS"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Die Patientin leidet seit mehreren Jahren unter einer chronischen Müdigkeitssymptomatik mit ausgeprägter Erschöpfbarkeit, verminderter Leistungsfähigkeit und reduziertem Antrieb. Die Belastungsgrenze ist deutlich früher als früher erreicht, sie fühlt sich häufig energielos und schafft teilweise nur noch das Nötigste im Alltag. Zudem bestehen Konzentrations- und Merkfähigkeitsstörungen. Der Schlaf ist nicht erholsam und insbesondere durch Durchschlafstörungen beeinträchtigt; morgens erwacht die Patientin teilweise wie gerädert. Begleitend bestehen innere Unruhe, emotionale Instabilität sowie phasenweise eine gedrückte Stimmung.",
+      "Seit längerer Zeit bestehen eine ausgeprägte Erschöpfungssymptomatik mit verminderter Belastbarkeit, eingeschränkter Leistungsfähigkeit und reduziertem Antrieb. Die Patientin berichtet, sich häufig erschöpft und energielos zu fühlen sowie rasch an ihre Belastungsgrenze zu gelangen. Weiterhin bestehen Konzentrations- und Merkfähigkeitsstörungen. Der Schlaf ist durch Durchschlafstörungen beeinträchtigt und wirkt nicht erholsam. Teilweise bestehen zudem innere Unruhe, Schwierigkeiten abzuschalten sowie eine wechselhafte, zeitweise gedrückte Stimmung.",
+      ""
+    ],
+    "ideal_text": "Die Patientin leidet seit mehreren Jahren unter einer chronischen Müdigkeitssymptomatik mit ausgeprägter Erschöpfbarkeit, verminderter Leistungsfähigkeit und reduziertem Antrieb. Die Belastungsgrenze ist deutlich früher als früher erreicht, sie fühlt sich häufig energielos und schafft teilweise nur noch das Nötigste im Alltag. Zudem bestehen Konzentrations- und Merkfähigkeitsstörungen. Der Schlaf ist nicht erholsam und insbesondere durch Durchschlafstörungen beeinträchtigt; morgens erwacht die Patientin teilweise wie gerädert. Begleitend bestehen innere Unruhe, emotionale Instabilität sowie phasenweise eine gedrückte Stimmung."
+  }
+}
