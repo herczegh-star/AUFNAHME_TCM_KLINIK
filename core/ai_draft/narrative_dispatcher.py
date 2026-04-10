@@ -20,8 +20,9 @@ Cluster ID normalisation:
   Normalisation: lowercased, spaces and hyphens collapsed to underscores.
 
 Currently registered composers:
-  lws_syndrom   -> compose_lws_narrative   (dedicated, render_maps from JSON)
-  hws_syndrom   -> compose_hws_narrative   (dedicated, hardcoded maps)
+  lws_syndrom    -> compose_lws_narrative             (dedicated, render_maps from JSON)
+  hws_syndrom    -> compose_hws_narrative             (dedicated, hardcoded maps)
+  kopfschmerzen  -> compose_kopfschmerzen_narrative   (dedicated, hardcoded maps)
 
 Clusters without a dedicated composer:
   Falls back to generic_narrative_composer using cluster.render_maps.
@@ -35,6 +36,7 @@ from typing import TYPE_CHECKING, Callable
 
 from core.ai_draft.lws_narrative_composer import compose_lws_narrative
 from core.ai_draft.hws_narrative_composer import compose_hws_narrative
+from core.ai_draft.kopfschmerzen_narrative_composer import compose_kopfschmerzen_narrative
 from core.ai_draft.generic_narrative_composer import compose_generic_narrative
 
 if TYPE_CHECKING:
@@ -79,8 +81,9 @@ def _get_anchor(cluster: UnifiedCluster) -> str:
 
 # Maps normalised cluster_id -> composer callable
 _REGISTRY: dict[str, Callable[[dict[str, list[str]]], str]] = {
-    "lws_syndrom": compose_lws_narrative,
-    "hws_syndrom": compose_hws_narrative,
+    "lws_syndrom":    compose_lws_narrative,
+    "hws_syndrom":    compose_hws_narrative,
+    "kopfschmerzen":  compose_kopfschmerzen_narrative,
 }
 
 
