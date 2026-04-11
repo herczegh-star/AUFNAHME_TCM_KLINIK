@@ -1,0 +1,228 @@
+{
+  "id": "tinnitus_aurium",
+  "name": "Tinnitus aurium",
+  "aliases": [
+    "Tinnitus",
+    "Ohrgeräusche",
+    "Ohrensausen",
+    "Ohrpfeifen"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "HNO-Syndrom",
+  "family": "hno",
+  "tags": [
+    "tinnitus",
+    "ohrgeräusche",
+    "hno",
+    "chronisch"
+  ],
+  "meta": {
+    "icd10": "H93.1",
+    "icd10_label": "Tinnitus aurium",
+    "anatomical_region": "Ohr",
+    "typical_age_range": "30-70",
+    "tcm_pattern_hints": [
+      "Nieren-Yin-Mangel",
+      "Leber-Yang-Aufsteigen",
+      "Leber-Feuer",
+      "Herz-Nieren-Disharmonie"
+    ]
+  },
+  "form": {
+    "title": "Tinnitus aurium – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Dauer / Beginn",
+        "type": "text",
+        "placeholder": "z. B. seit 2018, seit etwa 30 Jahren, seit über einem Jahr",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      },
+      {
+        "id": "tinnitus_laterality",
+        "label": "Seite",
+        "type": "select",
+        "options": [
+          "beidseitig",
+          "links",
+          "rechts"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "tinnitus_laterality"
+      },
+      {
+        "id": "tinnitus_character",
+        "label": "Charakter der Ohrgeräusche",
+        "type": "multi_select",
+        "options": [
+          "hohes Pfeifen",
+          "hochtoniges Pfeifen",
+          "Rauschen",
+          "hohes Rauschen",
+          "Summen",
+          "Zischen"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "tinnitus_character"
+      },
+      {
+        "id": "tinnitus_presence",
+        "label": "Präsenz / Intensitätsmuster",
+        "type": "multi_select",
+        "options": [
+          "kontinuierlich vorhanden",
+          "Tag und Nacht vorhanden",
+          "wechselnde Intensität",
+          "intermittierend"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "tinnitus_presence"
+      },
+      {
+        "id": "tinnitus_triggers",
+        "label": "Verstärker / Trigger",
+        "type": "multi_select",
+        "options": [
+          "Stress",
+          "psychische Belastung",
+          "berufliche Belastung",
+          "aktuelle psychische Lage"
+        ],
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": "tinnitus_triggers"
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "placeholder": "Freitext",
+        "required": false,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "active_in_draft": true
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Ohrgeräusche phänomenologisch beschreiben: Charakter, Seite, Präsenz",
+      "Trigger / Verstärker explizit benennen wenn vorhanden",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Maximal 3–4 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Tinnitus aurium"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise"
+    ],
+    "examples": [
+      {
+        "input": "beidseitig, hohes Pfeifen, Tag und Nacht vorhanden wechselnde Intensität, Stress psychische Belastung",
+        "output": "Es besteht ein beidseitiger Tinnitus aurium in Form eines hohen Pfeifens. Die Ohrgeräusche sind Tag und Nacht vorhanden und zeigen eine wechselnde Intensität. Eine Zunahme der Beschwerden zeigt sich vor allem unter Stress und bei psychischer Belastung."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "TINN1",
+      "label": "Chronischer beidseitiger Tinnitus",
+      "description": "Beidseitiger Tinnitus, kontinuierlich oder Tag und Nacht, Stress als Trigger",
+      "when_to_use": "Typischer chronischer Tinnitus mit stressbedingter Verstärkung",
+      "template": "Es besteht ein beidseitiger Tinnitus aurium in Form eines hohen Pfeifens. Eine Zunahme zeigt sich unter Stress.",
+      "tcm_patterns": [
+        "Nieren-Yin-Mangel",
+        "Leber-Yang-Aufsteigen"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_tinn_beidseitig_pfeifen",
+      "description": "Beidseitiger Tinnitus, hohes Pfeifen, Tag und Nacht, wechselnde Intensität, Stress",
+      "input": {
+        "tinnitus_laterality": ["beidseitig"],
+        "tinnitus_character": ["hohes Pfeifen"],
+        "tinnitus_presence": ["Tag und Nacht vorhanden", "wechselnde Intensität"],
+        "tinnitus_triggers": ["Stress"]
+      },
+      "expected_contains": [
+        "beidseitig",
+        "Tinnitus aurium",
+        "hohen Pfeifens",
+        "Tag und Nacht",
+        "wechselnde",
+        "Stress"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "None", "null"]
+    },
+    {
+      "id": "test_tinn_rauschen_kontinuierlich_beruf",
+      "description": "Rauschen + hochtoniges Pfeifen, kontinuierlich, stressbelastete Situationen / beruflich",
+      "input": {
+        "tinnitus_laterality": ["beidseitig"],
+        "tinnitus_character": ["Rauschen", "hochtoniges Pfeifen"],
+        "tinnitus_presence": ["kontinuierlich vorhanden", "wechselnde Intensität"],
+        "tinnitus_triggers": ["Stress", "berufliche Belastung"]
+      },
+      "expected_contains": [
+        "Tinnitus aurium",
+        "Rauschen",
+        "Pfeifen",
+        "kontinuierlich",
+        "Stress",
+        "beruflich"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "None"]
+    },
+    {
+      "id": "test_tinn_hohes_rauschen_psychisch",
+      "description": "Hohes Rauschen beidseitig, psychische Lage als Trigger",
+      "input": {
+        "tinnitus_laterality": ["beidseitig"],
+        "tinnitus_character": ["hohes Rauschen"],
+        "tinnitus_presence": ["wechselnde Intensität"],
+        "tinnitus_triggers": ["aktuelle psychische Lage", "Stress"]
+      },
+      "expected_contains": [
+        "Tinnitus aurium",
+        "hohen Rauschens",
+        "psychisch",
+        "Stress"
+      ],
+      "expected_not_contains": ["wahrscheinlich", "None"]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Seit 2018 besteht ein beidseitiger Tinnitus aurium in Form eines hohen Pfeifens. Die Ohrgeräusche sind Tag und Nacht vorhanden und zeigen eine wechselnde Intensität.",
+      "Der Patient berichtet, seit etwa 30 Jahren unter einem Tinnitus aurium zu leiden. Die Ohrgeräusche sind kontinuierlich präsent und werden als Rauschen beziehungsweise hochtoniges Pfeifen beschrieben. Eine Zunahme der Symptomatik zeigt sich vor allem in stressbelasteten Situationen.",
+      "Seit über eineinhalb Jahren besteht ein beidseitiger Tinnitus aurium in Form eines hohen Rauschens. Die Ausprägung der Beschwerden ist deutlich von der aktuellen psychischen Belastung abhängig; Stress wirkt als starker Trigger."
+    ],
+    "ideal_text": "Seit 2018 besteht ein beidseitiger Tinnitus aurium in Form eines hohen Pfeifens. Die Ohrgeräusche sind Tag und Nacht vorhanden und zeigen eine wechselnde Intensität."
+  }
+}

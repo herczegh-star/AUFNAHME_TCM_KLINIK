@@ -33,6 +33,7 @@ Currently registered composers:
   ced_ibd_morbus_crohn_colitis_ulcerosa          -> compose_ced_ibd_narrative          (dedicated, hardcoded maps)
   entzuendlich_rheumatologische_gelenkbeschwerden_polyarthritis -> compose_rheuma_narrative (dedicated, hardcoded maps)
   neurodermitis_atopisches_ekzem                 -> compose_neurodermitis_narrative    (dedicated, hardcoded maps)
+  tinnitus_aurium                                -> compose_tinnitus_narrative          (dedicated, hardcoded maps)
 
 Clusters without a dedicated composer:
   Falls back to generic_narrative_composer using cluster.render_maps.
@@ -57,6 +58,7 @@ from core.ai_draft.polyneuropathie_narrative_composer import compose_polyneuropa
 from core.ai_draft.ced_ibd_narrative_composer import compose_ced_ibd_narrative
 from core.ai_draft.rheuma_narrative_composer import compose_rheuma_narrative
 from core.ai_draft.neurodermitis_narrative_composer import compose_neurodermitis_narrative
+from core.ai_draft.tinnitus_narrative_composer import compose_tinnitus_narrative
 from core.ai_draft.generic_narrative_composer import compose_generic_narrative
 
 if TYPE_CHECKING:
@@ -114,6 +116,7 @@ _REGISTRY: dict[str, Callable[[dict[str, list[str]]], str]] = {
     "ced_ibd_morbus_crohn_colitis_ulcerosa":              compose_ced_ibd_narrative,
     "entzuendlich_rheumatologische_gelenkbeschwerden_polyarthritis": compose_rheuma_narrative,
     "neurodermitis_atopisches_ekzem":                                compose_neurodermitis_narrative,
+    "tinnitus_aurium":                                               compose_tinnitus_narrative,
 }
 
 
