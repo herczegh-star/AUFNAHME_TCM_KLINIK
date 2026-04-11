@@ -1,0 +1,71 @@
+{
+  "id": "psoriasis",
+  "name": "Psoriasis",
+  "aliases": [
+    "Psoriasis vulgaris",
+    "Schuppenflechte",
+    "psoriatische Hauterkrankung"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Dermatologisches Syndrom",
+  "family": "dermatologisch",
+  "tags": [
+    "psoriasis",
+    "schuppenflechte",
+    "haut",
+    "juckreiz",
+    "chronisch",
+    "schubweise"
+  ],
+  "meta": {
+    "icd10": "L40.0",
+    "icd10_label": "Psoriasis vulgaris",
+    "anatomical_region": "Kopfhaut, Ellenbogen, Rücken, Hände, Gesäß, Beine",
+    "typical_age_range": "20-65",
+    "tcm_pattern_hints": [
+      "Blut-Hitze",
+      "Blut-Trockenheit mit Wind",
+      "Feuchte-Hitze in der Haut",
+      "Qi-Stagnation / Blut-Stase"
+    ]
+  },
+  "form": {
+    "title": "Psoriasis – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Psoriasis"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Die Patientin berichtet über seit Jahren bestehende Psoriasis mit schubförmigem Verlauf. Betroffen sind vor allem Kopfhaut, retroaurikuläre Regionen, Rücken sowie die Extremitäten; die Hautveränderungen gehen mit Rötung, Schuppung und ausgeprägtem Juckreiz einher.",
+      "Seit Langem besteht eine Psoriasis mit rezidivierenden Plaques und deutlicher Zunahme der Symptomatik im Verlauf. Besonders betroffen sind Kopf, Ohren, Ellenbogen, Hände und Gesäß; zusätzlich wird über täglichen Juckreiz berichtet.",
+      "Es bestehen chronisch rezidivierende psoriatische Hautveränderungen mit flächigen Rötungen, Schuppung und teils ausgeprägtem Juckreiz. Im Rahmen von Exazerbationen kommt es stellenweise auch zu Nässen oder Einblutungen der betroffenen Areale."
+    ],
+    "ideal_text": "Die Patientin berichtet über seit Jahren bestehende Psoriasis mit schubförmigem Verlauf. Betroffen sind vor allem Kopfhaut, retroaurikuläre Regionen, Rücken sowie die Extremitäten; die Hautveränderungen gehen mit Rötung, Schuppung und ausgeprägtem Juckreiz einher."
+  }
+}
