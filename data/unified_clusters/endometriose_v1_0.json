@@ -1,0 +1,69 @@
+{
+  "id": "endometriose",
+  "name": "Endometriose",
+  "aliases": [
+    "Endometriose",
+    "Endometriosis"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Gynäkologisches Syndrom",
+  "family": "gynaekologie",
+  "tags": [
+    "endometriose",
+    "unterbauch",
+    "zyklus",
+    "chronisch",
+    "gynaekologie"
+  ],
+  "meta": {
+    "icd10": "N80.9",
+    "icd10_label": "Endometriose, nicht näher bezeichnet",
+    "anatomical_region": "Unterbauch, Becken, Rücken",
+    "typical_age_range": "20-45",
+    "tcm_pattern_hints": [
+      "Blut-Stase im Uterus",
+      "Leber-Qi-Stagnation",
+      "Kälte im Uterus",
+      "Qi-Stagnation / Blut-Stase im unteren Erwärmer"
+    ]
+  },
+  "form": {
+    "title": "Endometriose – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Endometriose"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Die Patientin berichtet über seit Jahren bestehende Beschwerden bei Endometriose mit anhaltenden Unterbauchschmerzen unterschiedlicher Intensität. Die Schmerzen werden als ziehend, krampfartig und teils stechend beschrieben und verstärken sich zyklusabhängig.",
+      "Es bestehen chronische abdominelle Beschwerden bei bekannter Endometriose mit vorwiegend Unterbauch- und teils auch Rückenschmerzen. Die Symptomatik ist von wechselnder Intensität und zeigt eine deutliche Zunahme vor beziehungsweise während der Menstruation.",
+      "Die Patientin berichtet über persistierende Schmerzen im Unter- beziehungsweise Mittelbauch bei Endometriose, teils mit Ausstrahlung in den Rücken oder die Beine. Sowohl operative als auch hormonelle Therapieversuche brachten bislang keine ausreichende Besserung."
+    ],
+    "ideal_text": "Die Patientin berichtet über seit Jahren bestehende Beschwerden bei Endometriose mit anhaltenden Unterbauchschmerzen unterschiedlicher Intensität. Die Schmerzen werden als ziehend, krampfartig und teils stechend beschrieben und verstärken sich zyklusabhängig."
+  }
+}
