@@ -1,0 +1,72 @@
+{
+  "id": "chronische_spontane_urtikaria_angiooedem",
+  "name": "Chronische spontane Urtikaria mit Angioödem",
+  "aliases": [
+    "chronische Urtikaria",
+    "spontane Urtikaria",
+    "Angioödem",
+    "Quincke-Ödem",
+    "CSU"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Dermatologisches Syndrom",
+  "family": "dermatologisch-allergologisch",
+  "tags": [
+    "urtikaria",
+    "angiooedem",
+    "juckreiz",
+    "chronisch",
+    "haut"
+  ],
+  "meta": {
+    "icd10": "L50.1",
+    "icd10_label": "Idiopathische Urtikaria",
+    "anatomical_region": "Haut, Lippen, Zunge, Rachen, Gesicht",
+    "typical_age_range": "20-55",
+    "tcm_pattern_hints": [
+      "Wind-Hitze in der Oberfläche",
+      "Blut-Hitze",
+      "Milz-Qi-Mangel mit Feuchte",
+      "Leber-Yang-Aufsteigen mit Wind"
+    ]
+  },
+  "form": {
+    "title": "Chronische spontane Urtikaria mit Angioödem – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "chronische spontane Urtikaria"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Die Patientin berichtet über eine chronische spontane Urtikaria mit rezidivierenden Hautveränderungen, ausgeprägtem Juckreiz und wiederkehrenden Angioödemen. Betroffen sind insbesondere Lippen, Zunge, Rachen und Gesichtsbereich.",
+      "Seit mehreren Jahren bestehen nahezu kontinuierliche urtikarielle Hautbeschwerden mit Juckreiz, teils auch brennender Symptomatik, im Rahmen einer chronischen spontanen Urtikaria mit Angioödem. Eine Verschlechterung wird insbesondere durch Wärme, Sonne und Stress angegeben.",
+      "Es bestehen wiederkehrende urtikarielle Hautveränderungen mit Juckreiz, Rötung und Schwellneigung bei chronischer spontaner Urtikaria. Eine partielle Besserung wird unter antihistaminerger Therapie beziehungsweise durch Kühlung beschrieben."
+    ],
+    "ideal_text": "Die Patientin berichtet über eine chronische spontane Urtikaria mit rezidivierenden Hautveränderungen, ausgeprägtem Juckreiz und wiederkehrenden Angioödemen. Betroffen sind insbesondere Lippen, Zunge, Rachen und Gesichtsbereich."
+  }
+}
