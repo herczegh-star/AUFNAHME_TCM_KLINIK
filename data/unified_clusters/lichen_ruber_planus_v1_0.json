@@ -1,0 +1,71 @@
+{
+  "id": "lichen_ruber_planus",
+  "name": "Lichen ruber planus",
+  "aliases": [
+    "Lichen ruber",
+    "Lichen planus",
+    "oraler Lichen planus",
+    "genitaler Lichen planus"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Dermatologisches Syndrom",
+  "family": "dermatologisch",
+  "tags": [
+    "lichen",
+    "schleimhaut",
+    "chronisch",
+    "brennen",
+    "juckreiz"
+  ],
+  "meta": {
+    "icd10": "L43.9",
+    "icd10_label": "Lichen ruber planus, nicht näher bezeichnet",
+    "anatomical_region": "Mundschleimhaut, Genitalschleimhaut, Haut, Kopfhaut",
+    "typical_age_range": "40-65",
+    "tcm_pattern_hints": [
+      "Leber-Qi-Stagnation mit Hitze",
+      "Feuchte-Hitze in der Leber-Gallenblase-Achse",
+      "Blut-Hitze",
+      "Yin-Mangel mit Leere-Hitze"
+    ]
+  },
+  "form": {
+    "title": "Lichen ruber planus – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Lichen ruber planus"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Die Patientin berichtet, seit Jahren unter einem Lichen ruber planus im Mund- und Genitalbereich zu leiden. Die Beschwerden sind mit brennenden Schmerzen und ausgeprägtem Juckreiz verbunden.",
+      "Es bestehen chronische Schleimhautbeschwerden bei Lichen ruber planus mit starkem Brennen, Schmerzen und erheblicher Beeinträchtigung im Alltag. Zusätzlich wird über ausgeprägten Juckreiz berichtet.",
+      "Weiterhin besteht ein Lichen ruber planus mit Befall der Schleimhäute beziehungsweise der Haut, verbunden mit chronisch rezidivierender Beschwerdesymptomatik. Je nach Lokalisation werden Brennen, Schmerzen und Juckreiz angegeben."
+    ],
+    "ideal_text": "Die Patientin berichtet, seit Jahren unter einem Lichen ruber planus im Mund- und Genitalbereich zu leiden. Die Beschwerden sind mit brennenden Schmerzen und ausgeprägtem Juckreiz verbunden."
+  }
+}
