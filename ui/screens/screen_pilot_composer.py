@@ -471,16 +471,46 @@ class ScreenPilotComposer:
 
         rows: list[ft.Control] = []
         for lbl, txt in non_empty:
+            def _make_take(t: str):
+                def _handler(e, _t=t):
+                    self._ref_take(_t)
+                return _handler
+
+            def _make_append(t: str):
+                def _handler(e, _t=t):
+                    self._ref_append(_t)
+                return _handler
+
             rows.append(
-                ft.TextField(
-                    label=lbl,
-                    value=txt,
-                    multiline=True,
-                    min_lines=2,
-                    max_lines=6,
-                    read_only=True,
-                    border_color=_C_BORDER,
-                    bgcolor=ft.Colors.GREY_50,
+                ft.Column(
+                    controls=[
+                        ft.TextField(
+                            label=lbl,
+                            value=txt,
+                            multiline=True,
+                            min_lines=2,
+                            max_lines=6,
+                            read_only=True,
+                            border_color=_C_BORDER,
+                            bgcolor=ft.Colors.GREY_50,
+                        ),
+                        ft.Row(
+                            controls=[
+                                ft.OutlinedButton(
+                                    "Übernehmen",
+                                    icon=ft.Icons.SWAP_HORIZ,
+                                    on_click=_make_take(txt),
+                                ),
+                                ft.OutlinedButton(
+                                    "Anhängen",
+                                    icon=ft.Icons.ADD,
+                                    on_click=_make_append(txt),
+                                ),
+                            ],
+                            spacing=8,
+                        ),
+                    ],
+                    spacing=4,
                 )
             )
 
@@ -501,6 +531,29 @@ class ScreenPilotComposer:
             ),
             padding=ft.padding.only(top=8),
         )
+
+    def _ref_take(self, text: str) -> None:
+        """Replace RAW field with the given reference text."""
+        self._raw_text = text
+        self._raw_field.value = text
+        self._stage_labels["raw"].color = _C_OK
+        self._refine_btn.disabled = False
+        self._insert_btn.disabled = False
+        self._status_text.value = "Referenztext als Roh-Entwurf übernommen."
+        self._status_text.color = _C_OK
+        self._page.update()
+
+    def _ref_append(self, text: str) -> None:
+        """Append the given reference text to the RAW field."""
+        existing = (self._raw_field.value or "").rstrip()
+        self._raw_text = (existing + "\n\n" + text) if existing else text
+        self._raw_field.value = self._raw_text
+        self._stage_labels["raw"].color = _C_OK
+        self._refine_btn.disabled = False
+        self._insert_btn.disabled = False
+        self._status_text.value = "Referenztext an Roh-Entwurf angehängt."
+        self._status_text.color = _C_OK
+        self._page.update()
 
     # ------------------------------------------------------------------
     # Form data collection
