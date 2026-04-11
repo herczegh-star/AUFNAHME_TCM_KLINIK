@@ -1,0 +1,71 @@
+{
+  "id": "chronische_sinusitis_rhinosinusitis",
+  "name": "Chronische Sinusitis / Rhinosinusitis",
+  "aliases": [
+    "Sinusitis",
+    "Rhinosinusitis",
+    "chronische Sinusitis",
+    "Nasennebenhöhlenentzündung"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "HNO-Syndrom",
+  "family": "hno",
+  "tags": [
+    "sinusitis",
+    "rhinosinusitis",
+    "hno",
+    "chronisch",
+    "nase"
+  ],
+  "meta": {
+    "icd10": "J32.9",
+    "icd10_label": "Chronische Sinusitis, nicht näher bezeichnet",
+    "anatomical_region": "Nasennebenhöhlen, Nase",
+    "typical_age_range": "20-65",
+    "tcm_pattern_hints": [
+      "Lungen-Qi-Stagnation",
+      "Feuchte-Schleim in der Lunge",
+      "Nieren-Qi-Mangel",
+      "Wind-Kälte oder Wind-Hitze an der Oberfläche"
+    ]
+  },
+  "form": {
+    "title": "Chronische Sinusitis / Rhinosinusitis – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "chronische Sinusitis"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Seit Jahren besteht eine chronische Sinusitis mit behinderter Nasenatmung, rezidivierender Verstopfung der Nase sowie Druckgefühl im Bereich der Nasennebenhöhlen. Zusätzlich wird über wechselnde Sekretion und wiederkehrende Kopfschmerzen berichtet.",
+      "Der Patient berichtet, seit über 20 Jahren unter chronischer Sinusitis zu leiden. Nach operativer Behandlung kam es zunächst zu einer Besserung der Nasenatmung, im Verlauf jedoch erneut zu rezidivierenden Beschwerden mit Druckgefühl, Nasenausfluss und Kopfschmerzen. Zudem besteht eine erhöhte Infektanfälligkeit im Bereich der oberen Atemwege.",
+      "Seit der Kindheit besteht eine chronische Sinusitis. Trotz operativer Vorbehandlung ist die Symptomatik erneut aufgetreten; aktuell bestehen ein anhaltendes Druckgefühl im Gesichtsbereich, wiederkehrend verstopfte Nase sowie häufige Kopfschmerzen."
+    ],
+    "ideal_text": "Seit Jahren besteht eine chronische Sinusitis mit behinderter Nasenatmung, rezidivierender Verstopfung der Nase sowie Druckgefühl im Bereich der Nasennebenhöhlen. Zusätzlich wird über wechselnde Sekretion und wiederkehrende Kopfschmerzen berichtet."
+  }
+}
