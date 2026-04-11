@@ -1,0 +1,71 @@
+{
+  "id": "lipooedem_lymphoedem_lip_lymphoedem",
+  "name": "Lipödem / Lymphödem / Lip-Lymphödem",
+  "aliases": [
+    "Lipödem",
+    "Lymphödem",
+    "Lip-Lymphödem",
+    "Lipolymphödem"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Phlebologisch-lymphologisches Syndrom",
+  "family": "phlebologie-lymphologie",
+  "tags": [
+    "lipoedem",
+    "lymphoedem",
+    "oedem",
+    "beine",
+    "chronisch"
+  ],
+  "meta": {
+    "icd10": "E88.2",
+    "icd10_label": "Lipomatose",
+    "anatomical_region": "Beine, Arme, untere Extremitäten",
+    "typical_age_range": "20-60",
+    "tcm_pattern_hints": [
+      "Milz-Qi-Mangel mit Feuchte-Akkumulation",
+      "Nieren-Yang-Mangel",
+      "Qi-Stagnation / Blut-Stase",
+      "Feuchte-Kälte in den Leitbahnen"
+    ]
+  },
+  "form": {
+    "title": "Lipödem / Lymphödem / Lip-Lymphödem – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Lipödem"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Seit der Pubertät besteht ein Lipödem beziehungsweise Lip-Lymphödem der Beine, im Verlauf auch der Arme, mit progredienter Volumenzunahme, Schmerzen sowie ausgeprägtem Schwere- und Spannungsgefühl. Zusätzlich berichtet die Patientin über eine deutliche Druck- und Berührungsempfindlichkeit der betroffenen Areale.",
+      "Die Patientin berichtet über seit Jahren bestehende Lip-/Lymphödembeschwerden der unteren Extremitäten mit Schwellneigung, Schmerzen und zunehmender funktioneller Einschränkung im Alltag. Trotz regelmäßiger manueller Lymphdrainage und konsequenter Kompression besteht keine ausreichende Besserung der Symptomatik.",
+      "Seit dem Jugendalter besteht eine progrediente Vermehrung des Fett- und Weichteilgewebes an den Beinen, später auch an den Armen, verbunden mit Schmerzen, Spannungsgefühl und ausgeprägter Schwere der Extremitäten. Im Tagesverlauf kommt es zu einer deutlichen Beschwerdezunahme; zusätzlich werden Druckschmerzhaftigkeit und vermehrte Hämatomneigung beschrieben."
+    ],
+    "ideal_text": "Seit der Pubertät besteht ein Lipödem beziehungsweise Lip-Lymphödem der Beine, im Verlauf auch der Arme, mit progredienter Volumenzunahme, Schmerzen sowie ausgeprägtem Schwere- und Spannungsgefühl. Zusätzlich berichtet die Patientin über eine deutliche Druck- und Berührungsempfindlichkeit der betroffenen Areale."
+  }
+}
