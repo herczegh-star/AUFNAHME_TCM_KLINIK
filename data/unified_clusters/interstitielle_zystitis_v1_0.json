@@ -1,0 +1,71 @@
+{
+  "id": "interstitielle_zystitis",
+  "name": "Interstitielle Zystitis",
+  "aliases": [
+    "interstitielle Zystitis",
+    "Blasenschmerzsyndrom",
+    "painful bladder syndrome",
+    "IC/BPS"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Urologisches Syndrom",
+  "family": "urologie",
+  "tags": [
+    "zystitis",
+    "blase",
+    "harndrang",
+    "beckenschmerz",
+    "chronisch"
+  ],
+  "meta": {
+    "icd10": "N30.1",
+    "icd10_label": "Interstitielle Zystitis (chronisch)",
+    "anatomical_region": "Blase, Urethra, Beckenboden",
+    "typical_age_range": "30-60",
+    "tcm_pattern_hints": [
+      "Nieren-Yin-Mangel mit Leere-Hitze",
+      "Feuchte-Hitze im unteren Erwärmer",
+      "Leber-Qi-Stagnation",
+      "Qi-Stagnation / Blut-Stase im Becken"
+    ]
+  },
+  "form": {
+    "title": "Interstitielle Zystitis – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "interstitielle Zystitis"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Die Patientin berichtet über seit Jahren bestehenden Harndrang mit Pollakisurie und Nykturie bei interstitieller Zystitis. Zusätzlich bestehen stechende beziehungsweise brennende Schmerzen im Unterbauch und Blasenbereich, insbesondere bei längerem Harnverhalt.",
+      "Es bestehen chronische Beschwerden im Sinne einer interstitiellen Zystitis mit ausgeprägtem Harndrang, Pollakisurie sowie brennenden und ziehenden Schmerzen im Bereich der Blase, Urethra beziehungsweise des Beckenbodens. Die Symptomatik führt zu einer deutlichen Einschränkung der Lebensqualität und der Alltagsaktivitäten.",
+      "Seit einer vorausgegangenen Zystitis bestehen persistierende Beschwerden mit starkem Harndrang, Nykturie sowie stechenden und brennenden Schmerzen im Unterbauch beziehungsweise Blasenbereich. Begleitend wird über eine Belastungsinkontinenz berichtet."
+    ],
+    "ideal_text": "Die Patientin berichtet über seit Jahren bestehenden Harndrang mit Pollakisurie und Nykturie bei interstitieller Zystitis. Zusätzlich bestehen stechende beziehungsweise brennende Schmerzen im Unterbauch und Blasenbereich, insbesondere bei längerem Harnverhalt."
+  }
+}
