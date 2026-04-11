@@ -1,0 +1,72 @@
+{
+  "id": "morbus_meniere",
+  "name": "Morbus Menière",
+  "aliases": [
+    "Menière",
+    "Morbus Menière",
+    "Menièresche Erkrankung",
+    "endolymphatischer Hydrops"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "HNO-Syndrom",
+  "family": "hno",
+  "tags": [
+    "meniere",
+    "schwindel",
+    "tinnitus",
+    "hoerminderung",
+    "hno",
+    "vestibulär"
+  ],
+  "meta": {
+    "icd10": "H81.0",
+    "icd10_label": "Morbus Menière",
+    "anatomical_region": "Innenohr, vestibulär",
+    "typical_age_range": "40-65",
+    "tcm_pattern_hints": [
+      "Nieren-Yin-Mangel",
+      "Leber-Yang-Aufsteigen",
+      "Feuchte-Schleim mit Wind",
+      "Herz-Nieren-Disharmonie"
+    ]
+  },
+  "form": {
+    "title": "Morbus Menière – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Morbus Menière"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Der Patient berichtet über seit Jahren rezidivierende Schwindelattacken im Sinne eines Morbus Menière mit mehrstündigem Drehschwindel, Übelkeit, Erbrechen und Gangunsicherheit. Begleitend bestehen ein fluktuierender Tinnitus sowie eine Hörminderung der betroffenen Seite.",
+      "Seit mehreren Jahren bestehen anfallsartig auftretende vestibuläre Beschwerden bei Morbus Menière mit wiederkehrendem Drehschwindel, vegetativer Begleitsymptomatik und Unsicherheit beim Gehen. Zusätzlich wird über anhaltenden Tinnitus und eine Hörminderung berichtet.",
+      "Aus den vorliegenden Befunden und der Schilderung des Patienten ergibt sich ein Morbus Menière mit rezidivierenden Schwindelanfällen, teils mit Übelkeit und Erbrechen, sowie persistierendem Tinnitus und Hörminderung. Trotz medikamentöser Behandlung treten die Beschwerden weiterhin unangekündigt auf."
+    ],
+    "ideal_text": "Der Patient berichtet über seit Jahren rezidivierende Schwindelattacken im Sinne eines Morbus Menière mit mehrstündigem Drehschwindel, Übelkeit, Erbrechen und Gangunsicherheit. Begleitend bestehen ein fluktuierender Tinnitus sowie eine Hörminderung der betroffenen Seite."
+  }
+}
