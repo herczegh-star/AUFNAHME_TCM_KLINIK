@@ -1,0 +1,71 @@
+{
+  "id": "trigeminus_neuralgie",
+  "name": "Trigeminus-Neuralgie",
+  "aliases": [
+    "Trigeminusneuralgie",
+    "Trigeminus-Neuralgie",
+    "Tic douloureux",
+    "trigeminale Neuralgie"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Neuropathisches Schmerzsyndrom",
+  "family": "neuropathisch",
+  "tags": [
+    "trigeminus",
+    "neuralgie",
+    "gesichtsschmerz",
+    "neuropathisch",
+    "attackenartig"
+  ],
+  "meta": {
+    "icd10": "G50.0",
+    "icd10_label": "Trigeminusneuralgie",
+    "anatomical_region": "Gesicht, Trigeminus-Versorgungsgebiet",
+    "typical_age_range": "50-75",
+    "tcm_pattern_hints": [
+      "Leber-Yang-Aufsteigen",
+      "Wind-Hitze im Yangming-Meridian",
+      "Qi-Stagnation / Blut-Stase im Gesicht",
+      "Nieren-Yin-Mangel mit Leber-Feuer"
+    ]
+  },
+  "form": {
+    "title": "Trigeminus-Neuralgie – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Trigeminusneuralgie"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Die Patientin berichtet über seit Jahren bestehende, überwiegend einseitige Gesichtsschmerzen im Rahmen einer Trigeminusneuralgie. Die Beschwerden treten schubweise beziehungsweise attackenartig auf und betreffen vor allem das Versorgungsgebiet des zweiten und dritten Trigeminusastes.",
+      "Es bestehen rezidivierende neuralgiforme Gesichtsschmerzen bei Trigeminusneuralgie mit teils blitzartig einschießendem, teils länger anhaltendem Schmerzcharakter. Als Trigger werden insbesondere Kauen, Sprechen, Essen, Trinken sowie Kälte und Zugluft angegeben.",
+      "Die Patientin berichtet über chronische, in Wellen verlaufende Gesichtsschmerzen bei Trigeminusneuralgie mit deutlicher Zunahme bei Kaubewegungen, kalten Reizen und Stress. Unter medikamentöser beziehungsweise operativer Vorbehandlung kam es nur zu vorübergehender Besserung."
+    ],
+    "ideal_text": "Die Patientin berichtet über seit Jahren bestehende, überwiegend einseitige Gesichtsschmerzen im Rahmen einer Trigeminusneuralgie. Die Beschwerden treten schubweise beziehungsweise attackenartig auf und betreffen vor allem das Versorgungsgebiet des zweiten und dritten Trigeminusastes."
+  }
+}
