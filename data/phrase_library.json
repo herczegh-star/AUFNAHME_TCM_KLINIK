@@ -1,0 +1,49 @@
+{
+  "new_case_openers": {
+    "label": "Einstieg – neuer Fall",
+    "phrases": [
+      "Bei Aufnahmegespräch berichtet die Patientin, dass …",
+      "Bei Aufnahmegespräch berichtet der Patient, dass …",
+      "Im Aufnahmegespräch berichtet die Patientin, dass …",
+      "Im Aufnahmegespräch berichtet der Patient, dass …"
+    ]
+  },
+  "transition_openers": {
+    "label": "Anschluss / Überleitung",
+    "phrases": [
+      "Weiterhin berichtet die Patientin, dass …",
+      "Weiterhin berichtet der Patient, dass …",
+      "Darüber hinaus berichtet die Patientin, dass …",
+      "Darüber hinaus berichtet der Patient, dass …",
+      "Zudem gibt die Patientin an, dass …",
+      "Zudem gibt der Patient an, dass …",
+      "Ferner berichtet die Patientin, dass …",
+      "Ferner berichtet der Patient, dass …",
+      "Weitere behandlungsbedürftige Beschwerden bestehen im Sinne von …",
+      "Als weitere somatische Beschwerde besteht …"
+    ]
+  },
+  "returning_patient_openers": {
+    "label": "Bekannte Patientin / Bekannter Patient",
+    "phrases": [
+      "Die Patientin ist im Hause bekannt.",
+      "Der Patient ist im Hause bekannt.",
+      "Zuletzt befand sich die Patientin im Jahr XXXX in unserer stationären Behandlung.",
+      "Zuletzt befand sich der Patient im Jahr XXXX in unserer stationären Behandlung.",
+      "Die ausführliche Vorgeschichte darf freundlicherweise als bekannt vorausgesetzt werden; wir verweisen auf die entsprechenden Vorberichte.",
+      "Kurzgefasst berichtet die Patientin, dass …",
+      "Kurzgefasst berichtet der Patient, dass …",
+      "Kurzgefasst leide die Patientin seit …",
+      "Kurzgefasst leide der Patient seit …"
+    ]
+  },
+  "closing_phrases": {
+    "label": "Abschluss / Einbettung",
+    "phrases": [
+      "Die Symptomatik ist weiterhin behandlungsbedürftig.",
+      "Hierdurch besteht eine relevante Einschränkung im Alltag.",
+      "Eine ausreichende Besserung konnte bislang nicht erreicht werden.",
+      "Die Beschwerden sind aktuell gut kontrolliert."
+    ]
+  }
+}

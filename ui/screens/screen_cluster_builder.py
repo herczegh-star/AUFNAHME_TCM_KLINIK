@@ -17,6 +17,7 @@ Navigation: "Zurueck" → AppController.show_pilot_composer()
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 import flet as ft
 
@@ -83,6 +84,7 @@ class ScreenClusterBuilder:
                             ft.Tab(text="Render-Phrasen",  content=self._build_tab_render_maps()),
                             ft.Tab(text="Formular-Felder", content=self._build_tab_form_fields()),
                             ft.Tab(text="Normalisierung",  content=self._build_tab_normalization()),
+                            ft.Tab(text="Sprachbausteine", content=self._build_tab_phrase_library()),
                         ],
                         expand=True,
                     ),
@@ -999,6 +1001,84 @@ class ScreenClusterBuilder:
         self._page.overlay.append(dlg)
         dlg.open = True
         self._page.update()
+
+    # ------------------------------------------------------------------
+    # Tab 8: Sprachbausteine (global phrase library, read-only)
+    # ------------------------------------------------------------------
+
+    def _build_tab_phrase_library(self) -> ft.Control:
+        _PHRASE_LIB = Path(__file__).parent.parent.parent / "data" / "phrase_library.json"
+        try:
+            library: dict = json.loads(_PHRASE_LIB.read_text(encoding="utf-8"))
+        except Exception:
+            return ft.Container(
+                content=ft.Text("phrase_library.json nicht gefunden.", color=_C_ERR),
+                padding=16,
+            )
+
+        sections: list[ft.Control] = []
+        for _group_key, group in library.items():
+            label  = group.get("label", _group_key)
+            phrases: list[str] = group.get("phrases", [])
+
+            phrase_rows: list[ft.Control] = []
+            for phrase in phrases:
+                def _make_copy_handler(p: str):
+                    def _on_copy(e, _p=p):
+                        self._page.set_clipboard(_p)
+                        self._set_status(f"Kopiert: {_p[:40]}…" if len(_p) > 40 else f"Kopiert: {_p}", _C_OK)
+                        self._page.update()
+                    return _on_copy
+
+                phrase_rows.append(
+                    ft.Row(
+                        controls=[
+                            ft.Text(phrase, expand=True, size=13, selectable=True),
+                            ft.IconButton(
+                                icon=ft.Icons.CONTENT_COPY,
+                                icon_size=16,
+                                tooltip="Kopieren",
+                                on_click=_make_copy_handler(phrase),
+                                style=ft.ButtonStyle(padding=ft.padding.all(4)),
+                            ),
+                        ],
+                        spacing=4,
+                        vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                    )
+                )
+
+            sections.append(
+                ft.Container(
+                    content=ft.Column(
+                        controls=[
+                            ft.Text(label, size=12, weight=ft.FontWeight.W_600,
+                                    color=ft.Colors.BLUE_GREY_600),
+                            *phrase_rows,
+                        ],
+                        spacing=4,
+                    ),
+                    padding=ft.padding.only(bottom=16),
+                )
+            )
+
+        return ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Text(
+                        "Sprachbausteine (read-only) — zum Einfügen kopieren",
+                        size=11,
+                        color=ft.Colors.BLUE_GREY_400,
+                        italic=True,
+                    ),
+                    ft.Divider(height=8),
+                    *sections,
+                ],
+                spacing=0,
+                scroll=ft.ScrollMode.AUTO,
+            ),
+            padding=16,
+            expand=True,
+        )
 
     # ------------------------------------------------------------------
     # Save handler
