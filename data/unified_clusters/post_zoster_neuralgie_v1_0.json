@@ -1,0 +1,71 @@
+{
+  "id": "post_zoster_neuralgie",
+  "name": "Post-Zoster-Neuralgie",
+  "aliases": [
+    "Post-Zoster-Neuralgie",
+    "postherpetische Neuralgie",
+    "Zoster-Neuralgie",
+    "Herpes zoster Folgebeschwerden"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Neuropathisches Schmerzsyndrom",
+  "family": "neuropathisch",
+  "tags": [
+    "zoster",
+    "neuralgie",
+    "neuropathisch",
+    "postherpetisch",
+    "schmerz"
+  ],
+  "meta": {
+    "icd10": "B02.2",
+    "icd10_label": "Zoster mit anderen Nervenbeteiligungen",
+    "anatomical_region": "Dermatom, Thorax, Rumpf",
+    "typical_age_range": "50-80",
+    "tcm_pattern_hints": [
+      "Leber-Qi-Stagnation mit Hitze",
+      "Feuchte-Hitze in den Leitbahnen",
+      "Blut-Stase",
+      "Yin-Mangel mit Leere-Hitze"
+    ]
+  },
+  "form": {
+    "title": "Post-Zoster-Neuralgie – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Post-Zoster-Neuralgie"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Nach stattgehabter Herpes-zoster-Infektion bestehen persistierende Schmerzen im betroffenen Dermatom im Sinne einer Post-Zoster-Neuralgie. Die Beschwerden werden als brennend, stechend und teils drückend beschrieben.",
+      "Die Patientin berichtet über seit der Gürtelrose anhaltende beziehungsweise rezidivierende Schmerzen im Bereich der rechten Thorax- beziehungsweise Rumpfhälfte. Die Schmerzsymptomatik nimmt insbesondere unter körperlicher oder psychischer Belastung sowie bei Berührung zu.",
+      "Es bestehen fast andauernde neuropathische Schmerzen im ehemaligen Varizella-zoster-Befallsgebiet bei Post-Zoster-Neuralgie. Eine partielle Linderung wird durch lokale Wärmeanwendungen beziehungsweise medikamentöse Therapie beschrieben."
+    ],
+    "ideal_text": "Nach stattgehabter Herpes-zoster-Infektion bestehen persistierende Schmerzen im betroffenen Dermatom im Sinne einer Post-Zoster-Neuralgie. Die Beschwerden werden als brennend, stechend und teils drückend beschrieben."
+  }
+}
