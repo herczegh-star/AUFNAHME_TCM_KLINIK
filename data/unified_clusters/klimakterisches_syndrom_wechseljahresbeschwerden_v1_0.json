@@ -1,0 +1,71 @@
+{
+  "id": "klimakterisches_syndrom_wechseljahresbeschwerden",
+  "name": "Klimakterisches Syndrom / Wechseljahresbeschwerden",
+  "aliases": [
+    "Klimakterium",
+    "Wechseljahre",
+    "Menopausebeschwerden",
+    "klimakterisches Syndrom"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Gynäkologisches Syndrom",
+  "family": "gynaekologie",
+  "tags": [
+    "klimakterium",
+    "wechseljahre",
+    "menopause",
+    "hitzewallungen",
+    "gynaekologie"
+  ],
+  "meta": {
+    "icd10": "N95.1",
+    "icd10_label": "Menopausale und weibliche klimakterische Zustände",
+    "anatomical_region": "systemisch",
+    "typical_age_range": "45-60",
+    "tcm_pattern_hints": [
+      "Nieren-Yin-Mangel",
+      "Herz-Nieren-Disharmonie",
+      "Leber-Yang-Aufsteigen",
+      "Yin-Mangel mit Leere-Hitze"
+    ]
+  },
+  "form": {
+    "title": "Klimakterisches Syndrom / Wechseljahresbeschwerden – Anamnese",
+    "fields": []
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "klimakterisches Syndrom"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte"
+    ],
+    "examples": []
+  },
+  "render_maps": {},
+  "archetypes": [],
+  "tests": [],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Die Patientin berichtet seit mehreren Jahren über Beschwerden im Rahmen des Klimakteriums mit Hitzewallungen und Schweißausbrüchen. Begleitend bestehen Schlafstörungen, Stimmungsschwankungen und Reizbarkeit.",
+      "",
+      ""
+    ],
+    "ideal_text": "Die Patientin berichtet seit mehreren Jahren über Beschwerden im Rahmen des Klimakteriums mit Hitzewallungen und Schweißausbrüchen. Begleitend bestehen Schlafstörungen, Stimmungsschwankungen und Reizbarkeit."
+  }
+}
