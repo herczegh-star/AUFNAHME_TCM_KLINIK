@@ -11,6 +11,7 @@ from __future__ import annotations
 import flet as ft
 
 from models.case_summary import CaseSummary
+from ui.theme import _C_TEXT_HELPER, _C_ACCENT
 
 
 # (label, hint_text)
@@ -70,7 +71,7 @@ class ScreenInterview:
                 return tf
             return ft.Column(
                 controls=[
-                    ft.Text(hint, size=11, color=ft.Colors.GREY_600, italic=True),
+                    ft.Text(hint, size=11, color=_C_TEXT_HELPER, italic=True),
                     tf,
                 ],
                 spacing=4,
@@ -97,5 +98,5 @@ class ScreenInterview:
             ft.Container(height=16),
             *field_controls,
             ft.Container(height=16),
-            ft.ElevatedButton("Weiter", on_click=on_weiter),
+            ft.ElevatedButton("Weiter", bgcolor=_C_ACCENT, color=ft.Colors.WHITE, on_click=on_weiter),
         )

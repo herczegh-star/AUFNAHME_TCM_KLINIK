@@ -91,6 +91,16 @@ class UnifiedCluster:
         return self.style.get("preferred_phrases", {})
 
     @property
+    def sprachbausteine(self) -> dict[str, list[str]]:
+        """
+        Named phrase groups for use in the Pilot-Composer UI.
+        Keyed by group label → list of phrases.
+        Stored under style.sprachbausteine in the cluster JSON.
+        Returns an empty dict if the cluster does not define any groups.
+        """
+        return self.style.get("sprachbausteine", {})
+
+    @property
     def forbidden_words(self) -> list[str]:
         return self.style.get("forbidden_words", [])
 

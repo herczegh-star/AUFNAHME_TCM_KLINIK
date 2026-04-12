@@ -70,5 +70,8 @@
   "draft_pipeline": {
     "stages": [],
     "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "ideal_text": "Schlaf leicht beeinträchtigt."
   }
 }

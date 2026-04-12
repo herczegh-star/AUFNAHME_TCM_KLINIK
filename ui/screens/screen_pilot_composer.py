@@ -41,14 +41,22 @@ from services.pilot_draft_service import HAS_LLM
 
 
 # ---------------------------------------------------------------------------
-# Colour palette — consistent across production screens
+# Colour palette — imported from central theme module
 # ---------------------------------------------------------------------------
-_C_BORDER   = ft.Colors.BLUE_GREY_200
-_C_ACCENT   = ft.Colors.BLUE_700
-_C_WARN     = ft.Colors.ORANGE_700
-_C_OK       = ft.Colors.GREEN_700
-_C_ERR      = ft.Colors.RED_700
-_C_BG_PANEL = ft.Colors.BLUE_GREY_50
+from ui.theme import (
+    _C_BORDER,
+    _C_ACCENT,
+    _C_ACCENT_ACTIVE,
+    _C_WARN,
+    _C_OK,
+    _C_ERR,
+    _C_BG_PANEL,
+    _C_BG_MAIN,
+    _C_BG_WARN,
+    _C_TEXT_SECONDARY,
+    _C_TEXT_HELPER,
+    _C_IN_PROGRESS,
+)
 
 
 class ScreenPilotComposer:
@@ -86,6 +94,15 @@ class ScreenPilotComposer:
         self._raw_text     = ""
         self._refined_text = ""
         self._final_text   = ""
+        self._composer_state: str = "aufbau"
+        # Snapshots saved at state transitions for back-navigation.
+        self._snapshot_aufbau:      str = ""
+        self._snapshot_bearbeitung: str = ""
+        # References to panels stored at render time for visibility toggling.
+        self._form_panel_ctrl:     ft.Control | None = None
+        self._form_divider_ctrl:   ft.Control | None = None
+        self._summary_divider_ctrl: ft.Control | None = None
+        self._summary_panel_ctrl:  ft.Control | None = None
 
     # ------------------------------------------------------------------
     # Public entry point
@@ -95,17 +112,23 @@ class ScreenPilotComposer:
         form_panel  = self._build_form_panel()
         draft_panel = self._build_draft_panel()
 
+        # Store panel references so state transitions can toggle visibility.
+        self._form_panel_ctrl   = form_panel
+        self._form_divider_ctrl = ft.VerticalDivider(width=1, color=_C_BORDER)
+
         row_controls: list[ft.Control] = [
             form_panel,
-            ft.VerticalDivider(width=1, color=_C_BORDER),
+            self._form_divider_ctrl,
             draft_panel,
         ]
 
         if self._summary:
             from ui.components.summary_panel import SummaryPanel
+            self._summary_divider_ctrl  = ft.VerticalDivider(width=1, color=_C_BORDER)
+            self._summary_panel_ctrl    = SummaryPanel(self._summary).build()
             row_controls.extend([
-                ft.VerticalDivider(width=1, color=_C_BORDER),
-                SummaryPanel(self._summary).build(),
+                self._summary_divider_ctrl,
+                self._summary_panel_ctrl,
             ])
 
         self._page.add(
@@ -124,6 +147,8 @@ class ScreenPilotComposer:
                 spacing=0,
             )
         )
+        # Restore any previously saved draft (in-memory, same session).
+        self._restore_draft_if_available()
 
     # ------------------------------------------------------------------
     # Header row
@@ -131,20 +156,28 @@ class ScreenPilotComposer:
 
     def _build_header(self) -> ft.Control:
         if self._summary is not None:
-            back_fn = lambda _: self._ctrl.show_screen_2b(self._summary)
+            back_nav = lambda: self._ctrl.show_screen_2b(self._summary)
         else:
-            back_fn = lambda _: self._ctrl.show_screen_1()
+            back_nav = lambda: self._ctrl.show_screen_1()
 
-        back_btn = ft.TextButton("← Zurück", on_click=back_fn)
+        back_btn = ft.TextButton(
+            "← Zurück",
+            style=ft.ButtonStyle(color=_C_ACCENT),
+            on_click=lambda _: self._guard_leave(back_nav),
+        )
         title = ft.Text(
             f"Pilot-Composer: {self._cluster.name}",
             size=20,
             weight=ft.FontWeight.BOLD,
+            color=_C_ACCENT,
         )
         builder_btn = ft.OutlinedButton(
             "Cluster-Editor →",
-            on_click=lambda _: self._ctrl.show_cluster_builder(
-                storage_key=self._cluster.storage_key
+            style=ft.ButtonStyle(color=_C_ACCENT, side=ft.BorderSide(1, _C_ACCENT)),
+            on_click=lambda _: self._guard_leave(
+                lambda: self._ctrl.show_cluster_builder(
+                    storage_key=self._cluster.storage_key
+                )
             ),
         )
         return ft.Container(
@@ -162,6 +195,87 @@ class ScreenPilotComposer:
         )
 
     # ------------------------------------------------------------------
+    # Leave guard
+    # ------------------------------------------------------------------
+
+    def _guard_leave(self, nav_fn) -> None:
+        """
+        Guard against accidental navigation away from Pilot-Composer.
+        If Arbeitstext is empty: navigate immediately.
+        If Arbeitstext has content: show 3-button dialog.
+          Abbrechen            → stay
+          Speichern und verlassen → save draft to AppState, then navigate
+          Ohne Speichern verlassen → navigate without saving
+        nav_fn is a zero-argument callable that performs the navigation.
+        """
+        if not (self._raw_field.value or "").strip():
+            nav_fn()
+            return
+
+        dlg: ft.AlertDialog
+
+        def _do_save_and_leave(ev) -> None:
+            self._page.close(dlg)
+            self._save_draft()
+            nav_fn()
+
+        def _do_leave(ev) -> None:
+            self._page.close(dlg)
+            nav_fn()
+
+        def _do_cancel(ev) -> None:
+            self._page.close(dlg)
+
+        dlg = ft.AlertDialog(
+            modal=True,
+            title=ft.Text("Pilot-Composer verlassen?"),
+            content=ft.Text(
+                "Möchten Sie den Pilot-Composer verlassen? "
+                "Sie können den aktuellen Arbeitsstand speichern "
+                "oder ohne Speichern verlassen."
+            ),
+            actions=[
+                ft.TextButton("Abbrechen", on_click=_do_cancel),
+                ft.TextButton("Speichern und verlassen", on_click=_do_save_and_leave),
+                ft.TextButton("Ohne Speichern verlassen", on_click=_do_leave),
+            ],
+            actions_alignment=ft.MainAxisAlignment.END,
+        )
+        self._page.open(dlg)
+
+    def _save_draft(self) -> None:
+        """Persist current Arbeitstext and composer state to AppState.pilot_draft."""
+        self._ctrl.state.pilot_draft = {
+            "text": self._raw_field.value or "",
+            "composer_state": self._composer_state,
+            "storage_key": self._cluster.storage_key,
+        }
+
+    def _restore_draft_if_available(self) -> None:
+        """
+        Restore a previously saved draft into the visible Arbeitstext field.
+        Called at the end of render() after page.add().
+        Only restores when the saved draft's storage_key matches the current cluster.
+        Clears the draft from AppState after restoring so a second re-entry starts fresh.
+        Always restores to aufbau state (safe default on re-entry).
+        """
+        draft = self._ctrl.state.pilot_draft
+        if not draft:
+            return
+        if draft.get("storage_key") != self._cluster.storage_key:
+            return
+        text = draft.get("text", "")
+        if text:
+            self._raw_text = text
+            self._raw_field.value = text
+            self._connect_btn.disabled = False
+            self._refine_btn.disabled = False
+            self._insert_btn.disabled = False
+            self._status_text.value = "Arbeitsstand wiederhergestellt."
+            self._status_text.color = _C_OK
+        self._ctrl.state.pilot_draft = None
+
+    # ------------------------------------------------------------------
     # Left panel: form
     # ------------------------------------------------------------------
 
@@ -172,7 +286,7 @@ class ScreenPilotComposer:
             widget = self._build_field_widget(field_def)
             if widget is not None:
                 label = ft.Text(
-                    field_def["label"], size=12, color=ft.Colors.BLUE_GREY_700
+                    field_def["label"], size=12, color=_C_TEXT_SECONDARY
                 )
                 fields_col.controls.append(
                     ft.Column([label, widget], spacing=4, tight=True)
@@ -183,7 +297,7 @@ class ScreenPilotComposer:
             self._prefill_from_summary(self._summary)
 
         generate_btn = ft.ElevatedButton(
-            "Roh-Entwurf generieren",
+            "Beschwerdetext generieren",
             icon=ft.Icons.BOLT,
             bgcolor=_C_ACCENT,
             color=ft.Colors.WHITE,
@@ -201,11 +315,11 @@ class ScreenPilotComposer:
         inactive_hint = ft.Container(
             content=ft.Row(
                 [
-                    ft.Icon(ft.Icons.INFO_OUTLINE, size=13, color=ft.Colors.BLUE_GREY_400),
+                    ft.Icon(ft.Icons.INFO_OUTLINE, size=13, color=_C_TEXT_HELPER),
                     ft.Text(
                         f"Noch nicht im Draft: {', '.join(_inactive_fields)}",
                         size=10,
-                        color=ft.Colors.BLUE_GREY_400,
+                        color=_C_TEXT_HELPER,
                         italic=True,
                     ),
                 ],
@@ -337,19 +451,22 @@ class ScreenPilotComposer:
         return None  # unknown type — skip silently
 
     # ------------------------------------------------------------------
-    # Right panel: 3-stage draft
+    # Right panel: working draft
+    # Stage 1: one visible working field (_raw_field).
+    # _refined_field and _final_field exist as internal variables only;
+    # they are not rendered. Full state-conditional layout comes in Stage 2.
     # ------------------------------------------------------------------
 
     def _build_draft_panel(self) -> ft.Control:
         self._stage_labels = {
-            "raw":     ft.Text("1. Roh-Entwurf",      size=13, weight=ft.FontWeight.W_600, color=ft.Colors.BLUE_GREY_400),
-            "refined": ft.Text("2. Verfeinerung",      size=13, weight=ft.FontWeight.W_600, color=ft.Colors.BLUE_GREY_400),
-            "final":   ft.Text("3. Final-Verdichtung", size=13, weight=ft.FontWeight.W_600, color=ft.Colors.BLUE_GREY_400),
+            "raw":     ft.Text("1. Roh-Entwurf",      size=13, weight=ft.FontWeight.W_600, color=_C_TEXT_HELPER),
+            "refined": ft.Text("2. Verfeinerung",      size=13, weight=ft.FontWeight.W_600, color=_C_TEXT_HELPER),
+            "final":   ft.Text("3. Final-Verdichtung", size=13, weight=ft.FontWeight.W_600, color=_C_TEXT_HELPER),
         }
 
         self._raw_field = ft.TextField(
-            label="Roh-Entwurf",
-            multiline=True, min_lines=3, max_lines=6,
+            label="Arbeitstext",
+            multiline=True, min_lines=8, max_lines=16,
             border_color=_C_BORDER,
             read_only=False,
         )
@@ -365,17 +482,27 @@ class ScreenPilotComposer:
             border_color=_C_BORDER,
             read_only=False,
         )
-        self._status_text = ft.Text("", size=12, color=ft.Colors.BLUE_GREY_500)
+        self._status_text = ft.Text("", size=12, color=_C_TEXT_HELPER)
 
+        _connect_label = (
+            "Sprachlich verbinden (AI)" if HAS_LLM
+            else "Sprachlich verbinden (kein LLM)"
+        )
         _refine_label = (
-            "Verfeinern (LLM)" if HAS_LLM
-            else "Verfeinern (kein LLM konfiguriert)"
+            "Sprachlich glätten (AI)" if HAS_LLM
+            else "Sprachlich glätten (kein LLM)"
         )
         _final_label = (
-            "Final verdichten (LLM)" if HAS_LLM
-            else "Final verdichten (kein LLM konfiguriert)"
+            "Verdichten (AI)" if HAS_LLM
+            else "Verdichten (kein LLM)"
         )
 
+        self._connect_btn = ft.OutlinedButton(
+            _connect_label,
+            icon=ft.Icons.MERGE_TYPE,
+            on_click=self._on_connect_blocks,
+            disabled=True,
+        )
         self._refine_btn = ft.OutlinedButton(
             _refine_label,
             icon=ft.Icons.AUTO_FIX_HIGH,
@@ -402,8 +529,8 @@ class ScreenPilotComposer:
                 [
                     ft.Icon(ft.Icons.INFO_OUTLINE, color=_C_WARN, size=16),
                     ft.Text(
-                        "Stufen 2 und 3 sind ohne LLM-Konfiguration nicht aktiv. "
-                        "Die Ausgabe entspricht dem Roh-Entwurf.",
+                        "KI nicht verfügbar – Sprachglättung und Verdichtung "
+                        "sind manuell möglich.",
                         size=11,
                         color=_C_WARN,
                     ),
@@ -411,31 +538,120 @@ class ScreenPilotComposer:
                 spacing=6,
             ),
             padding=ft.padding.symmetric(horizontal=8, vertical=6),
-            bgcolor=ft.Colors.ORANGE_50,
+            bgcolor=_C_BG_WARN,
             border_radius=4,
             visible=not HAS_LLM,
         )
 
         ref_section = self._build_ref_texts_section()
+        self._ref_section_ctrl = ref_section  # may be None; stored for visibility toggling
+
+        block_row = self._build_block_insertion_row()
+        self._block_row_ctrl = block_row
+
+        transition_row = self._build_transition_phrase_row()
+        self._transition_row_ctrl = transition_row
+
+        # --- aufbau-only rows (visible initially) ---
+        self._connect_btn_row_ctrl = ft.Row(
+            [self._connect_btn],
+            alignment=ft.MainAxisAlignment.START,
+        )
+        self._advance_row_ctrl = ft.Row(
+            [
+                ft.ElevatedButton(
+                    "Aufbau abschliessen →",
+                    icon=ft.Icons.ARROW_FORWARD,
+                    bgcolor=_C_ACCENT,
+                    color=ft.Colors.WHITE,
+                    on_click=self._advance_to_bearbeitung,
+                ),
+            ],
+            alignment=ft.MainAxisAlignment.END,
+        )
+
+        # --- bearbeitung-only rows (hidden initially) ---
+        self._back_row_ctrl = ft.Row(
+            [
+                ft.OutlinedButton(
+                    "← Zurück zum Aufbau",
+                    icon=ft.Icons.ARROW_BACK,
+                    on_click=self._return_to_aufbau,
+                ),
+            ],
+            alignment=ft.MainAxisAlignment.START,
+            visible=False,
+        )
+        self._refine_btn_row_ctrl = ft.Row(
+            [self._refine_btn],
+            alignment=ft.MainAxisAlignment.END,
+            visible=False,
+        )
+        self._advance_to_ausgabe_row_ctrl = ft.Row(
+            [
+                ft.ElevatedButton(
+                    "Verdichten →",
+                    icon=ft.Icons.ARROW_FORWARD,
+                    bgcolor=_C_ACCENT,
+                    color=ft.Colors.WHITE,
+                    on_click=self._advance_to_ausgabe,
+                ),
+            ],
+            alignment=ft.MainAxisAlignment.END,
+            visible=False,
+        )
+
+        # --- ausgabe-only rows (hidden initially) ---
+        self._back_to_bearbeitung_row_ctrl = ft.Row(
+            [
+                ft.OutlinedButton(
+                    "← Zurück zur Bearbeitung",
+                    icon=ft.Icons.ARROW_BACK,
+                    on_click=self._return_to_bearbeitung,
+                ),
+            ],
+            alignment=ft.MainAxisAlignment.START,
+            visible=False,
+        )
+        self._final_btn_row_ctrl = ft.Row(
+            [self._final_btn],
+            alignment=ft.MainAxisAlignment.END,
+            visible=False,
+        )
+        self._insert_btn_row_ctrl = ft.Row(
+            [self._insert_btn],
+            alignment=ft.MainAxisAlignment.END,
+            visible=False,
+        )
+
+        # Build controls list.
+        # Visibility per state is controlled by the transition methods.
+        # _refined_field, _final_field and _stage_labels are instance variables
+        # for internal compatibility but are never rendered.
+        _section_hint = ft.Text(
+            "Abschnitt: Derzeitige Beschwerden (somatisch)",
+            size=10,
+            color=_C_TEXT_HELPER,
+            italic=True,
+        )
 
         draft_controls: list[ft.Control] = [
-            ft.Row([
-                self._stage_labels["raw"],
-                ft.Container(width=16),
-                self._stage_labels["refined"],
-                ft.Container(width=16),
-                self._stage_labels["final"],
-            ]),
             no_llm_banner,
             ft.Container(height=4),
             self._raw_field,
-            ft.Row([self._refine_btn], alignment=ft.MainAxisAlignment.END),
-            self._refined_field,
-            ft.Row([self._final_btn], alignment=ft.MainAxisAlignment.END),
-            self._final_field,
+            _section_hint,
+            self._block_row_ctrl,
+            self._transition_row_ctrl,
+            self._connect_btn_row_ctrl,
+            self._advance_row_ctrl,
+            self._back_row_ctrl,
+            self._refine_btn_row_ctrl,
+            self._advance_to_ausgabe_row_ctrl,
+            self._back_to_bearbeitung_row_ctrl,
+            self._final_btn_row_ctrl,
             ft.Container(height=8),
             self._status_text,
-            ft.Row([self._insert_btn], alignment=ft.MainAxisAlignment.END),
+            self._insert_btn_row_ctrl,
         ]
         if ref_section is not None:
             draft_controls.append(ref_section)
@@ -450,6 +666,185 @@ class ScreenPilotComposer:
             padding=16,
             expand=True,
         )
+
+    # ------------------------------------------------------------------
+    # Block insertion row (directly below RAW field)
+    # ------------------------------------------------------------------
+
+    def _build_block_insertion_row(self) -> ft.Control:
+        """
+        Introductory phrase picker (Einleitende Formulierung).
+
+        Two-step: category dropdown → phrase dropdown → Einfügen button.
+        Inserts the selected full intro block at the BEGINNING of Arbeitstext.
+
+        Block-level selection: one dropdown with intro type choices,
+        each mapping to a predefined full text block.  No sentence-by-sentence
+        composition.
+
+        Defined blocks:
+          - "Neuer Fall"            → first opener phrase from cluster.sprachbausteine
+                                      (single representative opener)
+          - "Bekannte/r Patient/in" → fixed full intro block (4 sentences)
+
+        The lower Textvorlagen section remains the only place for full
+        complaint/reference texts.
+        """
+        # --- Block definitions ---
+        # "Bekannte/r Patient/in": exact full block as specified.
+        _BEKANNTE_BLOCK = (
+            "Patient/in ist im Hause bekannt. "
+            "Zuletzt befand sich Patient/in im Jahr XXXX in unserer stationären Behandlung. "
+            "Die ausführliche Vorgeschichte darf freundlicherweise als bekannt vorausgesetzt "
+            "werden; wir verweisen auf die entsprechenden Vorberichte. "
+            "Kurz gefasst berichtet Patient/in seit ..."
+        )
+
+        # "Neuer Fall": all opener phrases from cluster (multiple alternatives).
+        _neuer_fall_phrases = self._cluster.sprachbausteine.get("Einstieg – neuer Fall", [])
+
+        # self._intro_blocks holds entries for types that map to a single fixed block.
+        # "Neuer Fall" is handled via _intro_phrase_dd and is NOT in this dict.
+        self._intro_blocks: dict[str, str] = {
+            "Bekannte/r Patient/in": _BEKANNTE_BLOCK,
+        }
+
+        # Build type dropdown options: Neuer Fall first (if phrases available), then bekannte.
+        _type_options: list[str] = []
+        if _neuer_fall_phrases:
+            _type_options.append("Neuer Fall")
+        _type_options.append("Bekannte/r Patient/in")
+
+        self._intro_block_dd = ft.Dropdown(
+            hint_text="Einleitungstyp wählen …",
+            options=[ft.dropdown.Option(k) for k in _type_options],
+            border_color=_C_BORDER,
+            dense=True,
+            width=240,
+        )
+
+        # Phrase dropdown — only shown when "Neuer Fall" is selected.
+        self._intro_phrase_dd = ft.Dropdown(
+            hint_text="Formulierung wählen …",
+            options=[ft.dropdown.Option(p) for p in _neuer_fall_phrases],
+            border_color=_C_BORDER,
+            dense=True,
+            expand=True,
+            visible=False,
+        )
+
+        self._intro_insert_btn = ft.ElevatedButton(
+            "Einfügen",
+            icon=ft.Icons.VERTICAL_ALIGN_TOP,
+            bgcolor=_C_ACCENT,
+            color=ft.Colors.WHITE,
+            on_click=self._on_intro_insert,
+            disabled=True,
+        )
+
+        def _on_type_change(e) -> None:
+            selected = e.control.value or ""
+            if selected == "Neuer Fall":
+                # Show phrase picker; insert requires a phrase selection.
+                self._intro_phrase_dd.visible = True
+                self._intro_phrase_dd.value = None
+                self._intro_insert_btn.disabled = True
+            else:
+                # Single fixed block — hide phrase picker, enable insert immediately.
+                self._intro_phrase_dd.visible = False
+                self._intro_insert_btn.disabled = not bool(selected)
+            self._page.update()
+
+        def _on_phrase_change(e) -> None:
+            self._intro_insert_btn.disabled = not bool(e.control.value)
+            self._page.update()
+
+        self._intro_block_dd.on_change  = _on_type_change
+        self._intro_phrase_dd.on_change = _on_phrase_change
+
+        return ft.Column(
+            controls=[
+                ft.Text(
+                    "Einleitende Formulierung",
+                    size=11,
+                    color=_C_TEXT_SECONDARY,
+                    weight=ft.FontWeight.W_500,
+                ),
+                ft.Row(
+                    controls=[
+                        self._intro_block_dd,
+                        self._intro_phrase_dd,
+                        self._intro_insert_btn,
+                    ],
+                    spacing=8,
+                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                ),
+            ],
+            spacing=4,
+            tight=True,
+        )
+
+    # ------------------------------------------------------------------
+    # Transition phrase row (aufbau-only, below intro control)
+    # ------------------------------------------------------------------
+
+    def _build_transition_phrase_row(self) -> ft.Control:
+        """
+        Übergangsformulierung control (aufbau-only).
+
+        Single dropdown populated from cluster.sprachbausteine key
+        "Anschluss / Überleitung" + Einfügen button.
+        Appends the selected phrase to the END of Arbeitstext.
+        """
+        phrases = self._cluster.sprachbausteine.get("Anschluss / Überleitung", [])
+
+        self._transition_phrase_dd = ft.Dropdown(
+            hint_text="Übergangsformulierung wählen …",
+            options=[ft.dropdown.Option(p) for p in phrases],
+            border_color=_C_BORDER,
+            dense=True,
+            expand=True,
+        )
+        self._transition_insert_btn = ft.ElevatedButton(
+            "Einfügen",
+            icon=ft.Icons.SUBDIRECTORY_ARROW_RIGHT,
+            bgcolor=_C_ACCENT,
+            color=ft.Colors.WHITE,
+            on_click=self._on_transition_insert,
+            disabled=True,
+        )
+
+        def _on_phrase_change(e) -> None:
+            self._transition_insert_btn.disabled = not bool(e.control.value)
+            self._page.update()
+
+        self._transition_phrase_dd.on_change = _on_phrase_change
+
+        return ft.Column(
+            controls=[
+                ft.Text(
+                    "Übergangsformulierung",
+                    size=11,
+                    color=_C_TEXT_SECONDARY,
+                    weight=ft.FontWeight.W_500,
+                ),
+                ft.Row(
+                    controls=[self._transition_phrase_dd, self._transition_insert_btn],
+                    spacing=8,
+                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                ),
+            ],
+            spacing=4,
+            tight=True,
+        )
+
+    def _on_transition_insert(self, e) -> None:
+        """Append the selected transition phrase to the end of Arbeitstext."""
+        if not hasattr(self, "_transition_phrase_dd") or not self._transition_phrase_dd.value:
+            return
+        self._raw_append(self._transition_phrase_dd.value)
+        self._status_text.value = "Übergangsformulierung eingefügt."
+        self._page.update()
 
     # ------------------------------------------------------------------
     # Reference texts section (below insert button)
@@ -473,12 +868,12 @@ class ScreenPilotComposer:
         for lbl, txt in non_empty:
             def _make_take(t: str):
                 def _handler(e, _t=t):
-                    self._ref_take(_t)
+                    self._guarded_raw_take(_t)
                 return _handler
 
             def _make_append(t: str):
                 def _handler(e, _t=t):
-                    self._ref_append(_t)
+                    self._raw_append(_t)
                 return _handler
 
             rows.append(
@@ -492,7 +887,7 @@ class ScreenPilotComposer:
                             max_lines=6,
                             read_only=True,
                             border_color=_C_BORDER,
-                            bgcolor=ft.Colors.GREY_50,
+                            bgcolor=_C_BG_MAIN,
                         ),
                         ft.Row(
                             controls=[
@@ -500,11 +895,13 @@ class ScreenPilotComposer:
                                     "Übernehmen",
                                     icon=ft.Icons.SWAP_HORIZ,
                                     on_click=_make_take(txt),
+                                    style=ft.ButtonStyle(color=_C_WARN),
                                 ),
                                 ft.OutlinedButton(
                                     "Anhängen",
                                     icon=ft.Icons.ADD,
                                     on_click=_make_append(txt),
+                                    style=ft.ButtonStyle(color=_C_ACCENT),
                                 ),
                             ],
                             spacing=8,
@@ -520,10 +917,17 @@ class ScreenPilotComposer:
                     ft.Divider(height=1, color=_C_BORDER),
                     ft.Container(height=4),
                     ft.Text(
-                        "Referenztexte",
+                        "Textvorlagen",
                         size=12,
                         weight=ft.FontWeight.W_600,
-                        color=ft.Colors.BLUE_GREY_600,
+                        color=_C_TEXT_SECONDARY,
+                    ),
+                    ft.Text(
+                        "Direkt übernehmen oder anhängen – "
+                        "besonders nützlich für seltene Beschwerden ohne Formularfelder.",
+                        size=10,
+                        color=_C_TEXT_HELPER,
+                        italic=True,
                     ),
                     *rows,
                 ],
@@ -532,28 +936,87 @@ class ScreenPilotComposer:
             padding=ft.padding.only(top=8),
         )
 
-    def _ref_take(self, text: str) -> None:
-        """Replace RAW field with the given reference text."""
+    def _guarded_raw_take(self, text: str) -> None:
+        """Replace Arbeitstext with text; confirm first if field already has content."""
+        if not (self._raw_field.value or "").strip():
+            self._raw_take(text)
+            return
+
+        dlg: ft.AlertDialog  # forward reference for closures
+
+        def _do_confirm(ev) -> None:
+            self._page.close(dlg)
+            self._raw_take(text)
+
+        def _do_cancel(ev) -> None:
+            self._page.close(dlg)
+
+        dlg = ft.AlertDialog(
+            modal=True,
+            title=ft.Text("Arbeitstext ersetzen?"),
+            content=ft.Text("Möchten Sie den bisherigen Arbeitstext ersetzen?"),
+            actions=[
+                ft.TextButton("Abbrechen", on_click=_do_cancel),
+                ft.TextButton("Ersetzen", on_click=_do_confirm),
+            ],
+            actions_alignment=ft.MainAxisAlignment.END,
+        )
+        self._page.open(dlg)
+
+    def _raw_take(self, text: str) -> None:
+        """Replace RAW field with the given text block."""
         self._raw_text = text
         self._raw_field.value = text
         self._stage_labels["raw"].color = _C_OK
+        self._connect_btn.disabled = False
         self._refine_btn.disabled = False
         self._insert_btn.disabled = False
-        self._status_text.value = "Referenztext als Roh-Entwurf übernommen."
+        self._status_text.value = "Beschwerde übernommen."
         self._status_text.color = _C_OK
         self._page.update()
 
-    def _ref_append(self, text: str) -> None:
-        """Append the given reference text to the RAW field."""
+    def _raw_append(self, text: str) -> None:
+        """Append the given text block to the RAW field."""
         existing = (self._raw_field.value or "").rstrip()
         self._raw_text = (existing + "\n\n" + text) if existing else text
         self._raw_field.value = self._raw_text
         self._stage_labels["raw"].color = _C_OK
+        self._connect_btn.disabled = False
         self._refine_btn.disabled = False
         self._insert_btn.disabled = False
-        self._status_text.value = "Referenztext an Roh-Entwurf angehängt."
+        self._status_text.value = "Beschwerde angehängt."
         self._status_text.color = _C_OK
         self._page.update()
+
+    def _raw_prepend(self, text: str) -> None:
+        """Prepend text to the very beginning of the Arbeitstext field."""
+        existing = (self._raw_field.value or "").strip()
+        self._raw_text = (text + "\n\n" + existing) if existing else text
+        self._raw_field.value = self._raw_text
+        self._stage_labels["raw"].color = _C_OK
+        self._connect_btn.disabled = False
+        self._refine_btn.disabled = False
+        self._insert_btn.disabled = False
+        self._status_text.value = "Einleitung eingefügt."
+        self._status_text.color = _C_OK
+        self._page.update()
+
+    def _on_intro_insert(self, e) -> None:
+        """Insert the selected intro text at the start of Arbeitstext.
+        Bekannte/r Patient/in: uses the fixed full block.
+        Neuer Fall: uses the phrase selected in _intro_phrase_dd.
+        """
+        if not hasattr(self, "_intro_block_dd") or not self._intro_block_dd.value:
+            return
+        selected_type = self._intro_block_dd.value
+        if selected_type in self._intro_blocks:
+            # Fixed block (e.g. Bekannte/r Patient/in)
+            block = self._intro_blocks[selected_type]
+        else:
+            # Phrase-based (e.g. Neuer Fall)
+            block = (self._intro_phrase_dd.value or "").strip() if hasattr(self, "_intro_phrase_dd") else ""
+        if block:
+            self._raw_prepend(block)
 
     # ------------------------------------------------------------------
     # Form data collection
@@ -582,38 +1045,235 @@ class ScreenPilotComposer:
     # Event handlers
     # ------------------------------------------------------------------
 
+    # ------------------------------------------------------------------
+    # State transitions: aufbau ↔ bearbeitung
+    # ------------------------------------------------------------------
+
+    def _advance_to_bearbeitung(self, e) -> None:
+        """Save aufbau snapshot and switch to bearbeitung state."""
+        self._snapshot_aufbau = self._raw_field.value or ""
+        self._composer_state  = "bearbeitung"
+
+        # Left panel and summary panel hidden in bearbeitung
+        if self._form_panel_ctrl:
+            self._form_panel_ctrl.visible = False
+        if self._form_divider_ctrl:
+            self._form_divider_ctrl.visible = False
+        if self._summary_divider_ctrl:
+            self._summary_divider_ctrl.visible = False
+        if self._summary_panel_ctrl:
+            self._summary_panel_ctrl.visible = False
+
+        # aufbau-only controls → hide
+        self._block_row_ctrl.visible       = False
+        self._transition_row_ctrl.visible  = False
+        self._connect_btn_row_ctrl.visible = False
+        self._advance_row_ctrl.visible     = False
+        if self._ref_section_ctrl is not None:
+            self._ref_section_ctrl.visible = False
+
+        # bearbeitung-only controls → show
+        self._back_row_ctrl.visible               = True
+        self._refine_btn_row_ctrl.visible         = True
+        self._advance_to_ausgabe_row_ctrl.visible = True
+
+        # ausgabe-only controls → ensure hidden
+        self._back_to_bearbeitung_row_ctrl.visible = False
+        self._final_btn_row_ctrl.visible           = False
+        self._insert_btn_row_ctrl.visible          = False
+
+        # Enable refine button if there is content to work with
+        self._refine_btn.disabled = not bool((self._raw_field.value or "").strip())
+
+        self._status_text.value = "Bearbeitung aktiv."
+        self._status_text.color = _C_TEXT_HELPER
+        self._page.update()
+
+    def _return_to_aufbau(self, e) -> None:
+        """Confirm and return to aufbau, restoring the aufbau snapshot."""
+        dlg: ft.AlertDialog  # forward reference for closures
+
+        def _do_confirm(ev) -> None:
+            self._page.close(dlg)
+            self._do_return_to_aufbau()
+
+        def _do_cancel(ev) -> None:
+            self._page.close(dlg)
+
+        dlg = ft.AlertDialog(
+            modal=True,
+            title=ft.Text("Zurück zum Aufbau?"),
+            content=ft.Text(
+                "Die aktuelle Bearbeitung wird verworfen.\n"
+                "Der Aufbaustand wird wiederhergestellt."
+            ),
+            actions=[
+                ft.TextButton("Abbrechen", on_click=_do_cancel),
+                ft.TextButton("Zurück zum Aufbau", on_click=_do_confirm),
+            ],
+            actions_alignment=ft.MainAxisAlignment.END,
+        )
+        self._page.open(dlg)
+
+    def _do_return_to_aufbau(self) -> None:
+        """Restore aufbau snapshot and switch back to aufbau state."""
+        self._raw_field.value = self._snapshot_aufbau
+        self._raw_text        = self._snapshot_aufbau
+        self._composer_state  = "aufbau"
+
+        # Restore left panel and summary panel
+        if self._form_panel_ctrl:
+            self._form_panel_ctrl.visible = True
+        if self._form_divider_ctrl:
+            self._form_divider_ctrl.visible = True
+        if self._summary_divider_ctrl:
+            self._summary_divider_ctrl.visible = True
+        if self._summary_panel_ctrl:
+            self._summary_panel_ctrl.visible = True
+
+        # aufbau-only controls → show
+        self._block_row_ctrl.visible       = True
+        self._transition_row_ctrl.visible  = True
+        self._connect_btn_row_ctrl.visible = True
+        self._advance_row_ctrl.visible     = True
+        if self._ref_section_ctrl is not None:
+            self._ref_section_ctrl.visible = True
+
+        # bearbeitung-only controls → hide
+        self._back_row_ctrl.visible               = False
+        self._refine_btn_row_ctrl.visible         = False
+        self._advance_to_ausgabe_row_ctrl.visible = False
+
+        # ausgabe-only controls → hide
+        self._back_to_bearbeitung_row_ctrl.visible = False
+        self._final_btn_row_ctrl.visible           = False
+        self._insert_btn_row_ctrl.visible          = False
+
+        has_content = bool((self._raw_field.value or "").strip())
+        self._connect_btn.disabled = not has_content
+        self._insert_btn.disabled  = not has_content
+
+        self._status_text.value = "Aufbau wiederhergestellt."
+        self._status_text.color = _C_WARN
+        self._page.update()
+
+    # ------------------------------------------------------------------
+    # State transitions: bearbeitung ↔ ausgabe
+    # ------------------------------------------------------------------
+
+    def _advance_to_ausgabe(self, e) -> None:
+        """Save bearbeitung snapshot and switch to ausgabe state."""
+        self._snapshot_bearbeitung = self._raw_field.value or ""
+        self._composer_state       = "ausgabe"
+
+        # bearbeitung-only controls → hide
+        self._back_row_ctrl.visible               = False
+        self._refine_btn_row_ctrl.visible         = False
+        self._advance_to_ausgabe_row_ctrl.visible = False
+
+        # ausgabe-only controls → show
+        self._back_to_bearbeitung_row_ctrl.visible = True
+        self._final_btn_row_ctrl.visible           = True
+        self._insert_btn_row_ctrl.visible          = True
+
+        # Enable final button if there is content
+        self._final_btn.disabled  = not bool((self._raw_field.value or "").strip())
+        self._insert_btn.disabled = not bool((self._raw_field.value or "").strip())
+
+        self._status_text.value = "Ausgabe aktiv."
+        self._status_text.color = _C_TEXT_HELPER
+        self._page.update()
+
+    def _return_to_bearbeitung(self, e) -> None:
+        """Restore bearbeitung snapshot and switch back to bearbeitung state."""
+        self._raw_field.value = self._snapshot_bearbeitung
+        self._raw_text        = self._snapshot_bearbeitung
+        self._composer_state  = "bearbeitung"
+
+        # ausgabe-only controls → hide
+        self._back_to_bearbeitung_row_ctrl.visible = False
+        self._final_btn_row_ctrl.visible           = False
+        self._insert_btn_row_ctrl.visible          = False
+
+        # bearbeitung-only controls → show
+        self._back_row_ctrl.visible               = True
+        self._refine_btn_row_ctrl.visible         = True
+        self._advance_to_ausgabe_row_ctrl.visible = True
+
+        has_content = bool((self._raw_field.value or "").strip())
+        self._refine_btn.disabled = not has_content
+
+        self._status_text.value = "Bearbeitung wiederhergestellt."
+        self._status_text.color = _C_WARN
+        self._page.update()
+
+    def _on_connect_blocks(self, e) -> None:
+        """
+        Assembly step: split current RAW content into blocks (by \\n\\n),
+        send them to the LLM as an ordered list, and replace RAW with the
+        linguistically connected paragraph.
+
+        Content is closed — AI only shapes language, adds no new facts.
+        """
+        raw = (self._raw_field.value or "").strip()
+        if not raw:
+            return
+
+        blocks = [b.strip() for b in raw.split("\n\n") if b.strip()]
+
+        self._status_text.value = "Verbinde …"
+        self._status_text.color = _C_IN_PROGRESS
+        self._connect_btn.disabled = True
+        self._page.update()
+
+        def _done(result: str) -> None:
+            self._raw_text = result
+            self._raw_field.value = result
+            self._stage_labels["raw"].color = _C_OK
+            self._connect_btn.disabled = False
+            self._refine_btn.disabled = False
+            self._insert_btn.disabled = False
+            self._status_text.value = "Sprachlich verbunden."
+            self._status_text.color = _C_OK
+            self._page.update()
+
+        def _err(msg: str) -> None:
+            self._status_text.value = f"Verbindungs-Fehler: {msg}"
+            self._status_text.color = _C_ERR
+            self._connect_btn.disabled = False
+            self._page.update()
+
+        _svc.generate_connected(blocks, on_done=_done, on_error=_err)
+
     def _on_generate_raw(self, e) -> None:
         form_data = self._collect_form_data()
         try:
             raw = _svc.generate_raw(self._cluster, form_data)
-            self._raw_text = raw
-            self._raw_field.value = raw
-            self._stage_labels["raw"].color = _C_OK
-            self._refine_btn.disabled = False
-            self._insert_btn.disabled = False
-            self._status_text.value = "Roh-Entwurf bereit."
-            self._status_text.color = _C_OK
         except Exception as exc:
             self._status_text.value = f"Fehler: {exc}"
             self._status_text.color = _C_ERR
-        self._page.update()
+            self._page.update()
+            return
+        # Route through guard: shows confirmation dialog when Arbeitstext already
+        # has content, inserts directly when empty.
+        self._guarded_raw_take(raw)
 
     def _on_refine(self, e) -> None:
         raw = self._raw_field.value or self._raw_text
         if not raw.strip():
             return
         self._status_text.value = "Verfeinere..."
-        self._status_text.color = ft.Colors.BLUE_700
+        self._status_text.color = _C_IN_PROGRESS
         self._refine_btn.disabled = True
         self._page.update()
 
         def _done(result: str) -> None:
             self._refined_text = result
-            self._refined_field.value = result
-            self._stage_labels["refined"].color = _C_OK
-            self._final_btn.disabled = False
+            self._refined_field.value = result   # internal compatibility
+            self._raw_text = result              # sync backing store
+            self._raw_field.value = result       # write into the single visible field
             self._insert_btn.disabled = False
-            self._status_text.value = "Verfeinerung abgeschlossen."
+            self._status_text.value = "Sprachlich geglättet."
             self._status_text.color = _C_OK
             self._refine_btn.disabled = False
             self._page.update()
@@ -627,20 +1287,21 @@ class ScreenPilotComposer:
         _svc.generate_refined(self._cluster, raw, on_done=_done, on_error=_err)
 
     def _on_finalize(self, e) -> None:
-        text = self._refined_field.value or self._raw_field.value or self._raw_text
+        text = self._raw_field.value or self._raw_text
         if not text.strip():
             return
-        self._status_text.value = "Final-Verdichtung läuft..."
-        self._status_text.color = ft.Colors.BLUE_700
+        self._status_text.value = "Verdichtung läuft …"
+        self._status_text.color = _C_IN_PROGRESS
         self._final_btn.disabled = True
         self._page.update()
 
         def _done(result: str) -> None:
             self._final_text = result
-            self._final_field.value = result
-            self._stage_labels["final"].color = _C_OK
+            self._final_field.value = result     # internal compatibility
+            self._raw_text = result              # sync backing store
+            self._raw_field.value = result       # write into the single visible field
             self._insert_btn.disabled = False
-            self._status_text.value = "Final-Entwurf bereit."
+            self._status_text.value = "Verdichtet."
             self._status_text.color = _C_OK
             self._final_btn.disabled = False
             self._page.update()

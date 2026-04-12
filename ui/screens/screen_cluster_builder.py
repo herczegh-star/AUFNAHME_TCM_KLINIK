@@ -22,16 +22,12 @@ from pathlib import Path
 import flet as ft
 
 from models.unified_cluster import UnifiedCluster
-from services.unified_cluster_service import load, save_edited, list_available, create_cluster, slugify_cluster_id
+from services.unified_cluster_service import load, save_edited, list_available, list_available_with_names, create_cluster, slugify_cluster_id
 from services.cluster_validator import validate_cluster_dict
 import services.pilot_draft_service as _svc
+from ui.theme import _C_ACCENT, _C_OK, _C_ERR, _C_WARN, _C_BORDER
 
 
-_C_BORDER   = ft.Colors.BLUE_GREY_200
-_C_ACCENT   = ft.Colors.INDIGO_700
-_C_OK       = ft.Colors.GREEN_700
-_C_ERR      = ft.Colors.RED_700
-_C_WARN     = ft.Colors.ORANGE_700
 _C_BG       = ft.Colors.GREY_50
 
 
@@ -99,10 +95,10 @@ class ScreenClusterBuilder:
     # ------------------------------------------------------------------
 
     def _build_header(self) -> ft.Control:
-        available = list_available()
+        available = list_available_with_names()
         cluster_dropdown = ft.Dropdown(
             value=self._cluster.storage_key,
-            options=[ft.dropdown.Option(key=k, text=k) for k in available],
+            options=[ft.dropdown.Option(key=sk, text=name) for sk, name in available],
             on_change=self._on_cluster_change,
             width=260,
             dense=True,
@@ -112,7 +108,8 @@ class ScreenClusterBuilder:
         nav_row = ft.Row(
             controls=[
                 ft.TextButton(
-                    "← Zurueck",
+                    "← Zurück",
+                    style=ft.ButtonStyle(color=_C_ACCENT),
                     on_click=lambda _: self._ctrl.show_pilot_composer(
                         storage_key=self._cluster.storage_key
                     ),

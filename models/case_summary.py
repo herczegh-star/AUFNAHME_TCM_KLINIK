@@ -57,3 +57,8 @@ class AppState:
 
     # Generated text blocks — physician selects from these
     composed_blocks: list[str] = field(default_factory=list)
+
+    # Pilot-Composer working-state snapshot (saved on "Speichern und verlassen").
+    # Keys: text (str), composer_state (str), storage_key (str).
+    # Cleared automatically after restore on re-entry.
+    pilot_draft: dict | None = None

@@ -1,0 +1,331 @@
+{
+  "id": "kopfschmerzen",
+  "name": "Kopfschmerzen",
+  "aliases": [
+    "Kopfschmerz",
+    "Cephalgie",
+    "Cephalalgie",
+    "Headache"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Schmerzsyndrom",
+  "family": "neurologisch",
+  "tags": [
+    "schmerz",
+    "kopf",
+    "neurologisch",
+    "episodisch"
+  ],
+  "meta": {
+    "icd10": "G44.2",
+    "icd10_label": "Episodischer Kopfschmerz",
+    "anatomical_region": "Kopf, Schläfen, Stirn, Okziput",
+    "typical_age_range": "20-60",
+    "tcm_pattern_hints": [
+      "Leber-Qi-Stagnation",
+      "Blut-Mangel",
+      "Phlegm-Feuer"
+    ]
+  },
+  "form": {
+    "title": "Kopfschmerzen – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Beschwerdedauer",
+        "type": "text",
+        "required": false,
+        "active_in_draft": true,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "placeholder": "z. B. seit 3 Wochen, seit 10–15 Jahren"
+      },
+      {
+        "id": "frequency_pattern",
+        "label": "Häufigkeit",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "frequency_pattern",
+        "options": [
+          "täglich",
+          "mehrmals wöchentlich",
+          "ein- bis zweimal wöchentlich",
+          "episodisch",
+          "anfallsartig"
+        ]
+      },
+      {
+        "id": "episode_duration",
+        "label": "Anfallsdauer / Episodendauer",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "episode_duration",
+        "options": [
+          "wenige Stunden",
+          "mehrere Stunden",
+          "halbtägig",
+          "teils ganztägig",
+          "ganztägig",
+          "variabel"
+        ]
+      },
+      {
+        "id": "headache_localisation",
+        "label": "Lokalisation",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "headache_localisation",
+        "options": [
+          "frontal",
+          "temporal",
+          "okzipital",
+          "diffus",
+          "Schläfenbereich",
+          "einseitig rechts",
+          "einseitig links",
+          "beidseits",
+          "wechselnd rechts / links"
+        ]
+      },
+      {
+        "id": "pain_character",
+        "label": "Schmerzcharakter",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_character",
+        "options": [
+          "ziehend",
+          "drückend",
+          "pochend",
+          "pulsierend",
+          "stechend",
+          "dumpf"
+        ]
+      },
+      {
+        "id": "aggravating_factors",
+        "label": "Verschlechternde Faktoren / Trigger",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "aggravating_factors",
+        "options": [
+          "Stress",
+          "Schlafmangel",
+          "Bildschirmarbeit",
+          "Lärm",
+          "helles Licht",
+          "körperliche Belastung"
+        ]
+      },
+      {
+        "id": "relieving_factors",
+        "label": "Lindernde Faktoren",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "relieving_factors",
+        "options": [
+          "Ruhe",
+          "Schlaf",
+          "Rückzug",
+          "Dunkelheit",
+          "Analgetika"
+        ]
+      },
+      {
+        "id": "accompanying_symptoms",
+        "label": "Begleitsymptome",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "accompanying_symptoms",
+        "options": [
+          "Übelkeit",
+          "Erbrechen",
+          "Lichtempfindlichkeit",
+          "Lärmempfindlichkeit",
+          "Schwindel",
+          "Sehstörungen"
+        ]
+      },
+      {
+        "id": "additional_notes",
+        "label": "Weitere Angaben",
+        "type": "textarea",
+        "required": false,
+        "active_in_draft": true,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "placeholder": "Freitext"
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose, keine Migräne-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Zeitlicher Verlauf (Häufigkeit, Episodendauer) als separater Satz",
+      "Begleitsymptome explizit benennen wenn vorhanden",
+      "Maximal 3–4 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Kopfschmerzen"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise",
+      "Migräne",
+      "Spannungskopfschmerz",
+      "Cluster-Kopfschmerz"
+    ],
+    "examples": [
+      {
+        "input": "seit 10–15 Jahren, Schläfenbereich wechselnd, ziehend und pochend, 1–2x/Woche, teils ganztägig, Übelkeit",
+        "output": "Kopfschmerzen im Schläfenbereich, wechselnd rechts/links, von ziehender und pochender Qualität. Diese treten ein- bis zweimal wöchentlich auf und halten teils ganztägig an. Teilweise mit Übelkeit verbunden."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "KOPF1",
+      "label": "Episodische Kopfschmerzen",
+      "description": "Wiederkehrende Kopfschmerzen ohne klares migränöses Muster, typisch temporal oder diffus",
+      "when_to_use": "Episodische Beschwerden ohne Aura, variable Lokalisation, ohne klare Migräne-Charakteristik",
+      "template": "Kopfschmerzen [Lokalisation] von [Charakter] Qualität, [Häufigkeit], [Episodendauer].",
+      "tcm_patterns": [
+        "Leber-Qi-Stagnation",
+        "Blut-Mangel"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_kopf_full",
+      "description": "Vollständige Angaben: Lokalisation, Charakter, Häufigkeit, Episodendauer, Begleitsymptom",
+      "input": {
+        "headache_localisation": [
+          "Schläfenbereich",
+          "wechselnd rechts / links"
+        ],
+        "pain_character": [
+          "ziehend",
+          "pochend"
+        ],
+        "frequency_pattern": [
+          "ein- bis zweimal wöchentlich"
+        ],
+        "episode_duration": [
+          "teils ganztägig"
+        ],
+        "accompanying_symptoms": [
+          "Übelkeit"
+        ],
+        "aggravating_factors": [],
+        "relieving_factors": []
+      },
+      "expected_contains": [
+        "Kopfschmerzen",
+        "Schläfenbereich",
+        "ziehend",
+        "pochend",
+        "wöchentlich",
+        "ganztägig",
+        "Übelkeit"
+      ],
+      "expected_not_contains": [
+        "Migräne",
+        "Spannungskopfschmerz",
+        "wahrscheinlich"
+      ]
+    },
+    {
+      "id": "test_kopf_with_triggers",
+      "description": "Kopfschmerzen mit Triggern und Linderung",
+      "input": {
+        "headache_localisation": [
+          "frontal"
+        ],
+        "pain_character": [
+          "drückend"
+        ],
+        "frequency_pattern": [
+          "mehrmals wöchentlich"
+        ],
+        "episode_duration": [
+          "mehrere Stunden"
+        ],
+        "accompanying_symptoms": [],
+        "aggravating_factors": [
+          "Stress",
+          "Schlafmangel"
+        ],
+        "relieving_factors": [
+          "Ruhe"
+        ]
+      },
+      "expected_contains": [
+        "Kopfschmerzen",
+        "frontal",
+        "drückend",
+        "wöchentlich",
+        "Stress",
+        "Ruhe"
+      ],
+      "expected_not_contains": [
+        "Migräne",
+        "wahrscheinlich"
+      ]
+    },
+    {
+      "id": "test_kopf_minimal",
+      "description": "Minimaleingabe: nur Anker, keine Modifikatoren",
+      "input": {
+        "headache_localisation": [],
+        "pain_character": [],
+        "frequency_pattern": [],
+        "episode_duration": [],
+        "accompanying_symptoms": [],
+        "aggravating_factors": [],
+        "relieving_factors": []
+      },
+      "expected_contains": [
+        "Kopfschmerzen"
+      ],
+      "expected_not_contains": [
+        "None",
+        "null",
+        "Migräne"
+      ]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "ideal_text": "Außerdem bestehen bei der Patientin seit 10-15 Jahren Kopfschmerzen am ehesten vom Spannungstyp. Diese treten derzeit etwa ein- bis zweimal pro Woche auf und halten manchmal einen ganzen Tag lang an. Die Schmerzen sind von ziehender und pochender Schmerzqualität. Sie seien an den Schläfen mal rechts mal links lokalisiert. Teilweise seien die Schmerzen mit Übelkeit verbunden."
+  }
+}

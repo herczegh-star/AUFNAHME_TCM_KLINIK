@@ -135,6 +135,68 @@ def generate_refined(
     threading.Thread(target=_run, daemon=True).start()
 
 
+def generate_connected(
+    blocks: list[str],
+    on_done: Callable[[str], None],
+    on_error: Callable[[str], None],
+) -> None:
+    """
+    Assembly step (before Stage 2): linguistically connect 2+ already-selected
+    complaint blocks into one coherent German clinical RAW paragraph.
+
+    Content is closed — the blocks are exactly what the physician selected.
+    AI is only allowed to:
+      - write a suitable opening sentence for the first block
+      - connect the blocks with clinical transition phrases
+    AI must NOT add new facts, diagnoses, or symptoms, and must NOT omit
+    any content from the input blocks.
+
+    Falls back to the blocks joined by double newline when HAS_LLM is False.
+    """
+    def _run() -> None:
+        try:
+            if not _HAS_LLM:
+                on_done("\n\n".join(b.strip() for b in blocks if b.strip()))
+                return
+
+            numbered = "\n\n".join(
+                f"[Block {i + 1}]\n{block.strip()}"
+                for i, block in enumerate(blocks)
+                if block.strip()
+            )
+
+            system = (
+                "Du bist ein klinischer Dokumentationsredakteur. "
+                "Du erhältst eine geordnete Liste von Beschwerde-Blöcken eines ärztlichen Aufnahmeberichts.\n\n"
+                "Deine einzige Aufgabe:\n"
+                "Forme diese Blöcke zu einem einzigen kohärenten deutschen klinischen Absatz "
+                "im Verdichtungsstil zusammen.\n\n"
+                "Strikte Sicherheitsregeln — keine Ausnahmen:\n"
+                "- Füge KEINE neuen medizinischen Fakten hinzu, die nicht in den Eingabe-Blöcken stehen.\n"
+                "- Füge KEINE neuen Symptome, Diagnosen oder klinischen Einschätzungen hinzu.\n"
+                "- Lasse KEINEN Inhalt aus den Eingabe-Blöcken weg.\n"
+                "- Schwäche, verallgemeinere oder reinterpretiere KEINE konkreten Angaben.\n"
+                "- Ändere die Reihenfolge der Blöcke NICHT, außer wenn dies grammatisch zwingend nötig ist.\n"
+                "- Formuliere einen geeigneten Einstiegssatz für den ersten Block.\n"
+                "- Verbinde die Blöcke mit passenden klinischen Übergangssätzen auf Deutsch.\n"
+                "- Füge KEINEN Abschluss- oder Sammelsatz hinzu, der nicht im Eingangstext steht.\n\n"
+                "Stilregeln:\n"
+                "- Formaler medizinischer Dokumentationsstil, Verdichtungsstil.\n"
+                "- Keine Füllwörter, keine Spekulation, keine Interpretation.\n"
+                "- Keine Modalverben wie 'sollte', 'dürfte', 'könnte'.\n"
+                "- Keine Wörter wie 'wahrscheinlich' oder 'vermutlich'.\n\n"
+                "Antworte ausschließlich mit dem fertigen Absatz. "
+                "Kein Kommentar, keine Erklärung, kein Metakommentar."
+            )
+
+            result = _call_llm_backend(system=system, user=numbered, temperature=0.15)
+            on_done(result.strip())
+        except Exception as exc:
+            on_error(str(exc))
+
+    threading.Thread(target=_run, daemon=True).start()
+
+
 def generate_final(
     cluster: UnifiedCluster,
     refined_text: str,

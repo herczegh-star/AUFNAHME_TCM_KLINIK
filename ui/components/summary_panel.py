@@ -12,6 +12,7 @@ from __future__ import annotations
 import flet as ft
 
 from models.case_summary import CaseSummary
+from ui.theme import _C_BG_PANEL, _C_TEXT_SECONDARY
 
 
 class SummaryPanel:
@@ -33,13 +34,13 @@ class SummaryPanel:
                 continue
             rows.append(ft.Container(height=8))
             rows.append(ft.Text(label, weight=ft.FontWeight.W_600, size=12,
-                                color=ft.Colors.GREY_700))
+                                color=_C_TEXT_SECONDARY))
             rows.append(ft.Text(value, size=12, selectable=True))
 
         return ft.Container(
             width=280,
             padding=16,
-            bgcolor=ft.Colors.GREY_100,
+            bgcolor=_C_BG_PANEL,
             border_radius=8,
             content=ft.Column(controls=rows, spacing=2, scroll=ft.ScrollMode.AUTO),
         )

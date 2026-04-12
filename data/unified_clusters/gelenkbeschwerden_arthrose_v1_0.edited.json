@@ -1,0 +1,443 @@
+{
+  "id": "gelenkbeschwerden_arthrose",
+  "name": "Gelenkbeschwerden (Arthrose)",
+  "aliases": [
+    "Arthrose",
+    "Arthrosis",
+    "Gelenkschmerzen",
+    "Gonarthrose",
+    "Coxarthrose",
+    "Omarthrose"
+  ],
+  "status": "draft",
+  "version": "1.0",
+  "category": "Schmerzsyndrom",
+  "family": "muskuloskeletal",
+  "tags": [
+    "schmerz",
+    "gelenk",
+    "arthrose",
+    "degenerativ",
+    "mechanisch"
+  ],
+  "meta": {
+    "icd10": "M19.9",
+    "icd10_label": "Arthrose, nicht näher bezeichnet",
+    "anatomical_region": "Knie, Hüfte, Schulter, Finger, Sprunggelenke",
+    "typical_age_range": "45-75",
+    "tcm_pattern_hints": [
+      "Bi-Syndrom (Wind-Kaelte-Feuchte)",
+      "Nieren-Yang-Mangel",
+      "Leber-Blut-Mangel"
+    ]
+  },
+  "form": {
+    "title": "Gelenkbeschwerden (Arthrose) – Anamnese",
+    "fields": [
+      {
+        "id": "duration",
+        "label": "Dauer / Verlauf",
+        "type": "text",
+        "required": false,
+        "active_in_draft": true,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "placeholder": "z. B. seit mehreren Jahren, seit 5 Jahren"
+      },
+      {
+        "id": "joint_location",
+        "label": "Betroffene Gelenke / Lokalisation",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "joint_location",
+        "options": [
+          "Knie",
+          "Hüfte",
+          "Schulter",
+          "Ellenbogen",
+          "Handgelenke",
+          "Fingergelenke",
+          "Sprunggelenke",
+          "Füße / Zehengelenke",
+          "mehrere Gelenke"
+        ]
+      },
+      {
+        "id": "laterality_distribution",
+        "label": "Seite / Verteilung",
+        "type": "select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "laterality_distribution",
+        "options": [
+          "rechts",
+          "links",
+          "beidseits",
+          "wechselnd"
+        ]
+      },
+      {
+        "id": "pain_character",
+        "label": "Schmerzcharakter",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_character",
+        "options": [
+          "ziehend",
+          "drückend",
+          "dumpf",
+          "stechend",
+          "brennend",
+          "bohrend",
+          "krampfartig"
+        ]
+      },
+      {
+        "id": "pain_intensity",
+        "label": "Intensität",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "pain_intensity",
+        "options": [
+          "leicht",
+          "mittelstark",
+          "stark",
+          "sehr stark"
+        ]
+      },
+      {
+        "id": "mechanical_pattern",
+        "label": "Belastungsabhängigkeit / Verlauf im Alltag",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "mechanical_pattern",
+        "options": [
+          "belastungsabhängig",
+          "beim Gehen",
+          "beim Treppensteigen",
+          "bei längerer Belastung",
+          "Anlaufschmerz",
+          "im Tagesverlauf zunehmend"
+        ]
+      },
+      {
+        "id": "range_of_motion_limitation",
+        "label": "Bewegungseinschränkung",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "range_of_motion_limitation",
+        "options": [
+          "eingeschränkte Beweglichkeit",
+          "reduzierte Belastbarkeit",
+          "eingeschränkte Gehstrecke",
+          "Schwierigkeiten beim Treppensteigen",
+          "Probleme beim Aufstehen"
+        ]
+      },
+      {
+        "id": "morning_stiffness",
+        "label": "Morgensteifigkeit",
+        "type": "select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "morning_stiffness",
+        "options": [
+          "keine",
+          "kurzzeitig",
+          "vorhanden"
+        ]
+      },
+      {
+        "id": "swelling_irritation",
+        "label": "Schwellung / Reizzustand",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "swelling_irritation",
+        "options": [
+          "keine",
+          "gelegentliche Schwellung",
+          "belastungsabhängige Schwellung",
+          "Reizzustand"
+        ]
+      },
+      {
+        "id": "relieving_factors",
+        "label": "Lindernde Faktoren",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "relieving_factors",
+        "options": [
+          "Ruhe",
+          "Wärme",
+          "Schonung",
+          "Kühlung",
+          "Physiotherapie",
+          "Analgetika",
+          "Entlastung"
+        ]
+      },
+      {
+        "id": "functional_impact",
+        "label": "Funktionelle Einschränkung",
+        "type": "multi_select",
+        "required": false,
+        "active_in_draft": false,
+        "normalization_map": null,
+        "shared_items_key": "functional_impact",
+        "options": [
+          "eingeschränkte Alltagsfähigkeit",
+          "Gehstrecke reduziert",
+          "Treppensteigen eingeschränkt",
+          "Schlaf beeinträchtigt",
+          "Arbeitsfähigkeit beeinträchtigt"
+        ]
+      },
+      {
+        "id": "additional_notes",
+        "label": "Zusatzbemerkungen",
+        "type": "textarea",
+        "required": false,
+        "active_in_draft": true,
+        "normalization_map": null,
+        "shared_items_key": null,
+        "placeholder": "Freitext"
+      }
+    ]
+  },
+  "normalization": {},
+  "style": {
+    "rules": [
+      "Verdichtungsstil: keine Füllwörter, keine Passivkonstruktionen",
+      "Keine Diagnose-Klassifikation, keine Therapieempfehlung im Rohtext",
+      "Mechanisch-degeneratives Muster betonen: belastungsabhängig, Anlaufschmerzen",
+      "Nicht entzündlich-rheumatisch klingende Formulierungen vermeiden",
+      "Phänomenologisch beschreiben: nur was explizit angegeben wurde",
+      "Maximal 5–8 kurze Sätze"
+    ],
+    "preferred_phrases": {
+      "anchor": [
+        "Gelenkbeschwerden"
+      ]
+    },
+    "forbidden_words": [
+      "wahrscheinlich",
+      "vermutlich",
+      "empfohlen",
+      "sollte",
+      "spricht für",
+      "könnte",
+      "möglicherweise",
+      "Arthritis",
+      "rheumatisch"
+    ],
+    "examples": [
+      {
+        "input": "Knie beidseits, ziehend drückend, belastungsabhängig, Anlaufschmerz, eingeschränkte Beweglichkeit, Ruhe Wärme",
+        "output": "Arthrosebedingte Gelenkbeschwerden im Bereich der Kniegelenke beidseits. Die Beschwerden sind von ziehender und drückender Qualität. Typisch sind Anlaufschmerzen und Belastungsabhängigkeit. Zudem bestehen eine eingeschränkte Beweglichkeit. Linderung bringen Ruhe und Wärme."
+      }
+    ]
+  },
+  "render_maps": {},
+  "archetypes": [
+    {
+      "id": "GELENK1",
+      "label": "Mechanische Gonarthrose",
+      "description": "Belastungsabhängige Kniebeschwerden mit Anlaufschmerz und eingeschränkter Beweglichkeit",
+      "when_to_use": "Kniegelenke, belastungsabhängig, Anlaufschmerz, keine Ruhe-/Nachtschmerzen",
+      "template": "Arthrosebedingte Gelenkbeschwerden im Bereich der Kniegelenke [Seite], belastungsabhängig, mit Anlaufschmerzen.",
+      "tcm_patterns": [
+        "Bi-Syndrom (Kaelte-Feuchte)",
+        "Nieren-Yang-Mangel"
+      ]
+    },
+    {
+      "id": "GELENK2",
+      "label": "Polyartikuläre Arthrose",
+      "description": "Mehrere Gelenke betroffen, wechselnde Beschwerden, mechanisch-degeneratives Muster",
+      "when_to_use": "Mehrere Gelenke betroffen, wechselnd oder symmetrisch",
+      "template": "Arthrosebedingte Gelenkbeschwerden im Bereich mehrerer Gelenke, [Seite/wechselnd], belastungsabhängig.",
+      "tcm_patterns": [
+        "Bi-Syndrom",
+        "Leber-Blut-Mangel",
+        "Nieren-Yin-Mangel"
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "id": "test_gelenk_knie_bilateral",
+      "description": "Knie beidseits, ziehend drückend, belastungsabhängig, Anlaufschmerz, eingeschränkte Beweglichkeit, Ruhe Wärme",
+      "input": {
+        "joint_location": [
+          "Knie"
+        ],
+        "laterality_distribution": [
+          "beidseits"
+        ],
+        "pain_character": [
+          "ziehend",
+          "drückend"
+        ],
+        "pain_intensity": [
+          "mittelstark"
+        ],
+        "mechanical_pattern": [
+          "belastungsabhängig",
+          "Anlaufschmerz"
+        ],
+        "range_of_motion_limitation": [
+          "eingeschränkte Beweglichkeit",
+          "reduzierte Belastbarkeit"
+        ],
+        "morning_stiffness": [],
+        "swelling_irritation": [],
+        "relieving_factors": [
+          "Ruhe",
+          "Wärme"
+        ],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "Gelenkbeschwerden",
+        "Kniegelenke",
+        "beidseits",
+        "ziehend",
+        "drückend",
+        "Anlaufschmerzen",
+        "Beweglichkeit",
+        "Ruhe",
+        "Wärme"
+      ],
+      "expected_not_contains": [
+        "wahrscheinlich",
+        "Arthritis",
+        "None",
+        "null"
+      ]
+    },
+    {
+      "id": "test_gelenk_belastungsabhaengig",
+      "description": "Hüfte rechts, dumpf, mittelstark, belastungsabhängig beim Gehen, Treppensteigen, Schwellung",
+      "input": {
+        "joint_location": [
+          "Hüfte"
+        ],
+        "laterality_distribution": [
+          "rechts"
+        ],
+        "pain_character": [
+          "dumpf"
+        ],
+        "pain_intensity": [
+          "mittelstark"
+        ],
+        "mechanical_pattern": [
+          "belastungsabhängig",
+          "beim Gehen",
+          "beim Treppensteigen"
+        ],
+        "range_of_motion_limitation": [
+          "eingeschränkte Gehstrecke"
+        ],
+        "morning_stiffness": [],
+        "swelling_irritation": [
+          "gelegentliche Schwellung"
+        ],
+        "relieving_factors": [
+          "Schonung"
+        ],
+        "functional_impact": []
+      },
+      "expected_contains": [
+        "Gelenkbeschwerden",
+        "Hüfte",
+        "rechts",
+        "dumpf",
+        "Gehen",
+        "Gehstrecke",
+        "Schwellung",
+        "Schonung"
+      ],
+      "expected_not_contains": [
+        "wahrscheinlich",
+        "Arthritis"
+      ]
+    },
+    {
+      "id": "test_gelenk_anlauf_mit_funktionseinschraenkung",
+      "description": "Mehrere Gelenke wechselnd, stechend stark, Anlaufschmerz + Morgensteifigkeit + Funktionseinschränkung",
+      "input": {
+        "joint_location": [
+          "mehrere Gelenke"
+        ],
+        "laterality_distribution": [
+          "wechselnd"
+        ],
+        "pain_character": [
+          "stechend"
+        ],
+        "pain_intensity": [
+          "stark"
+        ],
+        "mechanical_pattern": [
+          "Anlaufschmerz",
+          "im Tagesverlauf zunehmend"
+        ],
+        "range_of_motion_limitation": [
+          "eingeschränkte Beweglichkeit"
+        ],
+        "morning_stiffness": [
+          "kurzzeitig"
+        ],
+        "swelling_irritation": [],
+        "relieving_factors": [
+          "Ruhe"
+        ],
+        "functional_impact": [
+          "eingeschränkte Alltagsfähigkeit"
+        ]
+      },
+      "expected_contains": [
+        "Gelenkbeschwerden",
+        "mehrerer Gelenke",
+        "wechselnd",
+        "stechend",
+        "Anlaufschmerzen",
+        "Morgensteifigkeit",
+        "Alltagsfähigkeit"
+      ],
+      "expected_not_contains": [
+        "wahrscheinlich",
+        "Arthritis"
+      ]
+    }
+  ],
+  "draft_pipeline": {
+    "stages": [],
+    "fallback_on_llm_error": "raw"
+  },
+  "clinical_reference": {
+    "reference_texts": [
+      "Die Patientin berichtet über seit vielen Jahren bestehende belastungsabhängige Schmerzen im rechten Kniegelenk. Anamnestisch erfolgten bereits eine Meniskussanierung sowie eine rechtsseitige Tibiakopf-Umstellungsosteotomie im August 2016. Die Schmerzen treten vor allem bei Beuge- und Streckbewegungen auf und werden als stechend beschrieben. In Ruhe, insbesondere im Sitzen, besteht Beschwerdefreiheit. Bei längeren Gehstrecken oder stärkerer Belastung kommt es zu einer deutlichen Einschränkung der Mobilität.",
+      "Weiterhin leide sie seit über drei Jahren unter Schmerzen im rechten Daumengelenk im Rahmen einer Rhizarthrose. Die Schmerzen seien ziehend und treten nur bei Belastung auf. Linderung durch Voltaren-Gel, Ruhe sowie Wärme, Verschlechterung durch Belastung.",
+      "Es bestehen seit Dezember 2025 progrediente Schmerzen im Bereich der rechten Schulter. Neben belastungsabhängigen Schmerzen liegen inzwischen auch leichte Ruheschmerzen sowie eine schmerzhafte Bewegungseinschränkung vor. Nachts ist das Liegen auf der rechten Seite schmerzbedingt nicht möglich. Eine berufliche Belastung mit regelmäßigem Heben und Unterstützen bei Transfers führt zu einer Verstärkung der Beschwerden."
+    ],
+    "ideal_text": "Die Patientin berichtet über seit vielen Jahren bestehende belastungsabhängige Schmerzen im rechten Kniegelenk. Anamnestisch erfolgten bereits eine Meniskussanierung sowie eine rechtsseitige Tibiakopf-Umstellungsosteotomie im August 2016. Die Schmerzen treten vor allem bei Beuge- und Streckbewegungen auf und werden als stechend beschrieben. In Ruhe, insbesondere im Sitzen, besteht Beschwerdefreiheit. Bei längeren Gehstrecken oder stärkerer Belastung kommt es zu einer deutlichen Einschränkung der Mobilität."
+  }
+}
