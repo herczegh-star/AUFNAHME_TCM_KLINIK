@@ -144,6 +144,12 @@ def list_available_with_names() -> list[tuple[str, str]]:
     return sorted(result, key=lambda t: t[1].lower())
 
 
+def get_display_name(storage_key: str) -> str:
+    """Return the approved user-facing display name for a storage_key.
+    Falls back to storage_key itself if not found in _DISPLAY_NAMES."""
+    return _DISPLAY_NAMES.get(storage_key, storage_key)
+
+
 def slugify_cluster_id(name: str) -> str:
     """
     Convert a human-readable cluster name to a valid cluster_id slug.

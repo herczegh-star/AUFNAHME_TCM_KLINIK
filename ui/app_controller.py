@@ -93,6 +93,9 @@ class AppController:
     def show_screen_2b(self, summary: CaseSummary) -> None:
         self.state.current_screen = "summary_review"
         self.state.summary = summary
+        # Clear stale cluster selection so Summary Review infers from the current
+        # case context instead of carrying over a cluster from a previous pass.
+        self.state.selected_cluster_id = ""
         self.page.controls.clear()
         ScreenSummaryReview(self.page, self).render()
         self._wrap_with_background()
@@ -102,6 +105,7 @@ class AppController:
         self,
         summary: CaseSummary | None = None,
         storage_key: str | None = None,
+        cumulative_text: str = "",
     ) -> None:
         """
         Production composer — unified cluster architecture.
@@ -109,10 +113,14 @@ class AppController:
         Entry points:
           a) show_pilot_composer(summary, storage_key=...)  — from SummaryReview
           b) show_pilot_composer()                          — direct access (no interview)
+          c) show_pilot_composer(summary, storage_key=..., cumulative_text=...)
+             — block continuation: pre-seeds Arbeitstext with already accepted text
 
         storage_key is stored in state.selected_cluster_id and passed to
         ScreenPilotComposer.  When None, the composer falls back to the
         previously selected cluster or LWS (direct-access path only).
+        cumulative_text is passed directly to ScreenPilotComposer and is not
+        stored in AppState (it is cluster-agnostic carry-over, not persisted state).
         """
         from ui.screens.screen_pilot_composer import ScreenPilotComposer
         self.state.current_screen = "pilot_composer"
@@ -125,6 +133,7 @@ class AppController:
             self.page, self,
             summary=summary,
             storage_key=self.state.selected_cluster_id or None,
+            cumulative_text=cumulative_text,
         ).render()
         self._wrap_with_background()
         self.page.update()
