@@ -1494,10 +1494,16 @@ class ScreenPilotComposer:
             self._status_text.color = _C_ERR
             self._page.update()
             return
-        # Route through guard: shows confirmation dialog when Arbeitstext already
-        # has content, inserts directly when empty.
-        # after_fn triggers the continuation row only after actual acceptance.
-        self._guarded_raw_take(raw, after_fn=self._on_generation_accepted)
+        if self._active_block_index > 0:
+            # Block 2+: append to preserve cumulative text from earlier blocks.
+            # No "replace?" dialog — cumulative content must not be destroyed.
+            self._raw_append(raw)
+            self._on_generation_accepted()
+        else:
+            # Block 1: existing guard — shows confirmation dialog when Arbeitstext
+            # already has content, inserts directly when empty.
+            # after_fn triggers the continuation row only after actual acceptance.
+            self._guarded_raw_take(raw, after_fn=self._on_generation_accepted)
 
     def _on_refine(self, e) -> None:
         raw = self._raw_field.value or self._raw_text
