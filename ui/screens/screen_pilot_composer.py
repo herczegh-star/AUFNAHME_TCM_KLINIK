@@ -31,7 +31,9 @@ Navigation:
 
 from __future__ import annotations
 
+import json
 import flet as ft
+from pathlib import Path
 
 from models.case_summary import CaseSummary
 from models.unified_cluster import UnifiedCluster
@@ -39,6 +41,21 @@ from services.unified_cluster_service import load, load_lws, list_available_with
 from services.cluster_inference import infer_cluster
 import services.pilot_draft_service as _svc
 from services.pilot_draft_service import HAS_LLM
+
+_PHRASE_LIBRARY_PATH = Path(__file__).parent.parent.parent / "data" / "phrase_library.json"
+_phrase_library_cache: dict | None = None
+
+
+def _get_phrase_library() -> dict:
+    """Load and cache data/phrase_library.json.  Returns {} on any read error."""
+    global _phrase_library_cache
+    if _phrase_library_cache is None:
+        try:
+            _phrase_library_cache = json.loads(_PHRASE_LIBRARY_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            _phrase_library_cache = {}
+    return _phrase_library_cache
+
 
 # Clinically generic templates for "Weitere behandlungsbedürftige Beschwerden".
 # Not cluster-specific — kept here rather than in sprachbausteine JSON.
@@ -715,58 +732,34 @@ class ScreenPilotComposer:
         """
         Introductory phrase picker (Einleitende Formulierung).
 
-        Two-step: category dropdown → phrase dropdown → Einfügen button.
-        Inserts the selected full intro block at the BEGINNING of Arbeitstext.
+        Two-step: type dropdown → phrase dropdown → Einfügen button.
+        Inserts the selected phrase at the BEGINNING of Arbeitstext.
 
-        Block-level selection: one dropdown with intro type choices,
-        each mapping to a predefined full text block.  No sentence-by-sentence
-        composition.
+        Both intro types read from the shared global phrase_library.json:
+          "Neuer Fall"            → new_case_openers.phrases
+          "Bekannte/r Patient/in" → returning_patient_openers.phrases
 
-        Defined blocks:
-          - "Neuer Fall"            → first opener phrase from cluster.sprachbausteine
-                                      (single representative opener)
-          - "Bekannte/r Patient/in" → fixed full intro block (4 sentences)
-
-        The lower Textvorlagen section remains the only place for full
-        complaint/reference texts.
+        Not cluster-specific — the library is the single source of truth.
         """
-        # --- Block definitions ---
-        # "Bekannte/r Patient/in": exact full block as specified.
-        _BEKANNTE_BLOCK = (
-            "Patient/in ist im Hause bekannt. "
-            "Zuletzt befand sich Patient/in im Jahr XXXX in unserer stationären Behandlung. "
-            "Die ausführliche Vorgeschichte darf freundlicherweise als bekannt vorausgesetzt "
-            "werden; wir verweisen auf die entsprechenden Vorberichte. "
-            "Kurz gefasst berichtet Patient/in seit ..."
-        )
-
-        # "Neuer Fall": all opener phrases from cluster (multiple alternatives).
-        _neuer_fall_phrases = self._cluster.sprachbausteine.get("Einstieg – neuer Fall", [])
-
-        # self._intro_blocks holds entries for types that map to a single fixed block.
-        # "Neuer Fall" is handled via _intro_phrase_dd and is NOT in this dict.
-        self._intro_blocks: dict[str, str] = {
-            "Bekannte/r Patient/in": _BEKANNTE_BLOCK,
+        lib = _get_phrase_library()
+        # Phrase lists per intro type — keyed by the type label used in the dropdown.
+        self._intro_phrases_by_type: dict[str, list[str]] = {
+            "Neuer Fall":            lib.get("new_case_openers",       {}).get("phrases", []),
+            "Bekannte/r Patient/in": lib.get("returning_patient_openers", {}).get("phrases", []),
         }
-
-        # Build type dropdown options: Neuer Fall first (if phrases available), then bekannte.
-        _type_options: list[str] = []
-        if _neuer_fall_phrases:
-            _type_options.append("Neuer Fall")
-        _type_options.append("Bekannte/r Patient/in")
 
         self._intro_block_dd = ft.Dropdown(
             hint_text="Einleitungstyp wählen …",
-            options=[ft.dropdown.Option(k) for k in _type_options],
+            options=[ft.dropdown.Option(k) for k in self._intro_phrases_by_type],
             border_color=_C_BORDER,
             dense=True,
             width=240,
         )
 
-        # Phrase dropdown — only shown when "Neuer Fall" is selected.
+        # Phrase dropdown — shown after a type is selected; options swap per type.
         self._intro_phrase_dd = ft.Dropdown(
             hint_text="Formulierung wählen …",
-            options=[ft.dropdown.Option(p) for p in _neuer_fall_phrases],
+            options=[],
             border_color=_C_BORDER,
             dense=True,
             expand=True,
@@ -784,15 +777,11 @@ class ScreenPilotComposer:
 
         def _on_type_change(e) -> None:
             selected = e.control.value or ""
-            if selected == "Neuer Fall":
-                # Show phrase picker; insert requires a phrase selection.
-                self._intro_phrase_dd.visible = True
-                self._intro_phrase_dd.value = None
-                self._intro_insert_btn.disabled = True
-            else:
-                # Single fixed block — hide phrase picker, enable insert immediately.
-                self._intro_phrase_dd.visible = False
-                self._intro_insert_btn.disabled = not bool(selected)
+            phrases = self._intro_phrases_by_type.get(selected, [])
+            self._intro_phrase_dd.options = [ft.dropdown.Option(p) for p in phrases]
+            self._intro_phrase_dd.value   = None
+            self._intro_phrase_dd.visible = bool(selected)
+            self._intro_insert_btn.disabled = True
             self._page.update()
 
         def _on_phrase_change(e) -> None:
@@ -832,11 +821,12 @@ class ScreenPilotComposer:
         """
         Übergangsformulierung control (aufbau-only).
 
-        Single dropdown populated from cluster.sprachbausteine key
-        "Anschluss / Überleitung" + Einfügen button.
+        Single dropdown populated from the shared global phrase_library.json
+        (transition_openers.phrases) + Einfügen button.
+        Not cluster-specific.
         Appends the selected phrase to the END of Arbeitstext.
         """
-        phrases = self._cluster.sprachbausteine.get("Anschluss / Überleitung", [])
+        phrases = _get_phrase_library().get("transition_openers", {}).get("phrases", [])
 
         self._transition_phrase_dd = ft.Dropdown(
             hint_text="Übergangsformulierung wählen …",
@@ -1253,19 +1243,13 @@ class ScreenPilotComposer:
         self._page.update()
 
     def _on_intro_insert(self, e) -> None:
-        """Insert the selected intro text at the start of Arbeitstext.
-        Bekannte/r Patient/in: uses the fixed full block.
-        Neuer Fall: uses the phrase selected in _intro_phrase_dd.
+        """Insert the selected intro phrase at the start of Arbeitstext.
+        Both intro types (Neuer Fall, Bekannte/r Patient/in) use the phrase picker —
+        phrase is always read from _intro_phrase_dd.
         """
-        if not hasattr(self, "_intro_block_dd") or not self._intro_block_dd.value:
+        if not hasattr(self, "_intro_phrase_dd"):
             return
-        selected_type = self._intro_block_dd.value
-        if selected_type in self._intro_blocks:
-            # Fixed block (e.g. Bekannte/r Patient/in)
-            block = self._intro_blocks[selected_type]
-        else:
-            # Phrase-based (e.g. Neuer Fall)
-            block = (self._intro_phrase_dd.value or "").strip() if hasattr(self, "_intro_phrase_dd") else ""
+        block = (self._intro_phrase_dd.value or "").strip()
         if block:
             self._raw_prepend(block)
 
