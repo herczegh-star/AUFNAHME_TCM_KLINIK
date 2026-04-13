@@ -8,7 +8,6 @@ Supports two entry modes:
   a) With CaseSummary: from the interview workflow
        Welcome → Interview → SummaryReview → here
      - Shows SummaryPanel (read-only reference)
-     - Prefills additional_notes from interview answers
      - Back navigates to SummaryReview
   b) Direct access (no interview): summary=None
      - Form is empty; no side panel
@@ -94,8 +93,8 @@ class ScreenPilotComposer:
     page       : Flet Page
     controller : AppController
     summary    : CaseSummary or None
-        When provided (interview route): prefills additional_notes,
-        shows SummaryPanel, back → SummaryReview.
+        When provided (interview route): shows SummaryPanel,
+        back → SummaryReview.
         When None (direct route): empty form, no side panel,
         back → Welcome.
     """
@@ -406,28 +405,11 @@ class ScreenPilotComposer:
         """
         Prefill form fields from CaseSummary interview answers.
 
-        Mapping:
-          additional_notes ← active block's complaint text only.
-            Uses block_sequence[active_block_index]["complaint"] when available.
-            Falls back to empty when no block sequence is set (direct-access path).
-
-        Block-context isolation: only the complaint belonging to the currently
-        composed block is placed here.  priority_complaint and additional_complaints
-        from other blocks are NOT mixed in, preventing cross-block contamination.
-
-        Important: no draft is auto-generated here.
-        The physician must click "Beschwerdetext generieren" explicitly.
+        "Weitere Angaben" (additional_notes) is intentionally left empty.
+        It is a manual free-text supplement field for exceptional physician notes
+        and must not be auto-filled from Summary complaint content.
         """
-        note_text = ""
-        if self._block_sequence:
-            idx = self._active_block_index
-            if 0 <= idx < len(self._block_sequence):
-                note_text = self._block_sequence[idx]["complaint"]
-
-        if note_text:
-            widget = self._form_widgets.get("additional_notes")
-            if isinstance(widget, ft.TextField):
-                widget.value = note_text
+        # No auto-fill. "Weitere Angaben" starts empty — physician fills it manually.
 
     def _build_field_widget(self, field_def: dict) -> ft.Control | None:
         """Build a single form widget for field_def and register it in self._form_widgets."""
