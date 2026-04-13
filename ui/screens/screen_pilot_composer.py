@@ -95,6 +95,10 @@ class ScreenPilotComposer:
         self._ctrl           = controller
         self._summary        = summary
         self._cumulative_text = cumulative_text
+        # Block sequence state — read from AppState at construction time.
+        # Empty list means direct-access path or pre-sequence entry (no continuation offered).
+        self._block_sequence: list[dict] = list(controller.state.block_sequence)
+        self._active_block_index: int    = controller.state.active_block_index
         # Load the explicitly selected cluster when provided.
         # Fall back to LWS only for the direct-access path (no cluster selected yet).
         if storage_key:
@@ -382,18 +386,22 @@ class ScreenPilotComposer:
         Prefill form fields from CaseSummary interview answers.
 
         Mapping:
-          additional_notes ← priority_complaint + additional_complaints
-            (the physician's interview notes make natural free-text context)
+          additional_notes ← active block's complaint text only.
+            Uses block_sequence[active_block_index]["complaint"] when available.
+            Falls back to empty when no block sequence is set (direct-access path).
+
+        Block-context isolation: only the complaint belonging to the currently
+        composed block is placed here.  priority_complaint and additional_complaints
+        from other blocks are NOT mixed in, preventing cross-block contamination.
 
         Important: no draft is auto-generated here.
-        The physician must click "Roh-Entwurf generieren" explicitly.
+        The physician must click "Beschwerdetext generieren" explicitly.
         """
-        parts = [
-            p
-            for p in [summary.priority_complaint, summary.additional_complaints]
-            if p and p.strip()
-        ]
-        note_text = " ".join(parts).strip()
+        note_text = ""
+        if self._block_sequence:
+            idx = self._active_block_index
+            if 0 <= idx < len(self._block_sequence):
+                note_text = self._block_sequence[idx]["complaint"]
 
         if note_text:
             widget = self._form_widgets.get("additional_notes")
@@ -955,27 +963,25 @@ class ScreenPilotComposer:
         """
         Inline continuation row shown after a generated block is accepted.
 
-        Appears only when self._summary.priority_complaint is non-empty.
+        Appears only when there is a next block in block_sequence
+        (i.e. active_block_index + 1 < len(block_sequence)).
         Offers two choices:
           - stay in current block (dismiss row)
           - continue to next block (re-open Pilot-Composer for next cluster)
 
-        If next cluster can be inferred from priority_complaint: button shows name.
+        If next block has a storage_key (inferred at sequence build time): button shows name.
         If not: inline dropdown for manual cluster selection.
 
         Always starts visible=False; shown by _on_generation_accepted().
         """
-        has_priority = bool(
-            self._summary and (self._summary.priority_complaint or "").strip()
-        )
-        if not has_priority:
-            # No second block available — return invisible placeholder
+        next_index = self._active_block_index + 1
+        if not self._block_sequence or next_index >= len(self._block_sequence):
+            # No next block in sequence — return invisible placeholder
             return ft.Container(visible=False, height=0)
 
-        available = list_available_with_names()
-        valid_keys = [sk for sk, _ in available]
-        inferred_key = infer_cluster(self._summary.priority_complaint, valid_keys)
-        self._next_cluster_key: str = inferred_key  # updated by dropdown if no inference
+        next_block = self._block_sequence[next_index]
+        self._next_block_index: int = next_index
+        self._next_cluster_key: str = next_block["storage_key"]  # may be "" if not inferred
 
         stay_btn = ft.TextButton(
             "Im aktuellen Block bleiben",
@@ -983,8 +989,8 @@ class ScreenPilotComposer:
             on_click=self._on_stay_in_block,
         )
 
-        if inferred_key:
-            display_name = get_display_name(inferred_key)
+        if self._next_cluster_key:
+            display_name = get_display_name(self._next_cluster_key)
             row_controls: list[ft.Control] = [
                 stay_btn,
                 ft.ElevatedButton(
@@ -995,7 +1001,8 @@ class ScreenPilotComposer:
                 ),
             ]
         else:
-            # No inference: physician must choose cluster manually
+            # No inferred cluster for next block: physician must choose manually
+            available = list_available_with_names()
             self._next_cluster_dd = ft.Dropdown(
                 hint_text="Cluster für nächsten Block …",
                 options=[ft.dropdown.Option(key=sk, text=name) for sk, name in available],
@@ -1045,10 +1052,11 @@ class ScreenPilotComposer:
 
     def _on_generation_accepted(self) -> None:
         """Called after generated text is accepted into Arbeitstext via _on_generate_raw.
-        Shows the continuation row if a second complaint block is available.
+        Shows the continuation row if a next block exists in block_sequence.
         Not triggered by reference text Übernehmen — only by generate-raw path.
         """
-        if not self._summary or not (self._summary.priority_complaint or "").strip():
+        next_index = self._active_block_index + 1
+        if not self._block_sequence or next_index >= len(self._block_sequence):
             return
         self._continuation_row_ctrl.visible = True
         self._page.update()
@@ -1060,9 +1068,17 @@ class ScreenPilotComposer:
 
     def _on_continue_block(self, e) -> None:
         """Re-open Pilot-Composer for the next complaint block.
-        Carries accepted Arbeitstext forward as cumulative_text.
+        Marks the current block as accepted, advances active_block_index in AppState,
+        and carries accepted Arbeitstext forward as cumulative_text.
         Physician's next-cluster choice (inferred or manual) is used as storage_key.
         """
+        # Mark current block accepted in the shared sequence
+        if self._block_sequence and 0 <= self._active_block_index < len(self._block_sequence):
+            self._block_sequence[self._active_block_index]["accepted"] = True
+            self._ctrl.state.block_sequence = self._block_sequence
+        # Advance index in AppState so next ScreenPilotComposer reads the correct block
+        next_index = self._active_block_index + 1
+        self._ctrl.state.active_block_index = next_index
         cumulative = self._raw_field.value or ""
         self._ctrl.show_pilot_composer(
             summary=self._summary,

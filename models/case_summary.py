@@ -62,3 +62,10 @@ class AppState:
     # Keys: text (str), composer_state (str), storage_key (str).
     # Cleared automatically after restore on re-entry.
     pilot_draft: dict | None = None
+
+    # Sequential block composition state.
+    # block_sequence: list of dicts with keys complaint (str), storage_key (str), accepted (bool).
+    # Built from most_burdensome + priority_complaint in show_screen_2b().
+    # active_block_index: which block the Pilot-Composer is currently working on.
+    block_sequence: list[dict] = field(default_factory=list)
+    active_block_index: int = 0

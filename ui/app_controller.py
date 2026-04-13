@@ -91,11 +91,28 @@ class AppController:
         self.page.update()
 
     def show_screen_2b(self, summary: CaseSummary) -> None:
+        from services.cluster_inference import infer_cluster
+        from services.unified_cluster_service import list_available
+
         self.state.current_screen = "summary_review"
         self.state.summary = summary
         # Clear stale cluster selection so Summary Review infers from the current
         # case context instead of carrying over a cluster from a previous pass.
         self.state.selected_cluster_id = ""
+
+        # Build block sequence from most_burdensome + priority_complaint.
+        valid_keys = list_available()
+        seq: list[dict] = []
+        for complaint in [summary.most_burdensome, summary.priority_complaint]:
+            if complaint and complaint.strip():
+                seq.append({
+                    "complaint": complaint.strip(),
+                    "storage_key": infer_cluster(complaint, valid_keys),
+                    "accepted": False,
+                })
+        self.state.block_sequence = seq
+        self.state.active_block_index = 0
+
         self.page.controls.clear()
         ScreenSummaryReview(self.page, self).render()
         self._wrap_with_background()
