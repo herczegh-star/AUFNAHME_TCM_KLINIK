@@ -116,6 +116,10 @@ class ScreenPilotComposer:
         # Empty list means direct-access path or pre-sequence entry (no continuation offered).
         self._block_sequence: list[dict] = list(controller.state.block_sequence)
         self._active_block_index: int    = controller.state.active_block_index
+        # Candidate pool for block 3+ — direct reference so dismissed flags persist in AppState.
+        self._candidate_pool: list[dict] = controller.state.candidate_pool
+        # Candidate picker control — set in _build_draft_panel, referenced in _on_generation_accepted.
+        self._candidate_picker_ctrl: ft.Control | None = None
         # Load the explicitly selected cluster when provided.
         # Fall back to LWS only for the direct-access path (no cluster selected yet).
         if storage_key:
@@ -607,6 +611,9 @@ class ScreenPilotComposer:
         continuation_row = self._build_continuation_row()
         self._continuation_row_ctrl = continuation_row
 
+        candidate_picker = self._build_candidate_picker()
+        self._candidate_picker_ctrl = candidate_picker
+
         # --- aufbau-only rows (visible initially) ---
         self._connect_btn_row_ctrl = ft.Row(
             [self._connect_btn],
@@ -709,6 +716,7 @@ class ScreenPilotComposer:
             self._status_text,
             self._insert_btn_row_ctrl,
             self._continuation_row_ctrl,
+            self._candidate_picker_ctrl,
         ]
         if ref_section is not None:
             draft_controls.append(ref_section)
@@ -1042,14 +1050,22 @@ class ScreenPilotComposer:
 
     def _on_generation_accepted(self) -> None:
         """Called after generated text is accepted into Arbeitstext via _on_generate_raw.
-        Shows the continuation row if a next block exists in block_sequence.
+        Priority:
+          1. Next block exists in block_sequence → show continuation row.
+          2. Sequence exhausted but candidate pool has pending items → show candidate picker.
+          3. Nothing pending → do nothing (single-block or all blocks done).
         Not triggered by reference text Übernehmen — only by generate-raw path.
         """
         next_index = self._active_block_index + 1
-        if not self._block_sequence or next_index >= len(self._block_sequence):
+        if self._block_sequence and next_index < len(self._block_sequence):
+            self._continuation_row_ctrl.visible = True
+            self._page.update()
             return
-        self._continuation_row_ctrl.visible = True
-        self._page.update()
+        # Sequence exhausted — offer candidate pool if any pending items remain.
+        pending = [c for c in self._candidate_pool if not c.get("dismissed")]
+        if pending and self._candidate_picker_ctrl is not None:
+            self._candidate_picker_ctrl.visible = True
+            self._page.update()
 
     def _on_stay_in_block(self, e) -> None:
         """Dismiss the continuation row — physician stays in the current cluster."""
@@ -1075,6 +1091,127 @@ class ScreenPilotComposer:
             storage_key=self._next_cluster_key or None,
             cumulative_text=cumulative,
         )
+
+    # ------------------------------------------------------------------
+    # Candidate pool picker (block 3+ physician-driven selection)
+    # ------------------------------------------------------------------
+
+    def _build_candidate_picker(self) -> ft.Control:
+        """
+        Inline candidate picker shown when block_sequence is exhausted
+        but additional_complaints candidates remain in the pool.
+
+        Each pending candidate row: complaint text | cluster dropdown | Wählen button.
+        Physician selects one candidate; clicking Wählen promotes it into the next
+        active block and re-opens Pilot-Composer for it.
+
+        Always starts visible=False; shown by _on_generation_accepted().
+        """
+        pending = [c for c in self._candidate_pool if not c.get("dismissed")]
+        if not pending:
+            return ft.Container(visible=False, height=0)
+
+        available = list_available_with_names()
+        rows: list[ft.Control] = []
+
+        for candidate in pending:
+            cand = candidate  # explicit capture for closures
+
+            cluster_dd = ft.Dropdown(
+                value=cand["storage_key"] or None,
+                hint_text="Cluster wählen …",
+                options=[ft.dropdown.Option(key=sk, text=name) for sk, name in available],
+                dense=True,
+                width=220,
+                border_color=_C_BORDER,
+            )
+            promote_btn = ft.ElevatedButton(
+                "Wählen →",
+                bgcolor=_C_ACCENT,
+                color=ft.Colors.WHITE,
+                disabled=not bool(cand["storage_key"]),
+            )
+
+            def _on_dd_change(e, c=cand, btn=promote_btn) -> None:
+                c["storage_key"] = e.control.value or ""
+                btn.disabled = not bool(c["storage_key"])
+                self._page.update()
+
+            def _on_promote(e, c=cand, dd=cluster_dd) -> None:
+                self._on_promote_candidate(c, dd.value or "")
+
+            cluster_dd.on_change = _on_dd_change
+            promote_btn.on_click = _on_promote
+
+            rows.append(
+                ft.Row(
+                    controls=[
+                        ft.Text(cand["complaint"], expand=True, size=12),
+                        cluster_dd,
+                        promote_btn,
+                    ],
+                    spacing=8,
+                    vertical_alignment=ft.CrossAxisAlignment.CENTER,
+                )
+            )
+
+        close_btn = ft.TextButton(
+            "Abschließen ohne weiteren Block",
+            style=ft.ButtonStyle(color=_C_TEXT_SECONDARY),
+            on_click=lambda _: self._on_close_candidate_picker(),
+        )
+
+        return ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Text(
+                        "Weiteren Beschwerdeblock wählen:",
+                        size=11,
+                        color=_C_TEXT_SECONDARY,
+                        weight=ft.FontWeight.W_500,
+                    ),
+                    *rows,
+                    ft.Container(height=4),
+                    ft.Row([close_btn], alignment=ft.MainAxisAlignment.END),
+                ],
+                spacing=6,
+                tight=True,
+            ),
+            bgcolor=_C_BG_PANEL,
+            border_radius=6,
+            padding=ft.padding.symmetric(horizontal=12, vertical=10),
+            visible=False,
+        )
+
+    def _on_promote_candidate(self, candidate: dict, storage_key: str) -> None:
+        """Promote a candidate from the pool into the next active block.
+        Marks it dismissed in the pool, appends a new block_sequence entry,
+        advances active_block_index in AppState, and re-opens Pilot-Composer.
+        """
+        if not storage_key:
+            return
+        candidate["dismissed"] = True
+        new_block = {
+            "complaint": candidate["complaint"],
+            "storage_key": storage_key,
+            "accepted": False,
+        }
+        new_index = len(self._block_sequence)
+        self._block_sequence.append(new_block)
+        self._ctrl.state.block_sequence = self._block_sequence
+        self._ctrl.state.active_block_index = new_index
+        cumulative = self._raw_field.value or ""
+        self._ctrl.show_pilot_composer(
+            summary=self._summary,
+            storage_key=storage_key,
+            cumulative_text=cumulative,
+        )
+
+    def _on_close_candidate_picker(self) -> None:
+        """Dismiss the candidate picker without starting a new block."""
+        if self._candidate_picker_ctrl is not None:
+            self._candidate_picker_ctrl.visible = False
+            self._page.update()
 
     # ------------------------------------------------------------------
     # Reference texts section (below insert button)

@@ -79,3 +79,53 @@ def infer_cluster(text: str | None, valid_keys: list[str]) -> str:
         if keyword in normalized and key in valid_keys:
             return key
     return ""
+
+
+def parse_candidate_pool(text: str, valid_keys: list[str]) -> list[dict]:
+    """
+    Parse additional_complaints free text into candidate pool entries.
+
+    Each entry: {"complaint": str, "storage_key": str, "dismissed": bool}
+
+    Split strategy (priority order — first that yields multiple fragments wins):
+      1. Newline  (\\n) — highest signal: physician intentionally separated items
+      2. Semicolon (;)  — explicit list separator
+      3. Comma (,)      — lowest signal; may split internal phrases incorrectly
+
+    Fragments shorter than 4 characters are discarded as noise.
+    If no delimiter produces multiple fragments, the whole text is one candidate.
+    Returns [] when input is empty or blank.
+    """
+    if not text or not text.strip():
+        return []
+
+    raw = text.strip()
+    fragments: list[str] = []
+
+    for sep in ["\n", ";"]:
+        parts = [p.strip() for p in raw.split(sep) if p.strip()]
+        if len(parts) > 1:
+            fragments = parts
+            break
+
+    if not fragments:
+        parts = [p.strip() for p in raw.split(",") if p.strip()]
+        if len(parts) > 1:
+            fragments = parts
+
+    if not fragments:
+        fragments = [raw]
+
+    fragments = [f for f in fragments if len(f) >= 4]
+
+    if not fragments:
+        return []
+
+    return [
+        {
+            "complaint": f,
+            "storage_key": infer_cluster(f, valid_keys),
+            "dismissed": False,
+        }
+        for f in fragments
+    ]

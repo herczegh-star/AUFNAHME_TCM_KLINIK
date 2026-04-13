@@ -69,3 +69,9 @@ class AppState:
     # active_block_index: which block the Pilot-Composer is currently working on.
     block_sequence: list[dict] = field(default_factory=list)
     active_block_index: int = 0
+
+    # Candidate pool for block 3+ physician-driven selection.
+    # Built from additional_complaints in show_screen_2b().
+    # Each entry: {"complaint": str, "storage_key": str, "dismissed": bool}
+    # The physician promotes one candidate at a time; dismissed=True removes it from view.
+    candidate_pool: list[dict] = field(default_factory=list)

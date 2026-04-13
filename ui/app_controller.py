@@ -91,7 +91,7 @@ class AppController:
         self.page.update()
 
     def show_screen_2b(self, summary: CaseSummary) -> None:
-        from services.cluster_inference import infer_cluster
+        from services.cluster_inference import infer_cluster, parse_candidate_pool
         from services.unified_cluster_service import list_available
 
         self.state.current_screen = "summary_review"
@@ -112,6 +112,11 @@ class AppController:
                 })
         self.state.block_sequence = seq
         self.state.active_block_index = 0
+
+        # Build candidate pool from additional_complaints for block 3+ selection.
+        self.state.candidate_pool = parse_candidate_pool(
+            summary.additional_complaints, valid_keys
+        )
 
         self.page.controls.clear()
         ScreenSummaryReview(self.page, self).render()
