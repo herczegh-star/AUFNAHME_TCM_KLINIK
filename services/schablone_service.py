@@ -1,7 +1,7 @@
 """
 schablone_service.py
 --------------------
-Generates an Aufnahme-Schablone .docx file and saves it to outputs/.
+Generates an Aufnahme-Schablone .docx file and saves it to Aufnahmeberichte/.
 
 Strategy:
 - If template/aufnahme_template.docx exists, copy it and return the copy.
@@ -22,7 +22,7 @@ from pathlib import Path
 
 class SchabloneService:
 
-    _OUTPUT_DIR  = Path(__file__).parent.parent / "outputs"
+    _OUTPUT_DIR  = Path(__file__).parent.parent / "Aufnahmeberichte"
     _TEMPLATE    = Path(__file__).parent.parent / "templates" / "aufnahme_template.docx"
 
     def generate_and_save(self) -> Path:
