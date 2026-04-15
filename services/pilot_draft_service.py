@@ -58,31 +58,17 @@ def generate_raw(cluster: UnifiedCluster, form_data: dict) -> str:
     All other form fields are not yet rendered (see TODO in _form_data_to_shared_items).
     """
     shared_items = _form_data_to_shared_items(cluster, form_data)
-    core_sentence = compose_narrative(cluster.id, shared_items, cluster=cluster)
-    validated = _validate_output(core_sentence, cluster)
 
-    # --- duration suffix — inserted into the FIRST sentence only ---
-    # When the composer produces two sentences (e.g. main clause + functional
-    # impact), duration must attach to the first sentence, not the last.
-    # We find the first period and insert before it.
-    duration = (form_data.get("duration") or "").strip()
-    if duration and duration.lower() != "keine":
-        # Apply German dative correction: plural time units after "seit" need -n
-        # "2 Jahre" → "2 Jahren", "6 Monate" → "6 Monaten", "10 Tage" → "10 Tagen"
-        duration = re.sub(r"\b(Jahr|Monat|Tag)e\b", r"\1en", duration)
-        first_dot = validated.find(".")
-        if first_dot > 0:
-            # Normal case: "Schmerzen." → "Schmerzen, seit 3 Wochen."
-            validated = (
-                validated[:first_dot]
-                + f", seit {duration}."
-                + validated[first_dot + 1:]
-            )
-        elif first_dot == 0:
-            # Degenerate: validated is just "." — avoid leading comma
-            validated = f"Seit {duration}." + validated[1:]
-        else:
-            validated = validated + f", seit {duration}."
+    # Apply German dative correction before passing to composer:
+    # "2 Jahre" → "2 Jahren", "6 Monate" → "6 Monaten", "10 Tage" → "10 Tagen"
+    duration_raw = (form_data.get("duration") or "").strip()
+    if duration_raw and duration_raw.lower() != "keine":
+        duration_corrected: str | None = re.sub(r"\b(Jahr|Monat|Tag)e\b", r"\1en", duration_raw)
+    else:
+        duration_corrected = None
+
+    core_sentence = compose_narrative(cluster.id, shared_items, cluster=cluster, duration=duration_corrected)
+    validated = _validate_output(core_sentence, cluster)
 
     # --- additional_notes as a second sentence ---
     notes = (form_data.get("additional_notes") or "").strip()

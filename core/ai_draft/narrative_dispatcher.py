@@ -124,11 +124,38 @@ _REGISTRY: dict[str, Callable[[dict[str, list[str]]], str]] = {
 # Public API
 # ---------------------------------------------------------------------------
 
+def _with_duration_prefix(sentence: str, duration: str) -> str:
+    """
+    Transform a base sentence so that duration appears as a "Seit X bestehen …"
+    prefix on the first sentence instead of as a trailing suffix.
+
+    Examples:
+      "Ziehende Schmerzen im LWS-Bereich, verstärkt bei Belastung."
+        → "Seit 6 Jahren bestehen ziehende Schmerzen im LWS-Bereich, verstärkt bei Belastung."
+
+      "Kopfschmerzen links. Verstärkt durch Licht."
+        → "Seit 3 Wochen bestehen Kopfschmerzen links. Verstärkt durch Licht."
+    """
+    sentence = sentence.strip()
+    first_dot = sentence.find(".")
+    if first_dot > 0:
+        first = sentence[:first_dot].strip()
+        rest  = sentence[first_dot + 1:].strip()
+        first_lower = first[0].lower() + first[1:] if len(first) > 1 else first.lower()
+        new_first = f"Seit {duration} bestehen {first_lower}."
+        return (new_first + " " + rest).strip() if rest else new_first
+    # No period found — treat whole sentence as first clause
+    base = sentence.rstrip(".")
+    base_lower = base[0].lower() + base[1:] if len(base) > 1 else base.lower()
+    return f"Seit {duration} bestehen {base_lower}."
+
+
 def compose_narrative(
     cluster_id:   str,
     shared_items: dict[str, list[str]],
     *,
-    cluster: UnifiedCluster | None = None,
+    cluster:  UnifiedCluster | None = None,
+    duration: str | None = None,
 ) -> str:
     """
     Dispatch to the appropriate narrative composer for the given cluster.
@@ -143,6 +170,10 @@ def compose_narrative(
     cluster :
         UnifiedCluster instance.  Required for the generic fallback composer.
         Ignored when a dedicated composer is registered for cluster_id.
+    duration :
+        Optional duration string (already dative-corrected, e.g. "6 Jahren").
+        When provided and non-empty, the first sentence is rewritten as
+        "Seit <duration> bestehen <rest of first sentence>."
 
     Returns
     -------
@@ -153,15 +184,17 @@ def compose_narrative(
     key = _normalise_cluster_id(cluster_id)
     composer = _REGISTRY.get(key)
     if composer is not None:
-        return composer(shared_items)
-
-    # No dedicated composer — use generic data-driven fallback.
-    if cluster is not None:
+        base = composer(shared_items)
+    elif cluster is not None:
         anchor = _get_anchor(cluster)
-        return compose_generic_narrative(shared_items, cluster.render_maps, anchor)
+        base = compose_generic_narrative(shared_items, cluster.render_maps, anchor)
+    else:
+        # Last resort: cluster object not provided — return safe placeholder.
+        base = f"Beschwerden ({cluster_id})."
 
-    # Last resort: cluster object not provided — return safe placeholder.
-    return f"Beschwerden ({cluster_id})."
+    if duration and duration.strip():
+        return _with_duration_prefix(base, duration.strip())
+    return base
 
 
 def registered_clusters() -> list[str]:
